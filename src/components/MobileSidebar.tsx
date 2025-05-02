@@ -147,9 +147,9 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
                   >
                     <div className="flex justify-start h-16 shrink-0 items-center">
                       <h1
-                        className={`bg-gradient-to-r primaryGradient from-primary_start to-primary_end bg-clip-text text-transparent text-3xl 2xs:text-[2.4rem] mt-4 font-black items-center text-center font-['iransans-black'] select-none`}
+                        className={`bg-gradient-to-r primaryGradient from-primary_start to-primary_end bg-clip-text text-transparent text-3xl 2xs:text-[2rem] mt-4 font-black items-center text-center font-['iransans-black'] select-none`}
                       >
-                        MenuMelk
+                        WORD GAME
                       </h1>
                     </div>
 

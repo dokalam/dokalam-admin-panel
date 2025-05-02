@@ -9,7 +9,6 @@ const uri = process.env.NEXT_PUBLIC_URI
 
 const exports = {
   app_version: "1.0.0",
-  android_package_name: "com.menumelk.realestate",
   store_name: "direct_download",
   baseURL: `${url}/graphql`,
   uri: uri,

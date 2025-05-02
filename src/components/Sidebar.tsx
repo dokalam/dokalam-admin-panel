@@ -20,11 +20,15 @@ const navigation: any = [
     href: "/dashboard/stage_game",
     children: [
       {
-        name: "ساخت فصل جدید",
+        name: "افزودن زبان جدید",
+        href: "/add_language",
+      },
+      {
+        name: "ثبت فصل جدید",
         href: "/register_new_season",
       },
       {
-        name: "ساخت مرحله جدید",
+        name: "ثبت مرحله جدید",
         href: "/register_new_stage",
       },
     ],
@@ -34,16 +38,24 @@ const navigation: any = [
     href: "/dashboard/package_game",
     children: [
       {
-        name: "ساخت بسته بازی جدید",
+        name: "ثبت بسته بازی جدید",
         href: "/register_new_package_game",
       },
       {
-        name: "ساخت فصل جدید",
+        name: "ثبت فصل جدید",
         href: "/register_new_season",
       },
       {
-        name: "ساخت مرحله جدید",
+        name: "ثبت مرحله جدید",
         href: "/register_new_stage",
+      },
+      {
+        name: "افزودن تگ جدید",
+        href: "/add_tag",
+      },
+      {
+        name: "افزودن دسته‌بندی جدید",
+        href: "/add_category",
       },
     ],
   },
@@ -54,20 +66,6 @@ const navigation: any = [
       {
         name: "لیست کاربران",
         href: "/user_list",
-      },
-    ],
-  },
-  {
-    name: "مدیریت دسته بندی",
-    href: "/dashboard/category",
-    children: [
-      {
-        name: "ایجاد زبان جدید",
-        href: "/manage_language",
-      },
-      {
-        name: "ایجاد تگ جدید",
-        href: "/manage_tag",
       },
     ],
   },
@@ -94,9 +92,9 @@ const Sidebar = () => {
       >
         <div className="flex justify-center h-16 shrink-0 items-center">
           <h1
-            className={`bg-gradient-to-r primaryGradient from-primary_start to-primary_end bg-clip-text text-transparent text-[2.4rem] mt-4 font-black items-center text-center font-['iransans-black']`}
+            className={`bg-gradient-to-r primaryGradient from-primary_start to-primary_end bg-clip-text text-transparent text-[2rem] mt-4 font-black items-center text-center font-['iransans-black']`}
           >
-            MenuMelk
+            WORD GAME
           </h1>
         </div>
         <nav className={`w-full flex self-center flex-1 flex-col`}>
