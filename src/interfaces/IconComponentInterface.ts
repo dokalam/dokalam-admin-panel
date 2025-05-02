@@ -1,0 +1,3 @@
+interface IconComponentInterface {
+  icon: string;
+}

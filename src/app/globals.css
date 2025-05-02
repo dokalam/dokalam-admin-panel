@@ -1,0 +1,218 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "iransans-md";
+  src: url("../assets/fonts/IRANSansWeb\(FaNum\)_Medium.ttf");
+}
+
+@font-face {
+  font-family: "iransans-bold";
+  src: url("../assets/fonts/IRANSansWeb\(FaNum\)_Bold.ttf");
+}
+
+@font-face {
+  font-family: "iransans-light";
+  src: url("../assets/fonts/IRANSansWeb\(FaNum\)_Light.ttf");
+}
+
+@font-face {
+  font-family: "iransans-ULight";
+  src: url("../assets/fonts/IRANSansWeb\(FaNum\)_UltraLight.ttf");
+}
+
+@font-face {
+  font-family: "iransans-black";
+  src: url("../assets/fonts/IRANSansWeb\(FaNum\)_Black.ttf");
+}
+
+@font-face {
+  font-family: "iransans-light-en";
+  src: url("../assets/fonts/IRANSansWeb_Light.ttf");
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.primaryGradient {
+  background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to bottom, #AF69EE, #BD7BF9);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #c1c1c1;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #f1f1f105;
+  border-radius: 10px;
+}
+
+.custom-scrollbar-dark::-webkit-scrollbar {
+  width: 3px;
+  position: absolute;
+  left: 0;
+}
+
+.custom-scrollbar-dark::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #686868;
+}
+
+.custom-scrollbar-dark::-webkit-scrollbar-track {
+  background-color: #42424205;
+  border-radius: 10px;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.2em;
+  height: 1.2em;
+  border-radius: 0.15em;
+  border: 0.1em solid #AF69EE;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input.checked {
+  position: relative;
+  background-color: #AF69EE;
+}
+
+.radio-button {
+  transform: scale(0);
+  transition: all ease-in-out 0.2s;
+}
+
+.radio-button-input:checked + .radio-button {
+  transform: scale(1);
+}
+
+.apexcharts-toolbar {
+  padding: .25rem 2.5rem 1.5rem !important;
+  width: 100% !important;
+  max-width: none !important;
+  display: flex !important;
+  gap: .3rem !important;
+  justify-content: flex-end !important;
+  left: 2.5rem;
+  transform: translateY(-30%);
+}
+
+.apexcharts-tooltip,
+.apexcharts-tooltip-title,
+.apexcharts-menu {
+  background-color: #555 !important;
+}
+
+.apexcharts-tooltip,
+.apexcharts-menu
+ {
+  color: #F1F1F1;
+}
+
+.apexcharts-menu {
+  right: initial !important;
+  left: 2.5rem;
+  top: 2.2rem !important;
+}
+
+.apexcharts-menu-item {
+  transition: all .15s;
+}
+
+.apexcharts-menu-item:hover {
+  background-color: #777 !important;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration { display: none; }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  display: none;
+}
+
+.image-gallery-thumbnails-container button {
+  width: 68px;
+  height: 68px;
+  border-radius: 6px;
+  outline: none;
+}
+
+.image-gallery-thumbnails-container button.active {
+  transform: none;
+  border: 2px solid #AF69EE;
+}
+
+.image-gallery-thumbnails-container button:focus {
+  border: 2px solid #AF69EE;
+  transform: none;
+}
+
+.image-gallery-thumbnails-container button:hover {
+  border: 2px solid #AF69EE;
+  transform: none;
+}
+
+.image-gallery-thumbnail:has(video) {
+  margin-left: 4px !important;
+
+}
+
+.image-gallery-image {
+  border-radius: 6px;
+}
+
+.image-gallery-slides {
+  border-radius: 6px;
+}
+
+@media (max-width: 640px) {
+  .image-gallery-slides,
+  .image-gallery-image {
+    border-radius: 0 !important;
+  }
+}
+
+.image-gallery-right-nav,
+.image-gallery-left-nav {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.image-gallery-right-nav .image-gallery-svg,
+.image-gallery-left-nav .image-gallery-svg {
+  width: 55px !important;
+  height: 55px !important;
+}
+
+.apexcharts-canvas  {
+  cursor: move !important;
+}
+
+.apexcharts-toolbar {
+  cursor: default !important;
+}
