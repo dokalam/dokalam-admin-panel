@@ -32,12 +32,11 @@ const Page = () => {
   const [published, setPublished] = useState(false);
   const [active, setActive] = useState(false);
   const [badg, setBadg] = useState("");
-  const [version, setVersion] = useState("");
   const [loading, setLoading] = useState(false);
 
 
   const registerAndConfirm = ()=>{
-    if(name.length == 0 || code.length == 0 || version.length == 0){
+    if(name.length == 0 || code.length == 0){
       toast.error("ابتدا موارد الزامی را وارد کنید", {
         position: "top-center",
         autoClose: 3000,
@@ -177,18 +176,6 @@ const Page = () => {
           نشان ( مثل جدید یا به‌زودی )
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
             <Input id="name" value={badg} changeState={setBadg} classes="flex-1" inputStyles="!text-base" />
-          </div>
-        </label>
-      </div>
-      <div className="mt-6">
-        <label
-          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="name"
-        >
-          نسخه محتوا
-          <span className="text-red-500 px-1">*</span>
-          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="name" value={version} changeState={setVersion} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
