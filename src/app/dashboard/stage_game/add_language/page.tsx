@@ -53,91 +53,85 @@ const Page = () => {
   }
   const checkedAndRegister = async()=>{
     setLoading(true)
-    // let data = {
-    //   query: `
-    //       mutation newLanguageDefinitionForStageGame(
-    //         $name : String!,
-    //         $description : String!,
-    //         $price : String!,
-    //         $discount : String,
-    //         $price_title : String,
-    //         $category : [[String]],
-    //       ){
-    //         newLanguageDefinitionForStageGame(
-    //             name : $name,
-    //             description : $description,
-    //             price : $price,
-    //             discount : $discount,
-    //             price_title : $price_title,
-    //             category : $category,
-    //         ) {
-    //           status,
-    //           message,
-    //           _id
-    //         }
-    //       }
-    //       `,
-    //   variables: {
-    //     name: name,
-    //     description: description,
-    //     price: price,
-    //     discount: discount,
-    //     price_title: priceDetail,
-    //     category: value?.length > 0 ? value : undefined,
-    //   },
-    // };
-    // await axios({
-    //   url: "/",
-    //   method: "post",
-    //   data: data,
-    // })
-    //   .then(async (response) => {
-    //     if (response.data?.data == null) {
-    //       setLoading(false);
-    //       if (response.data.errors[0].data[0].message) {
-    //       } else {
-    //         toast.error("مشکلی پیش آمد دوباره تلاش کنید", {
-    //           position: "top-center",
-    //           autoClose: 3000,
-    //           hideProgressBar: false,
-    //           closeOnClick: true,
-    //           pauseOnHover: true,
-    //           draggable: true,
-    //           progress: undefined,
-    //           theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-    //         });
-    //       }
-    //     } else {
-    //       if (response.data?.data?.newLanguageDefinitionForStageGame?.status == 200) {
-            
-    //       } else {
-    //         setLoading(false);
-    //         toast.error("مشکلی پیش آمد دوباره تلاش کنید", {
-    //           position: "top-center",
-    //           autoClose: 3000,
-    //           hideProgressBar: false,
-    //           closeOnClick: true,
-    //           pauseOnHover: true,
-    //           draggable: true,
-    //           progress: undefined,
-    //           theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-    //         });
-    //       }
-    //     }
-    //   })
-    //   .catch(() => {
-    //     toast.error("مشکلی پیش آمد دوباره تلاش کنید", {
-    //       position: "top-center",
-    //       autoClose: 3000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-    //     });
-    //     setLoading(false);
-    //   });
+    let data = {
+      query: `
+          mutation newLanguageDefinitionForStageGame(
+            $name : String!,
+            $description : String,
+            $code : String!,
+            $rtl : Boolean!,
+            $published : Boolean!,
+            $active : Boolean!,
+            $badg : String,
+          ){
+            newLanguageDefinitionForStageGame(
+                name : $name,
+                description : $description,
+                code : $code,
+                rtl : $rtl,
+                published : $published,
+                active : $active,
+                badg : $badg
+            ) {
+              status,
+              message,
+            }
+          }
+          `,
+      variables: {
+        name: name,
+        description: description,
+        code: code,
+        rtl: rtl,
+        published: published,
+        active: active,
+        badg: badg
+      },
+    };
+    await axios({
+      url: "/",
+      method: "post",
+      data: data,
+    })
+      .then(async (response) => {
+        setLoading(false);
+        if (response.data?.data?.newLanguageDefinitionForStageGame?.status == 200) {
+            toast.success(response.data?.data?.newLanguageDefinitionForStageGame?.message, {
+              position: "top-center",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+            });
+        } else {
+          toast.error("مشکلی پیش آمد دوباره تلاش کنید", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+          });
+        }
+      })
+      .catch(() => {
+        toast.error("مشکلی پیش آمد دوباره تلاش کنید", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+        });
+        setLoading(false);
+      });
   }
   return (
     <div className="flex flex-col justify-between w-full lg:w-[600px] 2xl:w-[750px] mt-10 mb-28 px-4 sm:mx-auto">
