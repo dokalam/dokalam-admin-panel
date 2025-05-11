@@ -567,7 +567,7 @@ class ModalList extends PureComponent {
                                       this.state.fitHeight[this.state.page] == true ? "h-fit" : "min-h-[40vh]"
                                     }  ${
                                       this.state.buttons[this.state.page].length == 0 ? "max-h-[80vh]" : " max-h-[55vh]"
-                                    } custom-scrollbar-dark`
+                                    }`
                                   : `overflow-y-auto ${
                                       this.state.fitHeight[this.state.page] == true ? "h-fit" : "min-h-[40vh]"
                                     } ${

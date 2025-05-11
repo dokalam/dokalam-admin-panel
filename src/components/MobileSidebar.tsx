@@ -141,8 +141,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
               >
                 <Dialog.Panel className="h-full w-full max-w-md transform overflow-hidden text-left align-middle shadow-xl transition-all">
                   <div
-                    className={`h-full flex grow flex-col gap-y-5 border-border dark:border-border_dark bg-background2 dark:bg-background2_dark px-6 pb-4 font-iransans-md overflow-y-auto ${
-                      dark == "dark" ? "custom-scrollbar-dark" : "custom-scrollbar"
+                    className={`h-full flex grow flex-col gap-y-5 border-border dark:border-border_dark bg-background2 dark:bg-background2_dark px-6 pb-4 font-iransans-md overflow-y-auto
                     }`}
                   >
                     <div className="flex justify-start h-16 shrink-0 items-center">

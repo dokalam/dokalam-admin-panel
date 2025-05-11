@@ -86,9 +86,7 @@ const Sidebar = () => {
       className={`select-none w-60 transition-all duration-300 ease-in-out hidden md:fixed md:inset-y-0 md:z-[100] md:flex sm:flex-col border-l border-border dark:border-border_dark font-['iransans-light']`}
     >
       <div
-        className={`flex grow flex-col gap-y-5 border-r border-border dark:border-border_dark bg-background2 dark:bg-background2_dark px-4 pb-4  overflow-y-auto ${
-          dark == "dark" ? "custom-scrollbar-dark" : "custom-scrollbar"
-        }`}
+        className={`flex grow flex-col gap-y-5 border-r border-border dark:border-border_dark bg-background2 dark:bg-background2_dark px-4 pb-4  overflow-y-auto`}
       >
         <div className="flex justify-center h-16 shrink-0 items-center">
           <h1

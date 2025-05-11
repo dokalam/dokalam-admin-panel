@@ -106,8 +106,12 @@ const Page = () => {
               progress: undefined,
               theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
             });
+            setName("")
+            setDescription("")
+            setBadg("")
+            setCode("")
         } else {
-          toast.error("مشکلی پیش آمد دوباره تلاش کنید", {
+          toast.error((response.data?.errors[0]?.data[0]?.message || "مشکلی پیش آمد دوباره تلاش کنید"), {
             position: "top-center",
             autoClose: 3000,
             hideProgressBar: false,

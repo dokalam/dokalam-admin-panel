@@ -65,22 +65,6 @@ html {
   border-radius: 10px;
 }
 
-.custom-scrollbar-dark::-webkit-scrollbar {
-  width: 3px;
-  position: absolute;
-  left: 0;
-}
-
-.custom-scrollbar-dark::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: #686868;
-}
-
-.custom-scrollbar-dark::-webkit-scrollbar-track {
-  background-color: #42424205;
-  border-radius: 10px;
-}
-
 .checkbox-wrapper input[type="checkbox"] {
   -webkit-appearance: none;
   appearance: none;
