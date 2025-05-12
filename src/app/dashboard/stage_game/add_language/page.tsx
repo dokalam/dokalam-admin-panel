@@ -29,7 +29,7 @@ const Page = () => {
   const [code, setCode] = useState("");
   const [description, setDescription] = useState("");
   const [rtl, setRtl] = useState(true);
-  const [published, setPublished] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [active, setActive] = useState(false);
   const [badg, setBadg] = useState("");
   const [loading, setLoading] = useState(false);
@@ -60,8 +60,8 @@ const Page = () => {
             $description : String,
             $code : String!,
             $rtl : Boolean!,
-            $published : Boolean!,
-            $active : Boolean!,
+            $is_visible : Boolean!,
+            $is_active : Boolean!,
             $badg : String,
           ){
             newLanguageDefinitionForStageGame(
@@ -69,8 +69,8 @@ const Page = () => {
                 description : $description,
                 code : $code,
                 rtl : $rtl,
-                published : $published,
-                active : $active,
+                is_visible : $is_visible,
+                is_active : $is_active,
                 badg : $badg
             ) {
               status,
@@ -83,8 +83,8 @@ const Page = () => {
         description: description,
         code: code,
         rtl: rtl,
-        published: published,
-        active: active,
+        is_visible: visible,
+        is_active: active,
         badg: badg
       },
     };
@@ -227,25 +227,25 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
       <Border />
       <div
         className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
-        onClick={() => setPublished((last) => !last)}
+        onClick={() => setVisible((last) => !last)}
       >
         <div className="flex items-center justify-between w-full h-[42px] pl-2 rounded">
           <label className={`text-sm font-['iransans-md'] cursor-pointer`}>
             <h3 className="text-text dark:text-text_dark font-['iransans-md'] text-[15px]">
-              منتشر شود
+              قابل نمایش شود
             </h3>
           </label>
           <Switch
-            checked={published}
-            onChange={() => setPublished((last) => !last)}
+            checked={visible}
+            onChange={() => setVisible((last) => !last)}
             onClick={(e) => e.stopPropagation()}
-            className={`${published ? "bg-rgba2" : "bg-border dark:bg-border_dark"}
+            className={`${visible ? "bg-rgba2" : "bg-border dark:bg-border_dark"}
 relative h-[19px] w-[33px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out flex items-center`}
           >
             <span
               aria-hidden="true"
               className={`${
-                published
+                visible
                   ? "translate-x-2 bg-primary"
                   : "-translate-x-[16px] bg-text5 dark:bg-text5_dark"
               }
@@ -254,7 +254,7 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
           </Switch>
         </div>
         <p className="text-justify font-['iransans-md'] text-text5 dark:text-text5_dark text-[12px] sm:text-[14px] mb-1">
-          با فعال بودن این گزینه، آیتم به عنوان منتشر شده ثبت خواهد شد.
+          با فعال بودن این گزینه، آیتم قابل نمایش برای کاربران ثبت خواهد شد.
         </p>
       </div>
       <Border />
