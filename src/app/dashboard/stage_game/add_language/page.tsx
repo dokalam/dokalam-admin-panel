@@ -80,12 +80,12 @@ const Page = () => {
           `,
       variables: {
         name: name,
-        description: description,
+        description: description?.length > 0?description:null,
         code: code,
         rtl: rtl,
         is_visible: visible,
         is_active: active,
-        badg: badg
+        badg: badg?.length > 0?badg:null
       },
     };
     await axios({
