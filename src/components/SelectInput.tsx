@@ -20,8 +20,8 @@ const SelectInput: React.FC<SelectInputProps> = ({ name, options = [], onChange 
             >
                 {
                     options.length > 0?
-                    options.map((option) => (
-                        <option key={option.value} value={option.value}>
+                    options.map((option, index) => (
+                        <option key={index.toString()} value={option.value}>
                             {option.label}
                         </option>
                     ))
