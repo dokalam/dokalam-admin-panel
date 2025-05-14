@@ -265,8 +265,19 @@ const Page = () => {
                 </div>
                 {
                   item.unknown_word == true&&
-                  <div>
-                    
+                  <div className="mt-6 flex w-full items-center justify-between gap-4">
+                    <GradientButton
+                      buttonText={"افزودن حرف"}
+                      onClickFn={()=>{}}
+                      loading={false}
+                      classes="!text-sm !flex-none !px-8 !w-[48%]"
+                    />
+                    <GradientButton
+                      buttonText={"افزودن کلمه اضافه"}
+                      onClickFn={()=>{}}
+                      loading={false}
+                      classes="!text-sm !flex-none !px-8 !w-[48%]"
+                    />
                   </div>
                 }
               </div>
