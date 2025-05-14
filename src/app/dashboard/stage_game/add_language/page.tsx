@@ -145,46 +145,46 @@ const Page = () => {
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="name"
+          htmlFor="name-stage-language"
         >
           نام زبان
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="name" value={name} changeState={setName} classes="flex-1" inputStyles="!text-base" />
+            <Input id="name-stage-language" value={name} changeState={setName} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="name"
+          htmlFor="code-stage-language"
         >
           کد زبان
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="name" value={code} changeState={setCode} classes="flex-1" inputStyles="!text-base" />
+            <Input id="code-stage-language" value={code} changeState={setCode} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="name"
+          htmlFor="badg-stage-language"
         >
           نشان ( مثل جدید یا به‌زودی )
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="name" value={badg} changeState={setBadg} classes="flex-1" inputStyles="!text-base" />
+            <Input id="badg-stage-language" value={badg} changeState={setBadg} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
       <div className="mt-6">
         <label
           className="text-right lg:w-2/3 w-5/6 xl:w-3/5 2xl:w-1/2 text-text6 dark:text-text6_dark cursor-pointer font-iransans-md text-sm"
-          htmlFor="description"
+          htmlFor="description-stage-language"
         >
           توضیحات زبان
           <TextAreaInput
-            id={"description"}
+            id={"description-stage-language"}
             value={description}
             changeState={(e: any) => setDescription(e)}
             textAreaStyles="!text-sm mt-1"

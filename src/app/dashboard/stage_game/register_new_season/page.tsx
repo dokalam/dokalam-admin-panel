@@ -48,11 +48,10 @@ const Page = () => {
     getAllLanguage()
   }, [])
   const getAllLanguage = async()=>{
-    console.log("111111111111111")
     const data = {
       query: `
-        query getAllStageGameLanguage($filter_visible : Boolean, $filter_active : Boolean){
-          getAllStageGameLanguage(filter_visible : $filter_visible, filter_active : $filter_active) {
+        query getAllStageGameLanguageForAdmin($filter_visible : Boolean, $filter_active : Boolean){
+          getAllStageGameLanguageForAdmin(filter_visible : $filter_visible, filter_active : $filter_active) {
             _id,
             name,
           }
@@ -68,12 +67,16 @@ const Page = () => {
       method: "post",
       data: data,
     }).then(async (response) => {
-        const data = response.data.data.getAllStageGameLanguage;
+        const data = response.data.data.getAllStageGameLanguageForAdmin;
         if (data.length > 0) {
           const items = data.map((item: any) => ({
             label: item.name,
             value: item._id,
           }));
+          items.unshift({
+            label: "انتخاب زبان",
+            value: null,
+          })
           setLanguageList(items);
         }
       })
@@ -99,7 +102,6 @@ const Page = () => {
   }
   const checkedAndRegister = async()=>{
     setLoading(true)
-    console.log(media)
     let data = {
       query: `
           mutation newSeasonDefinitionForStageGame(
@@ -138,10 +140,10 @@ const Page = () => {
         badg: badg?.length > 0?badg:null,
         season_number: Number(seasonNumber),
         number_stage: Number(numberStage),
-        media: media.map((item:any) => ({
+        media: media.map(({item, index}:{item:any, index:number}) => ({
           file: null,
-          order: 3,
-          duration: "35",
+          order: index + 1,
+          duration: item?.duration || null,
         })),
       },
     };
@@ -166,7 +168,6 @@ const Page = () => {
         },
     })
       .then(async (response) => {
-        console.log(response)
         setLoading(false);
         if (response.data?.data?.newSeasonDefinitionForStageGame?.status == 200) {
             toast.success(response.data?.data?.newSeasonDefinitionForStageGame?.message, {
@@ -306,86 +307,87 @@ const Page = () => {
     }
   };
 
-  const setTitleForMediaItem = (item: any) => {
-    let title = item?.file?.type.includes("video") == true ? "عنوان ویدیو" : "عنوان عکس";
-    let x = item?.file?.type.includes("video") == true ? "ویدیو" : "عکس";
-    ModalInputHelper.showModalInput({
-      title: title,
-      description: `میتوانید یک عنوان کوتاه برای این ${x} بنویسید`,
-      inputValue: item.title == undefined || item.title == null ? "" : item.title,
-      buttons:
-        item.title == undefined
-          ? [
-              {
-                buttonText: "تایید",
-                onClickFn: (call) => {
-                  if (item?.file?.type.includes("video") == true) {
-                    const index = video.findIndex((i: any) => i.preview == item.preview);
-                    const newData: any = [...video];
-                    newData[index] = { ...newData[index], title: call == "" ? undefined : call };
-                    setVideo(newData);
-                  } else {
-                    const index = image.findIndex((i: any) => i.preview == item.preview);
-                    const newData: any = [...image];
-                    newData[index] = { ...newData[index], title: call == "" ? undefined : call };
-                    setImage(newData);
-                  }
-                  ModalInputHelper.closeModalInput();
+  const moveImage = (fromMediaIndex: number, toMediaIndex: number) => {
+    const videoOffset = video.length === 1 ? 1 : 0;
+    if (
+      fromMediaIndex < videoOffset ||
+      toMediaIndex < videoOffset ||
+      fromMediaIndex >= media.length ||
+      toMediaIndex >= media.length
+    ) {
+      toast.warning("در صورت وجود ویدیو، باید در اولین آیتم لیست، ویدیو قرار گیرد.", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+      });
+      return;
+    }
+    const fromImageIndex = fromMediaIndex - videoOffset;
+    const toImageIndex = toMediaIndex - videoOffset;
+    const newImageArray = [...image];
+    const [movedItem] = newImageArray.splice(fromImageIndex, 1);
+    newImageArray.splice(toImageIndex, 0, movedItem);
+    setImage(newImageArray);
+  };
+  const setTitleForMediaItem = ({item, index}:{item:any, index:number}) => {
+    if(item?.file?.type.includes("video") == true){
+      toast.warning("ترتیب نمایش ویدیو همیشه در اولین آیتم است و قابل تغییر نمیباشد.", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+      });
+    } else {
+      let title = `ترتیب نمایش عکس = (${index + 1})`;
+      ModalInputHelper.showModalInput({
+        title: title,
+        description: "میتوانید ترتیب نمایش این عکس را تغییر دهید.",
+        inputValue: `${index + 1}`,
+        buttons:[
+                {
+                  buttonText: "تایید",
+                  onClickFn: (call) => {
+                    const value = Number(call)
+                    if(typeof value === 'number' && Number.isFinite(value) && value < 12 && value > 0){
+                      const fromMediaIndex = index
+                      const toMediaIndex = value - 1
+                      moveImage(fromMediaIndex, toMediaIndex)
+                      ModalInputHelper.closeModalInput();
+                    } else {
+                      toast.warning("مقدار وارد شده معتبر نمیباشد", {
+                          position: "top-center",
+                          autoClose: 3000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+                      });
+                    }
+                  },
                 },
-              },
-              {
-                buttonText: "انصراف",
-                onClickFn: () => {
-                  ModalInputHelper.closeModalInput();
+                {
+                  buttonText: "انصراف",
+                  onClickFn: () => {
+                    ModalInputHelper.closeModalInput();
+                  },
                 },
-              },
-            ]
-          : [
-              {
-                buttonText: "تایید",
-                onClickFn: (call) => {
-                  if (item?.file?.type.includes("video") == true) {
-                    const index = video.findIndex((i: any) => i.preview == item.preview);
-                    const newData: any = [...video];
-                    newData[index] = { ...newData[index], title: call == "" ? undefined : call };
-                    setVideo(newData);
-                  } else {
-                    const index = image.findIndex((i: any) => i.preview == item.preview);
-                    const newData: any = [...image];
-                    newData[index] = { ...newData[index], title: call == "" ? undefined : call };
-                    setImage(newData);
-                  }
-                  ModalInputHelper.closeModalInput();
-                },
-              },
-              {
-                buttonText: "حذف عنوان",
-                onClickFn: () => {
-                  if (item?.file?.type.includes("video") == true) {
-                    const index = video.findIndex((i: any) => i.preview == item.preview);
-                    const newData: any = [...video];
-                    newData[index] = { ...newData[index], title: undefined };
-                    setVideo(newData);
-                  } else {
-                    const index = image.findIndex((i: any) => i.preview == item.preview);
-                    const newData: any = [...image];
-                    newData[index] = { ...newData[index], title: undefined };
-                    setImage(newData);
-                  }
-                  ModalInputHelper.closeModalInput();
-                },
-              },
-              {
-                buttonText: "انصراف",
-                onClickFn: () => {
-                  ModalInputHelper.closeModalInput();
-                },
-              },
-            ],
-      options: {
-        maxLength: 30,
-      },
-    });
+              ],
+        options: {
+          maxLength: 2,
+        },
+      });
+    }
   };
   return (
     <div className="flex flex-col justify-between w-full lg:w-[600px] 2xl:w-[750px] mt-10 mb-28 px-4 sm:mx-auto">
@@ -432,7 +434,7 @@ const Page = () => {
       </div>
 
       {media.length > 0 && (
-        <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-4 sm:gap-y-4 mt-4 border-2 border-dashed border-border dark:border-border_dark rounded-md py-2">
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-4 sm:gap-y-4 mt-4 border-2 border-dashed border-primary dark:border-primary rounded-md py-2">
           {media.map((item: any, index: number) => (
             <div key={`${index.toString()}`} className="w-full h-20 3xs:h-24 sm:h-28 flex justify-center items-center">
               <div
@@ -454,10 +456,10 @@ const Page = () => {
                 {item?.file?.type.includes("video") == true ? (
                   <div className="relative h-full w-full">
                     <video src={item.preview} className="inset-0 h-full w-full rounded-md object-cover" />
-                    <div className="absolute top-[26%] right-[26%] text-xl sm:text-3xl text-primary bg-background6 bg-opacity-30 rounded-full p-3">
+                    <div className="absolute top-[26%] right-[26%] text-xl sm:text-2xl text-primary bg-background6 bg-opacity-30 rounded-full p-3">
                       <FaPlay />
                     </div>
-                    <div className="absolute bottom-1 left-1 flex items-center gap-2 bg-[#00000080] rounded px-1">
+                    <div className="absolute bottom-1 left-1 flex items-center gap-2 bg-[#00000099] rounded px-1">
                       <p className="text-xs font-['iransans-light'] text-white">{secondsToTime(item.duration)}</p>
                       <div className="text-sm text-white">
                         <IoIosVideocam />
@@ -476,20 +478,18 @@ const Page = () => {
                   <div
                     onClick={(e: any) => {
                       e.stopPropagation();
-                      setTitleForMediaItem(item);
+                      setTitleForMediaItem({item, index});
                     }}
-                    className={`flex justify-center items-center rounded transition ${
-                      item?.title && item.title.length > 0 ? "text-primary" : "text-white"
-                    } bg-[#00000080] sm:hover:bg-[#33333370] text-lg w-6 h-6`}
+                    className={`flex justify-center items-center rounded transition text-red_color bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6`}
                   >
-                    <BiEditAlt />
+                    <p className="text-xs 3xs:text-sm text-center font-['iransans-md']">{index + 1}</p>
                   </div>
                   <div
                     onClick={(e: any) => {
                       e.stopPropagation();
                       deleteMediaItem(item);
                     }}
-                    className="flex justify-center items-center rounded transition text-white bg-[#00000080] sm:hover:bg-[#33333370] text-lg w-6 h-6"
+                    className="flex justify-center items-center rounded transition text-white bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6"
                   >
                     <BiTrash />
                   </div>
@@ -519,34 +519,34 @@ const Page = () => {
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="name"
+          htmlFor="name-stage-season"
         >
           نام فصل
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="name" value={name} changeState={setName} classes="flex-1" inputStyles="!text-base" />
+            <Input id="name-stage-season" value={name} changeState={setName} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="name"
+          htmlFor="badg-stage-season"
         >
           نشان ( مثل جدید یا به‌زودی )
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="name" value={badg} changeState={setBadg} classes="flex-1" inputStyles="!text-base" />
+            <Input id="badg-stage-season" value={badg} changeState={setBadg} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
       <div className="mt-6">
         <label
           className="text-right lg:w-2/3 w-5/6 xl:w-3/5 2xl:w-1/2 text-text6 dark:text-text6_dark cursor-pointer font-iransans-md text-sm"
-          htmlFor="description"
+          htmlFor="description-stage-season"
         >
           توضیحات فصل
           <TextAreaInput
-            id={"description"}
+            id={"description-stage-season"}
             value={description}
             changeState={(e: any) => setDescription(e)}
             textAreaStyles="!text-sm mt-1"
@@ -557,24 +557,24 @@ const Page = () => {
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="name"
+          htmlFor="number-season-stage-season"
         >
           شماره فصل
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input type="number" id="name" value={seasonNumber} changeState={setSeasonNumber} classes="flex-1" inputStyles="!text-base" />
+            <Input type="number" id="number-season-stage-season" value={seasonNumber} changeState={setSeasonNumber} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="name"
+          htmlFor="number-stage-season"
         >
           تعداد مراحل فصل
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input type="number" id="name" value={numberStage} changeState={setNumberStage} classes="flex-1" inputStyles="!text-base" />
+            <Input type="number" id="number-stage-season" value={numberStage} changeState={setNumberStage} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>

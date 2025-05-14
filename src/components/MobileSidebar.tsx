@@ -27,86 +27,56 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
       ),
     },
     {
-      name: "مدیریت آژانس‌ها",
-      href: "/dashboard/agency_management",
+      name: "محتوای بازی مرحله‌ای",
+      href: "/dashboard/stage_game",
       children: [
         {
-          name: "درخواست‌های ثبت نام (جدید)",
-          href: "/new_register_requests",
+          name: "افزودن زبان جدید",
+          href: "/add_language",
         },
         {
-          name: "درخواست‌های ثبت نام (رد شده)",
-          href: "/rejected_register_requests",
+          name: "ثبت فصل جدید",
+          href: "/register_new_season",
         },
         {
-          name: "لیست آژانس‌ها",
-          href: "/agency_list",
+          name: "ثبت مرحله جدید",
+          href: "/register_new_stage",
         },
       ],
     },
     {
-      name: "مدیریت مشاوران",
-      href: "/dashboard/agent_management",
+      name: "محتوای بازی بسته‌ای",
+      href: "/dashboard/package_game",
       children: [
         {
-          name: "لیست مشاوران",
-          href: "/agent_list",
+          name: "ثبت بسته بازی جدید",
+          href: "/register_new_package_game",
+        },
+        {
+          name: "ثبت فصل جدید",
+          href: "/register_new_season",
+        },
+        {
+          name: "ثبت مرحله جدید",
+          href: "/register_new_stage",
+        },
+        {
+          name: "افزودن تگ جدید",
+          href: "/add_tag",
+        },
+        {
+          name: "افزودن دسته‌بندی جدید",
+          href: "/add_category",
         },
       ],
     },
     {
-      name: "مدیریت آگهی",
-      href: "/dashboard/ads_management",
+      name: "مدیریت کاربران",
+      href: "/dashboard/users",
       children: [
         {
-          name: "آگهی‌های جدید (آژانس‌ها)",
-          href: "/new_agency_ads",
-        },
-        {
-          name: "آگهی‌های جدید (کاربران)",
-          href: "/new_user_ads",
-        },
-        {
-          name: "آگهی‌های ویرایش شده (آژانس‌ها)",
-          href: "/edited_agency_ads",
-        },
-        {
-          name: "آگهی‌های ویرایش شده (کاربران)",
-          href: "/edited_user_ads",
-        },
-        {
-          name: "درخواست‌های زیر قیمت",
-          href: "/below_price_requests",
-        },
-      ],
-    },
-    {
-      name: "فروشگاه منوملک",
-      href: "/dashboard/products",
-      children: [
-        {
-          name: "سفارشات جدید",
-          href: "/new_orders",
-        },
-        {
-          name: "در حال آماده‌سازی",
-          href: "/preparing",
-        },
-        {
-          name: "ارسال شده‌ها",
-          href: "/sent",
-        },
-        {
-          name: "تحویل داده شده‌ها",
-          href: "/delivered",
-        },
-        {
-          name: "پرداخت‌های ناموفق",
-          href: "/failed",
-        },
-        {
-          name: "تعریف محصول جدید",
-          href: "/add_new_product",
+          name: "لیست کاربران",
+          href: "/user_list",
         },
       ],
     },
