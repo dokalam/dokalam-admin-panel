@@ -26,6 +26,13 @@ import GradientButton from "@/components/GradientButton";
 import { Switch, Listbox, Transition } from "@headlessui/react";
 import SelectInput from "@/components/SelectInput";
 
+
+type WordItem = {
+  word: string;
+  unknown_word: boolean;
+  letters: string[]; // یا هر نوعی که داری
+  additional_words: string[];
+};
 const Page = () => {
   const [loading, setLoading] = useState(false);
   const [language, setLanguage] = useState<string | null>(null)
@@ -33,7 +40,7 @@ const Page = () => {
   const [season, setSeason] = useState<string | null>(null)
   const [seasonList, setSeasonList] = useState([])
   const [sentence, setSentence] = useState("")
-  const [words, setWords] = useState([])
+  const [words, setWords] = useState<WordItem[]>([]);
 
   useEffect(()=>{
     getAllLanguage()
@@ -118,17 +125,36 @@ const Page = () => {
   const finalStageRegister = ()=>{
 
   }
-  const addNewWord = ()=>{
-    let data = [...words]
-    const newItem = {
-      word : "",
-      unknown_word : false,
-      letters : [],
-      additional_words : []
-    }
-    data.push(newItem)
-    setWords(data)
-  }
+  const addNewWord = () => {
+    const newItem: WordItem = {
+      word: "",
+      unknown_word: false,
+      letters: [],
+      additional_words: [],
+    };
+
+    setWords(prev => [...prev, newItem]);
+  };
+  const changeWord = (index: number, newValue: string) => {
+    setWords(prev => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], word: newValue };
+      return updated;
+    });
+  };
+  const changeUnknownWord = (index: number) => {
+    setWords(prev => {
+      const updated = [...prev];
+      updated[index] = {
+        ...updated[index],
+        unknown_word: !updated[index].unknown_word,
+      };
+      return updated;
+    });
+  };
+  const deleteWord = (index: number) => {
+    setWords(prev => prev.filter((_, i) => i !== index));
+  };
 
   return (
     <div className="flex flex-col justify-between w-full lg:w-[600px] 2xl:w-[750px] mt-10 mb-28 px-4 sm:mx-auto">
@@ -203,14 +229,19 @@ const Page = () => {
                     >
                       <p className="text-lg text-center">{`${index + 1}`}</p>
                     </div>
-                    <Input id="name-stage-season" value={item.word} changeState={()=>{}} classes="flex-1" inputStyles="!text-base" />
+                    <Input 
+                      id="name-stage-season" 
+                      value={item.word}
+                      changeState={(value: string) => changeWord(index, value)}
+                      classes="flex-1" inputStyles="!text-base"
+                    />
                   </div>
                   <div className="flex flex-row items-center font-['iransans-md'] gap-4">
                     <p className="text-xs 3xs:text-sm text-center">کلمه نا مشخص</p>
                     <Switch
                       checked={item.unknown_word}
                       onChange={() => {}}
-                      onClick={(e) => e.stopPropagation()}
+                      onClick={() => changeUnknownWord(index)}
                       className={`${item.unknown_word ? "bg-rgba2" : "bg-border dark:bg-border_dark"}
           relative h-[19px] w-[33px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out flex items-center`}
                     >
@@ -225,7 +256,7 @@ const Page = () => {
                       />
                     </Switch>
                     <div
-                      onClick={(e: any) => {}}
+                      onClick={() => deleteWord(index)}
                       className="flex justify-center items-center rounded transition text-white bg-red_error sm:hover:bg-red_color text-2xl w-10 h-10"
                     >
                       <BiTrash />
