@@ -50,8 +50,8 @@ const Page = () => {
   const getAllLanguage = async()=>{
     const data = {
       query: `
-        query getAllStageGameLanguageForAdmin($filter_visible : Boolean, $filter_active : Boolean){
-          getAllStageGameLanguageForAdmin(filter_visible : $filter_visible, filter_active : $filter_active) {
+        query getAllLanguageForAdmin($filter_visible : Boolean, $filter_active : Boolean){
+          getAllLanguageForAdmin(filter_visible : $filter_visible, filter_active : $filter_active) {
             _id,
             name,
           }
@@ -67,7 +67,7 @@ const Page = () => {
       method: "post",
       data: data,
     }).then(async (response) => {
-        const data = response.data.data.getAllStageGameLanguageForAdmin;
+        const data = response.data.data.getAllLanguageForAdmin;
         if (data.length > 0) {
           const items = data.map((item: any) => ({
             label: item.name,
@@ -133,39 +133,38 @@ const Page = () => {
           `,
       variables: {
         name: name,
-        description: description?.length > 0?description:null,
+        description: description?.length > 0?description:undefined,
         language: language,
         is_visible: visible,
         is_active: active,
-        badg: badg?.length > 0?badg:null,
+        badg: badg?.length > 0?badg:undefined,
         season_number: Number(seasonNumber),
         number_stage: Number(numberStage),
-        media: media.map(({item, index}:{item:any, index:number}) => ({
+        media: media.map((item:any, index:number) => ({
           file: null,
-          order: index + 1,
-          duration: item?.duration || null,
+          order: (index+1),
+          duration: item.duration??undefined,
         })),
       },
     };
     let map: any = {};
-    media.forEach((item:any, index:any) => {
+    media.forEach((item:any, index:number) => {
       map[index] = [`variables.media.${index}.file`];
     });
     let formD = new FormData();
     formD.append("operations", JSON.stringify(data));
     formD.append("map", JSON.stringify(map));
-
-    media.forEach((item:any, index:any,) => {
+    media.forEach((item:any, index:number) => {
       formD.append(`${index}`, item.file);
     });
     await axios({
       url: "/",
       method: "post",
-        data: formD,
-        headers: {
-          Accept: "*/*",
-          "Content-Type": "multipart/form-data",
-        },
+      data: formD,
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "multipart/form-data",
+      },
     })
       .then(async (response) => {
         setLoading(false);
@@ -183,6 +182,10 @@ const Page = () => {
             setName("")
             setDescription("")
             setBadg("")
+            setImage([])
+            setVideo([])
+            setNumberStage("")
+            setSeasonNumber("")
         } else {
           toast.error((response.data?.errors[0]?.data[0]?.message || "مشکلی پیش آمد دوباره تلاش کنید"), {
             position: "top-center",
@@ -334,7 +337,7 @@ const Page = () => {
     newImageArray.splice(toImageIndex, 0, movedItem);
     setImage(newImageArray);
   };
-  const setTitleForMediaItem = ({item, index}:{item:any, index:number}) => {
+  const setOrderForMediaItem = ({item, index}:{item:any, index:number}) => {
     if(item?.file?.type.includes("video") == true){
       toast.warning("ترتیب نمایش ویدیو همیشه در اولین آیتم است و قابل تغییر نمیباشد.", {
           position: "top-center",
@@ -478,7 +481,7 @@ const Page = () => {
                   <div
                     onClick={(e: any) => {
                       e.stopPropagation();
-                      setTitleForMediaItem({item, index});
+                      setOrderForMediaItem({item, index});
                     }}
                     className={`flex justify-center items-center rounded transition text-red_color bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6`}
                   >

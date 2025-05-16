@@ -27,8 +27,10 @@ import { Switch } from "@headlessui/react";
 const Page = () => {
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
-  const [description, setDescription] = useState("");
   const [rtl, setRtl] = useState(true);
+  const [ltr, setLtr] = useState(false);
+  const [stageGame, setStageGame] = useState(false);
+  const [packageGame, setPackageGame] = useState(false);
   const [visible, setVisible] = useState(false);
   const [active, setActive] = useState(false);
   const [badg, setBadg] = useState("");
@@ -55,23 +57,27 @@ const Page = () => {
     setLoading(true)
     let data = {
       query: `
-          mutation newLanguageDefinitionForStageGame(
+          mutation newLanguageDefinition(
             $name : String!,
-            $description : String,
+            $badg : String,
             $code : String!,
+            $stage_game : Boolean!,
+            $package_game : Boolean!,
             $rtl : Boolean!,
+            $ltr : Boolean!,
             $is_visible : Boolean!,
             $is_active : Boolean!,
-            $badg : String,
           ){
-            newLanguageDefinitionForStageGame(
+            newLanguageDefinition(
                 name : $name,
-                description : $description,
+                badg : $badg,
                 code : $code,
+                stage_game : $stage_game,
+                package_game : $package_game,
                 rtl : $rtl,
+                ltr : $ltr,
                 is_visible : $is_visible,
                 is_active : $is_active,
-                badg : $badg
             ) {
               status,
               message,
@@ -80,12 +86,14 @@ const Page = () => {
           `,
       variables: {
         name: name,
-        description: description?.length > 0?description:null,
         code: code,
+        badg: badg?.length > 0?badg:undefined,
+        stage_game: stageGame,
+        package_game: packageGame,
         rtl: rtl,
+        ltr: ltr,
         is_visible: visible,
         is_active: active,
-        badg: badg?.length > 0?badg:null
       },
     };
     await axios({
@@ -95,8 +103,8 @@ const Page = () => {
     })
       .then(async (response) => {
         setLoading(false);
-        if (response.data?.data?.newLanguageDefinitionForStageGame?.status == 200) {
-            toast.success(response.data?.data?.newLanguageDefinitionForStageGame?.message, {
+        if (response.data?.data?.newLanguageDefinition?.status == 200) {
+            toast.success(response.data?.data?.newLanguageDefinition?.message, {
               position: "top-center",
               autoClose: 3000,
               hideProgressBar: false,
@@ -107,7 +115,6 @@ const Page = () => {
               theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
             });
             setName("")
-            setDescription("")
             setBadg("")
             setCode("")
         } else {
@@ -177,24 +184,78 @@ const Page = () => {
           </div>
         </label>
       </div>
-      <div className="mt-6">
-        <label
-          className="text-right lg:w-2/3 w-5/6 xl:w-3/5 2xl:w-1/2 text-text6 dark:text-text6_dark cursor-pointer font-iransans-md text-sm"
-          htmlFor="description-stage-language"
-        >
-          توضیحات زبان
-          <TextAreaInput
-            id={"description-stage-language"}
-            value={description}
-            changeState={(e: any) => setDescription(e)}
-            textAreaStyles="!text-sm mt-1"
-            rows={4}
-          />
-        </label>
-      </div>
       <div
         className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
-        onClick={() => setRtl((last) => !last)}
+        onClick={() => setStageGame((last) => !last)}
+      >
+        <div className="flex items-center justify-between w-full h-[42px] pl-2 rounded">
+          <label className={`text-sm font-['iransans-md'] cursor-pointer`}>
+            <h3 className="text-text dark:text-text_dark font-['iransans-md'] text-[15px]">
+              فعال در بازی مرحله‌ای
+            </h3>
+          </label>
+          <Switch
+            checked={stageGame}
+            onChange={() => setStageGame((last) => !last)}
+            onClick={(e) => e.stopPropagation()}
+            className={`${stageGame ? "bg-rgba2" : "bg-border dark:bg-border_dark"}
+relative h-[19px] w-[33px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out flex items-center`}
+          >
+            <span
+              aria-hidden="true"
+              className={`${
+                stageGame
+                  ? "translate-x-2 bg-primary"
+                  : "-translate-x-[16px] bg-text5 dark:bg-text5_dark"
+              }
+pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow-lg ring-0 transition duration-200 ease-in-out`}
+            />
+          </Switch>
+        </div>
+        <p className="text-justify font-['iransans-md'] text-text5 dark:text-text5_dark text-[12px] sm:text-[14px] mb-1">
+          با فعال بودن این گزینه، این زبان در بازی مرحله‌ای فعال خواهد بود.
+        </p>
+      </div>
+      <Border />
+      <div
+        className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
+        onClick={() => setPackageGame((last) => !last)}
+      >
+        <div className="flex items-center justify-between w-full h-[42px] pl-2 rounded">
+          <label className={`text-sm font-['iransans-md'] cursor-pointer`}>
+            <h3 className="text-text dark:text-text_dark font-['iransans-md'] text-[15px]">
+              فعال در پکیج های بازی
+            </h3>
+          </label>
+          <Switch
+            checked={packageGame}
+            onChange={() => setPackageGame((last) => !last)}
+            onClick={(e) => e.stopPropagation()}
+            className={`${packageGame ? "bg-rgba2" : "bg-border dark:bg-border_dark"}
+relative h-[19px] w-[33px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out flex items-center`}
+          >
+            <span
+              aria-hidden="true"
+              className={`${
+                packageGame
+                  ? "translate-x-2 bg-primary"
+                  : "-translate-x-[16px] bg-text5 dark:bg-text5_dark"
+              }
+pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow-lg ring-0 transition duration-200 ease-in-out`}
+            />
+          </Switch>
+        </div>
+        <p className="text-justify font-['iransans-md'] text-text5 dark:text-text5_dark text-[12px] sm:text-[14px] mb-1">
+          با فعال بودن این گزینه، این زبان در بسته‌های بازی فعال خواهد بود.
+        </p>
+      </div>
+      <Border />
+      <div
+        className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
+        onClick={() => {
+          setLtr((last) => !last)
+          setRtl((last) => !last)
+        }}
       >
         <div className="flex items-center justify-between w-full h-[42px] pl-2 rounded">
           <label className={`text-sm font-['iransans-md'] cursor-pointer`}>
@@ -204,7 +265,10 @@ const Page = () => {
           </label>
           <Switch
             checked={rtl}
-            onChange={() => setRtl((last) => !last)}
+            onChange={() => {
+              setLtr((last) => !last)
+              setRtl((last) => !last)
+            }}
             onClick={(e) => e.stopPropagation()}
             className={`${rtl ? "bg-rgba2" : "bg-border dark:bg-border_dark"}
 relative h-[19px] w-[33px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out flex items-center`}
@@ -221,7 +285,46 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
           </Switch>
         </div>
         <p className="text-justify font-['iransans-md'] text-text5 dark:text-text5_dark text-[12px] sm:text-[14px] mb-1">
-          با غیر فعال کردن این گزینه زبان چپ به راست محسوب میشود. (مانند زبان انگلیسی)
+          با فعال کردن این گزینه زبان راست به چپ محسوب میشود. (مانند زبان فارسی)
+        </p>
+      </div>
+      <Border />
+      <div
+        className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
+        onClick={() => {
+          setLtr((last) => !last)
+          setRtl((last) => !last)
+        }}
+      >
+        <div className="flex items-center justify-between w-full h-[42px] pl-2 rounded">
+          <label className={`text-sm font-['iransans-md'] cursor-pointer`}>
+            <h3 className="text-text dark:text-text_dark font-['iransans-md'] text-[15px]">
+              زبان چپ به راست است
+            </h3>
+          </label>
+          <Switch
+            checked={ltr}
+            onChange={() => {
+              setLtr((last) => !last)
+              setRtl((last) => !last)
+            }}
+            onClick={(e) => e.stopPropagation()}
+            className={`${ltr ? "bg-rgba2" : "bg-border dark:bg-border_dark"}
+relative h-[19px] w-[33px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out flex items-center`}
+          >
+            <span
+              aria-hidden="true"
+              className={`${
+                ltr
+                  ? "translate-x-2 bg-primary"
+                  : "-translate-x-[16px] bg-text5 dark:bg-text5_dark"
+              }
+pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow-lg ring-0 transition duration-200 ease-in-out`}
+            />
+          </Switch>
+        </div>
+        <p className="text-justify font-['iransans-md'] text-text5 dark:text-text5_dark text-[12px] sm:text-[14px] mb-1">
+          با فعال بودن این گزینه زبان چپ به راست محسوب میشود. (مانند زبان انگلیسی)
         </p>
       </div>
       <Border />

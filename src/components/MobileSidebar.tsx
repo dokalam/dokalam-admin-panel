@@ -31,10 +31,6 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
       href: "/dashboard/stage_game",
       children: [
         {
-          name: "افزودن زبان جدید",
-          href: "/add_language",
-        },
-        {
           name: "ثبت فصل جدید",
           href: "/register_new_season",
         },
@@ -67,6 +63,16 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
         {
           name: "افزودن دسته‌بندی جدید",
           href: "/add_category",
+        },
+      ],
+    },
+    {
+      name: "محتوای عمومی",
+      href: "/dashboard/general",
+      children: [
+        {
+          name: "افزودن زبان جدید",
+          href: "/add_language",
         },
       ],
     },

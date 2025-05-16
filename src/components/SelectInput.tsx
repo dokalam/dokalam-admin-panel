@@ -16,7 +16,7 @@ const SelectInput: React.FC<SelectInputProps> = ({ name, options = [], onChange 
                 id={name}
                 name={name}
                 onChange={(e) => onChange(e.target.value)}
-                className="placeholder:text-xs placeholder:text-text5 pl-10 placeholder:dark:text-text5_dark sm:text-base text-sm placeholder:text-right border transition border-border hover:border-gray-400 hover:drop-shadow-sm rounded px-3 py-[.6rem] focus:!border-primary_start bg-background4 dark:bg-background4_dark dark:border-border_dark outline-none w-full z-10 text-text6 dark:text-text6_dark h-[44px] sm:h-[41px] !appearance-none selection:bg-border selection:dark:bg-border_dark"
+                className="placeholder:text-xs placeholder:text-text5 pl-10 placeholder:dark:text-text5_dark sm:text-base text-sm placeholder:text-right border transition border-border hover:border-gray-400 hover:drop-shadow-sm rounded px-3 focus:!border-primary_start bg-background4 dark:bg-background4_dark dark:border-border_dark outline-none w-full z-10 text-text6 dark:text-text6_dark h-[44px] sm:h-[41px] !appearance-none selection:bg-border selection:dark:bg-border_dark"
             >
                 {
                     options.length > 0?

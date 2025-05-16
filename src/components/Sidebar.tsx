@@ -20,10 +20,6 @@ const navigation: any = [
     href: "/dashboard/stage_game",
     children: [
       {
-        name: "افزودن زبان جدید",
-        href: "/add_language",
-      },
-      {
         name: "ثبت فصل جدید",
         href: "/register_new_season",
       },
@@ -56,6 +52,16 @@ const navigation: any = [
       {
         name: "افزودن دسته‌بندی جدید",
         href: "/add_category",
+      },
+    ],
+  },
+  {
+    name: "محتوای عمومی",
+    href: "/dashboard/general",
+    children: [
+      {
+        name: "افزودن زبان جدید",
+        href: "/add_language",
       },
     ],
   },

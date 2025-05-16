@@ -32,6 +32,14 @@
   src: url("../assets/fonts/IRANSansWeb_Light.ttf");
 }
 
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -39,7 +47,7 @@ html {
 .primaryGradient {
   background-clip: text;
   color: transparent;
-  background-image: linear-gradient(to bottom, #AF69EE, #BD7BF9);
+  background-image: linear-gradient(to bottom, #388e3c, #4caf50);
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -71,7 +79,7 @@ html {
   width: 1.2em;
   height: 1.2em;
   border-radius: 0.15em;
-  border: 0.1em solid #AF69EE;
+  border: 0.1em solid #388e3c;
   outline: none;
   cursor: pointer;
   display: flex;
@@ -81,7 +89,7 @@ html {
 
 input.checked {
   position: relative;
-  background-color: #AF69EE;
+  background-color: #388e3c;
 }
 
 .radio-button {
@@ -148,16 +156,16 @@ input::-webkit-inner-spin-button {
 
 .image-gallery-thumbnails-container button.active {
   transform: none;
-  border: 2px solid #AF69EE;
+  border: 2px solid #388e3c;
 }
 
 .image-gallery-thumbnails-container button:focus {
-  border: 2px solid #AF69EE;
+  border: 2px solid #388e3c;
   transform: none;
 }
 
 .image-gallery-thumbnails-container button:hover {
-  border: 2px solid #AF69EE;
+  border: 2px solid #388e3c;
   transform: none;
 }
 
