@@ -96,7 +96,6 @@ export const loginRequest = createAsyncThunk(
       },
     })
       .then(async (response) => {
-        console.log("1111111111111", response)
         if (response.data?.data == null) {
           toast.error(response.data.errors[0].data[0].message, {
             position: "top-center",

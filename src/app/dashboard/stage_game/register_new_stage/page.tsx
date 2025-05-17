@@ -26,6 +26,8 @@ import GradientButton from "@/components/GradientButton";
 import { Switch, Listbox, Transition } from "@headlessui/react";
 import SelectInput from "@/components/SelectInput";
 import Border from "@/components/Border";
+import { validateStage } from "@/utils/ValidateStage";
+import { normalizeStageData } from "@/utils/NormalizeStageData";
 
 
 type WordItem = {
@@ -34,20 +36,20 @@ type WordItem = {
   unknown_word: boolean;
   letters: string[];
   additional_words: string[];
-  order: number;
+  order?: number;
 };
 type PartItem = {
   sentence: string;
   sentence_hint: string;
   words: WordItem[];
-  order: number;
+  order?: number;
 }
 const Page = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
-  const [language, setLanguage] = useState<string | null>(null)
+  const [language, setLanguage] = useState<string | null>("فارسی")
   const [languageList, setLanguageList] = useState([])
-  const [season, setSeason] = useState<string | null>(null)
+  const [season, setSeason] = useState<string | null>("فارسی")
   const [seasonList, setSeasonList] = useState([])
   const [visible, setVisible] = useState(true);
   const [active, setActive] = useState(true);
@@ -55,7 +57,7 @@ const Page = () => {
   const [stageHint, setStageHint] = useState("")
   const [parts, setParts] = useState<PartItem[]>([]);
   const [activeTab, setActiveTab] = useState(0);
-
+  
   useEffect(()=>{
     getAllLanguage()
   }, [])
@@ -138,7 +140,7 @@ const Page = () => {
     if(!season || !language || stageNumber.length == 0){
       toast.error("ابتدا موارد الزامی را وارد کنید", {
         position: "top-center",
-        autoClose: 3000,
+        autoClose: 6000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -147,10 +149,26 @@ const Page = () => {
         theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
       });
     } else {
-      checkedAndRegister()
+      const result = validateStage(parts);
+      if(result.status == 200){
+        const normalData = normalizeStageData(parts)
+        checkedAndRegister(normalData)
+      } else {
+        toast.error(result.message, {
+          position: "top-center",
+          autoClose: 6000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+        });
+      }
+      // checkedAndRegister()
     }
   }
-  const checkedAndRegister = async()=>{
+  const checkedAndRegister = async(normalData:PartItem[])=>{
     setLoading(true)
     let data = {
       query: `
@@ -178,7 +196,7 @@ const Page = () => {
           }
           `,
       variables: {
-        parts : parts,
+        parts : normalData,
         stage_hint : stageHint,
         season : season,
         language: language,
@@ -193,7 +211,6 @@ const Page = () => {
       data: data,
     })
       .then(async (response) => {
-        console.log(response)
         setLoading(false);
         if (response.data?.data?.newStageDefinitionForStageGame?.status == 200) {
             toast.success(response.data?.data?.newStageDefinitionForStageGame?.message, {
@@ -240,7 +257,7 @@ const Page = () => {
       sentence: "",
       sentence_hint: "",
       words: [],
-      order: parts.length + 1
+      order: undefined
     }
     setParts(prev => [...prev, newItem]);
   }
@@ -276,7 +293,7 @@ const Page = () => {
       unknown_word: false,
       letters: [],
       additional_words: [],
-      order:parts[activeTab].words.length + 1
+      order:undefined
     };
     setParts(prev => {
       const updated = [...prev];

@@ -91,7 +91,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
   return (
     <>
       <Transition show={isOpenSidebar} as={Fragment}>
-        <Dialog as="div" className="relative z-[900]" onClose={closeSidebarFn}>
+        <Dialog as="div" className="relative z-[1500]" onClose={closeSidebarFn}>
           <Transition.Child
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
