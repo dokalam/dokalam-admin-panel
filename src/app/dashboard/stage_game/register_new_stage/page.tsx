@@ -47,9 +47,9 @@ type PartItem = {
 const Page = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
-  const [language, setLanguage] = useState<string | null>("فارسی")
+  const [language, setLanguage] = useState<string | null>(null)
   const [languageList, setLanguageList] = useState([])
-  const [season, setSeason] = useState<string | null>("فارسی")
+  const [season, setSeason] = useState<string | null>(null)
   const [seasonList, setSeasonList] = useState([])
   const [visible, setVisible] = useState(true);
   const [active, setActive] = useState(true);
@@ -165,7 +165,6 @@ const Page = () => {
           theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
         });
       }
-      // checkedAndRegister()
     }
   }
   const checkedAndRegister = async(normalData:PartItem[])=>{
@@ -197,7 +196,7 @@ const Page = () => {
           `,
       variables: {
         parts : normalData,
-        stage_hint : stageHint,
+        stage_hint : stageHint.trim().length < 3?undefined:stageHint,
         season : season,
         language: language,
         stage_number : Number(stageNumber),
@@ -305,6 +304,13 @@ const Page = () => {
     setParts(prev => {
       const updated = [...prev];
       updated[activeTab].words[index].word = newValue;
+      return updated;
+    });
+  };
+  const changeWordHint = (index: number, newValue: string) => {
+    setParts(prev => {
+      const updated = [...prev];
+      updated[activeTab].words[index].word_hint = newValue;
       return updated;
     });
   };
@@ -617,7 +623,6 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
           {
             parts[activeTab].words.map((item:any, index:number)=>(
                 <div key={index.toString()} className="bg-background2 my-12 dark:bg-background2_dark p-4 border-2 border-dashed border-primary dark:border-primary rounded-md">
-  
                   <div className={`flex w-full items-center justify-between gap-4`}>
                     <div className="flex w-[55%] flex-row items-center font-['iransans-md'] gap-2">
                       <div
@@ -659,6 +664,17 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
                       </div>
                     </div>
                   </div>
+                  <div className="mt-2">
+                    <label
+                      className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+                      htmlFor="sentence-stage"
+                    >
+                      راهنمای کلمه
+                      <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+                        <Input id="sentence-stage" value={item.word_hint} changeState={(value: string) => changeWordHint(index, value)} classes="flex-1" inputStyles="!text-base" />
+                      </div>
+                    </label>
+                  </div>
                   {item.unknown_word && (
                     <>
                       <div className="mt-6 flex w-full items-center justify-between gap-4">
@@ -675,7 +691,6 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
                           classes="!text-sm !flex-none !px-8 !w-[48%]"
                         />
                       </div>
-  
                       {
                         item?.letters?.length > 0 &&(
                           <div className="mt-4 flex flex-wrap gap-3">
@@ -699,7 +714,6 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
                           </div>
                         )
                       }
-  
                       {
                         item?.additional_words?.length > 0&&(
                           <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">

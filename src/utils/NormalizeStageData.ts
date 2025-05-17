@@ -17,23 +17,36 @@ type PartItem = {
 export function normalizeStageData(parts: PartItem[]): PartItem[] {
   return parts.map((part, partIndex) => {
     const normalizedWords = part.words.map((wordItem, wordIndex) => {
-      const normalizedItem = {
+      const normalizedItem: WordItem = {
         ...wordItem,
         order: wordIndex + 1,
       };
 
+      // پاک‌سازی letters و additional_words برای کلمات ناشناخته=false
       if (!wordItem.unknown_word) {
         normalizedItem.letters = [];
         normalizedItem.additional_words = [];
       }
 
+      // اگر word_hint خالی یا کمتر از ۳ کاراکتر واقعی بود → undefined
+      if (!wordItem.word_hint || wordItem.word_hint.trim().length < 3) {
+        normalizedItem.word_hint = undefined as any;
+      }
+
       return normalizedItem;
     });
 
-    return {
+    const normalizedPart: PartItem = {
       ...part,
       order: partIndex + 1,
       words: normalizedWords,
     };
+
+    // اگر sentence_hint خالی یا کمتر از ۳ کاراکتر واقعی بود → undefined
+    if (!part.sentence_hint || part.sentence_hint.trim().length < 3) {
+      normalizedPart.sentence_hint = undefined as any;
+    }
+
+    return normalizedPart;
   });
 }
