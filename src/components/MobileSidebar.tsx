@@ -57,10 +57,6 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
           href: "/register_new_stage",
         },
         {
-          name: "افزودن تگ جدید",
-          href: "/add_tag",
-        },
-        {
           name: "افزودن دسته‌بندی جدید",
           href: "/add_category",
         },
@@ -73,6 +69,10 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
         {
           name: "افزودن زبان جدید",
           href: "/add_language",
+        },
+        {
+          name: "افزودن تگ جدید",
+          href: "/add_tag",
         },
       ],
     },

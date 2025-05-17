@@ -46,10 +46,6 @@ const navigation: any = [
         href: "/register_new_stage",
       },
       {
-        name: "افزودن تگ جدید",
-        href: "/add_tag",
-      },
-      {
         name: "افزودن دسته‌بندی جدید",
         href: "/add_category",
       },
@@ -62,6 +58,10 @@ const navigation: any = [
       {
         name: "افزودن زبان جدید",
         href: "/add_language",
+      },
+      {
+        name: "افزودن تگ جدید",
+        href: "/add_tag",
       },
     ],
   },
