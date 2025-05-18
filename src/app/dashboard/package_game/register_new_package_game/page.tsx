@@ -56,7 +56,61 @@ const Page = () => {
   const [bannerImage, setBannerImage] = useState<any>(null);
 
 
- 
+  /*
+    1. Prose (نثر)
+متنی بدون وزن و قافیه خاص؛ زبان گفتاری و نوشتاری روزمره.
+نمونه‌ها:
+
+Novel (رمان)
+
+Short story (داستان کوتاه)
+
+Essay (مقاله)
+
+Biography / Autobiography (زندگینامه)
+
+Memoir (یادداشت‌ها / خاطره‌نگاری)
+
+Travelogue (سفرنامه)
+
+Letter (نامه)
+
+Dialogue (گفت‌وگو)
+
+Article (مقاله علمی یا عمومی)
+
+2. Poetry (نظم / شعر)
+متن موزون، گاه با قافیه، گاه بدون آن، و معمولاً آهنگین یا احساسی.
+نمونه‌ها:
+
+Epic (حماسی) – مثل شاهنامه
+
+Lyric (غنایی) – اشعار احساسی مثل غزل، قصیده
+
+Satire (هجو / طنز شعری)
+
+Free verse (شعر آزاد)
+
+Blank verse (شعر بی‌قافیه با وزن مشخص)
+
+Haiku / Sonnet / Limerick (شعرهای قالب‌دار خارجی)
+
+3. Drama (نمایشی)
+متونی که برای اجرا نوشته شده‌اند، شامل گفتگو و صحنه‌پردازی.
+نمونه‌ها:
+
+Play (نمایشنامه)
+
+Tragedy (تراژدی)
+
+Comedy (کمدی)
+
+Melodrama (ملودرام)
+
+Monologue / Dialogue (تک‌گویی / گفت‌وگو)
+
+Screenplay / Teleplay (فیلمنامه / نمایش‌نامه تلویزیونی)
+  */
 
 
         package_category : packageCategory,
