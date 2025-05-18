@@ -26,6 +26,38 @@ import Border from "@/components/Border";
 import { Switch, Listbox, Transition } from "@headlessui/react";
 import SelectInput from "@/components/SelectInput";
 
+type SelectedOption = {
+  value: any;
+  label: string;
+};
+const LiteraryFormList:SelectedOption[] = [
+  {value:null, label:"انتخاب فرم نگارش ادبی"},
+  {value:"نثر - رمان", label:"نثر - رمان"},
+  {value:"نثر - داستان کوتاه", label:"نثر - داستان کوتاه"},
+  {value:"نثر - مقاله", label:"نثر - مقاله"},
+  {value:"نثر - زندگینامه", label:"نثر - زندگینامه"},
+  {value:"نثر - یادداشت‌ها / خاطره‌نگاری", label:"نثر - یادداشت‌ها / خاطره‌نگاری"},
+  {value:"نثر - سفرنامه", label:"نثر - سفرنامه"},
+  {value:"نثر - نامه", label:"نثر - نامه"},
+  {value:"نثر - گفت‌وگو", label:"نثر - گفت‌وگو"},
+  {value:"نثر - مقاله علمی یا عمومی", label:"نثر - مقاله علمی یا عمومی"},
+  {value:"نظم - حماسی", label:"نظم - حماسی"},
+  {value:"نظم - غنایی", label:"نظم - غنایی"},
+  {value:"نظم - هجو / طنز شعری", label:"نظم - هجو / طنز شعری"},
+  {value:"نظم - شعر آزاد", label:"نظم - شعر آزاد"},
+  {value:"نظم - شعر بی‌قافیه با وزن مشخص", label:"نظم - شعر بی‌قافیه با وزن مشخص"},
+  {value:"نظم - شعرهای قالب‌دار خارجی", label:"نظم - شعرهای قالب‌دار خارجی"},
+]
+type TakenSource = {
+  title: string;
+  poet: string;
+  author: string;
+  literary_form: string | null;
+};
+type ContentSourceType = {
+  selected: string | null;
+  list:SelectedOption[]
+}
 const Page = () => {
   const inputIconImageRef: any = useRef();
   const inputBannerImageRef: any = useRef();
@@ -33,106 +65,37 @@ const Page = () => {
   const [description, setDescription] = useState("");
   const [subject, setSubject] = useState("");
   const [badg, setBadg] = useState("");
-  const [takenSource, setTakenSource] = useState({
+  const [takenSource, setTakenSource] = useState<TakenSource>({
     title: "",
     poet: "",
     author: "",
-    literary_form: "",
+    literary_form: null,
   })
-  const [contentSourceType, setContentSourceType] = useState({
-    selected: "",
-    list: ['original', 'derived', 'copy']
+  const [contentSourceType, setContentSourceType] = useState<ContentSourceType>({
+    selected: null,
+    list: [{value:null, label:"انتخاب نوع محتوا"}, {value:"original", label:"محتوا اختصاصی و اورجینال"}, {value:"derived", label:"محتوا مشتق شده از منبع دیگر"}, {value:"copy", label:"محتوا کپی از منبع دیگر"}]
   })
   const [language, setLanguage] = useState<string | null>(null)
   const [languageList, setLanguageList] = useState([])
-
-  
   const [visible, setVisible] = useState(false);
   const [active, setActive] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [seasonNumber, setSeasonNumber] = useState("")
-  const [numberStage, setNumberStage] = useState("")
   const [iconImage, setIconImage] = useState<any>(null);
   const [bannerImage, setBannerImage] = useState<any>(null);
-
-
-  /*
-    1. Prose (نثر)
-متنی بدون وزن و قافیه خاص؛ زبان گفتاری و نوشتاری روزمره.
-نمونه‌ها:
-
-Novel (رمان)
-
-Short story (داستان کوتاه)
-
-Essay (مقاله)
-
-Biography / Autobiography (زندگینامه)
-
-Memoir (یادداشت‌ها / خاطره‌نگاری)
-
-Travelogue (سفرنامه)
-
-Letter (نامه)
-
-Dialogue (گفت‌وگو)
-
-Article (مقاله علمی یا عمومی)
-
-2. Poetry (نظم / شعر)
-متن موزون، گاه با قافیه، گاه بدون آن، و معمولاً آهنگین یا احساسی.
-نمونه‌ها:
-
-Epic (حماسی) – مثل شاهنامه
-
-Lyric (غنایی) – اشعار احساسی مثل غزل، قصیده
-
-Satire (هجو / طنز شعری)
-
-Free verse (شعر آزاد)
-
-Blank verse (شعر بی‌قافیه با وزن مشخص)
-
-Haiku / Sonnet / Limerick (شعرهای قالب‌دار خارجی)
-
-3. Drama (نمایشی)
-متونی که برای اجرا نوشته شده‌اند، شامل گفتگو و صحنه‌پردازی.
-نمونه‌ها:
-
-Play (نمایشنامه)
-
-Tragedy (تراژدی)
-
-Comedy (کمدی)
-
-Melodrama (ملودرام)
-
-Monologue / Dialogue (تک‌گویی / گفت‌وگو)
-
-Screenplay / Teleplay (فیلمنامه / نمایش‌نامه تلویزیونی)
-  */
-
-
-        package_category : packageCategory,
-        package_collection : packageCollection,
-        tag : tag,
-        icon_image : null,
-        banner_image : null,
-        music : {
-          file : null,
-          duration : music?.duration
-        },
-        free : free,
-        free_with_subscription : freeWithSubscription,
-        price : price,
-        testable : testable,
-        testable_number_stage : testableNumberStage,
-        number_stage : numberStage,
-        number_season : numberSeason,
-        is_visible : visible,
-        is_active : active,
-        order : order
-  
+  const [music, setMusic] = useState<any>(null)
+  const [packageCategory, setPackageCategory] = useState([])
+  const [packageCategoryList, setPackageCategoryList] = useState([])
+  const [packageCollection, setPackageCollection] = useState([])
+  const [packageCollectionList, setPackageCollectionList] = useState([])
+  const [tag, setTag] = useState([])
+  const [tagList, setTagList] = useState([])
+  const [free, setFree] = useState(false)
+  const [freeWithSubscription, setFreeWithSubscription] = useState(true)
+  const [price, setPrice] = useState("")
+  const [testable, setTestable] = useState(false)
+  const [numberStage, setNumberStage] = useState("")
+  const [numberSeason, setNumberSeason] = useState("")
+  const [order, setOrder] = useState("")
 
   useEffect(()=>{
     getAllLanguage()
@@ -175,7 +138,7 @@ Screenplay / Teleplay (فیلمنامه / نمایش‌نامه تلویزیون
       });
   }
   const registerAndConfirm = ()=>{
-    if(name.length == 0 ){
+    if(title.length == 0 ){
       toast.error("ابتدا موارد الزامی را وارد کنید", {
         position: "top-center",
         autoClose: 3000,
@@ -273,7 +236,6 @@ Screenplay / Teleplay (فیلمنامه / نمایش‌نامه تلویزیون
         free_with_subscription : freeWithSubscription,
         price : price,
         testable : testable,
-        testable_number_stage : testableNumberStage,
         number_stage : numberStage,
         number_season : numberSeason,
         is_visible : visible,
@@ -301,7 +263,7 @@ Screenplay / Teleplay (فیلمنامه / نمایش‌نامه تلویزیون
               progress: undefined,
               theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
             });
-            setName("")
+            setTitle("")
             setDescription("")
         } else {
           toast.error((response.data?.errors[0]?.data[0]?.message || "مشکلی پیش آمد دوباره تلاش کنید"), {
@@ -468,17 +430,28 @@ Screenplay / Teleplay (فیلمنامه / نمایش‌نامه تلویزیون
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="name"
+          htmlFor="name-stage-season"
         >
-          زبان فصل
+          عنوان بسته
           <span className="text-red-500 px-1">*</span>
-          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
-            <SelectInput
-              name="stage-game-language"
-              options={languageList}
-              onChange={(value) => setLanguage(value || null)}
-            />
+          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+            <Input id="name-stage-season" value={title} changeState={setTitle} classes="flex-1" inputStyles="!text-base" />
           </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="text-right lg:w-2/3 w-5/6 xl:w-3/5 2xl:w-1/2 text-text6 dark:text-text6_dark cursor-pointer font-iransans-md text-sm"
+          htmlFor="description-stage-season"
+        >
+          توضیحات بسته
+          <TextAreaInput
+            id={"description-stage-season"}
+            value={description}
+            changeState={(e: any) => setDescription(e)}
+            textAreaStyles="!text-sm mt-1"
+            rows={4}
+          />
         </label>
       </div>
       <div className="mt-6">
@@ -486,10 +459,9 @@ Screenplay / Teleplay (فیلمنامه / نمایش‌نامه تلویزیون
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="name-stage-season"
         >
-          نام فصل
-          <span className="text-red-500 px-1">*</span>
+          موضوع بسته
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="name-stage-season" value={name} changeState={setName} classes="flex-1" inputStyles="!text-base" />
+            <Input id="name-stage-season" value={subject} changeState={setSubject} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
@@ -506,17 +478,38 @@ Screenplay / Teleplay (فیلمنامه / نمایش‌نامه تلویزیون
       </div>
       <div className="mt-6">
         <label
-          className="text-right lg:w-2/3 w-5/6 xl:w-3/5 2xl:w-1/2 text-text6 dark:text-text6_dark cursor-pointer font-iransans-md text-sm"
-          htmlFor="description-stage-season"
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="name"
         >
-          توضیحات فصل
-          <TextAreaInput
-            id={"description-stage-season"}
-            value={description}
-            changeState={(e: any) => setDescription(e)}
-            textAreaStyles="!text-sm mt-1"
-            rows={4}
-          />
+          زبان بسته
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+            <SelectInput
+              name="stage-game-language"
+              options={languageList}
+              onChange={(value) => setLanguage(value || null)}
+            />
+          </div>
+        </label>
+      </div>
+      
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="name"
+        >
+          نوع محتوا
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+            <SelectInput
+              name="stage-game-language"
+              options={contentSourceType.list}
+              onChange={(value) => setContentSourceType(prev =>({
+                ...prev,
+                selected:value
+              }))}
+            />
+          </div>
         </label>
       </div>
       <div className="mt-6">
@@ -524,10 +517,10 @@ Screenplay / Teleplay (فیلمنامه / نمایش‌نامه تلویزیون
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="number-season-stage-season"
         >
-          شماره فصل
+          تعداد فصل
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input type="number" id="number-season-stage-season" value={seasonNumber} changeState={setSeasonNumber} classes="flex-1" inputStyles="!text-base" />
+            <Input type="number" id="number-season-stage-season" value={numberSeason} changeState={setNumberSeason} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
@@ -536,13 +529,124 @@ Screenplay / Teleplay (فیلمنامه / نمایش‌نامه تلویزیون
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="number-stage-season"
         >
-          تعداد مراحل فصل
+          تعداد کل مراحل
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
             <Input type="number" id="number-stage-season" value={numberStage} changeState={setNumberStage} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="number-stage-season"
+        >
+          قیمت بسته بر اساس سکه
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+            <Input type="number" id="number-stage-season" value={price} changeState={setPrice} classes="flex-1" inputStyles="!text-base" />
+          </div>
+        </label>
+      </div>
+      <div
+        className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
+        onClick={() => setFree((last) => !last)}
+      >
+        <div className="flex items-center justify-between w-full h-[42px] pl-2 rounded">
+          <label className={`text-sm font-['iransans-md'] cursor-pointer`}>
+            <h3 className="text-text dark:text-text_dark font-['iransans-md'] text-[15px]">
+              بسته رایگان است
+            </h3>
+          </label>
+          <Switch
+            checked={free}
+            onChange={() => setFree((last) => !last)}
+            onClick={(e) => e.stopPropagation()}
+            className={`${free ? "bg-rgba2" : "bg-border dark:bg-border_dark"}
+relative h-[19px] w-[33px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out flex items-center`}
+          >
+            <span
+              aria-hidden="true"
+              className={`${
+                free
+                  ? "translate-x-2 bg-primary"
+                  : "-translate-x-[16px] bg-text5 dark:bg-text5_dark"
+              }
+pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow-lg ring-0 transition duration-200 ease-in-out`}
+            />
+          </Switch>
+        </div>
+        <p className="text-justify font-['iransans-md'] text-text5 dark:text-text5_dark text-[12px] sm:text-[14px] mb-1">
+          با فعال بودن این گزینه، این بسته برای همه‌ی کاربران رایگان خواهد بود.
+        </p>
+      </div>
+      <Border />
+      <div
+        className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
+        onClick={() => setFreeWithSubscription((last) => !last)}
+      >
+        <div className="flex items-center justify-between w-full h-[42px] pl-2 rounded">
+          <label className={`text-sm font-['iransans-md'] cursor-pointer`}>
+            <h3 className="text-text dark:text-text_dark font-['iransans-md'] text-[15px]">
+              بسته با داشتن اشتراک رایگان است
+            </h3>
+          </label>
+          <Switch
+            checked={freeWithSubscription}
+            onChange={() => setFreeWithSubscription((last) => !last)}
+            onClick={(e) => e.stopPropagation()}
+            className={`${freeWithSubscription ? "bg-rgba2" : "bg-border dark:bg-border_dark"}
+relative h-[19px] w-[33px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out flex items-center`}
+          >
+            <span
+              aria-hidden="true"
+              className={`${
+                freeWithSubscription
+                  ? "translate-x-2 bg-primary"
+                  : "-translate-x-[16px] bg-text5 dark:bg-text5_dark"
+              }
+pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow-lg ring-0 transition duration-200 ease-in-out`}
+            />
+          </Switch>
+        </div>
+        <p className="text-justify font-['iransans-md'] text-text5 dark:text-text5_dark text-[12px] sm:text-[14px] mb-1">
+          با فعال بودن این گزینه، کاربران با داشتن اشتراک به رایگان به این بسته دسترسی  خواهند داشت.
+        </p>
+      </div>
+      <Border />
+      <div
+        className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
+        onClick={() => setTestable((last) => !last)}
+      >
+        <div className="flex items-center justify-between w-full h-[42px] pl-2 rounded">
+          <label className={`text-sm font-['iransans-md'] cursor-pointer`}>
+            <h3 className="text-text dark:text-text_dark font-['iransans-md'] text-[15px]">
+              امکان تست قبل از خرید
+            </h3>
+          </label>
+          <Switch
+            checked={testable}
+            onChange={() => setTestable((last) => !last)}
+            onClick={(e) => e.stopPropagation()}
+            className={`${testable ? "bg-rgba2" : "bg-border dark:bg-border_dark"}
+relative h-[19px] w-[33px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out flex items-center`}
+          >
+            <span
+              aria-hidden="true"
+              className={`${
+                testable
+                  ? "translate-x-2 bg-primary"
+                  : "-translate-x-[16px] bg-text5 dark:bg-text5_dark"
+              }
+pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow-lg ring-0 transition duration-200 ease-in-out`}
+            />
+          </Switch>
+        </div>
+        <p className="text-justify font-['iransans-md'] text-text5 dark:text-text5_dark text-[12px] sm:text-[14px] mb-1">
+          با فعال بودن این گزینه، کاربر قبل از خرید بسته میتواند مراحل قابل تست را امتحان کند.
+        </p>
+      </div>
+      <Border />
       <div
         className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
         onClick={() => setVisible((last) => !last)}
@@ -608,7 +712,74 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
           با فعال بودن این گزینه، آیتم به عنوان فعال شده ثبت خواهد شد.
         </p>
       </div>
-      <Border />
+      <Border height="h-[20px]" color="bg-info" classes="mt-4"/>
+        <div className="mt-4 border-2 border-dashed border-primary rounded-md py-4 px-4">
+          <h1 className="font-['iransans-md'] text-info text-center mt-2">منبع گرفته شده برای محتوا</h1>
+          <div className="mt-6">
+            <label
+              className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+              htmlFor="name-stage-season"
+            >
+              عنوان منبع
+              <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+                <Input id="name-stage-season" value={takenSource.title} changeState={(value: string) => setTakenSource(prev => ({
+                    ...prev,
+                    title:value
+                  }))
+                } classes="flex-1" inputStyles="!text-base" />
+              </div>
+            </label>
+          </div>
+          <div className="mt-6">
+            <label
+              className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+              htmlFor="name-stage-season"
+            >
+              نویسنده
+              <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+                <Input id="name-stage-season" value={takenSource.author} changeState={(value: string) => setTakenSource(prev => ({
+                    ...prev,
+                    author:value
+                  }))
+                } classes="flex-1" inputStyles="!text-base" />
+              </div>
+            </label>
+          </div>
+          <div className="mt-6">
+            <label
+              className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+              htmlFor="name-stage-season"
+            >
+              شاعر
+              <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+                <Input id="name-stage-season" value={takenSource.poet} changeState={(value: string) => setTakenSource(prev => ({
+                    ...prev,
+                    poet:value
+                  }))
+                } classes="flex-1" inputStyles="!text-base" />
+              </div>
+            </label>
+          </div>
+          <div className="mt-6">
+            <label
+              className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+              htmlFor="name"
+            >
+              فرم نگارش ادبی
+              <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+                <SelectInput
+                  name="stage-game-language"
+                  options={LiteraryFormList}
+                  onChange={(value) => setTakenSource(prev => ({
+                    ...prev,
+                    literary_form:value
+                  }))
+                  }
+                />
+              </div>
+            </label>
+          </div>
+      </div>
       <Footer buttonFn={registerAndConfirm} buttonText="ثبت پکیج" loadingButton={loading} classes="md:!mr-72 !justify-end" />
       <ShowImageModal
         ref={(Ref) => {
