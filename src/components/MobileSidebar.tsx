@@ -3,6 +3,10 @@ import { Fragment, useEffect, useState } from "react";
 import SideBarItem from "./SideBarItem";
 import { usePathname } from "next/navigation";
 import { AiFillDashboard } from "react-icons/ai";
+import { RiApps2AiFill } from "react-icons/ri";
+import { IoGameController } from "react-icons/io5";
+import { TbDeviceGamepad3Filled } from "react-icons/tb";
+import { FaUsers } from "react-icons/fa6";
 
 export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpenSidebar: boolean; closeSidebarFn: any }) {
   const dark = typeof window !== "undefined" && localStorage.getItem("theme");
@@ -29,6 +33,11 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
     {
       name: "محتوای بازی مرحله‌ای",
       href: "/dashboard/stage_game",
+      icon: (
+        <div className="text-xl">
+          <IoGameController />
+        </div>
+      ),
       children: [
         {
           name: "ثبت فصل جدید",
@@ -43,6 +52,11 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
     {
       name: "محتوای بازی بسته‌ای",
       href: "/dashboard/package_game",
+      icon: (
+        <div className="text-xl">
+          <RiApps2AiFill />
+        </div>
+      ),
       children: [
         {
           name: "ثبت بسته بازی جدید",
@@ -65,6 +79,11 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
     {
       name: "محتوای عمومی",
       href: "/dashboard/general",
+      icon: (
+        <div className="text-xl">
+          <TbDeviceGamepad3Filled />
+        </div>
+      ),
       children: [
         {
           name: "افزودن زبان جدید",
@@ -79,6 +98,11 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
     {
       name: "مدیریت کاربران",
       href: "/dashboard/users",
+      icon: (
+        <div className="text-xl">
+          <FaUsers />
+        </div>
+      ),
       children: [
         {
           name: "لیست کاربران",

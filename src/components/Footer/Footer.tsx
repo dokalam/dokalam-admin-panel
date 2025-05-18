@@ -20,7 +20,7 @@ const Footer = ({
         buttonText={buttonText}
         onClickFn={buttonFn}
         loading={loadingButton}
-        classes="!text-sm !flex-none !px-8 sm:!w-[137px] !w-full"
+        classes="!text-base !flex-none !px-8 sm:!w-[240px] !w-full"
       />
     </div>
   );

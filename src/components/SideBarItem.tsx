@@ -54,6 +54,7 @@ const SideBarItem = ({
             onClick={handleItemClick}
           >
             <div className={`flex items-center`}>
+              {icon && <div className={`ml-2 ${active ? "text-primary" : "text-text6 dark:text-text6_dark"}`}>{icon}</div>}
               <span>{name}</span>
             </div>
 

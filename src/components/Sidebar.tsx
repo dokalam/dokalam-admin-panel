@@ -4,6 +4,10 @@ import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import SideBarItem from "./SideBarItem";
 import { AiFillDashboard } from "react-icons/ai";
+import { RiApps2AiFill, RiGamepadFill } from "react-icons/ri";
+import { TbDeviceGamepad3Filled } from "react-icons/tb";
+import { FaGamepad, FaUsers } from "react-icons/fa6";
+import { IoGameController } from "react-icons/io5";
 
 const navigation: any = [
   {
@@ -18,6 +22,11 @@ const navigation: any = [
   {
     name: "محتوای بازی مرحله‌ای",
     href: "/dashboard/stage_game",
+    icon: (
+      <div className="text-xl">
+        <IoGameController />
+      </div>
+    ),
     children: [
       {
         name: "ثبت فصل جدید",
@@ -32,6 +41,11 @@ const navigation: any = [
   {
     name: "محتوای بازی بسته‌ای",
     href: "/dashboard/package_game",
+    icon: (
+      <div className="text-xl">
+        <RiApps2AiFill />
+      </div>
+    ),
     children: [
       {
         name: "ثبت بسته بازی جدید",
@@ -54,6 +68,11 @@ const navigation: any = [
   {
     name: "محتوای عمومی",
     href: "/dashboard/general",
+    icon: (
+      <div className="text-xl">
+        <TbDeviceGamepad3Filled />
+      </div>
+    ),
     children: [
       {
         name: "افزودن زبان جدید",
@@ -68,6 +87,11 @@ const navigation: any = [
   {
     name: "مدیریت کاربران",
     href: "/dashboard/users",
+    icon: (
+      <div className="text-xl">
+        <FaUsers />
+      </div>
+    ),
     children: [
       {
         name: "لیست کاربران",
@@ -89,7 +113,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`select-none w-60 transition-all duration-300 ease-in-out hidden md:fixed md:inset-y-0 md:z-[100] md:flex sm:flex-col border-l border-border dark:border-border_dark font-['iransans-light']`}
+      className={`select-none w-72 transition-all duration-300 ease-in-out hidden md:fixed md:inset-y-0 md:z-[100] md:flex sm:flex-col border-l border-border dark:border-border_dark font-['iransans-light']`}
     >
       <div
         className={`flex grow flex-col gap-y-5 border-r border-border dark:border-border_dark bg-background2 dark:bg-background2_dark px-4 pb-4  overflow-y-auto`}

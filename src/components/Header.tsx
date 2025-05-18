@@ -7,6 +7,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { GoMoon } from "react-icons/go";
 import MobileSidebar from "./MobileSidebar";
 import { usePathname } from "next/navigation";
+import { FaRegMoon, FaRegSun } from "react-icons/fa";
 
 const userNavigation = [
   { name: "مشاهده پروفایل", href: "#" },
@@ -43,12 +44,12 @@ export default function Header() {
   return (
     <div
       className={`${pathName.includes("ad") == true && "hidden sm:block"
-        } sticky top-0 left-0 right-0 z-30 sm:px-6 px-4 pb-1 border-b shadow border-border dark:border-border_dark bg-background2 dark:bg-background2_dark`}
+        } sticky top-0 left-0 right-0 z-30 sm:px-6 px-4 pb-1 border-b shadow border-border dark:border-border_dark bg-gradient-to-b from-primary_start to-primary_end text-white`}
     >
       <div className="">
         <div className="flex h-14 items-center gap-x-4 sm:gap-x-6 ">
           <div
-            className={`flex md:hidden text-text6 dark:text-text6_dark cursor-pointer transition hover:sm:bg-background6 dark:sm:hover:bg-background6_dark text-[22px] justify-center items-center p-2.5 rounded hover:bg-background6 dark:hover:bg-background6_dark w-11 h-11 my-2`}
+            className={`flex md:hidden text-white cursor-pointer transition hover:sm:bg-primary_end text-[22px] justify-center items-center p-2.5 rounded hover:bg-primary_end w-11 h-11 my-2`}
             onClick={() => openMobileSidebar()}
           >
             <RxHamburgerMenu className={`h-5 w-5`} />
@@ -57,10 +58,10 @@ export default function Header() {
           <div className="flex flex-1 justify-end">
             <div className="flex items-center">
               <div
-                className="flex text-[22px] justify-center items-center p-2.5 rounded text-text6 dark:text-text6_dark cursor-pointer transition hover:bg-background6 dark:hover:bg-background6_dark w-11 h-11 my-2"
+                className="flex text-[22px] justify-center items-center p-2.5 rounded text-white cursor-pointer transition hover:bg-primary_end w-11 h-11 my-2"
                 onClick={toggleTheme}
               >
-                {mode == "dark" ? <BsSun /> : <GoMoon />}
+                {mode == "dark" ? <FaRegSun /> : <FaRegMoon />}
               </div>
             </div>
           </div>

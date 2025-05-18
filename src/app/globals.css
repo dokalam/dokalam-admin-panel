@@ -47,7 +47,7 @@ html {
 .primaryGradient {
   background-clip: text;
   color: transparent;
-  background-image: linear-gradient(to bottom, #388e3c, #4caf50);
+  background-image: linear-gradient(to bottom, #0ea960, #008844);
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -79,7 +79,7 @@ html {
   width: 1.2em;
   height: 1.2em;
   border-radius: 0.15em;
-  border: 0.1em solid #388e3c;
+  border: 0.1em solid #0ea960;
   outline: none;
   cursor: pointer;
   display: flex;
@@ -89,7 +89,7 @@ html {
 
 input.checked {
   position: relative;
-  background-color: #388e3c;
+  background-color: #0ea960;
 }
 
 .radio-button {
@@ -156,16 +156,16 @@ input::-webkit-inner-spin-button {
 
 .image-gallery-thumbnails-container button.active {
   transform: none;
-  border: 2px solid #388e3c;
+  border: 2px solid #0ea960;
 }
 
 .image-gallery-thumbnails-container button:focus {
-  border: 2px solid #388e3c;
+  border: 2px solid #0ea960;
   transform: none;
 }
 
 .image-gallery-thumbnails-container button:hover {
-  border: 2px solid #388e3c;
+  border: 2px solid #0ea960;
   transform: none;
 }
 
