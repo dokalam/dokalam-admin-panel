@@ -702,7 +702,7 @@ const Page = () => {
         افزودن دسته بندی جدید
       </div>
 
-      <Footer buttonFn={finalFileRegister} buttonText="ثبت محصول" loadingButton={loading} classes="md:!mr-60 !justify-end" />
+      <Footer buttonFn={finalFileRegister} buttonText="ثبت محصول" loadingButton={loading} classes="md:!mr-72 !justify-end" />
       {categories?.length > 0 && (
         <div className="flex flex-col gap-2 mt-6">
           {categories.map((item: any, index: number) => (

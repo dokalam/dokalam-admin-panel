@@ -425,7 +425,7 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
       <Border />
 
 
-      <Footer buttonFn={registerAndConfirm} buttonText="ثبت دسته بندی" loadingButton={loading} classes="md:!mr-60 !justify-end" />
+      <Footer buttonFn={registerAndConfirm} buttonText="ثبت دسته بندی" loadingButton={loading} classes="md:!mr-72 !justify-end" />
       <ShowImageModal
         ref={(Ref) => {
           ShowImageModalHelper.setRef(Ref);

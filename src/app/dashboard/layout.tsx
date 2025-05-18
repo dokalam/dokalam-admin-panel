@@ -8,7 +8,7 @@ const DashLayout = ({ children }: { children: React.ReactNode }) => {
     <>
       <main>
         <Sidebar />
-        <div className={"pr-0 md:pr-60"}>
+        <div className={"pr-0 md:pr-72"}>
           <Header />
           <div className="bg-background dark:bg-background_dark">{children}</div>
         </div>

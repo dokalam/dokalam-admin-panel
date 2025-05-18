@@ -43,8 +43,8 @@ export default function Header() {
 
   return (
     <div
-      className={`${pathName.includes("ad") == true && "hidden sm:block"
-        } sticky top-0 left-0 right-0 z-30 sm:px-6 px-4 pb-1 border-b shadow border-border dark:border-border_dark bg-gradient-to-b from-primary_start to-primary_end text-white`}
+      className={`${pathName.includes("***") == true && "hidden sm:block"
+        } sticky top-0 left-0 right-0 z-[1000] sm:px-6 px-4 pb-1 shadow-bottom dark:shadow-bottom-dark bg-gradient-to-b from-primary_start to-primary_end text-white`}
     >
       <div className="">
         <div className="flex h-14 items-center gap-x-4 sm:gap-x-6 ">

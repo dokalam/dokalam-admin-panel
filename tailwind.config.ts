@@ -58,6 +58,12 @@ const config: Config = {
         warn_start: "#FF8800",
         warn_end: "#ffbb33",
       },
+      boxShadow: {
+        "bottom": "0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.06)", // Shadow only on bottom
+        "bottom-dark": "0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 1px 1px 0 rgba(0, 0, 0, 0.2)", // Dark mode variant
+        'top': '0 -3px 6px -1px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05)', // Shadow only on top
+        'top-dark': '0 -3px 6px -1px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.2)', // Dark mode variant
+      },
       fontFamily: {
         "iransans-md": ["iransans-md"],
         "iransans-light": ["iransans-light"],
@@ -80,6 +86,11 @@ const config: Config = {
         xs: "550px",
         "3xl": "1750px",
       },
+    },
+  },
+  variants: {
+    extend: {
+      boxShadow: ['dark'],
     },
   },
   plugins: [],
