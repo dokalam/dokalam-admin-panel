@@ -9,9 +9,7 @@ import { BiEditAlt, BiTrash } from "react-icons/bi";
 import { secondsToTime } from "@/utils/SecondToTime";
 import ImageComponent from "@/components/ImageComponent";
 import ShowImageModalHelper from "@/components/ShowMediaModal/ShowImageModalHelper";
-import ModalInputHelper from "@/components/ModalInput/ModalInputHelper";
 import ShowImageModal from "@/components/ShowMediaModal/ShowImageModal";
-import ModalInput from "@/components/ModalInput/ModalInput";
 import Input from "@/components/Input";
 import TextAreaInput from "@/components/TextAreaInput";
 import { priceDigitSeperator } from "@/utils/PriceDigitSeparator";
@@ -27,7 +25,7 @@ const Page = () => {
   const inputImageRef: any = useRef();
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<any>(null);
-  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
   const [code, setCode] = useState("");
   const [child, setChild] = useState(false)
   const [parent, setParent] = useState<string | null>(null)
@@ -79,7 +77,6 @@ const Page = () => {
   
   const handleAddPhotos = (e: any) => {
     const photo = e.target.files;
-    console.log(photo[0])
     const data = {
       file: photo[0],
       preview: URL.createObjectURL(photo[0]),
@@ -93,7 +90,7 @@ const Page = () => {
   };
 
   const registerAndConfirm = ()=>{
-    if(name.length == 0 || code.length == 0){
+    if(title.length == 0 || code.length == 0){
       toast.error("ابتدا موارد الزامی را وارد کنید", {
         position: "top-center",
         autoClose: 3000,
@@ -113,7 +110,7 @@ const Page = () => {
     let data = {
       query: `
           mutation newPackageCategoryDefinitionForPackageGame(
-            $name : String!,
+            $title : String!,
             $code : String!,
             $child : Boolean!,
             $parent : ID,
@@ -124,7 +121,7 @@ const Page = () => {
             $is_active : Boolean!
           ){
             newPackageCategoryDefinitionForPackageGame(
-                name : $name,
+                title : $title,
                 code : $code,
                 child : $child,
                 parent : $parent,
@@ -140,7 +137,7 @@ const Page = () => {
           }
           `,
       variables: {
-        name : name,
+        title : title,
         code : code,
         child : child,
         parent : parent??undefined,
@@ -169,7 +166,7 @@ const Page = () => {
               progress: undefined,
               theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
             });
-            setName("")
+            setTitle("")
             setCode("")
             setIconName("")
             setIconType("")
@@ -227,7 +224,7 @@ const Page = () => {
       </div>
 
       {image && (
-        <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-4 sm:gap-y-4 mt-4 border-2 border-dashed border-border dark:border-border_dark rounded-md py-2">
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-4 sm:gap-y-4 mt-4 border-2 border-dashed border-primary rounded-md py-2">
           <div className="w-full h-20 3xs:h-24 sm:h-28 flex justify-center items-center">
             <div
               className="relative w-20 h-20 3xs:w-24 3xs:h-24 sm:w-28 sm:h-28 cursor-pointer"
@@ -267,7 +264,7 @@ const Page = () => {
           نام دسته بندی
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="name" value={name} changeState={setName} classes="flex-1" inputStyles="!text-base" />
+            <Input id="name" value={title} changeState={setTitle} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
@@ -322,7 +319,7 @@ const Page = () => {
       </div>
       <div
         className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
-        onClick={() => setActive((last) => !last)}
+        onClick={() => setChild((last) => !last)}
       >
         <div className="flex items-center justify-between w-full h-[42px] pl-2 rounded">
           <label className={`text-sm font-['iransans-md'] cursor-pointer`}>
@@ -353,10 +350,6 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
         </p>
       </div>
       <Border />
-
-
-
-
       <div
         className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
         onClick={() => setVisible((last) => !last)}
@@ -429,11 +422,6 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
       <ShowImageModal
         ref={(Ref) => {
           ShowImageModalHelper.setRef(Ref);
-        }}
-      />
-      <ModalInput
-        ref={(Ref) => {
-          ModalInputHelper.setRef(Ref);
         }}
       />
     </div>

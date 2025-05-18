@@ -29,7 +29,7 @@ import SelectInput from "@/components/SelectInput";
 const Page = () => {
   const inputImageRef: any = useRef();
   const inputVideoRef: any = useRef();
-  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [visible, setVisible] = useState(false);
   const [active, setActive] = useState(false);
@@ -85,7 +85,7 @@ const Page = () => {
       });
   }
   const registerAndConfirm = ()=>{
-    if(name.length == 0 ){
+    if(title.length == 0 ){
       toast.error("ابتدا موارد الزامی را وارد کنید", {
         position: "top-center",
         autoClose: 3000,
@@ -105,7 +105,7 @@ const Page = () => {
     let data = {
       query: `
           mutation newSeasonDefinitionForStageGame(
-              $name : String!,
+              $title : String!,
               $description : String,
               $language : ID!,
               $media: [FileInput!]!,
@@ -116,7 +116,7 @@ const Page = () => {
               $is_active : Boolean!
           ){
             newSeasonDefinitionForStageGame(
-                name : $name,
+                title : $title,
                 description : $description,
                 language : $language,
                 media : $media,
@@ -132,7 +132,7 @@ const Page = () => {
           }
           `,
       variables: {
-        name: name,
+        title: title,
         description: description?.length > 0?description:undefined,
         language: language,
         is_visible: visible,
@@ -179,7 +179,7 @@ const Page = () => {
               progress: undefined,
               theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
             });
-            setName("")
+            setTitle("")
             setDescription("")
             setBadg("")
             setImage([])
@@ -527,7 +527,7 @@ const Page = () => {
           نام فصل
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="name-stage-season" value={name} changeState={setName} classes="flex-1" inputStyles="!text-base" />
+            <Input id="name-stage-season" value={title} changeState={setTitle} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
