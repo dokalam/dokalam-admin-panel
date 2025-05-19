@@ -26,6 +26,48 @@ import Border from "@/components/Border";
 import { Switch, Listbox, Transition } from "@headlessui/react";
 import SelectInput from "@/components/SelectInput";
 
+
+type SelectedOption = {
+  value: any;
+  label: string;
+};
+const LiteraryFormList:SelectedOption[] = [
+  {value:null, label:"انتخاب فرم نگارش ادبی"},
+  {value:"نثر - رمان", label:"نثر - رمان"},
+  {value:"نثر - داستان کوتاه", label:"نثر - داستان کوتاه"},
+  {value:"نثر - مقاله", label:"نثر - مقاله"},
+  {value:"نثر - زندگینامه", label:"نثر - زندگینامه"},
+  {value:"نثر - یادداشت‌ها / خاطره‌نگاری", label:"نثر - یادداشت‌ها / خاطره‌نگاری"},
+  {value:"نثر - سفرنامه", label:"نثر - سفرنامه"},
+  {value:"نثر - نامه", label:"نثر - نامه"},
+  {value:"نثر - گفت‌وگو", label:"نثر - گفت‌وگو"},
+  {value:"نثر - مقاله علمی یا عمومی", label:"نثر - مقاله علمی یا عمومی"},
+  {value:"نظم - حماسی", label:"نظم - حماسی"},
+  {value:"نظم - غنایی", label:"نظم - غنایی"},
+  {value:"نظم - هجو / طنز شعری", label:"نظم - هجو / طنز شعری"},
+  {value:"نظم - شعر آزاد", label:"نظم - شعر آزاد"},
+  {value:"نظم - شعر بی‌قافیه با وزن مشخص", label:"نظم - شعر بی‌قافیه با وزن مشخص"},
+  {value:"نظم - شعرهای قالب‌دار خارجی", label:"نظم - شعرهای قالب‌دار خارجی"},
+]
+const PublicationStatus:SelectedOption[] = [
+  {value:null, label:"انتخاب وضعیت انتشار"},
+  {value:"draft", label:"پیشنویس"},
+  {value:"ready", label:"آماده انتشار"},
+  {value:"published", label:"منتشر شده"},
+  {value:"archived", label:"آرشیو شده، غیرفعال"},
+  {value:"rejected", label:"رد شده"},
+]
+const CompletionStatus:SelectedOption[] = [
+  {value:null, label:"انتخاب وضعیت تکمیل بودن بسته"},
+  {value:"incomplete", label:"ناقص (نیاز به بخش‌هایی بیشتر)"},
+  {value:"in_progress", label:"در حال کار و بازبینی"},
+  {value:"complete", label:"کامل‌شده ولی قابل به‌روزرسانی"},
+  {value:"finalized", label:"نهایی‌شده، بدون نیاز به تغییر"},
+]
+type ContentSourceType = {
+  selected: string | null;
+  list:SelectedOption[]
+}
 const Page = () => {
   const inputImageRef: any = useRef();
   const inputVideoRef: any = useRef();
@@ -39,6 +81,12 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
   const [seasonNumber, setSeasonNumber] = useState("")
   const [numberStage, setNumberStage] = useState("")
+  const [contentSourceType, setContentSourceType] = useState<ContentSourceType>({
+    selected: null,
+    list: [{value:null, label:"انتخاب نوع محتوا"}, {value:"original", label:"محتوا اختصاصی و اورجینال"}, {value:"derived", label:"محتوا مشتق شده از منبع دیگر"}, {value:"copy", label:"محتوا کپی از منبع دیگر"}]
+  })
+  const [publicationStatus, setPublicationStatus] = useState<string | null>(null)
+  const [completionStatus, setCompletionStatus] = useState<string | null>(null)
   const [image, setImage] = useState<any>([]);
   const [video, setVideo] = useState<any>([]);
   const media = video.concat(image);
@@ -578,6 +626,57 @@ const Page = () => {
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
             <Input type="number" id="number-stage-season" value={numberStage} changeState={setNumberStage} classes="flex-1" inputStyles="!text-base" />
+          </div>
+        </label>
+      </div>
+       <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="name"
+        >
+          نوع محتوا
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+            <SelectInput
+              name="stage-game-language"
+              options={contentSourceType.list}
+              onChange={(value) => setContentSourceType(prev =>({
+                ...prev,
+                selected:value
+              }))}
+            />
+          </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="name"
+        >
+          وضعیت انتشار بسته
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+            <SelectInput
+              name="stage-game-language"
+              options={PublicationStatus}
+              onChange={(value) => setPublicationStatus(value)}
+            />
+          </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="name"
+        >
+          وضعیت کامل بودن بسته
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+            <SelectInput
+              name="stage-game-language"
+              options={CompletionStatus}
+              onChange={(value) => setCompletionStatus(value)}
+            />
           </div>
         </label>
       </div>

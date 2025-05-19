@@ -1,9 +1,9 @@
 "use client";
 
+import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
-import React, { useRef, useState } from "react";
-import { FaCamera, FaPlay, FaRegSquarePlus, FaVideo } from "react-icons/fa6";
 import { toast } from "react-toastify";
+import { FaCamera, FaPlay, FaRegSquarePlus, FaVideo } from "react-icons/fa6";
 import DialogHelper from "@/components/Dialog/DialogHelper";
 import { BiEditAlt, BiTrash } from "react-icons/bi";
 import { IoIosVideocam } from "react-icons/io";
@@ -22,20 +22,245 @@ import { numberToWords } from "@persian-tools/persian-tools";
 import { MdDelete } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import Footer from "@/components/Footer/Footer";
+import Border from "@/components/Border";
+import { Switch, Listbox, Transition } from "@headlessui/react";
+import SelectInput from "@/components/SelectInput";
 
+
+type SelectedOption = {
+  value: any;
+  label: string;
+};
+const LiteraryFormList:SelectedOption[] = [
+  {value:null, label:"انتخاب فرم نگارش ادبی"},
+  {value:"نثر - رمان", label:"نثر - رمان"},
+  {value:"نثر - داستان کوتاه", label:"نثر - داستان کوتاه"},
+  {value:"نثر - مقاله", label:"نثر - مقاله"},
+  {value:"نثر - زندگینامه", label:"نثر - زندگینامه"},
+  {value:"نثر - یادداشت‌ها / خاطره‌نگاری", label:"نثر - یادداشت‌ها / خاطره‌نگاری"},
+  {value:"نثر - سفرنامه", label:"نثر - سفرنامه"},
+  {value:"نثر - نامه", label:"نثر - نامه"},
+  {value:"نثر - گفت‌وگو", label:"نثر - گفت‌وگو"},
+  {value:"نثر - مقاله علمی یا عمومی", label:"نثر - مقاله علمی یا عمومی"},
+  {value:"نظم - حماسی", label:"نظم - حماسی"},
+  {value:"نظم - غنایی", label:"نظم - غنایی"},
+  {value:"نظم - هجو / طنز شعری", label:"نظم - هجو / طنز شعری"},
+  {value:"نظم - شعر آزاد", label:"نظم - شعر آزاد"},
+  {value:"نظم - شعر بی‌قافیه با وزن مشخص", label:"نظم - شعر بی‌قافیه با وزن مشخص"},
+  {value:"نظم - شعرهای قالب‌دار خارجی", label:"نظم - شعرهای قالب‌دار خارجی"},
+]
+const PublicationStatus:SelectedOption[] = [
+  {value:null, label:"انتخاب وضعیت انتشار"},
+  {value:"draft", label:"پیشنویس"},
+  {value:"ready", label:"آماده انتشار"},
+  {value:"published", label:"منتشر شده"},
+  {value:"archived", label:"آرشیو شده، غیرفعال"},
+  {value:"rejected", label:"رد شده"},
+]
+const CompletionStatus:SelectedOption[] = [
+  {value:null, label:"انتخاب وضعیت تکمیل بودن بسته"},
+  {value:"incomplete", label:"ناقص (نیاز به بخش‌هایی بیشتر)"},
+  {value:"in_progress", label:"در حال کار و بازبینی"},
+  {value:"complete", label:"کامل‌شده ولی قابل به‌روزرسانی"},
+  {value:"finalized", label:"نهایی‌شده، بدون نیاز به تغییر"},
+]
+type ContentSourceType = {
+  selected: string | null;
+  list:SelectedOption[]
+}
 const Page = () => {
   const inputImageRef: any = useRef();
   const inputVideoRef: any = useRef();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [visible, setVisible] = useState(false);
+  const [active, setActive] = useState(false);
+  const [badg, setBadg] = useState("");
+  const [language, setLanguage] = useState<string | null>(null)
+  const [languageList, setLanguageList] = useState([])
   const [loading, setLoading] = useState(false);
+  const [seasonNumber, setSeasonNumber] = useState("")
+  const [numberStage, setNumberStage] = useState("")
+  const [contentSourceType, setContentSourceType] = useState<ContentSourceType>({
+    selected: null,
+    list: [{value:null, label:"انتخاب نوع محتوا"}, {value:"original", label:"محتوا اختصاصی و اورجینال"}, {value:"derived", label:"محتوا مشتق شده از منبع دیگر"}, {value:"copy", label:"محتوا کپی از منبع دیگر"}]
+  })
+  const [publicationStatus, setPublicationStatus] = useState<string | null>(null)
+  const [completionStatus, setCompletionStatus] = useState<string | null>(null)
   const [image, setImage] = useState<any>([]);
   const [video, setVideo] = useState<any>([]);
   const media = video.concat(image);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [priceDetail, setPriceDetail] = useState("");
-  const [discount, setDiscount] = useState("");
-  const [categories, setCategories] = useState<{ title: string; children: string[] }[]>([]);
+  
+
+  useEffect(()=>{
+    getAllLanguage()
+  }, [])
+  const getAllLanguage = async()=>{
+    const data = {
+      query: `
+        query getAllLanguageForAdmin($filter_visible : Boolean, $filter_active : Boolean){
+          getAllLanguageForAdmin(filter_visible : $filter_visible, filter_active : $filter_active) {
+            _id,
+            name,
+          }
+        }
+        `,
+      variables: {
+        filter_visible: false,
+        filter_active: false,
+      },
+    };
+    await axios({
+      url: "/",
+      method: "post",
+      data: data,
+    }).then(async (response) => {
+        const data = response.data.data.getAllLanguageForAdmin;
+        if (data.length > 0) {
+          const items = data.map((item: any) => ({
+            label: item.name,
+            value: item._id,
+          }));
+          items.unshift({
+            label: "انتخاب زبان",
+            value: null,
+          })
+          setLanguageList(items);
+        }
+      })
+      .catch(() => {
+        setLanguageList([])
+      });
+  }
+  const registerAndConfirm = ()=>{
+    if(title.length == 0 ){
+      toast.error("ابتدا موارد الزامی را وارد کنید", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+      });
+    } else {
+      checkedAndRegister()
+    }
+  }
+  const checkedAndRegister = async()=>{
+    setLoading(true)
+    let data = {
+      query: `
+          mutation newSeasonDefinitionForStageGame(
+              $title : String!,
+              $description : String,
+              $language : ID!,
+              $media: [FileInput!]!,
+              $badg : String,
+              $season_number : Int!,
+              $number_stage : Int!,
+              $is_visible : Boolean!,
+              $is_active : Boolean!
+          ){
+            newSeasonDefinitionForStageGame(
+                title : $title,
+                description : $description,
+                language : $language,
+                media : $media,
+                badg : $badg,
+                season_number : $season_number,
+                number_stage : $number_stage,
+                is_visible : $is_visible,
+                is_active : $is_active
+            ) {
+              status,
+              message,
+            }
+          }
+          `,
+      variables: {
+        title: title,
+        description: description?.length > 0?description:undefined,
+        language: language,
+        is_visible: visible,
+        is_active: active,
+        badg: badg?.length > 0?badg:undefined,
+        season_number: Number(seasonNumber),
+        number_stage: Number(numberStage),
+        media: media.map((item:any, index:number) => ({
+          file: null,
+          order: (index+1),
+          duration: item.duration??undefined,
+        })),
+      },
+    };
+    let map: any = {};
+    media.forEach((item:any, index:number) => {
+      map[index] = [`variables.media.${index}.file`];
+    });
+    let formD = new FormData();
+    formD.append("operations", JSON.stringify(data));
+    formD.append("map", JSON.stringify(map));
+    media.forEach((item:any, index:number) => {
+      formD.append(`${index}`, item.file);
+    });
+    await axios({
+      url: "/",
+      method: "post",
+      data: formD,
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "multipart/form-data",
+      },
+    })
+      .then(async (response) => {
+        setLoading(false);
+        if (response.data?.data?.newSeasonDefinitionForStageGame?.status == 200) {
+            toast.success(response.data?.data?.newSeasonDefinitionForStageGame?.message, {
+              position: "top-center",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+            });
+            setTitle("")
+            setDescription("")
+            setBadg("")
+            setImage([])
+            setVideo([])
+            setNumberStage("")
+            setSeasonNumber("")
+        } else {
+          toast.error((response.data?.errors[0]?.data[0]?.message || "مشکلی پیش آمد دوباره تلاش کنید"), {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+          });
+        }
+      })
+      .catch(() => {
+        toast.error("مشکلی پیش آمد دوباره تلاش کنید", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+        });
+        setLoading(false);
+      });
+  }
 
   const handleAddPhotos = (e: any) => {
     const photos = e.target.files;
@@ -133,180 +358,15 @@ const Page = () => {
     }
   };
 
-  const setTitleForMediaItem = (item: any) => {
-    let title = item?.file?.type.includes("video") == true ? "عنوان ویدیو" : "عنوان عکس";
-    let x = item?.file?.type.includes("video") == true ? "ویدیو" : "عکس";
-    ModalInputHelper.showModalInput({
-      title: title,
-      description: `میتوانید یک عنوان کوتاه برای این ${x} بنویسید`,
-      inputValue: item.title == undefined || item.title == null ? "" : item.title,
-      buttons:
-        item.title == undefined
-          ? [
-              {
-                buttonText: "تایید",
-                onClickFn: (call) => {
-                  if (item?.file?.type.includes("video") == true) {
-                    const index = video.findIndex((i: any) => i.preview == item.preview);
-                    const newData: any = [...video];
-                    newData[index] = { ...newData[index], title: call == "" ? undefined : call };
-                    setVideo(newData);
-                  } else {
-                    const index = image.findIndex((i: any) => i.preview == item.preview);
-                    const newData: any = [...image];
-                    newData[index] = { ...newData[index], title: call == "" ? undefined : call };
-                    setImage(newData);
-                  }
-                  ModalInputHelper.closeModalInput();
-                },
-              },
-              {
-                buttonText: "انصراف",
-                onClickFn: () => {
-                  ModalInputHelper.closeModalInput();
-                },
-              },
-            ]
-          : [
-              {
-                buttonText: "تایید",
-                onClickFn: (call) => {
-                  if (item?.file?.type.includes("video") == true) {
-                    const index = video.findIndex((i: any) => i.preview == item.preview);
-                    const newData: any = [...video];
-                    newData[index] = { ...newData[index], title: call == "" ? undefined : call };
-                    setVideo(newData);
-                  } else {
-                    const index = image.findIndex((i: any) => i.preview == item.preview);
-                    const newData: any = [...image];
-                    newData[index] = { ...newData[index], title: call == "" ? undefined : call };
-                    setImage(newData);
-                  }
-                  ModalInputHelper.closeModalInput();
-                },
-              },
-              {
-                buttonText: "حذف عنوان",
-                onClickFn: () => {
-                  if (item?.file?.type.includes("video") == true) {
-                    const index = video.findIndex((i: any) => i.preview == item.preview);
-                    const newData: any = [...video];
-                    newData[index] = { ...newData[index], title: undefined };
-                    setVideo(newData);
-                  } else {
-                    const index = image.findIndex((i: any) => i.preview == item.preview);
-                    const newData: any = [...image];
-                    newData[index] = { ...newData[index], title: undefined };
-                    setImage(newData);
-                  }
-                  ModalInputHelper.closeModalInput();
-                },
-              },
-              {
-                buttonText: "انصراف",
-                onClickFn: () => {
-                  ModalInputHelper.closeModalInput();
-                },
-              },
-            ],
-      options: {
-        maxLength: 30,
-      },
-    });
-  };
-
-  const finalFileRegister = async () => {
-    let value = [];
-    if (categories?.length > 0) {
-      for (let index = 0; index < categories.length; index++) {
-        const element = categories[index];
-        const children = element.children;
-        if (children?.length > 0) {
-          for (let j = 0; j < children.length; j++) {
-            const element2 = children[j];
-            const item = [element.title, element2];
-            value.push(item);
-          }
-        }
-      }
-    }
-
-    setLoading(true);
-    let data = {
-      query: `
-          mutation newProductDefinition(
-            $name : String!,
-            $description : String!,
-            $price : String!,
-            $discount : String,
-            $price_title : String,
-            $category : [[String]],
-          ){
-            newProductDefinition(
-                name : $name,
-                description : $description,
-                price : $price,
-                discount : $discount,
-                price_title : $price_title,
-                category : $category,
-            ) {
-              status,
-              message,
-              _id
-            }
-          }
-          `,
-      variables: {
-        name: name,
-        description: description,
-        price: price,
-        discount: discount,
-        price_title: priceDetail,
-        category: value?.length > 0 ? value : undefined,
-      },
-    };
-    await axios({
-      url: "/",
-      method: "post",
-      data: data,
-    })
-      .then(async (response) => {
-        if (response.data?.data == null) {
-          setLoading(false);
-          if (response.data.errors[0].data[0].message) {
-          } else {
-            toast.error("مشکلی پیش آمد دوباره تلاش کنید", {
-              position: "top-center",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-            });
-          }
-        } else {
-          if (response.data?.data?.newProductDefinition?.status == 200) {
-            const productId = response.data.data.newProductDefinition._id;
-            await uploadMedia(productId);
-          } else {
-            setLoading(false);
-            toast.error("مشکلی پیش آمد دوباره تلاش کنید", {
-              position: "top-center",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-            });
-          }
-        }
-      })
-      .catch(() => {
-        toast.error("مشکلی پیش آمد دوباره تلاش کنید", {
+  const moveImage = (fromMediaIndex: number, toMediaIndex: number) => {
+    const videoOffset = video.length === 1 ? 1 : 0;
+    if (
+      fromMediaIndex < videoOffset ||
+      toMediaIndex < videoOffset ||
+      fromMediaIndex >= media.length ||
+      toMediaIndex >= media.length
+    ) {
+      toast.warning("در صورت وجود ویدیو، باید در اولین آیتم لیست، ویدیو قرار گیرد.", {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -315,164 +375,74 @@ const Page = () => {
           draggable: true,
           progress: undefined,
           theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-        });
-        setLoading(false);
       });
+      return;
+    }
+    const fromImageIndex = fromMediaIndex - videoOffset;
+    const toImageIndex = toMediaIndex - videoOffset;
+    const newImageArray = [...image];
+    const [movedItem] = newImageArray.splice(fromImageIndex, 1);
+    newImageArray.splice(toImageIndex, 0, movedItem);
+    setImage(newImageArray);
   };
-
-  const uploadMedia = async (productId: any) => {
-    const media: any = video.concat(image);
-    if (media.length > 0) {
-      let duration = [];
-      let nulls = [];
-      for (let index = 0; index < media.length; index++) {
-        const element = media[index];
-        if (element.duration) {
-          await Promise.resolve(duration.push([`${index}`, `${element.duration}`]));
-        }
-        await Promise.resolve(nulls.push(null));
-      }
-      let data = {
-        query: `
-            mutation addMediaForProduct($product : ID!, $media : [Upload!]!, $duration : [[String]]){
-                addMediaForProduct(product : $product, media : $media, duration : $duration) {
-                status,
-                message
-              }
-            }
-            `,
-        variables: {
-          product: productId,
-          media: nulls,
-          duration: duration.length > 0 ? duration : null,
-        },
-      };
-      let formD = new FormData();
-      formD.append("operations", JSON.stringify(data));
-      let map: any = {};
-      for (let index = 0; index < media.length; index++) {
-        await Promise.resolve((map[index] = [`variables.media.${index}`]));
-      }
-      formD.append("map", JSON.stringify(map));
-      for (let index = 0; index < media.length; index++) {
-        const element = await media[index];
-        const item: any = element.file;
-        Promise.resolve(formD.append(`${index}`, item));
-      }
-      await axios({
-        url: "/",
-        method: "post",
-        data: formD,
-        headers: {
-          Accept: "*/*",
-          "Content-Type": "multipart/form-data",
-        },
-      })
-        .then(async (response) => {
-          if (response.data.data.addMediaForProduct.status == 200) {
-            setLoading(false);
-            setName("");
-            setDescription("");
-            setImage([]);
-            setVideo([]);
-            setDiscount("");
-            setPrice("");
-            setPriceDetail("");
-            setCategories([]);
-            const time = setTimeout(() => {
-              DialogHelper.showDialog({
-                dialogType: "success",
-                buttons: [
-                  {
-                    buttonText: "تایید",
-                    onClickFn: () => {},
-                    type: "bold",
-                  },
-                ],
-                bodyText: "محصول جدید با موفقیت ایجاد شد.",
-              });
-              clearTimeout(time);
-            }, 200);
-          } else {
-            setLoading(false);
-            setName("");
-            setDescription("");
-            setImage([]);
-            setVideo([]);
-            setDiscount("");
-            setPrice("");
-            setPriceDetail("");
-            setCategories([]);
-            const time = setTimeout(() => {
-              DialogHelper.showDialog({
-                dialogType: "warning",
-                buttons: [
-                  {
-                    buttonText: "متوجه شدم",
-                    onClickFn: () => {},
-                    type: "bold",
-                  },
-                ],
-                bodyText: "محصول جدید با موفقیت ثبت شد. اما در بارگذاری محتوا مشکلی پیش آمد.",
-              });
-              clearTimeout(time);
-            }, 200);
-          }
-        })
-        .catch(async () => {
-          setLoading(false);
-          setName("");
-          setDescription("");
-          setImage([]);
-          setVideo([]);
-          setDiscount("");
-          setPrice("");
-          setPriceDetail("");
-          setCategories([]);
-          const time = setTimeout(() => {
-            DialogHelper.showDialog({
-              dialogType: "warning",
-              buttons: [
+  const setOrderForMediaItem = ({item, index}:{item:any, index:number}) => {
+    if(item?.file?.type.includes("video") == true){
+      toast.warning("ترتیب نمایش ویدیو همیشه در اولین آیتم است و قابل تغییر نمیباشد.", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+      });
+    } else {
+      let title = `ترتیب نمایش عکس = (${index + 1})`;
+      ModalInputHelper.showModalInput({
+        title: title,
+        description: "میتوانید ترتیب نمایش این عکس را تغییر دهید.",
+        inputValue: `${index + 1}`,
+        buttons:[
                 {
-                  buttonText: "متوجه شدم",
-                  onClickFn: () => {},
-                  type: "bold",
+                  buttonText: "تایید",
+                  onClickFn: (call) => {
+                    const value = Number(call)
+                    if(typeof value === 'number' && Number.isFinite(value) && value < 12 && value > 0){
+                      const fromMediaIndex = index
+                      const toMediaIndex = value - 1
+                      moveImage(fromMediaIndex, toMediaIndex)
+                      ModalInputHelper.closeModalInput();
+                    } else {
+                      toast.warning("مقدار وارد شده معتبر نمیباشد", {
+                          position: "top-center",
+                          autoClose: 3000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+                      });
+                    }
+                  },
+                },
+                {
+                  buttonText: "انصراف",
+                  onClickFn: () => {
+                    ModalInputHelper.closeModalInput();
+                  },
                 },
               ],
-              bodyText: "محصول جدید با موفقیت ثبت شد. اما در بارگذاری محتوا مشکلی پیش آمد.",
-            });
-            clearTimeout(time);
-          }, 200);
-        });
-    } else {
-      setLoading(false);
-      setName("");
-      setDescription("");
-      setImage([]);
-      setVideo([]);
-      setDiscount("");
-      setPrice("");
-      setPriceDetail("");
-      setCategories([]);
-      const time = setTimeout(() => {
-        DialogHelper.showDialog({
-          dialogType: "success",
-          buttons: [
-            {
-              buttonText: "تایید",
-              onClickFn: () => {},
-              type: "bold",
-            },
-          ],
-          bodyText: "محصول جدید با موفقیت ثبت شد. اما در بارگذاری محتوا مشکلی پیش آمد.",
-        });
-        clearTimeout(time);
-      }, 200);
+        options: {
+          maxLength: 2,
+        },
+      });
     }
   };
-
   return (
     <div className="flex flex-col justify-between w-full lg:w-[600px] 2xl:w-[750px] mt-10 mb-28 px-4 sm:mx-auto">
+ 
       <div className="flex gap-6 justify-center font-['iransans-md'] mt-1">
         <label
           className="text-text6 dark:text-text6_dark border-2 border-dashed border-text5 dark:border-text5_dark py-6 text-lg flex-1 rounded-md cursor-pointer transition sm:hover:bg-border2 sm:dark:hover:bg-border2_dark flex flex-col justify-center items-center gap-y-2"
@@ -515,7 +485,7 @@ const Page = () => {
       </div>
 
       {media.length > 0 && (
-        <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-4 sm:gap-y-4 mt-4 border-2 border-dashed border-border dark:border-border_dark rounded-md py-2">
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-4 sm:gap-y-4 mt-4 border-2 border-dashed border-primary dark:border-primary rounded-md py-2">
           {media.map((item: any, index: number) => (
             <div key={`${index.toString()}`} className="w-full h-20 3xs:h-24 sm:h-28 flex justify-center items-center">
               <div
@@ -537,10 +507,10 @@ const Page = () => {
                 {item?.file?.type.includes("video") == true ? (
                   <div className="relative h-full w-full">
                     <video src={item.preview} className="inset-0 h-full w-full rounded-md object-cover" />
-                    <div className="absolute top-[26%] right-[26%] text-xl sm:text-3xl text-primary bg-background6 bg-opacity-30 rounded-full p-3">
+                    <div className="absolute top-[26%] right-[26%] text-xl sm:text-2xl text-primary bg-background6 bg-opacity-30 rounded-full p-3">
                       <FaPlay />
                     </div>
-                    <div className="absolute bottom-1 left-1 flex items-center gap-2 bg-[#00000080] rounded px-1">
+                    <div className="absolute bottom-1 left-1 flex items-center gap-2 bg-[#00000099] rounded px-1">
                       <p className="text-xs font-['iransans-light'] text-white">{secondsToTime(item.duration)}</p>
                       <div className="text-sm text-white">
                         <IoIosVideocam />
@@ -559,20 +529,18 @@ const Page = () => {
                   <div
                     onClick={(e: any) => {
                       e.stopPropagation();
-                      setTitleForMediaItem(item);
+                      setOrderForMediaItem({item, index});
                     }}
-                    className={`flex justify-center items-center rounded transition ${
-                      item?.title && item.title.length > 0 ? "text-primary" : "text-white"
-                    } bg-[#00000080] sm:hover:bg-[#33333370] text-lg w-6 h-6`}
+                    className={`flex justify-center items-center rounded transition text-red_color bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6`}
                   >
-                    <BiEditAlt />
+                    <p className="text-xs 3xs:text-sm text-center font-['iransans-md']">{index + 1}</p>
                   </div>
                   <div
                     onClick={(e: any) => {
                       e.stopPropagation();
                       deleteMediaItem(item);
                     }}
-                    className="flex justify-center items-center rounded transition text-white bg-[#00000080] sm:hover:bg-[#33333370] text-lg w-6 h-6"
+                    className="flex justify-center items-center rounded transition text-white bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6"
                   >
                     <BiTrash />
                   </div>
@@ -588,181 +556,199 @@ const Page = () => {
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="name"
         >
-          نام محصول
-          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="name" value={name} changeState={setName} classes="flex-1" inputStyles="!text-base" />
+          زبان فصل
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+            <SelectInput
+              name="stage-game-language"
+              options={languageList}
+              onChange={(value) => setLanguage(value || null)}
+            />
           </div>
         </label>
       </div>
-
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="name-stage-season"
+        >
+          نام فصل
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+            <Input id="name-stage-season" value={title} changeState={setTitle} classes="flex-1" inputStyles="!text-base" />
+          </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="badg-stage-season"
+        >
+          نشان ( مثل جدید یا به‌زودی )
+          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+            <Input id="badg-stage-season" value={badg} changeState={setBadg} classes="flex-1" inputStyles="!text-base" />
+          </div>
+        </label>
+      </div>
       <div className="mt-6">
         <label
           className="text-right lg:w-2/3 w-5/6 xl:w-3/5 2xl:w-1/2 text-text6 dark:text-text6_dark cursor-pointer font-iransans-md text-sm"
-          htmlFor="description"
+          htmlFor="description-stage-season"
         >
-          توضیحات آژانس
+          توضیحات فصل
           <TextAreaInput
-            id={"description"}
+            id={"description-stage-season"}
             value={description}
             changeState={(e: any) => setDescription(e)}
             textAreaStyles="!text-sm mt-1"
-            rows={7}
+            rows={4}
           />
         </label>
       </div>
-
       <div className="mt-6">
         <label
-          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3 flex flex-col"
-          htmlFor="price"
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="number-season-stage-season"
         >
-          قیمت محصول
+          شماره فصل
+          <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input
-              id="price"
-              value={priceDigitSeperator(price)}
-              changeState={(e: any) => {
-                setPrice(e.replace(/[^0-9]/g, ""));
-              }}
-              classes="flex-1"
-              inputStyles="!text-base"
-              inputMode={"numeric"}
-              maxLength={15}
-              ltr={true}
+            <Input type="number" id="number-season-stage-season" value={seasonNumber} changeState={setSeasonNumber} classes="flex-1" inputStyles="!text-base" />
+          </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="number-stage-season"
+        >
+          تعداد مراحل فصل
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+            <Input type="number" id="number-stage-season" value={numberStage} changeState={setNumberStage} classes="flex-1" inputStyles="!text-base" />
+          </div>
+        </label>
+      </div>
+       <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="name"
+        >
+          نوع محتوا
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+            <SelectInput
+              name="stage-game-language"
+              options={contentSourceType.list}
+              onChange={(value) => setContentSourceType(prev =>({
+                ...prev,
+                selected:value
+              }))}
             />
           </div>
-          <div className="flex flex-col text-right text-text4 dark:text-text4_dark text-sm font-['iransans-light'] mt-[2px]">
-            <div>{price.trim() != "" && `${priceDigitSeperator(price)} تومان`}</div>
-            <div>{price.trim() != "" && `${numberToWords(price)} تومان`}</div>
-          </div>
         </label>
       </div>
-
       <div className="mt-6">
         <label
-          className="text-right lg:w-2/3 w-5/6 xl:w-3/5 2xl:w-1/2 text-text6 dark:text-text6_dark cursor-pointer font-iransans-md text-sm"
-          htmlFor="priceDetail"
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="name"
         >
-          توضیحات قیمت
-          <Input
-            id="priceDetail"
-            value={priceDetail}
-            changeState={setPriceDetail}
-            classes="flex-1"
-            inputStyles="!text-base !mt-1"
-          />
-        </label>
-      </div>
-
-      <div className="mt-6">
-        <label
-          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3 flex flex-col"
-          htmlFor="discount"
-        >
-          تخفیف %
-          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input
-              id="discount"
-              value={discount}
-              changeState={(e: any) => {
-                setDiscount(e.replace(/[^0-9]/g, ""));
-              }}
-              classes="flex-1"
-              inputStyles="!text-base"
-              inputMode={"numeric"}
-              maxLength={2}
-              ltr={true}
+          وضعیت انتشار بسته
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+            <SelectInput
+              name="stage-game-language"
+              options={PublicationStatus}
+              onChange={(value) => setPublicationStatus(value)}
             />
           </div>
-          <div className="flex flex-col text-right text-text4 dark:text-text4_dark text-sm font-['iransans-light'] mt-[2px]">
-            <div>{discount.trim() != "" && `${numberToWords(discount)} درصد`}</div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="name"
+        >
+          وضعیت کامل بودن بسته
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+            <SelectInput
+              name="stage-game-language"
+              options={CompletionStatus}
+              onChange={(value) => setCompletionStatus(value)}
+            />
           </div>
         </label>
       </div>
-
       <div
-        className="border border-border dark:border-border_dark px-6 py-2 bg-primary font-iransans-md w-fit mt-6 rounded cursor-pointer transition hover:opacity-75 text-white"
-        onClick={() => {
-          ModalInputHelper.showModalInput({
-            title: "افزودن دسته بندی جدید",
-            buttons: [
-              {
-                buttonText: "افزودن",
-                onClickFn: (val: string) => {
-                  setCategories((last) => {
-                    return [...last, { title: val, children: [] }];
-                  });
-                  ModalInputHelper.closeModalInput();
-                },
-              },
-            ],
-          });
-        }}
+        className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
+        onClick={() => setVisible((last) => !last)}
       >
-        افزودن دسته بندی جدید
-      </div>
-
-      <Footer buttonFn={finalFileRegister} buttonText="ثبت محصول" loadingButton={loading} classes="md:!mr-72 !justify-end" />
-      {categories?.length > 0 && (
-        <div className="flex flex-col gap-2 mt-6">
-          {categories.map((item: any, index: number) => (
-            <div className="flex gap-2 font-iransans-md whitespace-break-spaces" key={`${item}${index}`}>
-              <div className="flex items-center gap-2 border border-border dark:border-border_dark px-3 py-2 rounded">
-                <MdDelete
-                  className="text-2xl text-primary cursor-pointer hover:opacity-75 transition"
-                  onClick={() => {
-                    const data = [...categories];
-                    data.splice(index, 1);
-                    setCategories([...data]);
-                  }}
-                />
-                <div className="text-base text-text6 dark:text-text6_dark">{item.title}</div>
-                <div
-                  className="text-base p-1 bg-primary rounded cursor-pointer transition sm:hover:opacity-75 text-white"
-                  onClick={() => {
-                    ModalInputHelper.showModalInput({
-                      title: `${item.title}`,
-                      buttons: [
-                        {
-                          buttonText: "افزودن",
-                          onClickFn: (val: string) => {
-                            categories[index].children.push(val);
-                            setCategories([...categories]);
-                            ModalInputHelper.closeModalInput();
-                          },
-                        },
-                      ],
-                    });
-                  }}
-                >
-                  <FaRegSquarePlus />
-                </div>
-              </div>
-
-              {categories[index].children?.length > 0 && (
-                <div className="flex flex-wrap items-center gap-2">
-                  {categories[index].children.map((item2: string, index2: number) => (
-                    <div
-                      className="relative text-sm font-iransans-md text-text4 dark:text-text4_dark border border-border dark:border-border_dark py-2 px-3 rounded"
-                      key={`${item2}${index2}`}
-                    >
-                      {item2}
-                      <div className="absolute -top-1 -left-2 text-sm sm:text-sm cursor-pointer rounded-full hover:bg-border dark:hover:bg-border_dark transition border border-primary text-red_color bg-border2 dark:bg-border2_dark">
-                        <IoClose
-                          onClick={() => {
-                            categories[index].children.splice(index2, 1);
-                            setCategories([...categories]);
-                          }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+        <div className="flex items-center justify-between w-full h-[42px] pl-2 rounded">
+          <label className={`text-sm font-['iransans-md'] cursor-pointer`}>
+            <h3 className="text-text dark:text-text_dark font-['iransans-md'] text-[15px]">
+              قابل نمایش شود
+            </h3>
+          </label>
+          <Switch
+            checked={visible}
+            onChange={() => setVisible((last) => !last)}
+            onClick={(e) => e.stopPropagation()}
+            className={`${visible ? "bg-rgba2" : "bg-border dark:bg-border_dark"}
+relative h-[19px] w-[33px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out flex items-center`}
+          >
+            <span
+              aria-hidden="true"
+              className={`${
+                visible
+                  ? "translate-x-2 bg-primary"
+                  : "-translate-x-[16px] bg-text5 dark:bg-text5_dark"
+              }
+pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow-lg ring-0 transition duration-200 ease-in-out`}
+            />
+          </Switch>
         </div>
-      )}
+        <p className="text-justify font-['iransans-md'] text-text5 dark:text-text5_dark text-[12px] sm:text-[14px] mb-1">
+          با فعال بودن این گزینه، آیتم قابل نمایش برای کاربران ثبت خواهد شد.
+        </p>
+      </div>
+      <Border />
+      <div
+        className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
+        onClick={() => setActive((last) => !last)}
+      >
+        <div className="flex items-center justify-between w-full h-[42px] pl-2 rounded">
+          <label className={`text-sm font-['iransans-md'] cursor-pointer`}>
+            <h3 className="text-text dark:text-text_dark font-['iransans-md'] text-[15px]">
+              فعال شود
+            </h3>
+          </label>
+          <Switch
+            checked={active}
+            onChange={() => setActive((last) => !last)}
+            onClick={(e) => e.stopPropagation()}
+            className={`${active ? "bg-rgba2" : "bg-border dark:bg-border_dark"}
+relative h-[19px] w-[33px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out flex items-center`}
+          >
+            <span
+              aria-hidden="true"
+              className={`${
+                active
+                  ? "translate-x-2 bg-primary"
+                  : "-translate-x-[16px] bg-text5 dark:bg-text5_dark"
+              }
+pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow-lg ring-0 transition duration-200 ease-in-out`}
+            />
+          </Switch>
+        </div>
+        <p className="text-justify font-['iransans-md'] text-text5 dark:text-text5_dark text-[12px] sm:text-[14px] mb-1">
+          با فعال بودن این گزینه، آیتم به عنوان فعال شده ثبت خواهد شد.
+        </p>
+      </div>
+      <Border />
+      <Footer buttonFn={registerAndConfirm} buttonText="ثبت فصل" loadingButton={loading} classes="md:!mr-72 !justify-end" />
+     
+      
       <ShowVideoModal
         ref={(Ref) => {
           ShowVideoModalHelper.setRef(Ref);
