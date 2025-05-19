@@ -3,10 +3,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { FaCamera, FaPlay, FaRegSquarePlus, FaVideo } from "react-icons/fa6";
+import { FaCamera, FaMusic, FaPlay } from "react-icons/fa6";
 import DialogHelper from "@/components/Dialog/DialogHelper";
 import { BiEditAlt, BiTrash } from "react-icons/bi";
-import { IoIosVideocam } from "react-icons/io";
+import { IoIosMusicalNotes, IoIosVideocam } from "react-icons/io";
 import { secondsToTime } from "@/utils/SecondToTime";
 import ImageComponent from "@/components/ImageComponent";
 import ShowVideoModalHelper from "@/components/ShowMediaModal/ShowVideoModalHelper";
@@ -48,6 +48,21 @@ const LiteraryFormList:SelectedOption[] = [
   {value:"نظم - شعر بی‌قافیه با وزن مشخص", label:"نظم - شعر بی‌قافیه با وزن مشخص"},
   {value:"نظم - شعرهای قالب‌دار خارجی", label:"نظم - شعرهای قالب‌دار خارجی"},
 ]
+const PublicationStatus:SelectedOption[] = [
+  {value:null, label:"انتخاب وضعیت انتشار"},
+  {value:"draft", label:"پیشنویس"},
+  {value:"ready", label:"آماده انتشار"},
+  {value:"published", label:"منتشر شده"},
+  {value:"archived", label:"آرشیو شده، غیرفعال"},
+  {value:"rejected", label:"رد شده"},
+]
+const CompletionStatus:SelectedOption[] = [
+  {value:null, label:"انتخاب وضعیت تکمیل بودن بسته"},
+  {value:"incomplete", label:"ناقص (نیاز به بخش‌هایی بیشتر)"},
+  {value:"in_progress", label:"در حال کار و بازبینی"},
+  {value:"complete", label:"کامل‌شده ولی قابل به‌روزرسانی"},
+  {value:"finalized", label:"نهایی‌شده، بدون نیاز به تغییر"},
+]
 type TakenSource = {
   title: string;
   poet: string;
@@ -61,6 +76,7 @@ type ContentSourceType = {
 const Page = () => {
   const inputIconImageRef: any = useRef();
   const inputBannerImageRef: any = useRef();
+  const inputMusicRef: any = useRef();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [subject, setSubject] = useState("");
@@ -96,6 +112,8 @@ const Page = () => {
   const [numberStage, setNumberStage] = useState("")
   const [numberSeason, setNumberSeason] = useState("")
   const [order, setOrder] = useState("")
+  const [publicationStatus, setPublicationStatus] = useState<string | null>(null)
+  const [completionStatus, setCompletionStatus] = useState<string | null>(null)
 
   useEffect(()=>{
     getAllLanguage()
@@ -183,7 +201,9 @@ const Page = () => {
             $number_season : Int!,
             $is_visible : Boolean!,
             $is_active : Boolean!,
-            $order : Int
+            $order : Int,
+            $publication_status : String!,
+            $completion_status : String!,
           ){
             newSeasonDefinitionForStageGame(
               title : $title,
@@ -209,6 +229,8 @@ const Page = () => {
               is_visible : $is_visible,
               is_active : $is_active,
               order : $order,
+              publication_status : $publication_status,
+              completion_status : $completion_status,
             ) {
               status,
               message,
@@ -221,7 +243,7 @@ const Page = () => {
         subject : subject,
         badg : badg,
         taken_source : TakenSource,
-        content_source_type : contentSourceType,
+        content_source_type : contentSourceType.selected,
         language : language,
         package_category : packageCategory,
         package_collection : packageCollection,
@@ -240,7 +262,9 @@ const Page = () => {
         number_season : numberSeason,
         is_visible : visible,
         is_active : active,
-        order : order
+        order : order,
+        publication_status : publicationStatus,
+        completion_status : completionStatus,
       },
     };
     let map: any = {};
@@ -292,7 +316,6 @@ const Page = () => {
         setLoading(false);
       });
   }
-
   const handleAddIconPhoto = (e: any) => {
     const photo = e.target.files;
     console.log(photo[0])
@@ -313,6 +336,48 @@ const Page = () => {
     setBannerImage(data);
     inputBannerImageRef.current.value = "";
   };
+  const handleAddMusic = (e: any) => {
+    const uri = URL.createObjectURL(e.target.files[0]);
+    var musicElement = document.createElement("audio");
+    musicElement.preload = "metadata";
+    musicElement.src = URL.createObjectURL(e.target.files[0]);
+    musicElement.onloadedmetadata = function () {
+      const audios = e.target.files;
+      window.URL.revokeObjectURL(musicElement.src);
+      const duration = musicElement.duration;
+      if (duration < 3) {
+        toast.warning("موزیک متن نمیتواند کمتر از 3 ثانیه باشد", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+        });
+      } else if (duration > 180) {
+        toast.warning("موزیک متن نمیتواند بیشتر از 180 ثانیه باشد.", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+        });
+      } else {
+        const data = {
+          file: audios[0],
+          preview: uri,
+          duration: duration.toFixed(0).toString(),
+        };
+        setMusic(data);
+        inputMusicRef.current.value = "";
+      }
+    };
+  };
 
   const dleteImage = (item: string) => {
     if (item == "icon") {
@@ -328,7 +393,7 @@ const Page = () => {
       <div className="flex gap-6 justify-center font-['iransans-md'] mt-1">
         <label
           className="text-text6 dark:text-text6_dark border-2 border-dashed border-text5 dark:border-text5_dark py-6 text-lg flex-1 rounded-md cursor-pointer transition sm:hover:bg-border2 sm:dark:hover:bg-border2_dark flex flex-col justify-center items-center gap-y-2"
-          htmlFor="upload_file_photos"
+          htmlFor="upload_file_photo_icon"
           tabIndex={0}
         >
           <div className="text-4xl">
@@ -340,7 +405,7 @@ const Page = () => {
             autoComplete="off"
             tabIndex={-1}
             className="hidden"
-            id="upload_file_photos"
+            id="upload_file_photo_icon"
             type="file"
             accept="image/*"
             onChange={handleAddIconPhoto}
@@ -348,7 +413,7 @@ const Page = () => {
         </label>
         <label
           className="text-text6 dark:text-text6_dark border-2 border-dashed border-text5 dark:border-text5_dark py-6 text-lg flex-1 rounded-md cursor-pointer transition sm:hover:bg-border2 sm:dark:hover:bg-border2_dark flex flex-col justify-center items-center gap-y-2"
-          htmlFor="upload_file_video"
+          htmlFor="upload_file_photo_banner"
         >
           <div className="text-4xl">
             <FaCamera />
@@ -357,17 +422,34 @@ const Page = () => {
           <input
             ref={inputBannerImageRef}
             className="hidden"
-            id="upload_file_video"
+            id="upload_file_photo_banner"
             type="file"
             accept="image/*"
             onChange={handleAddBannerPhoto}
           />
         </label>
+        <label
+          className="text-text6 dark:text-text6_dark border-2 border-dashed border-text5 dark:border-text5_dark py-6 text-lg flex-1 rounded-md cursor-pointer transition sm:hover:bg-border2 sm:dark:hover:bg-border2_dark flex flex-col justify-center items-center gap-y-2"
+          htmlFor="upload_file_audio"
+        >
+          <div className="text-4xl">
+            <FaMusic />
+          </div>
+          <p className="text-xs 3xs:text-sm text-center">افزودن موزیک متن</p>
+          <input
+            ref={inputMusicRef}
+            className="hidden"
+            id="upload_file_audio"
+            type="file"
+            accept=".mp3,audio/mpeg"
+            onChange={handleAddMusic}
+          />
+        </label>
       </div>
 
-      {(iconImage || bannerImage) && (
+      {(iconImage || bannerImage || music) && (
         <div className="mt-4 border-2 border-dashed border-primary rounded-md py-4 px-2">
-          <div className="flex justify-between items-center gap-4">
+          <div className="flex justify-center items-center gap-4">
             {iconImage && (
               <div
                 className="relative w-20 h-20 sm:w-28 sm:h-28 cursor-pointer flex-shrink-0"
@@ -422,6 +504,11 @@ const Page = () => {
                     <BiTrash />
                   </div>
                 </div>
+              </div>
+            )}
+            {music && (
+              <div className="flex justify-center items-center w-40 h-20 sm:w-60 sm:h-28 cursor-pointer bg-primary rounded-md px-2">
+                <audio src={music.preview} controls className="inset-0 w-full rounded-md object-cover" />
               </div>
             )}
           </div>
@@ -508,6 +595,38 @@ const Page = () => {
                 ...prev,
                 selected:value
               }))}
+            />
+          </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="name"
+        >
+          وضعیت انتشار بسته
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+            <SelectInput
+              name="stage-game-language"
+              options={PublicationStatus}
+              onChange={(value) => setPublicationStatus(value)}
+            />
+          </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="name"
+        >
+          وضعیت کامل بودن بسته
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+            <SelectInput
+              name="stage-game-language"
+              options={CompletionStatus}
+              onChange={(value) => setCompletionStatus(value)}
             />
           </div>
         </label>

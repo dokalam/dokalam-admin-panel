@@ -63,6 +63,10 @@ const navigation: any = [
         name: "افزودن دسته‌بندی جدید",
         href: "/add_category",
       },
+      {
+        name: "افزودن کالکشن جدید",
+        href: "/add_collection",
+      },
     ],
   },
   {
