@@ -20,6 +20,7 @@ import Footer from "@/components/Footer/Footer";
 import Border from "@/components/Border";
 import { Switch } from "@headlessui/react";
 import SelectInput from "@/components/SelectInput";
+import GradientButton from "@/components/GradientButton";
 
 const Page = () => {
   const inputImageRef: any = useRef();
@@ -173,14 +174,22 @@ const Page = () => {
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="name"
         >
-          نام کالشن
+          عنوان کالشن
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
             <Input id="name" value={title} changeState={setTitle} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
-      <div className="mt-6">
+      <div className="mt-12">
+        <GradientButton
+          buttonText={"چیدن لیست اصلی این کالکشن"}
+          onClickFn={()=>{}}
+          loading={false}
+          classes="!text-sm !flex-none !px-8 sm:!w-[300px] !w-full"
+        />
+      </div>
+      <div className="mt-8">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="number-season-stage-season"
@@ -192,6 +201,7 @@ const Page = () => {
           </div>
         </label>
       </div>
+      <Border />
       <div
         className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
         onClick={() => setVisible((last) => !last)}

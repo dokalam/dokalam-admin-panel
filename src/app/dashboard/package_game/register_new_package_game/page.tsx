@@ -103,8 +103,6 @@ const Page = () => {
   const [packageCategoryList, setPackageCategoryList] = useState([])
   const [packageCollection, setPackageCollection] = useState([])
   const [packageCollectionList, setPackageCollectionList] = useState([])
-  const [tag, setTag] = useState([])
-  const [tagList, setTagList] = useState([])
   const [free, setFree] = useState(false)
   const [freeWithSubscription, setFreeWithSubscription] = useState(true)
   const [price, setPrice] = useState("")
@@ -173,22 +171,20 @@ const Page = () => {
   }
   const checkedAndRegister = async()=>{
     setLoading(true)
-    const TakenSource = {
-
-    }
     let data = {
       query: `
-          mutation newSeasonDefinitionForStageGame(
+          mutation newPackageDefinitionForPackageGame(
             $title : String!,
             $description : String,
             $subject : String,
             $badg : String,
             $taken_source : TakenSource,
-            $content_source_type : String,
+            $content_source_type : String!,
+            $publication_status : String!,
+            $completion_status : String!,
             $language : ID!,
             $package_category : [ID],
             $package_collection : [ID],
-            $tag : [ID],
             $icon_image : Upload!,
             $banner_image : Upload!,
             $music : FileInput,
@@ -196,26 +192,24 @@ const Page = () => {
             $free_with_subscription : Boolean!,
             $price : Int!,
             $testable : Boolean!,
-            $testable_number_stage : Boolean!,
             $number_stage : Int!,
             $number_season : Int!,
             $is_visible : Boolean!,
             $is_active : Boolean!,
-            $order : Int,
-            $publication_status : String!,
-            $completion_status : String!,
+            $order : Int
           ){
-            newSeasonDefinitionForStageGame(
+            newPackageDefinitionForPackageGame(
               title : $title,
               description : $description,
               subject : $subject,
               badg : $badg,
               taken_source : $taken_source,
               content_source_type : $content_source_type,
+              publication_status : $publication_status,
+              completion_status : $completion_status,
               language : $language,
               package_category : $package_category,
               package_collection : $package_collection,
-              tag : $tag,
               icon_image : $icon_image,
               banner_image : $banner_image,
               music : $music,
@@ -223,14 +217,11 @@ const Page = () => {
               free_with_subscription : $free_with_subscription,
               price : $price,
               testable : $testable,
-              testable_number_stage : $testable_number_stage,
               number_stage : $number_stage,
               number_season : $number_season,
               is_visible : $is_visible,
               is_active : $is_active,
-              order : $order,
-              publication_status : $publication_status,
-              completion_status : $completion_status,
+              order : $order
             ) {
               status,
               message,
@@ -242,42 +233,64 @@ const Page = () => {
         description : description,
         subject : subject,
         badg : badg,
-        taken_source : TakenSource,
+        taken_source : takenSource,
         content_source_type : contentSourceType.selected,
-        language : language,
-        package_category : packageCategory,
-        package_collection : packageCollection,
-        tag : tag,
-        icon_image : null,
-        banner_image : null,
-        music : {
-          file : null,
-          duration : music?.duration
-        },
-        free : free,
-        free_with_subscription : freeWithSubscription,
-        price : price,
-        testable : testable,
-        number_stage : numberStage,
-        number_season : numberSeason,
-        is_visible : visible,
-        is_active : active,
-        order : order,
         publication_status : publicationStatus,
         completion_status : completionStatus,
+        language : language,
+        package_category : packageCategory?.length > 0?packageCategory:undefined,
+        package_collection : packageCollection?.length > 0?packageCollection:undefined,
+        icon_image: null,
+        banner_image: null,
+        music: music?.file && music?.duration ? { file: null, duration: music.duration } : undefined,
+        free : free,
+        free_with_subscription : freeWithSubscription,
+        price : Number(price),
+        testable : testable,
+        number_stage : Number(numberStage),
+        number_season : Number(numberSeason),
+        is_visible : visible,
+        is_active : active,
+        order : order?.length>0?Number(order):undefined,
       },
     };
-    let map: any = {};
-   
+    const formData = new FormData();
+    const map: Record<string, string[]> = {};
+    let fileIndex = 0;
+    const fileMap: Record<string, File> = {};
+    if (iconImage?.file) {
+      map[fileIndex.toString()] = ['variables.icon_image'];
+      fileMap[fileIndex.toString()] = iconImage.file;
+      fileIndex++;
+    }
+    if (bannerImage?.file) {
+      map[fileIndex.toString()] = ['variables.banner_image'];
+      fileMap[fileIndex.toString()] = bannerImage.file;
+      fileIndex++;
+    }
+    if (music?.file && music?.duration) {
+      map[fileIndex.toString()] = ['variables.music.file'];
+      fileMap[fileIndex.toString()] = music.file;
+      fileIndex++;
+    }
+    formData.append('operations', JSON.stringify(data));
+    formData.append('map', JSON.stringify(map));
+
+    for (const index in fileMap) {
+      formData.append(index, fileMap[index]);
+    }
     await axios({
-      url: "/",
-      method: "post",
-      data: data
-    })
-      .then(async (response) => {
+        url: "/",
+        method: "post",
+        data: formData,
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "multipart/form-data",
+        },
+    }).then(async (response) => {
         setLoading(false);
-        if (response.data?.data?.newSeasonDefinitionForStageGame?.status == 200) {
-            toast.success(response.data?.data?.newSeasonDefinitionForStageGame?.message, {
+        if (response.data?.data?.newPackageDefinitionForPackageGame?.status == 200) {
+            toast.success(response.data?.data?.newPackageDefinitionForPackageGame?.message, {
               position: "top-center",
               autoClose: 3000,
               hideProgressBar: false,
