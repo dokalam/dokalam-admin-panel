@@ -46,7 +46,7 @@ const PackageList = forwardRef((_, ref) => {
     window.history.back();
   };
 
-  const showModal = (options: ContactSelectModalInterface) => {
+  const openModal = (options: ContactSelectModalInterface) => {
     window.history.pushState(null, "", window.location.pathname);
     window.addEventListener("popstate", handleBackBrowserBtn);
     setIsOpen(true);
@@ -85,7 +85,7 @@ const PackageList = forwardRef((_, ref) => {
   };
 
   useImperativeHandle(ref, () => ({
-    showModal,
+    openModal,
     closeModal,
   }));
 
@@ -369,7 +369,7 @@ const PackageList = forwardRef((_, ref) => {
                                 SearchLoading={
                                   loading && search.length > 0 && getError == false && noItem == false ? true : false
                                 }
-                                placeholder="جستجو با نام یا شماره تماس"
+                                placeholder="جستجوی بسته‌ها و پکیج‌ها"
                                 inputStyles="!text-[14px] placeholder:!text-[11px]"
                                 searchIconStyle="!hidden"
                                 clearSearchIconStyles="!text-base"
@@ -442,7 +442,6 @@ const PackageList = forwardRef((_, ref) => {
                                         title={item.name}
                                         type={item.type.name}
                                         checked={extendedState._id.find((i: any) => i == item._id) ? true : false}
-                                        endService={item?.end_service}
                                         numberSelect={numberSelected}
                                         deletedItem={() => deletedItem({ item })}
                                         selectedItem={() => selectedItem({ item })}

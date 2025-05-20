@@ -8,14 +8,14 @@ function setRef(ref: any) {
   _ref = ref;
 }
 
-function showModal(option?: PackageListModalInterface) {
+function openModal(option?: PackageListModalInterface) {
   _ref.openModal(option);
 }
 
-function hideModal() {
+function closeModal() {
   _ref.closeModal();
 }
 
 export default {
-  setRef , showModal, hideModal
+  setRef , openModal, closeModal
 };

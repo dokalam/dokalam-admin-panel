@@ -25,6 +25,9 @@ import Footer from "@/components/Footer/Footer";
 import Border from "@/components/Border";
 import { Switch, Listbox, Transition } from "@headlessui/react";
 import SelectInput from "@/components/SelectInput";
+import GradientButton from "@/components/GradientButton";
+import PackageListHelper from "@/components/PackageList/PackageListHelper";
+import PackageList from "@/components/PackageList/PackageList";
 
 
 type SelectedOption = {
@@ -58,7 +61,7 @@ const PublicationStatus:SelectedOption[] = [
   {value:"rejected", label:"رد شده"},
 ]
 const CompletionStatus:SelectedOption[] = [
-  {value:null, label:"انتخاب وضعیت تکمیل بودن بسته"},
+  {value:null, label:"انتخاب وضعیت کامل بودن فصل"},
   {value:"incomplete", label:"ناقص (نیاز به بخش‌هایی بیشتر)"},
   {value:"in_progress", label:"در حال کار و بازبینی"},
   {value:"complete", label:"کامل‌شده ولی قابل به‌روزرسانی"},
@@ -440,6 +443,29 @@ const Page = () => {
       });
     }
   };
+  const selectPackages = ()=>{
+    PackageListHelper.openModal({
+      previousSelected: undefined,
+      numberSelected: 8,
+      buttons: [
+        {
+          buttonText: "لغو",
+          type: "border",
+          onClickFn: () => {
+            PackageListHelper.closeModal();
+          },
+        },
+        {
+          buttonText: "انتخاب بسته",
+          type: "bold",
+          onClickFn: ({ data }: { data: any }) => {
+            
+            PackageListHelper.closeModal();
+          },
+        },
+      ],
+    });
+  }
   return (
     <div className="flex flex-col justify-between w-full lg:w-[600px] 2xl:w-[750px] mt-10 mb-28 px-4 sm:mx-auto">
  
@@ -567,12 +593,20 @@ const Page = () => {
           </div>
         </label>
       </div>
+      <div className="mt-12">
+        <GradientButton
+          buttonText={"انتخاب بسته و پکیج فصل"}
+          onClickFn={selectPackages}
+          loading={false}
+          classes="!text-sm !flex-none !px-8 sm:!w-[300px] !w-full"
+        />
+      </div>
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="name-stage-season"
         >
-          نام فصل
+          عنوان فصل
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
             <Input id="name-stage-season" value={title} changeState={setTitle} classes="flex-1" inputStyles="!text-base" />
@@ -653,7 +687,7 @@ const Page = () => {
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="name"
         >
-          وضعیت انتشار بسته
+          وضعیت انتشار فصل
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
             <SelectInput
@@ -669,7 +703,7 @@ const Page = () => {
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="name"
         >
-          وضعیت کامل بودن بسته
+          وضعیت کامل بودن فصل
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
             <SelectInput
@@ -762,6 +796,11 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
       <ModalInput
         ref={(Ref) => {
           ModalInputHelper.setRef(Ref);
+        }}
+      />
+      <PackageList
+        ref={(Ref) => {
+          PackageListHelper.setRef(Ref);
         }}
       />
     </div>

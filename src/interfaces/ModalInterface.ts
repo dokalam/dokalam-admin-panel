@@ -5,7 +5,9 @@ interface IconComponentInterface {
 }
 
 export interface PackageListModalInterface {
-    
+  buttons?: { onClickFn?: (data: any) => any; buttonText?: string; type: string }[];
+  numberSelected?: number;
+  previousSelected?: { title: string[]; _id: string[] };
 }
 
 export interface DialogInterface {

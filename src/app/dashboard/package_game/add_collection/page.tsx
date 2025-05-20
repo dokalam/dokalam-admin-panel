@@ -169,7 +169,27 @@ const Page = () => {
       });
   };
   const selectPackages = ()=>{
-    PackageListHelper.showModal()
+    PackageListHelper.openModal({
+      previousSelected: undefined,
+      numberSelected: 8,
+      buttons: [
+        {
+          buttonText: "لغو",
+          type: "border",
+          onClickFn: () => {
+            PackageListHelper.closeModal();
+          },
+        },
+        {
+          buttonText: "انتخاب بسته‌ها",
+          type: "bold",
+          onClickFn: ({ data }: { data: any }) => {
+            
+            PackageListHelper.closeModal();
+          },
+        },
+      ],
+    });
   }
 
   return (

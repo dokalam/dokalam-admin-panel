@@ -58,7 +58,7 @@ const PublicationStatus:SelectedOption[] = [
   {value:"rejected", label:"رد شده"},
 ]
 const CompletionStatus:SelectedOption[] = [
-  {value:null, label:"انتخاب وضعیت تکمیل بودن بسته"},
+  {value:null, label:"انتخاب وضعیت کامل بودن فصل"},
   {value:"incomplete", label:"ناقص (نیاز به بخش‌هایی بیشتر)"},
   {value:"in_progress", label:"در حال کار و بازبینی"},
   {value:"complete", label:"کامل‌شده ولی قابل به‌روزرسانی"},
@@ -572,7 +572,7 @@ const Page = () => {
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="name-stage-season"
         >
-          نام فصل
+          عنوان فصل
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
             <Input id="name-stage-season" value={title} changeState={setTitle} classes="flex-1" inputStyles="!text-base" />
@@ -653,7 +653,7 @@ const Page = () => {
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="name"
         >
-          وضعیت انتشار بسته
+          وضعیت انتشار فصل
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
             <SelectInput
@@ -669,7 +669,7 @@ const Page = () => {
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="name"
         >
-          وضعیت کامل بودن بسته
+          وضعیت کامل بودن فصل
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
             <SelectInput

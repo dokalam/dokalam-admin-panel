@@ -9,7 +9,6 @@ const PackageSelectItem = ({
   _id,
   title,
   type,
-  endService,
   checked,
   deletedItem,
   selectedItem,
@@ -18,7 +17,6 @@ const PackageSelectItem = ({
   _id: any;
   title: any;
   type: any;
-  endService: boolean;
   checked: boolean;
   deletedItem: any;
   selectedItem: any;
@@ -54,9 +52,7 @@ const PackageSelectItem = ({
         <div className="flex items-center">
           <div className="flex w-full items-center justify-between">
             <FaUserLarge
-              className={`flex-shrink-0 h-11 w-11 2xl:h-10 2xl:w-10 ${
-                endService ? "text-border dark:text-border_dark" : "text-primary dark:text-primary_start"
-              }`}
+              className={`flex-shrink-0 h-11 w-11 2xl:h-10 2xl:w-10 text-primary dark:text-primary_start`}
               aria-hidden="true"
             />
             <div className="flex-1 pr-3 flex flex-col justify-between">
@@ -67,9 +63,7 @@ const PackageSelectItem = ({
               </div>
               <div className="flex items-center w-full">
                 <p
-                  className={`text-[10px] 2xl:text-xs font-['iransans-md'] ${
-                    endService ? "text-text4 dark:text-text4_dark" : "text-primary"
-                  }`}
+                  className={`text-[10px] 2xl:text-xs font-['iransans-md'] text-primary`}
                 >
                   {type}
                 </p>
