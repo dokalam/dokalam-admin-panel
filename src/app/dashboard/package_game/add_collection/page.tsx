@@ -23,54 +23,40 @@ import SelectInput from "@/components/SelectInput";
 import GradientButton from "@/components/GradientButton";
 import PackageList from "@/components/PackageList/PackageList";
 import PackageListHelper from "@/components/PackageList/PackageListHelper";
+import ModalInput from "@/components/ModalInput/ModalInput";
+import ModalInputHelper from "@/components/ModalInput/ModalInputHelper";
 
 const Page = () => {
-  const inputImageRef: any = useRef();
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [visible, setVisible] = useState(false);
   const [active, setActive] = useState(false);
   const [order, setOrder] = useState("")
-  const [packageList, setPackageList] = useState([])
-  const [packageSelected, setPackageSelected] = useState([])
-  const [search, setSearch] = useState("")
+  const [packageSelected, setPackageSelected] = useState<any>({
+    _id: [],
+    title: [],
+    image: []
+  })
+  const merged = packageSelected._id.map((id: string, index: number) => ({
+    _id: id,
+    title: packageSelected.title[index],
+    image: packageSelected.image[index]
+  }));
 
-  useEffect(()=>{
-    getAllPackage()
-  }, [])
-  const getAllPackage = async()=>{
-    const data = {
-      query: `
-        query getAllPackageForAdmin($search : String){
-          getAllPackageForAdmin(search : $search) {
-            _id,
-            title,
-          }
-        }
-        `,
-      variables: {
-        page:1,
-        limit:20,
-        search: search?.length > 0?search:undefined,
-      },
-    };
-    await axios({
-      url: "/",
-      method: "post",
-      data: data,
-    }).then(async (response) => {
-        const data = response.data.data.getAllPackageForAdmin;
-        if (data.length > 0) {
-          setPackageList(data);
-        }
-      })
-      .catch(() => {
-        setPackageList([])
-      });
-  }
   const registerAndConfirm = ()=>{
-    if(title.length == 0){
-      toast.error("ابتدا موارد الزامی را وارد کنید", {
+    if(title.length < 3 || order.length == 0){
+      toast.error("ابتدا موارد الزامی را به درستی وارد کنید", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+      });
+    } else if(packageSelected._id.length < 6) {
+      toast.error("نمیتوانید یک کالکشن را با کمتر از 6 پکیج ثبت کنید", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -88,27 +74,19 @@ const Page = () => {
     setLoading(true);
     let data = {
       query: `
-          mutation newPackageCategoryDefinitionForPackageGame(
+          mutation newPackageCollectionDefinitionForPackageGame(
             $title : String!,
-            $child : Boolean!,
-            $parent : ID,
-            $image : Upload,
-            $icon_name : String,
-            $icon_type : String,
+            $list : [CollectionListItem!]!,
+            $order : Int!,
             $is_visible : Boolean!,
-            $is_active : Boolean!,
-            $order : Int
+            $is_active : Boolean!
           ){
-            newPackageCategoryDefinitionForPackageGame(
-                title : $title,
-                child : $child,
-                parent : $parent,
-                image : $image,
-                icon_name : $icon_name,
-                icon_type : $icon_type,
-                is_visible : $is_visible,
-                is_active : $is_active,
-                order : $order
+            newPackageCollectionDefinitionForPackageGame(
+              title : $title,
+              list : $list,
+              order : $order,
+              is_visible : $is_visible,
+              is_active : $is_active
             ) {
               status,
               message,
@@ -117,7 +95,11 @@ const Page = () => {
           `,
       variables: {
         title : title,
-        order : order,
+        list : packageSelected._id.map((item:any, index:number)=>({
+          package : item,
+          order : index + 1
+        })),
+        order : Number(order),
         is_visible : visible,
         is_active : active,
       },
@@ -129,8 +111,8 @@ const Page = () => {
     })
       .then(async (response) => {
         setLoading(false);
-        if (response.data?.data?.newPackageCategoryDefinitionForPackageGame?.status == 200) {
-            toast.success(response.data?.data?.newPackageCategoryDefinitionForPackageGame?.message, {
+        if (response.data?.data?.newPackageCollectionDefinitionForPackageGame?.status == 200) {
+            toast.success(response.data?.data?.newPackageCollectionDefinitionForPackageGame?.message, {
               position: "top-center",
               autoClose: 3000,
               hideProgressBar: false,
@@ -141,6 +123,12 @@ const Page = () => {
               theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
             });
             setTitle("")
+            setOrder("")
+            setPackageSelected({
+              _id: [],
+              title: [],
+              image: []
+            })
         } else {
           toast.error((response.data?.errors[0]?.data[0]?.message || "مشکلی پیش آمد دوباره تلاش کنید"), {
             position: "top-center",
@@ -170,7 +158,7 @@ const Page = () => {
   };
   const selectPackages = ()=>{
     PackageListHelper.openModal({
-      previousSelected: undefined,
+      previousSelected: packageSelected,
       numberSelected: 8,
       buttons: [
         {
@@ -184,14 +172,79 @@ const Page = () => {
           buttonText: "انتخاب بسته‌ها",
           type: "bold",
           onClickFn: ({ data }: { data: any }) => {
-            
+            setPackageSelected(data)
             PackageListHelper.closeModal();
           },
         },
       ],
     });
   }
+  const deletePackageItem = (indexToRemove: number) => {
+    setPackageSelected((prevState: any) => ({
+      _id: prevState._id.filter((_: any, index: number) => index !== indexToRemove),
+      title: prevState.title.filter((_: any, index: number) => index !== indexToRemove),
+      image: prevState.image.filter((_: any, index: number) => index !== indexToRemove)
+    }));
+  };
 
+  const movePackageItem = (fromIndex: number, toIndex: number) => {
+    setPackageSelected((prevState: any) => {
+      const moveInArray = (array: any[]) => {
+        const newArray = [...array];
+        const [movedItem] = newArray.splice(fromIndex, 1);
+        newArray.splice(toIndex, 0, movedItem);
+        return newArray;
+      };
+
+      return {
+        _id: moveInArray(prevState._id),
+        title: moveInArray(prevState.title),
+        image: moveInArray(prevState.image),
+      };
+    });
+  };
+  const setOrderForMediaItem = ({item, index}:{item:any, index:number}) => {
+     let title = `ترتیب نمایش پکیج در کالکشن = (${index + 1})`;
+      ModalInputHelper.showModalInput({
+        title: title,
+        description: "میتوانید ترتیب نمایش این پکیج را تغییر دهید.",
+        inputValue: `${index + 1}`,
+        buttons:[
+                {
+                  buttonText: "تایید",
+                  onClickFn: (call) => {
+                    const value = Number(call)
+                    if(typeof value === 'number' && Number.isFinite(value) && value < 9 && value > 0){
+                      const fromIndex = index
+                      const toIndex = value - 1
+                      movePackageItem(fromIndex, toIndex)
+                      ModalInputHelper.closeModalInput();
+                    } else {
+                      toast.warning("مقدار وارد شده معتبر نمیباشد", {
+                          position: "top-center",
+                          autoClose: 3000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+                      });
+                    }
+                  },
+                },
+                {
+                  buttonText: "انصراف",
+                  onClickFn: () => {
+                    ModalInputHelper.closeModalInput();
+                  },
+                },
+              ],
+        options: {
+          maxLength: 2,
+        },
+      });
+  };
   return (
     <div className="flex flex-col justify-between w-full lg:w-[600px] 2xl:w-[750px] mt-10 mb-28 px-4 sm:mx-auto">
       <div className="mt-6">
@@ -214,6 +267,45 @@ const Page = () => {
           classes="!text-sm !flex-none !px-8 sm:!w-[300px] !w-full"
         />
       </div>
+      {merged.length > 0 && (
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-12 sm:gap-y-12 mt-4 border-2 border-dashed border-primary dark:border-primary rounded-md py-4">
+          {merged.map((item: any, index: number) => (
+            <div key={`${index.toString()}`} className="flex flex-col items-center gap-2">
+              <div
+                className="relative w-20 h-22 3xs:w-24 3xs:h-24 sm:w-28 sm:h-28 cursor-pointer"
+              >
+
+                  <ImageComponent
+                    src={item.image}
+                    alt={"file_photos"}
+                    parentclasses="h-full w-full cursor-pointer"
+                  />
+                <div className="absolute top-0 w-full flex justify-between px-1 pt-1">
+                  <div
+                    onClick={(e: any) => {
+                      e.stopPropagation();
+                      setOrderForMediaItem({item, index});
+                    }}
+                    className={`flex justify-center items-center rounded transition text-red_color bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6`}
+                  >
+                    <p className="text-xs 3xs:text-sm text-center font-['iransans-md']">{index + 1}</p>
+                  </div>
+                  <div
+                    onClick={(e: any) => {
+                      e.stopPropagation();
+                      deletePackageItem(index);
+                    }}
+                    className="flex justify-center items-center rounded transition text-white bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6"
+                  >
+                    <BiTrash />
+                  </div>
+                </div>
+              </div>
+              <p className="text-xs text-center font-['iransans-md'] text-text dark:text-text_dark w-20 sm:w-28 3xs:w-24">{item.title}</p>
+            </div>
+          ))}
+        </div>
+      )}
       <div className="mt-8">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
@@ -296,6 +388,11 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
       <PackageList
         ref={(Ref) => {
           PackageListHelper.setRef(Ref);
+        }}
+      />
+      <ModalInput
+        ref={(Ref) => {
+          ModalInputHelper.setRef(Ref);
         }}
       />
       <Footer buttonFn={registerAndConfirm} buttonText="ثبت کالکشن" loadingButton={loading} classes="md:!mr-72 !justify-end" />

@@ -13,7 +13,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import FooterPaginate from "../FooterPaginate";
 import Border from "../Border";
 import { useTheme } from "next-themes";
-import { ContactSelectModalInterface } from "@/interfaces/ModalInterface";
+import { PackageListModalInterface } from "@/interfaces/ModalInterface";
 import { toast } from "react-toastify";
 import moment from "moment-jalaali";
 import "moment/locale/fa";
@@ -36,7 +36,8 @@ const PackageList = forwardRef((_, ref) => {
   const [searchTimeout, setSearchTimeout] = useState<any>(null);
   const [extendedState, setExtendedState] = useState<any>({
     _id: [],
-    name: [],
+    title: [],
+    image: []
   });
   const handleBackBrowserBtn = () => {
     const back = true;
@@ -46,7 +47,7 @@ const PackageList = forwardRef((_, ref) => {
     window.history.back();
   };
 
-  const openModal = (options: ContactSelectModalInterface) => {
+  const openModal = (options: PackageListModalInterface) => {
     window.history.pushState(null, "", window.location.pathname);
     window.addEventListener("popstate", handleBackBrowserBtn);
     setIsOpen(true);
@@ -56,7 +57,8 @@ const PackageList = forwardRef((_, ref) => {
     if (options.previousSelected) {
       setExtendedState({
         _id: options?.previousSelected._id,
-        name: options?.previousSelected.name,
+        title: options?.previousSelected.title,
+        image: options?.previousSelected.image,
       });
     }
   };
@@ -71,7 +73,8 @@ const PackageList = forwardRef((_, ref) => {
     setNumberSelected(1);
     setExtendedState({
       _id: [],
-      name: [],
+      title: [],
+      image: []
     });
     setSearch("");
     setData([]);
@@ -236,23 +239,28 @@ const PackageList = forwardRef((_, ref) => {
   const deletedItem = ({ item }: { item: any }) => {
     const index = extendedState._id.findIndex((i: any) => i == item._id);
     extendedState._id.splice(index, 1);
-    extendedState.name.splice(index, 1);
+    extendedState.title.splice(index, 1);
+    extendedState.image.splice(index, 1)
     setExtendedState({ ...extendedState });
   };
   const selectedItem = ({ item }: { item: any }) => {
     if (numberSelected == 1) {
       const _id = item._id;
-      const name = item.name;
+      const title = item.title;
+      const image = item.icon_image;
       setExtendedState({
         _id: [_id],
-        name: [name],
+        title: [title],
+        image: [image]
       });
     } else {
       if (extendedState._id.length < numberSelected) {
         const _id = item._id;
-        const name = item.name;
+        const title = item.title;
+        const image = item.icon_image;
         extendedState._id.push(_id);
-        extendedState.name.push(name);
+        extendedState.title.push(title);
+        extendedState.image.push(image)
         setExtendedState({ ...extendedState });
       } else {
         toast.warning(`بیشتر از ${numberSelected} مورد نمیتوانید انتخاب کنید.`, {
@@ -282,7 +290,8 @@ const PackageList = forwardRef((_, ref) => {
 
   const deleteItemFromHeader = (index: number) => {
     extendedState._id.splice(index, 1);
-    extendedState.name.splice(index, 1);
+    extendedState.title.splice(index, 1);
+    extendedState.image.splice(index, 1)
     setExtendedState({ ...extendedState });
   };
 
@@ -380,9 +389,9 @@ const PackageList = forwardRef((_, ref) => {
                               <div
                                 id="selectedContacts-wrapper"
                                 onWheel={scrollHorizontal}
-                                className="z-[1000] sm:z-auto flex font-['iransans-md'] text-xs gap-3 overflow-x-auto no-scrollbar px-4 pb-2 mt-14 sm:mt-0"
+                                className="z-[1000] sm:z-auto flex font-['iransans-md'] text-xs gap-3 overflow-x-auto no-scrollbar px-4 pb-2 mt-14 sm:mt-0 max-w-lg 2xl:max-w-2xl"
                               >
-                                {extendedState.name.map((item: any, index: number) => (
+                                {extendedState.title.map((item: any, index: number) => (
                                   <div
                                     className="flex border items-center gap-2 border-primary py-[.3rem] px-2 rounded-md text-primary shrink-0 bg-rgba4 dark:bg-rgba3 select-none"
                                     key={`${item}${index}`}
@@ -439,10 +448,10 @@ const PackageList = forwardRef((_, ref) => {
                                       <PackageSelectItem
                                         _id={item._id}
                                         key={index.toString()}
-                                        title={item.name}
-                                        type={item.type.name}
+                                        title={item.title}
                                         checked={extendedState._id.find((i: any) => i == item._id) ? true : false}
                                         numberSelect={numberSelected}
+                                        imageSrc={item.icon_image}
                                         deletedItem={() => deletedItem({ item })}
                                         selectedItem={() => selectedItem({ item })}
                                       />

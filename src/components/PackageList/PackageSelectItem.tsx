@@ -8,19 +8,19 @@ import CheckBox from "../CheckBox";
 const PackageSelectItem = ({
   _id,
   title,
-  type,
   checked,
   deletedItem,
   selectedItem,
   numberSelect = 1,
+  imageSrc,
 }: {
   _id: any;
   title: any;
-  type: any;
   checked: boolean;
   deletedItem: any;
   selectedItem: any;
   numberSelect?: number;
+  imageSrc?: any
 }) => {
   const [select, setSelect] = useState(checked);
 
@@ -51,9 +51,10 @@ const PackageSelectItem = ({
       <div>
         <div className="flex items-center">
           <div className="flex w-full items-center justify-between">
-            <FaUserLarge
-              className={`flex-shrink-0 h-11 w-11 2xl:h-10 2xl:w-10 text-primary dark:text-primary_start`}
-              aria-hidden="true"
+            <ImageComponent
+              parentclasses="w-12 h-12 lg:h-18 lg:w-18 2xl:h-18 2xl:w-18 !rounded-xl"
+              imageClasses="!rounded-xl"
+              src={imageSrc}
             />
             <div className="flex-1 pr-3 flex flex-col justify-between">
               <div className="flex items-center">
@@ -65,7 +66,7 @@ const PackageSelectItem = ({
                 <p
                   className={`text-[10px] 2xl:text-xs font-['iransans-md'] text-primary`}
                 >
-                  {type}
+                  
                 </p>
               </div>
             </div>
