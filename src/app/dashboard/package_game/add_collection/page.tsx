@@ -21,6 +21,8 @@ import Border from "@/components/Border";
 import { Switch } from "@headlessui/react";
 import SelectInput from "@/components/SelectInput";
 import GradientButton from "@/components/GradientButton";
+import PackageList from "@/components/PackageList/PackageList";
+import PackageListHelper from "@/components/PackageList/PackageListHelper";
 
 const Page = () => {
   const inputImageRef: any = useRef();
@@ -166,6 +168,9 @@ const Page = () => {
         setLoading(false);
       });
   };
+  const selectPackages = ()=>{
+    PackageListHelper.showModal()
+  }
 
   return (
     <div className="flex flex-col justify-between w-full lg:w-[600px] 2xl:w-[750px] mt-10 mb-28 px-4 sm:mx-auto">
@@ -184,7 +189,7 @@ const Page = () => {
       <div className="mt-12">
         <GradientButton
           buttonText={"چیدن لیست اصلی این کالکشن"}
-          onClickFn={()=>{}}
+          onClickFn={selectPackages}
           loading={false}
           classes="!text-sm !flex-none !px-8 sm:!w-[300px] !w-full"
         />
@@ -268,8 +273,11 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
         </p>
       </div>
       <Border />
-
-
+      <PackageList
+        ref={(Ref) => {
+          PackageListHelper.setRef(Ref);
+        }}
+      />
       <Footer buttonFn={registerAndConfirm} buttonText="ثبت کالکشن" loadingButton={loading} classes="md:!mr-72 !justify-end" />
     </div>
   );

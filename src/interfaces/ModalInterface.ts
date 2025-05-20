@@ -4,6 +4,10 @@ interface IconComponentInterface {
   icon: string;
 }
 
+export interface PackageListModalInterface {
+    
+}
+
 export interface DialogInterface {
   titleText?: string;
   bodyText: string;
