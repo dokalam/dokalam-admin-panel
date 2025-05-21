@@ -31,24 +31,6 @@ type SelectedOption = {
   value: any;
   label: string;
 };
-const LiteraryFormList:SelectedOption[] = [
-  {value:null, label:"انتخاب فرم نگارش ادبی"},
-  {value:"نثر - رمان", label:"نثر - رمان"},
-  {value:"نثر - داستان کوتاه", label:"نثر - داستان کوتاه"},
-  {value:"نثر - مقاله", label:"نثر - مقاله"},
-  {value:"نثر - زندگینامه", label:"نثر - زندگینامه"},
-  {value:"نثر - یادداشت‌ها / خاطره‌نگاری", label:"نثر - یادداشت‌ها / خاطره‌نگاری"},
-  {value:"نثر - سفرنامه", label:"نثر - سفرنامه"},
-  {value:"نثر - نامه", label:"نثر - نامه"},
-  {value:"نثر - گفت‌وگو", label:"نثر - گفت‌وگو"},
-  {value:"نثر - مقاله علمی یا عمومی", label:"نثر - مقاله علمی یا عمومی"},
-  {value:"نظم - حماسی", label:"نظم - حماسی"},
-  {value:"نظم - غنایی", label:"نظم - غنایی"},
-  {value:"نظم - هجو / طنز شعری", label:"نظم - هجو / طنز شعری"},
-  {value:"نظم - شعر آزاد", label:"نظم - شعر آزاد"},
-  {value:"نظم - شعر بی‌قافیه با وزن مشخص", label:"نظم - شعر بی‌قافیه با وزن مشخص"},
-  {value:"نظم - شعرهای قالب‌دار خارجی", label:"نظم - شعرهای قالب‌دار خارجی"},
-]
 const PublicationStatus:SelectedOption[] = [
   {value:null, label:"انتخاب وضعیت انتشار"},
   {value:"draft", label:"پیشنویس"},
@@ -161,7 +143,10 @@ const Page = () => {
               $season_number : Int!,
               $number_stage : Int!,
               $is_visible : Boolean!,
-              $is_active : Boolean!
+              $is_active : Boolean!,
+              $content_source_type : String!,
+              $publication_status : String!,
+              $completion_status : String!
           ){
             newSeasonDefinitionForStageGame(
                 title : $title,
@@ -172,7 +157,10 @@ const Page = () => {
                 season_number : $season_number,
                 number_stage : $number_stage,
                 is_visible : $is_visible,
-                is_active : $is_active
+                is_active : $is_active,
+                content_source_type : $content_source_type,
+                publication_status : $publication_status,
+                completion_status : $completion_status
             ) {
               status,
               message,
@@ -193,6 +181,9 @@ const Page = () => {
           order: (index+1),
           duration: item.duration??undefined,
         })),
+        content_source_type : contentSourceType.selected,
+        publication_status : publicationStatus,
+        completion_status : completionStatus
       },
     };
     let map: any = {};

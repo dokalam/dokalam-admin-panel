@@ -34,24 +34,6 @@ type SelectedOption = {
   value: any;
   label: string;
 };
-const LiteraryFormList:SelectedOption[] = [
-  {value:null, label:"انتخاب فرم نگارش ادبی"},
-  {value:"نثر - رمان", label:"نثر - رمان"},
-  {value:"نثر - داستان کوتاه", label:"نثر - داستان کوتاه"},
-  {value:"نثر - مقاله", label:"نثر - مقاله"},
-  {value:"نثر - زندگینامه", label:"نثر - زندگینامه"},
-  {value:"نثر - یادداشت‌ها / خاطره‌نگاری", label:"نثر - یادداشت‌ها / خاطره‌نگاری"},
-  {value:"نثر - سفرنامه", label:"نثر - سفرنامه"},
-  {value:"نثر - نامه", label:"نثر - نامه"},
-  {value:"نثر - گفت‌وگو", label:"نثر - گفت‌وگو"},
-  {value:"نثر - مقاله علمی یا عمومی", label:"نثر - مقاله علمی یا عمومی"},
-  {value:"نظم - حماسی", label:"نظم - حماسی"},
-  {value:"نظم - غنایی", label:"نظم - غنایی"},
-  {value:"نظم - هجو / طنز شعری", label:"نظم - هجو / طنز شعری"},
-  {value:"نظم - شعر آزاد", label:"نظم - شعر آزاد"},
-  {value:"نظم - شعر بی‌قافیه با وزن مشخص", label:"نظم - شعر بی‌قافیه با وزن مشخص"},
-  {value:"نظم - شعرهای قالب‌دار خارجی", label:"نظم - شعرهای قالب‌دار خارجی"},
-]
 const PublicationStatus:SelectedOption[] = [
   {value:null, label:"انتخاب وضعیت انتشار"},
   {value:"draft", label:"پیشنویس"},
@@ -93,6 +75,16 @@ const Page = () => {
   const [image, setImage] = useState<any>([]);
   const [video, setVideo] = useState<any>([]);
   const media = video.concat(image);
+  const [packageSelected, setPackageSelected] = useState<any>({
+    _id: [],
+    title: [],
+    image: []
+  })
+  const merged = packageSelected._id.map((id: string, index: number) => ({
+    _id: id,
+    title: packageSelected.title[index],
+    image: packageSelected.image[index]
+  }));
   
 
   useEffect(()=>{
@@ -155,7 +147,8 @@ const Page = () => {
     setLoading(true)
     let data = {
       query: `
-          mutation newSeasonDefinitionForStageGame(
+          mutation newSeasonDefinitionForPackageGame(
+              $package : ID!,
               $title : String!,
               $description : String,
               $language : ID!,
@@ -164,9 +157,13 @@ const Page = () => {
               $season_number : Int!,
               $number_stage : Int!,
               $is_visible : Boolean!,
-              $is_active : Boolean!
+              $is_active : Boolean!,
+              $content_source_type : String!,
+              $publication_status : String!,
+              $completion_status : String!
           ){
-            newSeasonDefinitionForStageGame(
+            newSeasonDefinitionForPackageGame(
+                package : $package,
                 title : $title,
                 description : $description,
                 language : $language,
@@ -175,7 +172,10 @@ const Page = () => {
                 season_number : $season_number,
                 number_stage : $number_stage,
                 is_visible : $is_visible,
-                is_active : $is_active
+                is_active : $is_active,
+                content_source_type : $content_source_type,
+                publication_status : $publication_status,
+                completion_status : $completion_status
             ) {
               status,
               message,
@@ -183,6 +183,7 @@ const Page = () => {
           }
           `,
       variables: {
+        package: packageSelected._id[0],
         title: title,
         description: description?.length > 0?description:undefined,
         language: language,
@@ -196,6 +197,9 @@ const Page = () => {
           order: (index+1),
           duration: item.duration??undefined,
         })),
+        content_source_type : contentSourceType.selected,
+        publication_status : publicationStatus,
+        completion_status : completionStatus
       },
     };
     let map: any = {};
@@ -219,8 +223,8 @@ const Page = () => {
     })
       .then(async (response) => {
         setLoading(false);
-        if (response.data?.data?.newSeasonDefinitionForStageGame?.status == 200) {
-            toast.success(response.data?.data?.newSeasonDefinitionForStageGame?.message, {
+        if (response.data?.data?.newSeasonDefinitionForPackageGame?.status == 200) {
+            toast.success(response.data?.data?.newSeasonDefinitionForPackageGame?.message, {
               position: "top-center",
               autoClose: 3000,
               hideProgressBar: false,
@@ -443,10 +447,17 @@ const Page = () => {
       });
     }
   };
+  const deletePackageItem = (indexToRemove: number) => {
+    setPackageSelected((prevState: any) => ({
+      _id: prevState._id.filter((_: any, index: number) => index !== indexToRemove),
+      title: prevState.title.filter((_: any, index: number) => index !== indexToRemove),
+      image: prevState.image.filter((_: any, index: number) => index !== indexToRemove)
+    }));
+  };
   const selectPackages = ()=>{
     PackageListHelper.openModal({
       previousSelected: undefined,
-      numberSelected: 8,
+      numberSelected: 1,
       buttons: [
         {
           buttonText: "لغو",
@@ -459,7 +470,7 @@ const Page = () => {
           buttonText: "انتخاب بسته",
           type: "bold",
           onClickFn: ({ data }: { data: any }) => {
-            
+            setPackageSelected(data)
             PackageListHelper.closeModal();
           },
         },
@@ -593,7 +604,7 @@ const Page = () => {
           </div>
         </label>
       </div>
-      <div className="mt-12">
+      <div className="mt-6">
         <GradientButton
           buttonText={"انتخاب بسته و پکیج فصل"}
           onClickFn={selectPackages}
@@ -601,6 +612,40 @@ const Page = () => {
           classes="!text-sm !flex-none !px-8 sm:!w-[300px] !w-full"
         />
       </div>
+      {merged.length > 0 && (
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-12 sm:gap-y-12 mt-4 border-2 border-dashed border-primary dark:border-primary rounded-md py-4">
+          {merged.map((item: any, index: number) => (
+            <div key={`${index.toString()}`} className="flex flex-col items-center gap-2">
+              <div
+                className="relative w-20 h-22 3xs:w-24 3xs:h-24 sm:w-28 sm:h-28 cursor-pointer"
+              >
+                  <ImageComponent
+                    src={item.image}
+                    alt={"file_photos"}
+                    parentclasses="h-full w-full cursor-pointer"
+                  />
+                <div className="absolute top-0 w-full flex justify-between px-1 pt-1">
+                  <div
+                    className={`flex justify-center items-center rounded transition text-red_color bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6`}
+                  >
+                    <p className="text-xs 3xs:text-sm text-center font-['iransans-md']">{index + 1}</p>
+                  </div>
+                  <div
+                    onClick={(e: any) => {
+                      e.stopPropagation();
+                      deletePackageItem(index);
+                    }}
+                    className="flex justify-center items-center rounded transition text-white bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6"
+                  >
+                    <BiTrash />
+                  </div>
+                </div>
+              </div>
+              <p className="text-xs text-center font-['iransans-md'] text-text dark:text-text_dark w-20 sm:w-28 3xs:w-24">{item.title}</p>
+            </div>
+          ))}
+        </div>
+      )}
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
