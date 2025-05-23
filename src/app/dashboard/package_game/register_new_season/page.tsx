@@ -71,6 +71,14 @@ type ContentSourceType = {
   selected: string | null;
   list:SelectedOption[]
 }
+type PackageSelectedInfo = {
+  _id: string;
+  title: string;
+  image: string;
+  seasonNumber: number;
+  stageNumberFrom: number;
+  stageNumberTo: number;
+}
 const Page = () => {
   const inputImageRef: any = useRef();
   const inputVideoRef: any = useRef();
@@ -82,7 +90,6 @@ const Page = () => {
   const [language, setLanguage] = useState<string | null>(null)
   const [languageList, setLanguageList] = useState([])
   const [loading, setLoading] = useState(false);
-  const [seasonNumber, setSeasonNumber] = useState("")
   const [numberStage, setNumberStage] = useState("")
   const [contentSourceType, setContentSourceType] = useState<ContentSourceType>({
     selected: null,
@@ -93,6 +100,7 @@ const Page = () => {
   const [image, setImage] = useState<any>([]);
   const [video, setVideo] = useState<any>([]);
   const media = video.concat(image);
+  const [packageSelected, setPackageSelected] = useState<PackageSelectedInfo[]>([])
   
 
   useEffect(()=>{
@@ -189,7 +197,6 @@ const Page = () => {
         is_visible: visible,
         is_active: active,
         badg: badg?.length > 0?badg:undefined,
-        season_number: Number(seasonNumber),
         number_stage: Number(numberStage),
         media: media.map((item:any, index:number) => ({
           file: null,
@@ -236,7 +243,6 @@ const Page = () => {
             setImage([])
             setVideo([])
             setNumberStage("")
-            setSeasonNumber("")
         } else {
           toast.error((response.data?.errors[0]?.data[0]?.message || "مشکلی پیش آمد دوباره تلاش کنید"), {
             position: "top-center",
@@ -444,8 +450,13 @@ const Page = () => {
     }
   };
   const selectPackages = ()=>{
+    const previousSelected = {
+      _id: packageSelected.map(item => item._id),
+      title: packageSelected.map(item => item.title),
+      image: packageSelected.map(item => item.image),
+    };
     PackageListHelper.openModal({
-      previousSelected: undefined,
+      previousSelected:previousSelected,
       numberSelected: 8,
       buttons: [
         {
@@ -456,19 +467,105 @@ const Page = () => {
           },
         },
         {
-          buttonText: "انتخاب بسته",
+          buttonText: "انتخاب بسته‌ها",
           type: "bold",
           onClickFn: ({ data }: { data: any }) => {
-            
+            setPackageSelected(data._id.map((id: string, index: number) => ({
+              _id: id,
+              title: data.title[index],
+              image: data.image[index],
+              seasonNumber: "",
+              stageNumberFrom: "",
+              stageNumberTo: "",
+            })))
             PackageListHelper.closeModal();
           },
         },
       ],
     });
   }
+  const deletePackageItem = (indexToRemove: number) => {
+    const newData = [...packageSelected];
+    newData.splice(indexToRemove, 1);
+    setPackageSelected(newData);
+  };
+
+  const movePackageItem = (fromIndex: number, toIndex: number) => {
+    setPackageSelected(prev => {
+      if (fromIndex === toIndex || fromIndex < 0 || toIndex < 0 || fromIndex >= prev.length || toIndex > prev.length) {
+        return prev;
+      }
+      const updated = [...prev];
+      const [movedItem] = updated.splice(fromIndex, 1);
+      updated.splice(toIndex, 0, movedItem);
+      return updated;
+    });
+  };
+  const setOrderForItemInCollection = ({item, index}:{item:any, index:number}) => {
+     let title = `ترتیب نمایش پکیج در کالکشن = (${index + 1})`;
+      ModalInputHelper.showModalInput({
+        title: title,
+        description: "میتوانید ترتیب نمایش این پکیج را تغییر دهید.",
+        inputValue: `${index + 1}`,
+        buttons:[
+                {
+                  buttonText: "تایید",
+                  onClickFn: (call) => {
+                    const value = Number(call)
+                    if(typeof value === 'number' && Number.isFinite(value) && value < 9 && value > 0){
+                      const fromIndex = index
+                      const toIndex = value - 1
+                      movePackageItem(fromIndex, toIndex)
+                      ModalInputHelper.closeModalInput();
+                    } else {
+                      toast.warning("مقدار وارد شده معتبر نمیباشد", {
+                          position: "top-center",
+                          autoClose: 3000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+                      });
+                    }
+                  },
+                },
+                {
+                  buttonText: "انصراف",
+                  onClickFn: () => {
+                    ModalInputHelper.closeModalInput();
+                  },
+                },
+              ],
+        options: {
+          maxLength: 2,
+        },
+      });
+  };
+  const changeSeasonNumber = (index: number, value: string) => {
+    setPackageSelected(prev => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], seasonNumber: Number(value) };
+      return updated;
+    });
+  };
+  const changeStageNumberFrom = (index: number, value: string) => {
+    setPackageSelected(prev => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], stageNumberFrom: Number(value) };
+      return updated;
+    });
+  };
+  const changeStageNumberTo = (index: number, value: string) => {
+    setPackageSelected(prev => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], stageNumberTo: Number(value) };
+      return updated;
+    });
+  };
   return (
     <div className="flex flex-col justify-between w-full lg:w-[600px] 2xl:w-[750px] mt-10 mb-28 px-4 sm:mx-auto">
- 
       <div className="flex gap-6 justify-center font-['iransans-md'] mt-1">
         <label
           className="text-text6 dark:text-text6_dark border-2 border-dashed border-text5 dark:border-text5_dark py-6 text-lg flex-1 rounded-md cursor-pointer transition sm:hover:bg-border2 sm:dark:hover:bg-border2_dark flex flex-col justify-center items-center gap-y-2"
@@ -593,14 +690,6 @@ const Page = () => {
           </div>
         </label>
       </div>
-      <div className="mt-12">
-        <GradientButton
-          buttonText={"انتخاب بسته و پکیج فصل"}
-          onClickFn={selectPackages}
-          loading={false}
-          classes="!text-sm !flex-none !px-8 sm:!w-[300px] !w-full"
-        />
-      </div>
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
@@ -613,44 +702,89 @@ const Page = () => {
           </div>
         </label>
       </div>
-      <div className="mt-6">
-        <label
-          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="badg-stage-season"
-        >
-          نشان ( مثل جدید یا به‌زودی )
-          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="badg-stage-season" value={badg} changeState={setBadg} classes="flex-1" inputStyles="!text-base" />
-          </div>
-        </label>
+      <div className="mt-12">
+        <GradientButton
+          buttonText={"انتخاب بسته و پکیج فصل"}
+          onClickFn={selectPackages}
+          loading={false}
+          classes="!text-sm !flex-none !px-8 sm:!w-[300px] !w-full"
+        />
       </div>
-      <div className="mt-6">
-        <label
-          className="text-right lg:w-2/3 w-5/6 xl:w-3/5 2xl:w-1/2 text-text6 dark:text-text6_dark cursor-pointer font-iransans-md text-sm"
-          htmlFor="description-stage-season"
-        >
-          توضیحات فصل
-          <TextAreaInput
-            id={"description-stage-season"}
-            value={description}
-            changeState={(e: any) => setDescription(e)}
-            textAreaStyles="!text-sm mt-1"
-            rows={4}
-          />
-        </label>
-      </div>
-      <div className="mt-6">
-        <label
-          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="number-season-stage-season"
-        >
-          شماره فصل
-          <span className="text-red-500 px-1">*</span>
-          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input type="number" id="number-season-stage-season" value={seasonNumber} changeState={setSeasonNumber} classes="flex-1" inputStyles="!text-base" />
-          </div>
-        </label>
-      </div>
+      {packageSelected.length > 0 && (
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-12 gap-x-2 sm:gap-y-12 sm:gap-x-2 mt-4 border-2 border-dashed border-primary dark:border-primary rounded-md p-4">
+          {packageSelected.map((item: any, index: number) => (
+            <div key={`${index.toString()}`} className="flex flex-col items-center gap-2 bg-background3 dark:bg-background3_dark border border-dashed border-info dark:border-info rounded-md py-4">
+              <div
+                className="relative w-[90%] h-22 3xs:h-24 sm:h-32 cursor-pointer"
+              >
+
+                  <ImageComponent
+                    src={item.image}
+                    alt={"file_photos"}
+                    parentclasses="h-full w-full cursor-pointer"
+                  />
+                <div className="absolute top-0 w-full flex justify-between px-1 pt-1">
+                  <div
+                    onClick={(e: any) => {
+                      e.stopPropagation();
+                      setOrderForItemInCollection({item, index});
+                    }}
+                    className={`flex justify-center items-center rounded transition text-red_color bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6`}
+                  >
+                    <p className="text-xs 3xs:text-sm text-center font-['iransans-md']">{index + 1}</p>
+                  </div>
+                  <div
+                    onClick={(e: any) => {
+                      e.stopPropagation();
+                      deletePackageItem(index);
+                    }}
+                    className="flex justify-center items-center rounded transition text-white bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6"
+                  >
+                    <BiTrash />
+                  </div>
+                </div>
+              </div>
+              <p className="text-xs text-center font-['iransans-md'] text-text dark:text-text_dark w-22 sm:w-32 3xs:w-24 h-8">{item.title}</p>
+              <div className="mt-2 w-[90%]">
+                <label
+                  className="font-['iransans-md'] flex-1 text-right text-text4 dark:text-text4_dark text-[.6rem] sm:text-[.7rem] cursor-pointer py-3"
+                  htmlFor={`season-number-in-package-${index}`}
+                >
+                  شماره فصل
+                  <span className="text-red-500 px-1">*</span>
+                  <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+                    <Input type="number" id={`season-number-in-package-${index}`} value={item.seasonNumber.toString()} changeState={(value: string) => changeSeasonNumber(index, value)} classes="flex-1" inputStyles="!text-base" />
+                  </div>
+                </label>
+              </div>
+              <div className="mt-2 w-[90%]">
+                <label
+                  className="font-['iransans-md'] flex-1 text-right text-text4 dark:text-text4_dark text-[.6rem] sm:text-[.7rem] cursor-pointer py-3"
+                  htmlFor={`stage-number-from-${index}`}
+                >
+                  شروع مرحله از
+                  <span className="text-red-500 px-1">*</span>
+                  <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+                    <Input type="number" id={`stage-number-from-${index}`} value={item.stageNumberFrom.toString()} changeState={(value: string) => changeStageNumberFrom(index, value)} classes="flex-1" inputStyles="!text-base" />
+                  </div>
+                </label>
+              </div>
+              <div className="mt-2 w-[90%]">
+                <label
+                  className="font-['iransans-md'] flex-1 text-right text-text4 dark:text-text4_dark text-[.6rem] sm:text-[.7rem] cursor-pointer py-3"
+                  htmlFor={`stage-number-to-${index}`}
+                >
+                  پایان مرحله تا
+                  <span className="text-red-500 px-1">*</span>
+                  <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+                    <Input type="number" id={`stage-number-to-${index}`} value={item.stageNumberTo.toString()} changeState={(value: string) => changeStageNumberTo(index, value)} classes="flex-1" inputStyles="!text-base" />
+                  </div>
+                </label>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
@@ -712,6 +846,32 @@ const Page = () => {
               onChange={(value) => setCompletionStatus(value)}
             />
           </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="badg-stage-season"
+        >
+          نشان ( مثل جدید یا به‌زودی )
+          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+            <Input id="badg-stage-season" value={badg} changeState={setBadg} classes="flex-1" inputStyles="!text-base" />
+          </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="text-right lg:w-2/3 w-5/6 xl:w-3/5 2xl:w-1/2 text-text6 dark:text-text6_dark cursor-pointer font-iransans-md text-sm"
+          htmlFor="description-stage-season"
+        >
+          توضیحات فصل
+          <TextAreaInput
+            id={"description-stage-season"}
+            value={description}
+            changeState={(e: any) => setDescription(e)}
+            textAreaStyles="!text-sm mt-1"
+            rows={4}
+          />
         </label>
       </div>
       <div

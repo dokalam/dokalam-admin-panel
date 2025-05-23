@@ -203,7 +203,7 @@ const Page = () => {
       };
     });
   };
-  const setOrderForMediaItem = ({item, index}:{item:any, index:number}) => {
+  const setOrderForItemInCollection = ({item, index}:{item:any, index:number}) => {
      let title = `ترتیب نمایش پکیج در کالکشن = (${index + 1})`;
       ModalInputHelper.showModalInput({
         title: title,
@@ -284,7 +284,7 @@ const Page = () => {
                   <div
                     onClick={(e: any) => {
                       e.stopPropagation();
-                      setOrderForMediaItem({item, index});
+                      setOrderForItemInCollection({item, index});
                     }}
                     className={`flex justify-center items-center rounded transition text-red_color bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6`}
                   >
