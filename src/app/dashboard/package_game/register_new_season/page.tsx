@@ -144,10 +144,32 @@ const Page = () => {
       });
   }
   const registerAndConfirm = ()=>{
-    if(title.length == 0 ){
+    if(title.length == 0 || !language || numberStage.length == 0 || contentSourceType.selected == null || !publicationStatus || !completionStatus ){
       toast.error("ابتدا موارد الزامی را وارد کنید", {
         position: "top-center",
-        autoClose: 3000,
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+      });
+    } else if(media.length == 0){
+      toast.error("برای تعریف فصل جدید، حداقل یک عکس یا فیلم لازم است.", {
+        position: "top-center",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+      });
+    } else if(packageSelected.length == 0){
+      toast.error("مشخص کنید این فصل را برای کدام یک از پکیج‌ها ایجاد میکنید.", {
+        position: "top-center",
+        autoClose: 4000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -156,25 +178,44 @@ const Page = () => {
         theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
       });
     } else {
-      checkedAndRegister()
+      const result = validatePackages(packageSelected, Number(numberStage))
+      if(result.status == 200){
+        checkedAndRegister()
+      } else {
+        toast.error(result.message, {
+          position: "top-center",
+          autoClose: 6000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+        });
+      }
     }
   }
   const checkedAndRegister = async()=>{
     setLoading(true)
     let data = {
       query: `
-          mutation newSeasonDefinitionForStageGame(
+          mutation newSeasonDefinitionForPackageGame(
+              $package : [ID!]!,
               $title : String!,
               $description : String,
               $language : ID!,
-              $media: [FileInput!]!,
+              $media : [FileInput!]!,
               $badg : String,
-              $season_number : Int!,
+              $season_number : [SeasonNumberInPackage!]!,
               $number_stage : Int!,
               $is_visible : Boolean!,
-              $is_active : Boolean!
+              $is_active : Boolean!,
+              $content_source_type : String!,
+              $publication_status : String!,
+              $completion_status : String!,
           ){
-            newSeasonDefinitionForStageGame(
+            newSeasonDefinitionForPackageGame(
+                package : $package,
                 title : $title,
                 description : $description,
                 language : $language,
@@ -183,7 +224,10 @@ const Page = () => {
                 season_number : $season_number,
                 number_stage : $number_stage,
                 is_visible : $is_visible,
-                is_active : $is_active
+                is_active : $is_active,
+                content_source_type : $content_source_type,
+                publication_status : $publication_status,
+                completion_status : $completion_status,
             ) {
               status,
               message,
@@ -191,18 +235,28 @@ const Page = () => {
           }
           `,
       variables: {
+        package:packageSelected?.map(item => item._id),
         title: title,
-        description: description?.length > 0?description:undefined,
+        description: description?.length > 2?description:undefined,
         language: language,
-        is_visible: visible,
-        is_active: active,
-        badg: badg?.length > 0?badg:undefined,
-        number_stage: Number(numberStage),
         media: media.map((item:any, index:number) => ({
           file: null,
           order: (index+1),
           duration: item.duration??undefined,
         })),
+        badg: badg?.length > 0?badg:undefined,
+        season_number : packageSelected.map(item => ({
+          package: item._id,
+          season_number: item.seasonNumber,
+          stage_number_from: item.stageNumberFrom,
+          stage_number_to: item.stageNumberTo,
+        })),
+        number_stage: Number(numberStage),
+        is_visible: visible,
+        is_active: active,
+        content_source_type: contentSourceType.selected,
+        publication_status: publicationStatus,
+        completion_status: completionStatus
       },
     };
     let map: any = {};
@@ -226,10 +280,11 @@ const Page = () => {
     })
       .then(async (response) => {
         setLoading(false);
-        if (response.data?.data?.newSeasonDefinitionForStageGame?.status == 200) {
-            toast.success(response.data?.data?.newSeasonDefinitionForStageGame?.message, {
+        console.log(response)
+        if (response.data?.data?.newSeasonDefinitionForPackageGame?.status == 200) {
+            toast.success(response.data?.data?.newSeasonDefinitionForPackageGame?.message, {
               position: "top-center",
-              autoClose: 3000,
+              autoClose: 6000,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: true,
@@ -243,10 +298,11 @@ const Page = () => {
             setImage([])
             setVideo([])
             setNumberStage("")
+            setPackageSelected([])
         } else {
           toast.error((response.data?.errors[0]?.data[0]?.message || "مشکلی پیش آمد دوباره تلاش کنید"), {
             position: "top-center",
-            autoClose: 3000,
+            autoClose: 6000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -966,5 +1022,54 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
     </div>
   );
 };
+type ValidationResult = {
+  message: string;
+  status: number;
+};
+
+function validatePackages(
+  packages: PackageSelectedInfo[],
+  numberStage: number
+): ValidationResult {
+  if (numberStage <= 0) {
+    return {
+      message: "تعداد مراحل وارد شده باید بزرگتر از 0 باشد.",
+      status: 401
+    };
+  }
+
+  for (let i = 0; i < packages.length; i++) {
+    const pkg = packages[i];
+    const {
+      seasonNumber,
+      stageNumberFrom,
+      stageNumberTo
+    } = pkg;
+
+    if (
+      seasonNumber <= 0 ||
+      stageNumberFrom <= 0 ||
+      stageNumberTo <= 0
+    ) {
+      return {
+        message: `در پکیج شماره ${i + 1}، مقدار "شماره فصل" یا "شروع مرحله از" یا "پایان مرحله تا" معتبر نیست (باید بزرگتر از 0 باشند).`,
+        status: 401
+      };
+    }
+
+    const stageCount = stageNumberTo - stageNumberFrom + 1;
+    if (stageCount !== numberStage) {
+      return {
+        message: `در پکیج شماره ${i + 1}، اختلاف "پایان مرحله تا" با "شروع مرحله از" برابر با ${stageCount} است اما باید برابر با ${numberStage} باشد.`,
+        status: 401
+      };
+    }
+  }
+
+  return {
+    message: "محتوا صحیح است.",
+    status: 200
+  };
+}
 
 export default Page;
