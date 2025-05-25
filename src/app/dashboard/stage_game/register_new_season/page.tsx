@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { FaCamera, FaPlay, FaRegSquarePlus, FaVideo } from "react-icons/fa6";
+import { FaCamera, FaMusic, FaPlay, FaRegSquarePlus, FaVideo } from "react-icons/fa6";
 import DialogHelper from "@/components/Dialog/DialogHelper";
 import { BiEditAlt, BiTrash } from "react-icons/bi";
 import { IoIosVideocam } from "react-icons/io";
@@ -71,6 +71,7 @@ type ContentSourceType = {
 const Page = () => {
   const inputImageRef: any = useRef();
   const inputVideoRef: any = useRef();
+  const inputMusicRef: any = useRef();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [visible, setVisible] = useState(false);
@@ -80,6 +81,8 @@ const Page = () => {
   const [languageList, setLanguageList] = useState([])
   const [loading, setLoading] = useState(false);
   const [seasonNumber, setSeasonNumber] = useState("")
+  const [stageNumberFrom, setStageNumberFrom] = useState("")
+  const [stageNumberTo, setStageNumberTo] = useState("")
   const [numberStage, setNumberStage] = useState("")
   const [contentSourceType, setContentSourceType] = useState<ContentSourceType>({
     selected: null,
@@ -90,6 +93,7 @@ const Page = () => {
   const [image, setImage] = useState<any>([]);
   const [video, setVideo] = useState<any>([]);
   const media = video.concat(image);
+  const [music, setMusic] = useState<any>(null)
   
 
   useEffect(()=>{
@@ -153,26 +157,38 @@ const Page = () => {
     let data = {
       query: `
           mutation newSeasonDefinitionForStageGame(
-              $title : String!,
-              $description : String,
-              $language : ID!,
-              $media: [FileInput!]!,
-              $badg : String,
-              $season_number : Int!,
-              $number_stage : Int!,
-              $is_visible : Boolean!,
-              $is_active : Boolean!
+            $title : String!,
+            $description : String,
+            $language : ID!,
+            $media : [FileInput!]!,
+            $music : FileInput,
+            $badg : String,
+            $season_number : Int!,
+            $stage_number_from : Int!,
+            $stage_number_to : Int!,
+            $number_stage : Int!,
+            $is_visible : Boolean!,
+            $is_active : Boolean!,
+            $content_source_type : String!,
+            $publication_status : String!,
+            $completion_status : String!,
           ){
             newSeasonDefinitionForStageGame(
-                title : $title,
-                description : $description,
-                language : $language,
-                media : $media,
-                badg : $badg,
-                season_number : $season_number,
-                number_stage : $number_stage,
-                is_visible : $is_visible,
-                is_active : $is_active
+              title : $title,
+              description : $description,
+              language : $language,
+              media : $media,
+              music : $music,
+              badg : $badg,
+              season_number : $season_number,
+              stage_number_from : $stage_number_from,
+              stage_number_to : $stage_number_to,
+              number_stage : $number_stage,
+              is_visible : $is_visible,
+              is_active : $is_active,
+              content_source_type : $content_source_type,
+              publication_status : $publication_status,
+              completion_status : $completion_status,
             ) {
               status,
               message,
@@ -180,31 +196,45 @@ const Page = () => {
           }
           `,
       variables: {
-        title: title,
-        description: description?.length > 0?description:undefined,
-        language: language,
-        is_visible: visible,
-        is_active: active,
-        badg: badg?.length > 0?badg:undefined,
-        season_number: Number(seasonNumber),
-        number_stage: Number(numberStage),
+        title : title,
+        description : description?.length > 0?description:undefined,
+        language : language,
         media: media.map((item:any, index:number) => ({
           file: null,
           order: (index+1),
           duration: item.duration??undefined,
         })),
+        music : music?.file && music?.duration ? { file: null, duration: music.duration } : undefined,
+        badg: badg?.length > 0?badg:undefined,
+        season_number: Number(seasonNumber),
+        stage_number_from : Number(stageNumberFrom),
+        stage_number_to : Number(stageNumberTo),
+        number_stage: Number(numberStage),
+        is_visible : visible,
+        is_active : active,
+        content_source_type : contentSourceType.selected,
+        publication_status : publicationStatus,
+        completion_status : completionStatus,
       },
     };
     let map: any = {};
-    media.forEach((item:any, index:number) => {
-      map[index] = [`variables.media.${index}.file`];
+    let fileIndex = 0;
+    media.forEach((item: any, index: number) => {
+      map[fileIndex] = [`variables.media.${index}.file`];
+      fileIndex++;
     });
+    if (music?.file && music?.duration) {
+      map[fileIndex] = [`variables.music.file`];
+    }
     let formD = new FormData();
     formD.append("operations", JSON.stringify(data));
     formD.append("map", JSON.stringify(map));
-    media.forEach((item:any, index:number) => {
+    media.forEach((item: any, index: number) => {
       formD.append(`${index}`, item.file);
     });
+    if (music?.file && music?.duration) {
+      formD.append(`${fileIndex}`, music.file);
+    }
     await axios({
       url: "/",
       method: "post",
@@ -347,6 +377,49 @@ const Page = () => {
     };
   };
 
+  const handleAddMusic = (e: any) => {
+    const uri = URL.createObjectURL(e.target.files[0]);
+    var musicElement = document.createElement("audio");
+    musicElement.preload = "metadata";
+    musicElement.src = URL.createObjectURL(e.target.files[0]);
+    musicElement.onloadedmetadata = function () {
+      const audios = e.target.files;
+      window.URL.revokeObjectURL(musicElement.src);
+      const duration = musicElement.duration;
+      if (duration < 3) {
+        toast.warning("موزیک متن نمیتواند کمتر از 3 ثانیه باشد", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+        });
+      } else if (duration > 180) {
+        toast.warning("موزیک متن نمیتواند بیشتر از 180 ثانیه باشد.", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+        });
+      } else {
+        const data = {
+          file: audios[0],
+          preview: uri,
+          duration: duration.toFixed(0).toString(),
+        };
+        setMusic(data);
+        inputMusicRef.current.value = "";
+      }
+    };
+  };
+
   const deleteMediaItem = (item: any) => {
     if (item?.file?.type.includes("video") == true) {
       setVideo([]);
@@ -482,72 +555,109 @@ const Page = () => {
             onChange={handleAddVideos}
           />
         </label>
+        <label
+          className="text-text6 dark:text-text6_dark border-2 border-dashed border-text5 dark:border-text5_dark py-6 text-lg flex-1 rounded-md cursor-pointer transition sm:hover:bg-border2 sm:dark:hover:bg-border2_dark flex flex-col justify-center items-center gap-y-2"
+          htmlFor="upload_file_audio"
+        >
+          <div className="text-4xl">
+            <FaMusic />
+          </div>
+          <p className="text-xs 3xs:text-sm text-center">افزودن موزیک</p>
+          <input
+            ref={inputMusicRef}
+            className="hidden"
+            id="upload_file_audio"
+            type="file"
+            accept=".mp3,audio/mpeg"
+            onChange={handleAddMusic}
+          />
+        </label>
       </div>
 
-      {media.length > 0 && (
-        <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-4 sm:gap-y-4 mt-4 border-2 border-dashed border-primary dark:border-primary rounded-md py-2">
-          {media.map((item: any, index: number) => (
-            <div key={`${index.toString()}`} className="w-full h-20 3xs:h-24 sm:h-28 flex justify-center items-center">
-              <div
-                className="relative w-20 h-20 3xs:w-24 3xs:h-24 sm:w-28 sm:h-28 cursor-pointer"
-                onClick={() => {
-                  if (item?.file?.type.includes("video") == true) {
-                    ShowVideoModalHelper.showModal({
-                      src: item.preview,
-                      title: item?.title ? item.title : null,
-                    });
-                  } else {
-                    ShowImageModalHelper.showModal({
-                      src: item.preview,
-                      title: item?.title ? item.title : null,
-                    });
-                  }
-                }}
-              >
-                {item?.file?.type.includes("video") == true ? (
-                  <div className="relative h-full w-full">
-                    <video src={item.preview} className="inset-0 h-full w-full rounded-md object-cover" />
-                    <div className="absolute top-[26%] right-[26%] text-xl sm:text-2xl text-primary bg-background6 bg-opacity-30 rounded-full p-3">
-                      <FaPlay />
-                    </div>
-                    <div className="absolute bottom-1 left-1 flex items-center gap-2 bg-[#00000099] rounded px-1">
-                      <p className="text-xs font-['iransans-light'] text-white">{secondsToTime(item.duration)}</p>
-                      <div className="text-sm text-white">
-                        <IoIosVideocam />
+      {(media.length > 0 || music)&& (
+        <div className="border-2 border-dashed border-primary dark:border-primary rounded-md py-2 mt-4">
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-4 sm:gap-y-4 mt-4">
+            {media.map((item: any, index: number) => (
+              <div key={`${index.toString()}`} className="w-full h-20 3xs:h-24 sm:h-28 flex justify-center items-center">
+                <div
+                  className="relative w-20 h-20 3xs:w-24 3xs:h-24 sm:w-28 sm:h-28 cursor-pointer"
+                  onClick={() => {
+                    if (item?.file?.type.includes("video") == true) {
+                      ShowVideoModalHelper.showModal({
+                        src: item.preview,
+                        title: item?.title ? item.title : null,
+                      });
+                    } else {
+                      ShowImageModalHelper.showModal({
+                        src: item.preview,
+                        title: item?.title ? item.title : null,
+                      });
+                    }
+                  }}
+                >
+                  {item?.file?.type.includes("video") == true ? (
+                    <div className="relative h-full w-full">
+                      <video src={item.preview} className="inset-0 h-full w-full rounded-md object-cover" />
+                      <div className="absolute top-[26%] right-[26%] text-xl sm:text-2xl text-primary bg-background6 bg-opacity-30 rounded-full p-3">
+                        <FaPlay />
+                      </div>
+                      <div className="absolute bottom-1 left-1 flex items-center gap-2 bg-[#00000099] rounded px-1">
+                        <p className="text-xs font-['iransans-light'] text-white">{secondsToTime(item.duration)}</p>
+                        <div className="text-sm text-white">
+                          <IoIosVideocam />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ) : (
-                  <ImageComponent
-                    src={item.preview}
-                    alt={"file_photos"}
-                    baseURI={false}
-                    parentclasses="h-full w-full cursor-pointer"
-                  />
-                )}
-                <div className="absolute top-0 w-full flex justify-between px-1 pt-1">
-                  <div
-                    onClick={(e: any) => {
-                      e.stopPropagation();
-                      setOrderForMediaItem({item, index});
-                    }}
-                    className={`flex justify-center items-center rounded transition text-red_color bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6`}
-                  >
-                    <p className="text-xs 3xs:text-sm text-center font-['iransans-md']">{index + 1}</p>
-                  </div>
-                  <div
-                    onClick={(e: any) => {
-                      e.stopPropagation();
-                      deleteMediaItem(item);
-                    }}
-                    className="flex justify-center items-center rounded transition text-white bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6"
-                  >
-                    <BiTrash />
+                  ) : (
+                    <ImageComponent
+                      src={item.preview}
+                      alt={"file_photos"}
+                      baseURI={false}
+                      parentclasses="h-full w-full cursor-pointer"
+                    />
+                  )}
+                  <div className="absolute top-0 w-full flex justify-between px-1 pt-1">
+                    <div
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        setOrderForMediaItem({item, index});
+                      }}
+                      className={`flex justify-center items-center rounded transition text-red_color bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6`}
+                    >
+                      <p className="text-xs 3xs:text-sm text-center font-['iransans-md']">{index + 1}</p>
+                    </div>
+                    <div
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        deleteMediaItem(item);
+                      }}
+                      className="flex justify-center items-center rounded transition text-white bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6"
+                    >
+                      <BiTrash />
+                    </div>
                   </div>
                 </div>
               </div>
+            ))}
+          </div>
+          {music && (
+            <div className="relative px-8 mt-4 mb-2">
+              <div className="flex justify-center items-center w-40 h-20 sm:w-60 sm:h-28 cursor-pointer bg-primary rounded-md px-2">
+                <audio src={music.preview} controls className="inset-0 w-full rounded-md object-cover" />
+              </div>
+              <div className="absolute top-0 w-full flex justify-between px-1 pt-1">
+                <div
+                  onClick={(e: any) => {
+                    e.stopPropagation();
+                    setMusic(null)
+                  }}
+                  className="flex justify-center items-center rounded transition text-white bg-[#00000080] hover:bg-[#33333370] text-lg w-6 h-6"
+                >
+                  <BiTrash />
+                </div>
+              </div>
             </div>
-          ))}
+          )}
         </div>
       )}
 
@@ -582,6 +692,54 @@ const Page = () => {
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="number-season-stage-season"
+        >
+          شماره فصل
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+            <Input type="number" id="number-season-stage-season" value={seasonNumber} changeState={setSeasonNumber} classes="flex-1" inputStyles="!text-base" />
+          </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="number-stage-season"
+        >
+          تعداد مراحل فصل
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+            <Input type="number" id="number-stage-season" value={numberStage} changeState={setNumberStage} classes="flex-1" inputStyles="!text-base" />
+          </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="stage_number_from"
+        >
+          شروع مرحله از
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+            <Input type="number" id="stage_number_from" value={stageNumberFrom} changeState={setStageNumberFrom} classes="flex-1" inputStyles="!text-base" />
+          </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="stage_number_to"
+        >
+          پایان مرحله تا
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+            <Input type="number" id="stage_number_to" value={stageNumberTo} changeState={setStageNumberTo} classes="flex-1" inputStyles="!text-base" />
+          </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="badg-stage-season"
         >
           نشان ( مثل جدید یا به‌زودی )
@@ -603,30 +761,6 @@ const Page = () => {
             textAreaStyles="!text-sm mt-1"
             rows={4}
           />
-        </label>
-      </div>
-      <div className="mt-6">
-        <label
-          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="number-season-stage-season"
-        >
-          شماره فصل
-          <span className="text-red-500 px-1">*</span>
-          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input type="number" id="number-season-stage-season" value={seasonNumber} changeState={setSeasonNumber} classes="flex-1" inputStyles="!text-base" />
-          </div>
-        </label>
-      </div>
-      <div className="mt-6">
-        <label
-          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="number-stage-season"
-        >
-          تعداد مراحل فصل
-          <span className="text-red-500 px-1">*</span>
-          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input type="number" id="number-stage-season" value={numberStage} changeState={setNumberStage} classes="flex-1" inputStyles="!text-base" />
-          </div>
         </label>
       </div>
        <div className="mt-6">

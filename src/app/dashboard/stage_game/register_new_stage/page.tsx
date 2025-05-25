@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
-import { FaCamera, FaPlay, FaRegSquarePlus, FaVideo } from "react-icons/fa6";
+import { FaCamera, FaMusic, FaPlay, FaRegSquarePlus, FaVideo } from "react-icons/fa6";
 import { toast } from "react-toastify";
 import DialogHelper from "@/components/Dialog/DialogHelper";
 import { BiEditAlt, BiTrash } from "react-icons/bi";
@@ -45,6 +45,9 @@ type PartItem = {
   order?: number;
 }
 const Page = () => {
+  const inputImageRef: any = useRef();
+  const inputVideoRef: any = useRef();
+  const inputMusicRef: any = useRef();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
   const [language, setLanguage] = useState<string | null>(null)
@@ -57,6 +60,10 @@ const Page = () => {
   const [stageHint, setStageHint] = useState("")
   const [parts, setParts] = useState<PartItem[]>([]);
   const [activeTab, setActiveTab] = useState(0);
+  const [image, setImage] = useState<any>([]);
+  const [video, setVideo] = useState<any>([]);
+  const media = video.concat(image);
+  const [music, setMusic] = useState<any[]>([])
   
   useEffect(()=>{
     getAllLanguage()
@@ -178,7 +185,9 @@ const Page = () => {
             $language : ID!,
             $stage_number : Int!,
             $is_visible : Boolean!,
-            $is_active : Boolean!
+            $is_active : Boolean!,
+            $media : [FileInput],
+            $voice : [FileInput],
           ){
             newStageDefinitionForStageGame(
               parts : $parts,
@@ -188,6 +197,8 @@ const Page = () => {
               stage_number : $stage_number,
               is_visible : $is_visible,
               is_active : $is_active,
+              media : $media,
+              voice : $voice,
             ) {
               status,
               message,
@@ -202,12 +213,45 @@ const Page = () => {
         stage_number : Number(stageNumber),
         is_visible : visible,
         is_active : active,
+        media: media?.length > 0? media.map((item:any, index:number) => ({
+          file: null,
+          order: (index+1),
+          duration: item.duration??undefined,
+        })):undefined,
+        voice : music?.length > 0? music.map((item:any, index:number) => ({
+          file: null,
+          order: (index+1),
+          duration: item.duration??undefined,
+        })):undefined,
       },
     };
+    const map: any = {};
+    const formD = new FormData();
+    let fileIndex = 0;
+    if (media?.length > 0) {
+      media.forEach((item: any, index: number) => {
+        map[fileIndex] = [`variables.media.${index}.file`];
+        formD.append(`${fileIndex}`, item.file);
+        fileIndex++;
+      });
+    }
+    if (music?.length > 0) {
+      music.forEach((item: any, index: number) => {
+        map[fileIndex] = [`variables.voice.${index}.file`];
+        formD.append(`${fileIndex}`, item.file);
+        fileIndex++;
+      });
+    }
+    formD.append("operations", JSON.stringify(data));
+    formD.append("map", JSON.stringify(map));
     await axios({
       url: "/",
       method: "post",
-      data: data,
+      data: formD,
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "multipart/form-data",
+      },
     })
       .then(async (response) => {
         setLoading(false);
@@ -402,10 +446,481 @@ const Page = () => {
     const walk = (x - startX) * 1.5; // سرعت حرکت
     el.scrollLeft = scrollLeft - walk;
   };
+  //////////////////////////////////////////////////////////////////
+  const handleAddPhotos = (e: any) => {
+    const photos = e.target.files;
+    if (photos.length > 10) {
+      toast.warning("بیشتر از 10 عکس نمی‌توانید برای آگهی انتخاب کنید.", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+      });
+    } else {
+      if (image.length + photos.length > 10) {
+        toast.warning("بیشتر از 10 عکس نمی‌توانید برای آگهی انتخاب کنید.", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+        });
+      } else {
+        const newData: any = [...image];
+        for (let index = 0; index < photos.length; index++) {
+          const data = {
+            file: photos[index],
+            preview: URL.createObjectURL(photos[index]),
+          };
+          newData.push(data);
+        }
+        setImage(newData);
+      }
+      inputImageRef.current.value = "";
+    }
+  };
+
+  const handleAddVideos = (e: any) => {
+    const uri = URL.createObjectURL(e.target.files[0]);
+    var videoElement = document.createElement("video");
+    videoElement.preload = "metadata";
+    videoElement.src = URL.createObjectURL(e.target.files[0]);
+    videoElement.onloadedmetadata = function () {
+      const videos = e.target.files;
+      window.URL.revokeObjectURL(videoElement.src);
+      const duration = videoElement.duration;
+      if (duration < 30) {
+        toast.warning("ویدیوی انتخابی نمیتواند کمتر از 30 ثانیه باشد.", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+        });
+      } else if (duration > 120) {
+        toast.warning("ویدیوی انتخابی نمیتواند بیشتر از 120 ثانیه باشد.", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+        });
+      } else {
+        const items: any = [];
+        const data = {
+          file: videos[0],
+          preview: uri,
+          duration: duration.toFixed(0).toString(),
+        };
+        items.push(data);
+        setVideo(items);
+        inputVideoRef.current.value = "";
+      }
+    };
+  };
+
+  const handleAddMusic = (e: any) => {
+    const audios = e.target.files;
+    if(audios.length > 4){
+      toast.warning("بیشتر از 4 صدا نمیتوانید برای مرحله انتخاب کنید.", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+      });
+    } else {
+      if(audios.length + music.length > 4){
+        toast.warning("بیشتر از 4 صدا نمیتوانید برای مرحله انتخاب کنید.", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+        });
+      } else {
+        const newData: any = [...music];
+        for (let index = 0; index < audios.length; index++) {
+          const uri = URL.createObjectURL(e.target.files[index]);
+          var musicElement = document.createElement("audio");
+          musicElement.preload = "metadata";
+          musicElement.src = URL.createObjectURL(e.target.files[index]);
+          musicElement.onloadedmetadata = function () {
+            window.URL.revokeObjectURL(musicElement.src);
+            const duration = musicElement.duration;
+            if (duration < 3) {
+              toast.warning("صدا نمیتواند کمتر از 2 ثانیه باشد", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+              });
+            } else if (duration > 180) {
+              toast.warning("صدا نمیتواند بیشتر از 180 ثانیه باشد.", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+              });
+            } else {
+              const data = {
+                file: audios[index],
+                preview: uri,
+                duration: duration.toFixed(0).toString(),
+              };
+              newData.push(data);
+            }
+          };
+        }
+        setMusic(newData);
+        inputImageRef.current.value = "";
+      }
+    }
+  };
+
+  const deleteMediaItem = (item: any) => {
+    if (item?.file?.type.includes("video") == true) {
+      setVideo([]);
+    } else {
+      let index = image.findIndex((i: any) => i.preview == item.preview);
+      const newData = [...image];
+      newData.splice(index, 1);
+      setImage(newData);
+    }
+  };
+
+  const moveImage = (fromMediaIndex: number, toMediaIndex: number) => {
+    const videoOffset = video.length === 1 ? 1 : 0;
+    if (
+      fromMediaIndex < videoOffset ||
+      toMediaIndex < videoOffset ||
+      fromMediaIndex >= media.length ||
+      toMediaIndex >= media.length
+    ) {
+      toast.warning("در صورت وجود ویدیو، باید در اولین آیتم لیست، ویدیو قرار گیرد.", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+      });
+      return;
+    }
+    const fromImageIndex = fromMediaIndex - videoOffset;
+    const toImageIndex = toMediaIndex - videoOffset;
+    const newImageArray = [...image];
+    const [movedItem] = newImageArray.splice(fromImageIndex, 1);
+    newImageArray.splice(toImageIndex, 0, movedItem);
+    setImage(newImageArray);
+  };
+  const setOrderForMediaItem = ({item, index}:{item:any, index:number}) => {
+    if(item?.file?.type.includes("video") == true){
+      toast.warning("ترتیب نمایش ویدیو همیشه در اولین آیتم است و قابل تغییر نمیباشد.", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+      });
+    } else {
+      let title = `ترتیب نمایش عکس = (${index + 1})`;
+      ModalInputHelper.showModalInput({
+        title: title,
+        description: "میتوانید ترتیب نمایش این عکس را تغییر دهید.",
+        inputValue: `${index + 1}`,
+        buttons:[
+                {
+                  buttonText: "تایید",
+                  onClickFn: (call) => {
+                    const value = Number(call)
+                    if(typeof value === 'number' && Number.isFinite(value) && value < 12 && value > 0){
+                      const fromMediaIndex = index
+                      const toMediaIndex = value - 1
+                      moveImage(fromMediaIndex, toMediaIndex)
+                      ModalInputHelper.closeModalInput();
+                    } else {
+                      toast.warning("مقدار وارد شده معتبر نمیباشد", {
+                          position: "top-center",
+                          autoClose: 3000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+                      });
+                    }
+                  },
+                },
+                {
+                  buttonText: "انصراف",
+                  onClickFn: () => {
+                    ModalInputHelper.closeModalInput();
+                  },
+                },
+              ],
+        options: {
+          maxLength: 2,
+        },
+      });
+    }
+  };
+
+  const deleteVoiceItem = (item: any) => {
+    let index = music.findIndex((i: any) => i.preview == item.preview);
+    const newData = [...music];
+    newData.splice(index, 1);
+    setMusic(newData);
+  };
+  const moveVoiceItem = (fromIndex: number, toIndex: number) => {
+    setMusic(prev => {
+      if (fromIndex === toIndex || fromIndex < 0 || toIndex < 0 || fromIndex >= prev.length || toIndex > prev.length) {
+        return prev;
+      }
+      const updated = [...prev];
+      const [movedItem] = updated.splice(fromIndex, 1);
+      updated.splice(toIndex, 0, movedItem);
+      return updated;
+    });
+  };
+  const setOrderForVoiceItem = ({item, index}:{item:any, index:number}) => {
+     let title = `ترتیب پخش صدا در مرحله = (${index + 1})`;
+      ModalInputHelper.showModalInput({
+        title: title,
+        description: "میتوانید ترتیب پخش این صدا را تغییر دهید.",
+        inputValue: `${index + 1}`,
+        buttons:[
+                {
+                  buttonText: "تایید",
+                  onClickFn: (call) => {
+                    const value = Number(call)
+                    if(typeof value === 'number' && Number.isFinite(value) && value < 9 && value > 0){
+                      const fromIndex = index
+                      const toIndex = value - 1
+                      moveVoiceItem(fromIndex, toIndex)
+                      ModalInputHelper.closeModalInput();
+                    } else {
+                      toast.warning("مقدار وارد شده معتبر نمیباشد", {
+                          position: "top-center",
+                          autoClose: 3000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+                      });
+                    }
+                  },
+                },
+                {
+                  buttonText: "انصراف",
+                  onClickFn: () => {
+                    ModalInputHelper.closeModalInput();
+                  },
+                },
+              ],
+        options: {
+          maxLength: 2,
+        },
+      });
+  };
 
   return (
     <div className="flex flex-col justify-between w-full lg:w-[600px] 2xl:w-[750px] mt-10 mb-28 px-4 sm:mx-auto">
-      <div>
+      <div className="flex gap-6 justify-center font-['iransans-md'] mt-1">
+        <label
+          className="text-text6 dark:text-text6_dark border-2 border-dashed border-text5 dark:border-text5_dark py-6 text-lg flex-1 rounded-md cursor-pointer transition sm:hover:bg-border2 sm:dark:hover:bg-border2_dark flex flex-col justify-center items-center gap-y-2"
+          htmlFor="upload_file_photos"
+          tabIndex={0}
+        >
+          <div className="text-4xl">
+            <FaCamera />
+          </div>
+          <p className="text-xs 3xs:text-sm text-center">افزودن عکس</p>
+          <input
+            ref={inputImageRef}
+            autoComplete="off"
+            tabIndex={-1}
+            className="hidden"
+            id="upload_file_photos"
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleAddPhotos}
+          />
+        </label>
+        <label
+          className="text-text6 dark:text-text6_dark border-2 border-dashed border-text5 dark:border-text5_dark py-6 text-lg flex-1 rounded-md cursor-pointer transition sm:hover:bg-border2 sm:dark:hover:bg-border2_dark flex flex-col justify-center items-center gap-y-2"
+          htmlFor="upload_file_video"
+        >
+          <div className="text-4xl">
+            <FaVideo />
+          </div>
+          <p className="text-xs 3xs:text-sm text-center">افزودن ویدیو</p>
+          <input
+            ref={inputVideoRef}
+            className="hidden"
+            id="upload_file_video"
+            type="file"
+            accept="video/*"
+            onChange={handleAddVideos}
+          />
+        </label>
+        <label
+          className="text-text6 dark:text-text6_dark border-2 border-dashed border-text5 dark:border-text5_dark py-6 text-lg flex-1 rounded-md cursor-pointer transition sm:hover:bg-border2 sm:dark:hover:bg-border2_dark flex flex-col justify-center items-center gap-y-2"
+          htmlFor="upload_file_audio"
+        >
+          <div className="text-4xl">
+            <FaMusic />
+          </div>
+          <p className="text-xs 3xs:text-sm text-center">افزودن صدای مرحله</p>
+          <input
+            ref={inputMusicRef}
+            autoComplete="off"
+            className="hidden"
+            id="upload_file_audio"
+            type="file"
+            accept=".mp3,audio/mpeg"
+            multiple
+            onChange={handleAddMusic}
+          />
+        </label>
+      </div>
+
+      {(media.length > 0 || music.length > 0)&& (
+        <div className="border-2 border-dashed border-primary dark:border-primary rounded-md py-2 mt-4">
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-4 sm:gap-y-4 mt-4">
+            {media.map((item: any, index: number) => (
+              <div key={`${index.toString()}`} className="w-full h-20 3xs:h-24 sm:h-28 flex justify-center items-center">
+                <div
+                  className="relative w-20 h-20 3xs:w-24 3xs:h-24 sm:w-28 sm:h-28 cursor-pointer"
+                  onClick={() => {
+                    if (item?.file?.type.includes("video") == true) {
+                      ShowVideoModalHelper.showModal({
+                        src: item.preview,
+                        title: item?.title ? item.title : null,
+                      });
+                    } else {
+                      ShowImageModalHelper.showModal({
+                        src: item.preview,
+                        title: item?.title ? item.title : null,
+                      });
+                    }
+                  }}
+                >
+                  {item?.file?.type.includes("video") == true ? (
+                    <div className="relative h-full w-full">
+                      <video src={item.preview} className="inset-0 h-full w-full rounded-md object-cover" />
+                      <div className="absolute top-[26%] right-[26%] text-xl sm:text-2xl text-primary bg-background6 bg-opacity-30 rounded-full p-3">
+                        <FaPlay />
+                      </div>
+                      <div className="absolute bottom-1 left-1 flex items-center gap-2 bg-[#00000099] rounded px-1">
+                        <p className="text-xs font-['iransans-light'] text-white">{secondsToTime(item.duration)}</p>
+                        <div className="text-sm text-white">
+                          <IoIosVideocam />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <ImageComponent
+                      src={item.preview}
+                      alt={"file_photos"}
+                      baseURI={false}
+                      parentclasses="h-full w-full cursor-pointer"
+                    />
+                  )}
+                  <div className="absolute top-0 w-full flex justify-between px-1 pt-1">
+                    <div
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        setOrderForMediaItem({item, index});
+                      }}
+                      className={`flex justify-center items-center rounded transition text-red_color bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6`}
+                    >
+                      <p className="text-xs 3xs:text-sm text-center font-['iransans-md']">{index + 1}</p>
+                    </div>
+                    <div
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        deleteMediaItem(item);
+                      }}
+                      className="flex justify-center items-center rounded transition text-white bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6"
+                    >
+                      <BiTrash />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 sm:gap-y-4 mt-4">
+            {music.map((item: any, index: number) => (
+              <div key={`${index.toString()}`} >
+                <div className="relative px-8 mt-4 mb-2 w-120 sm:w-60">
+                  <div className="flex justify-center items-center w-120 h-20 sm:w-60 sm:h-28 cursor-pointer bg-primary rounded-md px-2">
+                    <audio src={item.preview} controls className="inset-0 w-120 sm:w-60 rounded-md object-cover" />
+                  </div>
+                  <div className="absolute top-0 w-120 sm:w-60 flex justify-between px-1 pt-1">
+                    <div
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        setOrderForVoiceItem({item, index});
+                      }}
+                      className={`flex justify-center items-center rounded transition text-red_color bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6`}
+                    >
+                      <p className="text-xs 3xs:text-sm text-center font-['iransans-md']">{index + 1}</p>
+                    </div>
+                    <div
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        deleteVoiceItem(item)
+                      }}
+                      className="flex justify-center items-center rounded transition text-white bg-[#00000080] hover:bg-[#33333370] text-lg w-6 h-6"
+                    >
+                      <BiTrash />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="name"

@@ -448,7 +448,7 @@ const Page = () => {
           <div className="text-4xl">
             <FaMusic />
           </div>
-          <p className="text-xs 3xs:text-sm text-center">افزودن موزیک متن</p>
+          <p className="text-xs 3xs:text-sm text-center">افزودن موزیک</p>
           <input
             ref={inputMusicRef}
             className="hidden"
