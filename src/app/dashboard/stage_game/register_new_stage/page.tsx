@@ -111,7 +111,7 @@ const Page = () => {
         query getAllStageGameSeasonForAdmin($language : ID, $filter_visible : Boolean, $filter_active : Boolean){
           getAllStageGameSeasonForAdmin(language : $language, filter_visible : $filter_visible, filter_active : $filter_active) {
             _id,
-            name,
+            title,
           }
         }
         `,
@@ -129,7 +129,7 @@ const Page = () => {
         const data = response.data.data.getAllStageGameSeasonForAdmin;
         if (data.length > 0) {
           const items = data.map((item: any) => ({
-            label: item.name,
+            label: item.title,
             value: item._id,
           }));
           items.unshift({
@@ -137,6 +137,8 @@ const Page = () => {
             value: null,
           })
           setSeasonList(items);
+        } else {
+          setSeasonList([])
         }
       })
       .catch(() => {
@@ -449,8 +451,8 @@ const Page = () => {
   //////////////////////////////////////////////////////////////////
   const handleAddPhotos = (e: any) => {
     const photos = e.target.files;
-    if (photos.length > 10) {
-      toast.warning("بیشتر از 10 عکس نمی‌توانید برای آگهی انتخاب کنید.", {
+    if (photos.length > 3) {
+      toast.warning("بیشتر از 3 عکس نمی‌توانید برای مرحله انتخاب کنید.", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -461,8 +463,8 @@ const Page = () => {
         theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
       });
     } else {
-      if (image.length + photos.length > 10) {
-        toast.warning("بیشتر از 10 عکس نمی‌توانید برای آگهی انتخاب کنید.", {
+      if (image.length + photos.length > 3) {
+        toast.warning("بیشتر از 3 عکس نمی‌توانید برای مرحله انتخاب کنید.", {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -486,7 +488,6 @@ const Page = () => {
       inputImageRef.current.value = "";
     }
   };
-
   const handleAddVideos = (e: any) => {
     const uri = URL.createObjectURL(e.target.files[0]);
     var videoElement = document.createElement("video");
@@ -531,23 +532,11 @@ const Page = () => {
       }
     };
   };
+  const handleAddMusic = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files: File[] = Array.from(e.target.files || []);
 
-  const handleAddMusic = (e: any) => {
-    const audios = e.target.files;
-    if(audios.length > 4){
+    if (files.length > 4 || files.length + music.length > 4) {
       toast.warning("بیشتر از 4 صدا نمیتوانید برای مرحله انتخاب کنید.", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-      });
-    } else {
-      if(audios.length + music.length > 4){
-        toast.warning("بیشتر از 4 صدا نمیتوانید برای مرحله انتخاب کنید.", {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -556,55 +545,79 @@ const Page = () => {
           draggable: true,
           progress: undefined,
           theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-        });
-      } else {
-        const newData: any = [...music];
-        for (let index = 0; index < audios.length; index++) {
-          const uri = URL.createObjectURL(e.target.files[index]);
-          var musicElement = document.createElement("audio");
-          musicElement.preload = "metadata";
-          musicElement.src = URL.createObjectURL(e.target.files[index]);
-          musicElement.onloadedmetadata = function () {
-            window.URL.revokeObjectURL(musicElement.src);
-            const duration = musicElement.duration;
-            if (duration < 3) {
-              toast.warning("صدا نمیتواند کمتر از 2 ثانیه باشد", {
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-              });
-            } else if (duration > 180) {
-              toast.warning("صدا نمیتواند بیشتر از 180 ثانیه باشد.", {
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-              });
-            } else {
-              const data = {
-                file: audios[index],
-                preview: uri,
-                duration: duration.toFixed(0).toString(),
-              };
-              newData.push(data);
-            }
-          };
-        }
-        setMusic(newData);
-        inputImageRef.current.value = "";
-      }
+      });
+      return;
     }
-  };
 
+    const newData: any[] = [...music];
+
+    const audioPromises = files.map((file) => {
+      return new Promise<any | null>((resolve) => {
+        const objectURL = URL.createObjectURL(file);
+        const audioEl = document.createElement("audio");
+        audioEl.preload = "metadata";
+        audioEl.src = objectURL;
+
+        audioEl.onloadedmetadata = function () {
+          const duration = audioEl.duration;
+
+          if (duration < 3) {
+            toast.warning("صدا نمیتواند کمتر از 3 ثانیه باشد", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+            });
+            URL.revokeObjectURL(objectURL); // پاک کردن فایل ناپذیرفته‌شده
+            resolve(null);
+          } else if (duration > 180) {
+            toast.warning("صدا نمیتواند بیشتر از 180 ثانیه باشد.", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+            });
+            URL.revokeObjectURL(objectURL); // پاک کردن فایل ناپذیرفته‌شده
+            resolve(null);
+          } else {
+            resolve({
+              file,
+              preview: objectURL,
+              duration: duration.toFixed(0).toString(),
+            });
+          }
+        };
+      });
+    });
+
+    const results = await Promise.all(audioPromises);
+    const validAudios = results.filter((item) => item !== null);
+
+    if (newData.length + validAudios.length > 4) {
+      toast.warning("بیشتر از 4 صدا نمیتوانید برای مرحله انتخاب کنید.", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+      });
+      return;
+    }
+
+    setMusic([...newData, ...validAudios]);
+    inputMusicRef.current.value = "";
+  };
   const deleteMediaItem = (item: any) => {
     if (item?.file?.type.includes("video") == true) {
       setVideo([]);
@@ -615,7 +628,6 @@ const Page = () => {
       setImage(newData);
     }
   };
-
   const moveImage = (fromMediaIndex: number, toMediaIndex: number) => {
     const videoOffset = video.length === 1 ? 1 : 0;
     if (
@@ -698,7 +710,6 @@ const Page = () => {
       });
     }
   };
-
   const deleteVoiceItem = (item: any) => {
     let index = music.findIndex((i: any) => i.preview == item.preview);
     const newData = [...music];
@@ -887,32 +898,34 @@ const Page = () => {
               </div>
             ))}
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 sm:gap-y-4 mt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 px-2">
             {music.map((item: any, index: number) => (
-              <div key={`${index.toString()}`} >
-                <div className="relative px-8 mt-4 mb-2 w-120 sm:w-60">
-                  <div className="flex justify-center items-center w-120 h-20 sm:w-60 sm:h-28 cursor-pointer bg-primary rounded-md px-2">
-                    <audio src={item.preview} controls className="inset-0 w-120 sm:w-60 rounded-md object-cover" />
+              <div key={index} className="relative bg-primary rounded-lg p-4 w-full max-w-xs mx-auto">
+                <audio
+                  src={item.preview}
+                  controls
+                  className="w-full rounded-md"
+                />
+                <div className="absolute top-2 left-2">
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteVoiceItem(item);
+                    }}
+                    className="w-6 h-6 bg-black/50 text-white hover:bg-black/70 rounded flex items-center justify-center"
+                  >
+                    <BiTrash size={14} />
                   </div>
-                  <div className="absolute top-0 w-120 sm:w-60 flex justify-between px-1 pt-1">
-                    <div
-                      onClick={(e: any) => {
-                        e.stopPropagation();
-                        setOrderForVoiceItem({item, index});
-                      }}
-                      className={`flex justify-center items-center rounded transition text-red_color bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6`}
-                    >
-                      <p className="text-xs 3xs:text-sm text-center font-['iransans-md']">{index + 1}</p>
-                    </div>
-                    <div
-                      onClick={(e: any) => {
-                        e.stopPropagation();
-                        deleteVoiceItem(item)
-                      }}
-                      className="flex justify-center items-center rounded transition text-white bg-[#00000080] hover:bg-[#33333370] text-lg w-6 h-6"
-                    >
-                      <BiTrash />
-                    </div>
+                </div>
+                <div className="absolute top-2 right-2">
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setOrderForVoiceItem({ item, index });
+                    }}
+                    className="w-6 h-6 bg-black/60 text-red_color rounded flex items-center justify-center text-xs font-['iransans-md']"
+                  >
+                    {index + 1}
                   </div>
                 </div>
               </div>

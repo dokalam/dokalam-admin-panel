@@ -295,7 +295,7 @@ const Page = () => {
   const handleAddPhotos = (e: any) => {
     const photos = e.target.files;
     if (photos.length > 10) {
-      toast.warning("بیشتر از 10 عکس نمی‌توانید برای آگهی انتخاب کنید.", {
+      toast.warning("بیشتر از 10 عکس نمی‌توانید برای فصل انتخاب کنید.", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -307,7 +307,7 @@ const Page = () => {
       });
     } else {
       if (image.length + photos.length > 10) {
-        toast.warning("بیشتر از 10 عکس نمی‌توانید برای آگهی انتخاب کنید.", {
+        toast.warning("بیشتر از 10 عکس نمی‌توانید برای فصل انتخاب کنید.", {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -576,7 +576,7 @@ const Page = () => {
 
       {(media.length > 0 || music)&& (
         <div className="border-2 border-dashed border-primary dark:border-primary rounded-md py-2 mt-4">
-          <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-4 sm:gap-y-4 mt-4">
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-4 sm:gap-y-4 my-4 ">
             {media.map((item: any, index: number) => (
               <div key={`${index.toString()}`} className="w-full h-20 3xs:h-24 sm:h-28 flex justify-center items-center">
                 <div
@@ -641,19 +641,21 @@ const Page = () => {
             ))}
           </div>
           {music && (
-            <div className="relative px-8 mt-4 mb-2">
-              <div className="flex justify-center items-center w-40 h-20 sm:w-60 sm:h-28 cursor-pointer bg-primary rounded-md px-2">
-                <audio src={music.preview} controls className="inset-0 w-full rounded-md object-cover" />
-              </div>
-              <div className="absolute top-0 w-full flex justify-between px-1 pt-1">
+            <div className="relative bg-primary rounded-lg p-4 w-full max-w-xs mx-auto mb-2">
+              <audio
+                src={music.preview}
+                controls
+                className="w-full rounded-md"
+              />
+              <div className="absolute top-2 left-2">
                 <div
-                  onClick={(e: any) => {
+                  onClick={(e) => {
                     e.stopPropagation();
                     setMusic(null)
                   }}
-                  className="flex justify-center items-center rounded transition text-white bg-[#00000080] hover:bg-[#33333370] text-lg w-6 h-6"
+                  className="w-6 h-6 bg-black/50 text-white hover:bg-black/70 rounded flex items-center justify-center"
                 >
-                  <BiTrash />
+                  <BiTrash size={14} />
                 </div>
               </div>
             </div>

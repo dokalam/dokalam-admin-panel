@@ -330,7 +330,7 @@ const Page = () => {
   const handleAddPhotos = (e: any) => {
     const photos = e.target.files;
     if (photos.length > 10) {
-      toast.warning("بیشتر از 10 عکس نمی‌توانید برای آگهی انتخاب کنید.", {
+      toast.warning("بیشتر از 10 عکس نمی‌توانید برای فصل انتخاب کنید.", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -342,7 +342,7 @@ const Page = () => {
       });
     } else {
       if (image.length + photos.length > 10) {
-        toast.warning("بیشتر از 10 عکس نمی‌توانید برای آگهی انتخاب کنید.", {
+        toast.warning("بیشتر از 10 عکس نمی‌توانید برای فصل انتخاب کنید.", {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,

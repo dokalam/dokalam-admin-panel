@@ -520,19 +520,21 @@ const Page = () => {
               </div>
             )}
             {music && (
-              <div className="relative">
-                <div className="flex justify-center items-center w-40 h-20 sm:w-60 sm:h-28 cursor-pointer bg-primary rounded-md px-2">
-                  <audio src={music.preview} controls className="inset-0 w-full rounded-md object-cover" />
-                </div>
-                <div className="absolute top-0 w-full flex justify-between px-1 pt-1">
+              <div className="relative bg-primary rounded-lg p-4 w-full max-w-xs mx-auto mb-2">
+                <audio
+                  src={music.preview}
+                  controls
+                  className="w-full rounded-md"
+                />
+                <div className="absolute top-2 left-2">
                   <div
-                    onClick={(e: any) => {
+                    onClick={(e) => {
                       e.stopPropagation();
                       setMusic(null)
                     }}
-                    className="flex justify-center items-center rounded transition text-white bg-[#00000080] hover:bg-[#33333370] text-lg w-6 h-6"
+                    className="w-6 h-6 bg-black/50 text-white hover:bg-black/70 rounded flex items-center justify-center"
                   >
-                    <BiTrash />
+                    <BiTrash size={14} />
                   </div>
                 </div>
               </div>
