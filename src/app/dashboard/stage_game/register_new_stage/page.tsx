@@ -56,7 +56,8 @@ const Page = () => {
   const [seasonList, setSeasonList] = useState([])
   const [visible, setVisible] = useState(true);
   const [active, setActive] = useState(true);
-  const [stageNumber, setStageNumber] = useState("")
+  const [stageNumberInLanguage, setStageNumberInLanguage] = useState("")
+  const [stageNumberInSeason, setStageNumberInSeason] = useState("")
   const [stageHint, setStageHint] = useState("")
   const [parts, setParts] = useState<PartItem[]>([]);
   const [activeTab, setActiveTab] = useState(0);
@@ -146,7 +147,7 @@ const Page = () => {
       });
   }
   const registerAndConfirm = ()=>{
-    if(!season || !language || stageNumber.length == 0){
+    if(!season || !language || stageNumberInLanguage.length == 0 || stageNumberInSeason.length == 0){
       toast.error("ابتدا موارد الزامی را وارد کنید", {
         position: "top-center",
         autoClose: 6000,
@@ -185,7 +186,8 @@ const Page = () => {
             $stage_hint : String,
             $season : ID!,
             $language : ID!,
-            $stage_number : Int!,
+            $stage_number_in_language : Int!,
+            $stage_number_in_season : Int!,
             $is_visible : Boolean!,
             $is_active : Boolean!,
             $media : [FileInput],
@@ -196,7 +198,8 @@ const Page = () => {
               stage_hint : $stage_hint,
               season : $season,
               language : $language,
-              stage_number : $stage_number,
+              stage_number_in_language : $stage_number_in_language,
+              stage_number_in_season : $stage_number_in_season,
               is_visible : $is_visible,
               is_active : $is_active,
               media : $media,
@@ -212,7 +215,8 @@ const Page = () => {
         stage_hint : stageHint.trim().length < 3?undefined:stageHint,
         season : season,
         language: language,
-        stage_number : Number(stageNumber),
+        stage_number_in_language : Number(stageNumberInLanguage),
+        stage_number_in_season : Number(stageNumberInSeason),
         is_visible : visible,
         is_active : active,
         media: media?.length > 0? media.map((item:any, index:number) => ({
@@ -230,22 +234,33 @@ const Page = () => {
     const map: any = {};
     const formD = new FormData();
     let fileIndex = 0;
+    formD.append("operations", JSON.stringify(data));
     if (media?.length > 0) {
       media.forEach((item: any, index: number) => {
         map[fileIndex] = [`variables.media.${index}.file`];
-        formD.append(`${fileIndex}`, item.file);
         fileIndex++;
       });
     }
     if (music?.length > 0) {
       music.forEach((item: any, index: number) => {
         map[fileIndex] = [`variables.voice.${index}.file`];
+        fileIndex++;
+      });
+    }
+    formD.append("map", JSON.stringify(map));
+    fileIndex = 0;
+    if (media?.length > 0) {
+      media.forEach((item: any) => {
         formD.append(`${fileIndex}`, item.file);
         fileIndex++;
       });
     }
-    formD.append("operations", JSON.stringify(data));
-    formD.append("map", JSON.stringify(map));
+    if (music?.length > 0) {
+      music.forEach((item: any) => {
+        formD.append(`${fileIndex}`, item.file);
+        fileIndex++;
+      });
+    }
     await axios({
       url: "/",
       method: "post",
@@ -268,6 +283,13 @@ const Page = () => {
               progress: undefined,
               theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
             });
+            setParts([])
+            setImage([])
+            setMusic([])
+            setVideo([])
+            setStageHint("")
+            setStageNumberInLanguage("")
+            setStageNumberInSeason("")
         } else {
           toast.error((response.data?.errors[0]?.data[0]?.message || "مشکلی پیش آمد دوباره تلاش کنید"), {
             position: "top-center",
@@ -831,7 +853,6 @@ const Page = () => {
           />
         </label>
       </div>
-
       {(media.length > 0 || music.length > 0)&& (
         <div className="border-2 border-dashed border-primary dark:border-primary rounded-md py-2 mt-4">
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-4 sm:gap-y-4 mt-4">
@@ -975,12 +996,24 @@ const Page = () => {
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="stage-number"
+          htmlFor="stage-number-in-language"
         >
-          شماره مرحله
+          شماره مرحله در زبان
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input type="number" id="stage-number" value={stageNumber} changeState={setStageNumber} classes="flex-1" inputStyles="!text-base" />
+            <Input type="number" id="stage-number-in-language" value={stageNumberInLanguage} changeState={setStageNumberInLanguage} classes="flex-1" inputStyles="!text-base" />
+          </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="stage-number-in-season"
+        >
+          شماره مرحله در فصل
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+            <Input type="number" id="stage-number-in-season" value={stageNumberInSeason} changeState={setStageNumberInSeason} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>

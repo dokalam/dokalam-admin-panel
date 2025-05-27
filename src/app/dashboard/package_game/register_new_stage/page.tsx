@@ -449,6 +449,7 @@ const Page = () => {
             setPackageSelected(item)
             const value = data._id[0]
             getAllSeason(value)
+            setSeason(null)
             PackageListHelper.closeModal();
           },
         },
