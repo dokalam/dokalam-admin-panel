@@ -90,11 +90,11 @@ export function validateStage(parts: PartItem[]): { status: number; message: str
         };
       }
 
-      // شرط ۳: اگر unknown_word بود باید حداقل ۳ حرف باشد
-      if (wordItem.unknown_word && wordItem.word.trim().length < 3) {
+      // شرط ۳: اگر unknown_word بود باید حداقل ۲ حرف باشد
+      if (wordItem.unknown_word && wordItem.word.trim().length < 2) {
         return {
           status: 401,
-          message: `در جمله شماره ${i + 1}، کلمه‌ی نامشخص شماره ${j + 1} باید حداقل ۳ حرف داشته باشد.`,
+          message: `در جمله شماره ${i + 1}، کلمه‌ی نامشخص شماره ${j + 1} باید حداقل ۲ حرف داشته باشد.`,
         };
       }
 

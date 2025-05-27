@@ -188,16 +188,18 @@ const Page = () => {
     setLoading(true)
     let data = {
       query: `
-          mutation newStageDefinitionForStageGame(
+          mutation newStageDefinitionForPackageGame(
             $parts : [StageStructure!]!,
             $stage_hint : String,
             $season : ID!,
             $language : ID!,
             $stage_number : Int!,
             $is_visible : Boolean!,
-            $is_active : Boolean!
+            $is_active : Boolean!,
+            $media : [FileInput],
+            $voice : [FileInput],
           ){
-            newStageDefinitionForStageGame(
+            newStageDefinitionForPackageGame(
               parts : $parts,
               stage_hint : $stage_hint,
               season : $season,
@@ -205,6 +207,8 @@ const Page = () => {
               stage_number : $stage_number,
               is_visible : $is_visible,
               is_active : $is_active,
+              media : $media,
+              voice : $voice,
             ) {
               status,
               message,
@@ -219,17 +223,61 @@ const Page = () => {
         stage_number : Number(stageNumber),
         is_visible : visible,
         is_active : active,
+        media: media?.length > 0? media.map((item:any, index:number) => ({
+          file: null,
+          order: (index+1),
+          duration: item.duration??undefined,
+        })):undefined,
+        voice : music?.length > 0? music.map((item:any, index:number) => ({
+          file: null,
+          order: (index+1),
+          duration: item.duration??undefined,
+        })):undefined,
       },
     };
+    const map: any = {};
+    const formD = new FormData();
+    let fileIndex = 0;
+    formD.append("operations", JSON.stringify(data));
+    if (media?.length > 0) {
+      media.forEach((item: any, index: number) => {
+        map[fileIndex] = [`variables.media.${index}.file`];
+        fileIndex++;
+      });
+    }
+    if (music?.length > 0) {
+      music.forEach((item: any, index: number) => {
+        map[fileIndex] = [`variables.voice.${index}.file`];
+        fileIndex++;
+      });
+    }
+    formD.append("map", JSON.stringify(map));
+    fileIndex = 0;
+    if (media?.length > 0) {
+      media.forEach((item: any) => {
+        formD.append(`${fileIndex}`, item.file);
+        fileIndex++;
+      });
+    }
+    if (music?.length > 0) {
+      music.forEach((item: any) => {
+        formD.append(`${fileIndex}`, item.file);
+        fileIndex++;
+      });
+    }
     await axios({
       url: "/",
       method: "post",
-      data: data,
+      data: formD,
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "multipart/form-data",
+      },
     })
       .then(async (response) => {
         setLoading(false);
-        if (response.data?.data?.newStageDefinitionForStageGame?.status == 200) {
-            toast.success(response.data?.data?.newStageDefinitionForStageGame?.message, {
+        if (response.data?.data?.newStageDefinitionForPackageGame?.status == 200) {
+            toast.success(response.data?.data?.newStageDefinitionForPackageGame?.message, {
               position: "top-center",
               autoClose: 3000,
               hideProgressBar: false,
@@ -239,6 +287,13 @@ const Page = () => {
               progress: undefined,
               theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
             });
+            setParts([])
+            setActiveTab(0)
+            setImage([])
+            setMusic([])
+            setVideo([])
+            setStageHint("")
+            setStageNumber("")
         } else {
           toast.error((response.data?.errors[0]?.data[0]?.message || "مشکلی پیش آمد دوباره تلاش کنید"), {
             position: "top-center",
@@ -458,6 +513,8 @@ const Page = () => {
   }
   const deletePackageItem = () => {
     setPackageSelected(null)
+    setSeason(null)
+    setSeasonList([])
   };
   //////////////////////////////////////////////////////////////////
   const handleAddPhotos = (e: any) => {

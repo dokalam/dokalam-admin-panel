@@ -284,6 +284,7 @@ const Page = () => {
               theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
             });
             setParts([])
+            setActiveTab(0)
             setImage([])
             setMusic([])
             setVideo([])
