@@ -25,6 +25,10 @@ import Footer from "@/components/Footer/Footer";
 import Border from "@/components/Border";
 import { Switch, Listbox, Transition } from "@headlessui/react";
 import SelectInput from "@/components/SelectInput";
+import GradientButton from "@/components/GradientButton";
+import TopicCategoryList from "@/components/TopicCategoryList/TopicCategoryList";
+import TopicCategoryListHelper from "@/components/TopicCategoryList/TopicCategoryListHelper";
+import Io5Icons from "@/utils/Icons/Io5Icons";
 
 type SelectedOption = {
   value: any;
@@ -73,6 +77,11 @@ type ContentSourceType = {
   selected: string | null;
   list:SelectedOption[]
 }
+type TopicCategorySelected = {
+  _id: string;
+  title: string;
+  image: string;
+}
 const Page = () => {
   const inputIconImageRef: any = useRef();
   const inputBannerImageRef: any = useRef();
@@ -99,10 +108,8 @@ const Page = () => {
   const [iconImage, setIconImage] = useState<any>(null);
   const [bannerImage, setBannerImage] = useState<any>(null);
   const [music, setMusic] = useState<any>(null)
-  const [packageCategory, setPackageCategory] = useState([])
-  const [packageCategoryList, setPackageCategoryList] = useState([])
+  const [topicCategory, setTopicCategory] = useState<TopicCategorySelected[]>([])
   const [packageCollection, setPackageCollection] = useState([])
-  const [packageCollectionList, setPackageCollectionList] = useState([])
   const [free, setFree] = useState(false)
   const [freeWithSubscription, setFreeWithSubscription] = useState(true)
   const [price, setPrice] = useState("")
@@ -183,7 +190,7 @@ const Page = () => {
             $publication_status : String!,
             $completion_status : String!,
             $language : ID!,
-            $package_category : [ID],
+            $topic_category : [ID],
             $package_collection : [ID],
             $icon_image : Upload!,
             $banner_image : Upload!,
@@ -208,7 +215,7 @@ const Page = () => {
               publication_status : $publication_status,
               completion_status : $completion_status,
               language : $language,
-              package_category : $package_category,
+              topic_category : $topic_category,
               package_collection : $package_collection,
               icon_image : $icon_image,
               banner_image : $banner_image,
@@ -238,7 +245,7 @@ const Page = () => {
         publication_status : publicationStatus,
         completion_status : completionStatus,
         language : language,
-        package_category : packageCategory?.length > 0?packageCategory:undefined,
+        topic_category : topicCategory?.length > 0?topicCategory:undefined,
         package_collection : packageCollection?.length > 0?packageCollection:undefined,
         icon_image: null,
         banner_image: null,
@@ -399,7 +406,44 @@ const Page = () => {
       setBannerImage(null)
     }
   };
-
+  /////////////////////////////////////////////////////////////
+  const selectTopicCaetgory = ()=>{
+    const previousSelected = {
+      _id: topicCategory.map(item => item._id),
+      title: topicCategory.map(item => item.title),
+      image: topicCategory.map(item => item.image),
+    };
+    TopicCategoryListHelper.openModal({
+      previousSelected:previousSelected,
+      numberSelected: 100,
+      buttons: [
+        {
+          buttonText: "لغو",
+          type: "border",
+          onClickFn: () => {
+            TopicCategoryListHelper.closeModal();
+          },
+        },
+        {
+          buttonText: "انتخاب دسته بندی",
+          type: "bold",
+          onClickFn: ({ data }: { data: any }) => {
+            setTopicCategory(data._id.map((id: string, index: number) => ({
+              _id: id,
+              title: data.title[index],
+              image: data.image[index],
+            })))
+            TopicCategoryListHelper.closeModal();
+          },
+        },
+      ],
+    });
+  }
+  const deleteTopicCategory = (index : number)=>{
+    const newData = [...topicCategory];
+    newData.splice(index, 1);
+    setTopicCategory(newData);
+  }
   return (
     <div className="flex flex-col justify-between w-full lg:w-[600px] 2xl:w-[750px] mt-10 mb-28 px-4 sm:mx-auto">
  
@@ -695,6 +739,33 @@ const Page = () => {
           </div>
         </label>
       </div>
+      {
+        topicCategory.length > 0&&(
+          <div className="flex flex-row flex-wrap gap-4 mt-12 border-2 border-dashed border-primary dark:border-primary rounded-md py-4 px-4 justify-start">
+            {topicCategory.map((item, index) => (
+              <div key={index.toString()}>
+                <div className="flex flex-row font-['iransans-md'] border items-center gap-4 border-primary py-2 px-2 rounded-md text-text dark:text-text_dark">
+                  {item?.title}
+                  <div
+                    className="text-lg p-1 cursor-pointer rounded-md text-primary bg-background dark:bg-background_dark hover:bg-border dark:hover:bg-border_dark transition border border-primary"
+                    onClick={() => deleteTopicCategory(index)}
+                  >
+                    <Io5Icons icon={"IoClose"} />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )
+      }
+      <div className={topicCategory.length > 0?"mt-4":"mt-12"}>
+        <GradientButton
+          buttonText={"انتخاب دسته بندی"}
+          onClickFn={selectTopicCaetgory}
+          loading={false}
+          classes="!text-sm !flex-none !px-8 sm:!w-[300px] !w-full"
+        />
+      </div>
       <div
         className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
         onClick={() => setFree((last) => !last)}
@@ -932,6 +1003,11 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
         ref={(Ref) => {
           ShowImageModalHelper.setRef(Ref);
         }}
+      />
+      <TopicCategoryList
+          ref={(Ref) => {
+            TopicCategoryListHelper.setRef(Ref);
+          }}
       />
     </div>
   );

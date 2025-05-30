@@ -20,62 +20,31 @@ import Footer from "@/components/Footer/Footer";
 import Border from "@/components/Border";
 import { Switch } from "@headlessui/react";
 import SelectInput from "@/components/SelectInput";
+import TopicCategoryList from "@/components/TopicCategoryList/TopicCategoryList";
+import TopicCategoryListHelper from "@/components/TopicCategoryList/TopicCategoryListHelper";
+import GradientButton from "@/components/GradientButton";
+import Io5Icons from "@/utils/Icons/Io5Icons";
 
+type TopicCategorySelected = {
+  _id: string;
+  title: string;
+  image: string;
+}
 const Page = () => {
   const inputImageRef: any = useRef();
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<any>(null);
   const [title, setTitle] = useState("");
-  const [code, setCode] = useState("");
+  const [keyboard, setKeyboard] = useState("");
   const [child, setChild] = useState(false)
-  const [parent, setParent] = useState<string | null>(null)
-  const [categoryList, setCategoryList] = useState([])
   const [iconName, setIconName] = useState("")
   const [iconType, setIconType] = useState("")
   const [visible, setVisible] = useState(false);
   const [active, setActive] = useState(false);
   const [order, setOrder] = useState("")
+  const [topicCategorySelected, setTopicCategorySelected] = useState<TopicCategorySelected | null>(null)
 
-  useEffect(()=>{
-      getAllCategoryList()
-    }, [])
-  const getAllCategoryList = async()=>{
-    const data = {
-      query: `
-        query getAllPackageCategoryForAdmin($parent : ID){
-          getAllPackageCategoryForAdmin(parent : $parent) {
-            _id,
-            title,
-          }
-        }
-        `,
-      variables: {
-        parent: undefined,
-      },
-    };
-    await axios({
-      url: "/",
-      method: "post",
-      data: data,
-    }).then(async (response) => {
-      const data = response.data.data.getAllPackageCategoryForAdmin;
-      if (data.length > 0) {
-        const items = data.map((item: any) => ({
-          label: item.title,
-          value: item._id,
-        }));
-        items.unshift({
-          label: "انتخاب دسته بندی",
-          value: null,
-        })
-        setCategoryList(items);
-      }
-    })
-    .catch(() => {
-      setCategoryList([])
-    });
-  }
-  
+
   const handleAddPhotos = (e: any) => {
     const photo = e.target.files;
     const data = {
@@ -91,7 +60,7 @@ const Page = () => {
   };
 
   const registerAndConfirm = ()=>{
-    if(title.length == 0 || code.length == 0){
+    if(title.length == 0){
       toast.error("ابتدا موارد الزامی را وارد کنید", {
         position: "top-center",
         autoClose: 3000,
@@ -110,9 +79,9 @@ const Page = () => {
     setLoading(true);
     let data = {
       query: `
-          mutation newPackageCategoryDefinitionForPackageGame(
+          mutation newTopicCategoryDefinition(
             $title : String!,
-            $code : String!,
+            $keyboard : String,
             $child : Boolean!,
             $parent : ID,
             $image : Upload,
@@ -122,9 +91,9 @@ const Page = () => {
             $is_active : Boolean!,
             $order : Int
           ){
-            newPackageCategoryDefinitionForPackageGame(
+            newTopicCategoryDefinition(
                 title : $title,
-                code : $code,
+                keyboard : $keyboard,
                 child : $child,
                 parent : $parent,
                 image : $image,
@@ -141,15 +110,15 @@ const Page = () => {
           `,
       variables: {
         title : title,
-        code : code,
+        keyboard : keyboard?.length > 0?keyboard:undefined,
         child : child,
-        parent : parent??undefined,
+        parent : topicCategorySelected?._id?topicCategorySelected._id:undefined,
         image : null,
         icon_name : (iconName.length>2 && iconType.length>2)?iconName:undefined,
         icon_type : (iconName.length>2 && iconType.length>2)?iconType:undefined,
         is_visible : visible,
         is_active : active,
-        order : order
+        order : Number(order)
       },
     };
     await axios({
@@ -159,8 +128,8 @@ const Page = () => {
     })
       .then(async (response) => {
         setLoading(false);
-        if (response.data?.data?.newPackageCategoryDefinitionForPackageGame?.status == 200) {
-            toast.success(response.data?.data?.newPackageCategoryDefinitionForPackageGame?.message, {
+        if (response.data?.data?.newTopicCategoryDefinition?.status == 200) {
+            toast.success(response.data?.data?.newTopicCategoryDefinition?.message, {
               position: "top-center",
               autoClose: 3000,
               hideProgressBar: false,
@@ -171,9 +140,10 @@ const Page = () => {
               theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
             });
             setTitle("")
-            setCode("")
+            setKeyboard("")
             setIconName("")
             setIconType("")
+            setOrder("")
         } else {
           toast.error((response.data?.errors[0]?.data[0]?.message || "مشکلی پیش آمد دوباره تلاش کنید"), {
             position: "top-center",
@@ -201,6 +171,39 @@ const Page = () => {
         setLoading(false);
       });
   };
+
+  const selectTopicCaetgory = ()=>{
+      const previousSelected = {
+        _id: topicCategorySelected?._id?[topicCategorySelected?._id]:[],
+        title: topicCategorySelected?.title?[topicCategorySelected?.title]:[],
+        image: topicCategorySelected?.image?[topicCategorySelected?.image]:[],
+      };
+      TopicCategoryListHelper.openModal({
+        previousSelected:previousSelected,
+        numberSelected: 1,
+        buttons: [
+          {
+            buttonText: "لغو",
+            type: "border",
+            onClickFn: () => {
+              TopicCategoryListHelper.closeModal();
+            },
+          },
+          {
+            buttonText: "انتخاب دسته بندی",
+            type: "bold",
+            onClickFn: ({ data }: { data: any }) => {
+              setTopicCategorySelected({
+                _id: data?._id[0],
+                title: data?.title[0],
+                image: data?.image[0],
+              })
+              TopicCategoryListHelper.closeModal();
+            },
+          },
+        ],
+      });
+  }
 
   return (
     <div className="flex flex-col justify-between w-full lg:w-[600px] 2xl:w-[750px] mt-10 mb-28 px-4 sm:mx-auto">
@@ -265,7 +268,7 @@ const Page = () => {
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="name"
         >
-          نام دسته بندی
+          عنوان دسته بندی
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
             <Input id="name" value={title} changeState={setTitle} classes="flex-1" inputStyles="!text-base" />
@@ -275,12 +278,11 @@ const Page = () => {
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="code-stage-language"
+          htmlFor="keyboard-stage-language"
         >
-          کد دسته بندی
-          <span className="text-red-500 px-1">*</span>
+          keyboard
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="code-stage-language" value={code} changeState={setCode} classes="flex-1" inputStyles="!text-base" />
+            <Input id="keyboard-stage-language" value={keyboard} changeState={setKeyboard} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
@@ -306,20 +308,28 @@ const Page = () => {
           </div>
         </label>
       </div>
-      <div className="mt-6">
-        <label
-          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="name"
-        >
-          والد دسته بندی
-          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
-            <SelectInput
-              name="stage-game-language"
-              options={categoryList}
-              onChange={(value) => setParent(value || null)}
-            />
+      {
+        topicCategorySelected&&(
+          <div className="mt-12 max-w-md ml-auto">
+            <div className="flex flex-row font-['iransans-md'] border items-center gap-4 border-primary py-2 px-2 rounded-md text-text dark:text-text_dark">
+              {topicCategorySelected?.title}
+              <div
+                className="text-lg p-1 cursor-pointer rounded-md text-primary bg-background dark:bg-background_dark hover:bg-border dark:hover:bg-border_dark transition border border-primary"
+                onClick={() => setTopicCategorySelected(null)}
+              >
+                <Io5Icons icon={"IoClose"} />
+              </div>
+            </div>
           </div>
-        </label>
+        )
+      }
+      <div className={topicCategorySelected?"mt-4":"mt-12"}>
+        <GradientButton
+          buttonText={"انتخاب والد دسته بندی"}
+          onClickFn={selectTopicCaetgory}
+          loading={false}
+          classes="!text-sm !flex-none !px-8 sm:!w-[300px] !w-full"
+        />
       </div>
       <div className="mt-6">
         <label
@@ -438,6 +448,11 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
         ref={(Ref) => {
           ShowImageModalHelper.setRef(Ref);
         }}
+      />
+      <TopicCategoryList
+          ref={(Ref) => {
+            TopicCategoryListHelper.setRef(Ref);
+          }}
       />
     </div>
   );

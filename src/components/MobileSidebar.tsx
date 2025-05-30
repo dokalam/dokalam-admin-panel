@@ -71,8 +71,8 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
           href: "/register_new_stage",
         },
         {
-          name: "افزودن دسته‌بندی جدید",
-          href: "/add_category",
+          name: "افزودن کالکشن جدید",
+          href: "/add_collection",
         },
       ],
     },
@@ -86,12 +86,12 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
       ),
       children: [
         {
-          name: "افزودن زبان جدید",
+          name: "تعریف زبان",
           href: "/add_language",
         },
         {
-          name: "افزودن تگ جدید",
-          href: "/add_tag",
+          name: "تعریف دسته‌بندی موضوع",
+          href: "/add_topic_category",
         },
       ],
     },
