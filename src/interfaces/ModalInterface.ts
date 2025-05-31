@@ -10,6 +10,12 @@ export interface PackageListModalInterface {
   previousSelected?: { title: string[]; _id: string[]; image: string[]};
 }
 
+export interface CollectionListModalInterface {
+  buttons?: { onClickFn?: (data: any) => any; buttonText?: string; type: string }[];
+  numberSelected?: number;
+  previousSelected?: { title: string[]; _id: string[]};
+}
+
 export interface TopicCategoryListModalInterface {
   buttons?: { onClickFn?: (data: any) => any; buttonText?: string; type: string }[];
   numberSelected?: number;

@@ -13,7 +13,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import FooterPaginate from "../FooterPaginate";
 import Border from "../Border";
 import { useTheme } from "next-themes";
-import { PackageListModalInterface } from "@/interfaces/ModalInterface";
+import { CollectionListModalInterface } from "@/interfaces/ModalInterface";
 import { toast } from "react-toastify";
 import moment from "moment-jalaali";
 import "moment/locale/fa";
@@ -35,7 +35,6 @@ const CollectionList = forwardRef((_, ref) => {
   const [extendedState, setExtendedState] = useState<any>({
     _id: [],
     title: [],
-    image: []
   });
   const handleBackBrowserBtn = () => {
     const back = true;
@@ -45,7 +44,7 @@ const CollectionList = forwardRef((_, ref) => {
     window.history.back();
   };
 
-  const openModal = (options: PackageListModalInterface) => {
+  const openModal = (options: CollectionListModalInterface) => {
     window.history.pushState(null, "", window.location.pathname);
     window.addEventListener("popstate", handleBackBrowserBtn);
     setIsOpen(true);
@@ -56,7 +55,6 @@ const CollectionList = forwardRef((_, ref) => {
       setExtendedState({
         _id: options?.previousSelected._id,
         title: options?.previousSelected.title,
-        image: options?.previousSelected.image,
       });
     }
   };
@@ -72,7 +70,6 @@ const CollectionList = forwardRef((_, ref) => {
     setExtendedState({
       _id: [],
       title: [],
-      image: []
     });
     setData([]);
     setPage(1);
@@ -207,27 +204,22 @@ const CollectionList = forwardRef((_, ref) => {
     const index = extendedState._id.findIndex((i: any) => i == item._id);
     extendedState._id.splice(index, 1);
     extendedState.title.splice(index, 1);
-    extendedState.image.splice(index, 1)
     setExtendedState({ ...extendedState });
   };
   const selectedItem = ({ item }: { item: any }) => {
     if (numberSelected == 1) {
       const _id = item._id;
       const title = item.title;
-      const image = item.icon_image;
       setExtendedState({
         _id: [_id],
         title: [title],
-        image: [image]
       });
     } else {
       if (extendedState._id.length < numberSelected) {
         const _id = item._id;
         const title = item.title;
-        const image = item.icon_image;
         extendedState._id.push(_id);
         extendedState.title.push(title);
-        extendedState.image.push(image)
         setExtendedState({ ...extendedState });
       } else {
         toast.warning(`بیشتر از ${numberSelected} مورد نمیتوانید انتخاب کنید.`, {
@@ -258,7 +250,6 @@ const CollectionList = forwardRef((_, ref) => {
   const deleteItemFromHeader = (index: number) => {
     extendedState._id.splice(index, 1);
     extendedState.title.splice(index, 1);
-    extendedState.image.splice(index, 1)
     setExtendedState({ ...extendedState });
   };
 
@@ -402,9 +393,9 @@ const CollectionList = forwardRef((_, ref) => {
                                         title={item.title}
                                         checked={extendedState._id.find((i: any) => i == item._id) ? true : false}
                                         numberSelect={numberSelected}
-                                        imageSrc={item.icon_image}
                                         deletedItem={() => deletedItem({ item })}
                                         selectedItem={() => selectedItem({ item })}
+                                        list={item.list}
                                       />
                                       <Border />
                                     </div>

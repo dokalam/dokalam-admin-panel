@@ -1,5 +1,5 @@
 import {
-  PackageListModalInterface
+  CollectionListModalInterface
 } from "@/interfaces/ModalInterface";
 
 let _ref: any;
@@ -8,7 +8,7 @@ function setRef(ref: any) {
   _ref = ref;
 }
 
-function openModal(option?: PackageListModalInterface) {
+function openModal(option?: CollectionListModalInterface) {
   _ref.openModal(option);
 }
 

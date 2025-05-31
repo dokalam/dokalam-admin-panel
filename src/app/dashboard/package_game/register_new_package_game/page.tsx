@@ -29,6 +29,8 @@ import GradientButton from "@/components/GradientButton";
 import TopicCategoryList from "@/components/TopicCategoryList/TopicCategoryList";
 import TopicCategoryListHelper from "@/components/TopicCategoryList/TopicCategoryListHelper";
 import Io5Icons from "@/utils/Icons/Io5Icons";
+import CollectionList from "@/components/CollectionList/CollectionList";
+import CollectionListHelper from "@/components/CollectionList/CollectionListHelper";
 
 type SelectedOption = {
   value: any;
@@ -82,6 +84,10 @@ type TopicCategorySelected = {
   title: string;
   image: string;
 }
+type packageCollection = {
+  _id: string;
+  title: string;
+}
 const Page = () => {
   const inputIconImageRef: any = useRef();
   const inputBannerImageRef: any = useRef();
@@ -109,7 +115,7 @@ const Page = () => {
   const [bannerImage, setBannerImage] = useState<any>(null);
   const [music, setMusic] = useState<any>(null)
   const [topicCategory, setTopicCategory] = useState<TopicCategorySelected[]>([])
-  const [packageCollection, setPackageCollection] = useState([])
+  const [packageCollection, setPackageCollection] = useState<packageCollection[]>([])
   const [free, setFree] = useState(false)
   const [freeWithSubscription, setFreeWithSubscription] = useState(true)
   const [price, setPrice] = useState("")
@@ -444,6 +450,42 @@ const Page = () => {
     newData.splice(index, 1);
     setTopicCategory(newData);
   }
+  /////////////////////////////////////////////////////////////
+  const selectPackageCollection = ()=>{
+    const previousSelected = {
+      _id: packageCollection.map(item => item._id),
+      title: packageCollection.map(item => item.title),
+    };
+    CollectionListHelper.openModal({
+      previousSelected:previousSelected,
+      numberSelected: 5,
+      buttons: [
+        {
+          buttonText: "لغو",
+          type: "border",
+          onClickFn: () => {
+            CollectionListHelper.closeModal();
+          },
+        },
+        {
+          buttonText: "انتخاب کالکشن",
+          type: "bold",
+          onClickFn: ({ data }: { data: any }) => {
+            setTopicCategory(data._id.map((id: string, index: number) => ({
+              _id: id,
+              title: data.title[index],
+            })))
+            CollectionListHelper.closeModal();
+          },
+        },
+      ],
+    });
+  }
+  const deletePackageCollection = (index : number)=>{
+    const newData = [...packageCollection];
+    newData.splice(index, 1);
+    setPackageCollection(newData);
+  }
   return (
     <div className="flex flex-col justify-between w-full lg:w-[600px] 2xl:w-[750px] mt-10 mb-28 px-4 sm:mx-auto">
  
@@ -766,6 +808,33 @@ const Page = () => {
           classes="!text-sm !flex-none !px-8 sm:!w-[300px] !w-full"
         />
       </div>
+      {
+        packageCollection.length > 0&&(
+          <div className="flex flex-row flex-wrap gap-4 mt-12 border-2 border-dashed border-primary dark:border-primary rounded-md py-4 px-4 justify-start">
+            {packageCollection.map((item, index) => (
+              <div key={index.toString()}>
+                <div className="flex flex-row font-['iransans-md'] border items-center gap-4 border-primary py-2 px-2 rounded-md text-text dark:text-text_dark">
+                  {item?.title}
+                  <div
+                    className="text-lg p-1 cursor-pointer rounded-md text-primary bg-background dark:bg-background_dark hover:bg-border dark:hover:bg-border_dark transition border border-primary"
+                    onClick={() => deletePackageCollection(index)}
+                  >
+                    <Io5Icons icon={"IoClose"} />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )
+      }
+      <div className={topicCategory.length > 0?"mt-4":"mt-12"}>
+        <GradientButton
+          buttonText={"انتخاب کالکشن"}
+          onClickFn={selectPackageCollection}
+          loading={false}
+          classes="!text-sm !flex-none !px-8 sm:!w-[300px] !w-full"
+        />
+      </div>
       <div
         className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
         onClick={() => setFree((last) => !last)}
@@ -1007,6 +1076,11 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
       <TopicCategoryList
           ref={(Ref) => {
             TopicCategoryListHelper.setRef(Ref);
+          }}
+      />
+      <CollectionList
+          ref={(Ref) => {
+            CollectionListHelper.setRef(Ref);
           }}
       />
     </div>
