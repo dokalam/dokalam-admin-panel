@@ -48,7 +48,7 @@ const CollectionSelectItem = ({
 
   const scrollHorizontal = (e: any) => {
     if (typeof window !== "undefined") {
-      const activeFiltersWrapper = document.getElementById("selectedContacts-wrapper");
+      const activeFiltersWrapper = document.getElementById(`collection-list-wrapper-${_id}`);
       activeFiltersWrapper?.scrollBy({
         left: e.deltaY < 0 ? 200 : -200,
         behavior: "smooth",
@@ -57,7 +57,7 @@ const CollectionSelectItem = ({
   };
 
   return (
-    <>
+    <div>
       <div className="py-4 select-none" onClick={selectItem}>
         <div>
           <div className="flex items-center">
@@ -103,21 +103,21 @@ const CollectionSelectItem = ({
         <div
           id={`collection-list-wrapper-${_id}`}
           onWheel={scrollHorizontal}
-          className="z-[1000] sm:z-auto flex font-['iransans-md'] text-xs gap-3 overflow-x-auto no-scrollbar px-4 pb-2 max-w-lg 2xl:max-w-2xl"
+          className="z-[1000] sm:z-auto gap-8 flex font-['iransans-md'] text-xs gap-3 overflow-x-auto no-scrollbar px-4 pb-2 max-w-[470px] 2xl:max-w-[640px] items-start"
         >
           {list.map((item: any, index: number) => (
-            <div>
+            <div key={index.toString()} className="flex flex-col flex-full items-center justify-center gap-2 font-['iransans-md'] text-d">
                 <ImageComponent
                   src={item.icon_image}
                   alt={"file_photos"}
-                  parentclasses="h-12 w-12 cursor-pointer"
+                  parentclasses="h-20 w-20 cursor-pointer"
                 />
-                <p>{item.title}</p>
+                <p className="text-center text-text dark:text-text_dark">{item.title}</p>
             </div>
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

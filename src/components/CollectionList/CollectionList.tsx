@@ -95,10 +95,10 @@ const CollectionList = forwardRef((_, ref) => {
                 getAllPackageCollectionForAdmin(page : $page, limit : $limit) {
                     list{
                       _id,
-                      title : String,
+                      title,
                       list{_id, title, icon_image},
-                      is_visible : Boolean,
-                      is_active : Boolean,
+                      is_visible,
+                      is_active,
                     }
                     hasNextPage,
                     nextPage
@@ -111,6 +111,7 @@ const CollectionList = forwardRef((_, ref) => {
       },
     })
       .then((response) => {
+        console.log(response)
         const riciveData = response.data.data.getAllPackageCollectionForAdmin;
         if (riciveData.hasNextPage == true) {
           setLoading(false);
@@ -148,12 +149,12 @@ const CollectionList = forwardRef((_, ref) => {
         query: `
             query getAllPackageCollectionForAdmin($page : Int, $limit : Int){
                 getAllPackageCollectionForAdmin(page : $page, limit : $limit) {
-                    list{
+                     list{
                       _id,
-                      title : String,
+                      title,
                       list{_id, title, icon_image},
-                      is_visible : Boolean,
-                      is_active : Boolean,
+                      is_visible,
+                      is_active,
                     }
                     hasNextPage,
                     nextPage

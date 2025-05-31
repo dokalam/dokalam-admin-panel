@@ -471,7 +471,7 @@ const Page = () => {
           buttonText: "انتخاب کالکشن",
           type: "bold",
           onClickFn: ({ data }: { data: any }) => {
-            setTopicCategory(data._id.map((id: string, index: number) => ({
+            setPackageCollection(data._id.map((id: string, index: number) => ({
               _id: id,
               title: data.title[index],
             })))
@@ -827,7 +827,7 @@ const Page = () => {
           </div>
         )
       }
-      <div className={topicCategory.length > 0?"mt-4":"mt-12"}>
+      <div className={packageCollection.length > 0?"mt-4":"mt-12"}>
         <GradientButton
           buttonText={"انتخاب کالکشن"}
           onClickFn={selectPackageCollection}
@@ -1000,7 +1000,7 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
         </p>
       </div>
       <Border height="h-[20px]" color="bg-info" classes="mt-4"/>
-        <div className="mt-4 border-2 border-dashed border-primary rounded-md py-4 px-4">
+        <div className="mt-4 border-2 border-dashed border-info rounded-md py-4 px-4">
           <h1 className="font-['iransans-md'] text-info text-center mt-2">منبع گرفته شده برای محتوا</h1>
           <div className="mt-6">
             <label
