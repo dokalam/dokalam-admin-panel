@@ -1312,6 +1312,16 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
           ModalInputHelper.setRef(Ref);
         }}
       />
+      <ShowVideoModal
+        ref={(Ref) => {
+          ShowVideoModalHelper.setRef(Ref);
+        }}
+      />
+      <ShowImageModal
+        ref={(Ref) => {
+          ShowImageModalHelper.setRef(Ref);
+        }}
+      />
     </div>
   );
 };

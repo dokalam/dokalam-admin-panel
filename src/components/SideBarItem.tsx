@@ -14,6 +14,7 @@ const SideBarItem = ({
   active,
   closeDrawer,
   icon,
+  head,
 }: {
   name: string;
   href: string;
@@ -21,6 +22,7 @@ const SideBarItem = ({
   active: boolean;
   closeDrawer?: any;
   icon?: any;
+  head?:boolean
 }) => {
   const pathName = usePathname();
   const [open, setOpen] = useState(child?.length > 0 && active == true ? true : false);
@@ -53,7 +55,7 @@ const SideBarItem = ({
             )}
             onClick={handleItemClick}
           >
-            <div className={`flex items-center`}>
+            <div className={`flex items-center gap-1`}>
               {icon && <div className={`ml-2 ${active ? "text-primary" : "text-text6 dark:text-text6_dark"}`}>{icon}</div>}
               <span>{name}</span>
             </div>
@@ -70,11 +72,12 @@ const SideBarItem = ({
             className={classNames(
               activeItem
                 ? "dark:bg-background6_dark bg-background6 dark:text-text_dark !text-primary"
-                : "text-text4 dark:text-text4_dark hover:text-text dark:hover:text-text3_dark dark:hover:xs:bg-background6_dark hover:xs:bg-background6",
+                :head == true?"text-text dark:text-text_dark hover:text-text dark:hover:text-text3_dark dark:hover:xs:bg-background6_dark hover:xs:bg-background6":
+                "text-text4 dark:text-text4_dark hover:text-text dark:hover:text-text3_dark dark:hover:xs:bg-background6_dark hover:xs:bg-background6",
               "flex items-center p-2 h-[45px] rounded-md gap-2 justify-between text-xs"
             )}
           >
-            <div className={`flex items-center`}>
+            <div className={`flex items-center gap-1`}>
               {icon && <div className={`ml-2 ${active ? "text-primary" : "text-text6 dark:text-text6_dark"}`}>{icon}</div>}
               <span>{name}</span>
             </div>

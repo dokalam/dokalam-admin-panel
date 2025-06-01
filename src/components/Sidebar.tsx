@@ -4,10 +4,11 @@ import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import SideBarItem from "./SideBarItem";
 import { AiFillDashboard } from "react-icons/ai";
-import { RiApps2AiFill, RiGamepadFill } from "react-icons/ri";
-import { TbDeviceGamepad3Filled } from "react-icons/tb";
-import { FaGamepad, FaUsers } from "react-icons/fa6";
-import { IoGameController } from "react-icons/io5";
+import { RiApps2AddFill, RiApps2Fill } from "react-icons/ri";
+import { TbCubePlus, TbDiaboloPlus, TbHexagonalPrismPlus, TbHexagonPlusFilled } from "react-icons/tb";
+import { FaDiceD6, FaUsers } from "react-icons/fa6";
+import { BsCloudPlus, BsCloudPlusFill } from "react-icons/bs";
+import { LuClipboardList } from "react-icons/lu";
 
 const navigation: any = [
   {
@@ -18,69 +19,191 @@ const navigation: any = [
         <AiFillDashboard />
       </div>
     ),
+    head:true
   },
   {
-    name: "محتوای بازی مرحله‌ای",
+    name: "ثبت محتوای بازی مرحله‌ای",
     href: "/dashboard/stage_game",
     icon: (
       <div className="text-xl">
-        <IoGameController />
+        <TbHexagonPlusFilled />
       </div>
     ),
+    head:true,
     children: [
       {
         name: "ثبت فصل جدید",
         href: "/register_new_season",
+        icon: (
+          <div className="text-xl">
+            <TbHexagonalPrismPlus />
+          </div>
+        ),
       },
       {
         name: "ثبت مرحله جدید",
         href: "/register_new_stage",
+        icon: (
+          <div className="text-xl">
+            <TbHexagonalPrismPlus />
+          </div>
+        ),
       },
     ],
   },
   {
-    name: "محتوای بازی بسته‌ای",
+    name: "مدیریت محتوای بازی مرحله‌ای",
+    href: "/dashboard/manage_stage_game",
+    icon: (
+      <div className="text-xl">
+        <FaDiceD6 />
+      </div>
+    ),
+    head:true,
+    children: [
+      {
+        name: "لیست فصل‌ها",
+        href: "/season_list",
+        icon: (
+          <div className="text-xl">
+            <LuClipboardList />
+          </div>
+        ),
+      },
+      {
+        name: "لیست مراحل",
+        href: "/stage_list",
+        icon: (
+          <div className="text-xl">
+            <LuClipboardList />
+          </div>
+        ),
+      },
+    ],
+  },
+  {
+    name: "ثبت محتوای پکیج‌های بازی",
     href: "/dashboard/package_game",
     icon: (
       <div className="text-xl">
-        <RiApps2AiFill />
+        <RiApps2AddFill />
       </div>
     ),
+    head:true,
     children: [
       {
-        name: "ثبت بسته بازی جدید",
+        name: "ثبت پکیج بازی جدید",
         href: "/register_new_package_game",
+        icon: (
+          <div className="text-xl">
+            <TbDiaboloPlus />
+          </div>
+        ),
       },
       {
         name: "ثبت فصل جدید",
         href: "/register_new_season",
+        icon: (
+          <div className="text-xl">
+            <TbDiaboloPlus />
+          </div>
+        ),
       },
       {
         name: "ثبت مرحله جدید",
         href: "/register_new_stage",
+        icon: (
+          <div className="text-xl">
+            <TbDiaboloPlus />
+          </div>
+        ),
       },
       {
         name: "افزودن کالکشن جدید",
         href: "/add_collection",
+        icon: (
+          <div className="text-xl">
+            <TbDiaboloPlus />
+          </div>
+        ),
       },
     ],
   },
   {
-    name: "محتوای عمومی",
+    name: "مدیریت محتوای پکیج‌های بازی",
+    href: "/dashboard/manage_package_game",
+    icon: (
+      <div className="text-xl">
+        <RiApps2Fill />
+      </div>
+    ),
+    head:true,
+    children: [
+      {
+        name: "لیست پکیج‌ها",
+        href: "/package_list",
+        icon: (
+          <div className="text-xl">
+            <LuClipboardList />
+          </div>
+        ),
+      },
+      {
+        name: "لیست فصل‌ها",
+        href: "/season_list",
+        icon: (
+          <div className="text-xl">
+            <LuClipboardList />
+          </div>
+        ),
+      },
+      {
+        name: "لیست مراحل",
+        href: "/stage_list",
+        icon: (
+          <div className="text-xl">
+            <LuClipboardList />
+          </div>
+        ),
+      },
+      {
+        name: "لیست کالکش‌ها",
+        href: "/collection_list",
+        icon: (
+          <div className="text-xl">
+            <LuClipboardList />
+          </div>
+        ),
+      },
+    ],
+  },
+  {
+    name: "ثبت محتوای عمومی",
     href: "/dashboard/general",
     icon: (
       <div className="text-xl">
-        <TbDeviceGamepad3Filled />
+        <BsCloudPlusFill />
       </div>
     ),
+    head:true,
     children: [
       {
         name: "تعریف زبان",
         href: "/add_language",
+        icon: (
+          <div className="text-xl">
+            <BsCloudPlus />
+          </div>
+        ),
       },
       {
         name: "تعریف دسته‌بندی موضوع",
         href: "/add_topic_category",
+        icon: (
+          <div className="text-xl">
+            <BsCloudPlus />
+          </div>
+        ),
       },
     ],
   },
@@ -92,6 +215,7 @@ const navigation: any = [
         <FaUsers />
       </div>
     ),
+    head:true,
     children: [
       {
         name: "لیست کاربران",
@@ -137,6 +261,7 @@ const Sidebar = () => {
                     child={item?.children?.length > 0 ? item?.children : []}
                     active={path.includes(item?.href) ? true : false}
                     icon={item?.icon}
+                    head={item?.head == true?true:false}
                   />
                 ))}
               </ul>
