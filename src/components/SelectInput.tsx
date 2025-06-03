@@ -6,9 +6,10 @@ type SelectInputProps = {
   name: string;
   options?: { value: any; label: string }[];
   onChange: (value: string) => void;
+  classes?: string;
 };
 
-const SelectInput: React.FC<SelectInputProps> = ({ name, options = [], onChange }) => {
+const SelectInput: React.FC<SelectInputProps> = ({ name, options = [], onChange, classes }) => {
   return (
     <div className="relative w-full">
         <div className="relative">
@@ -16,7 +17,7 @@ const SelectInput: React.FC<SelectInputProps> = ({ name, options = [], onChange 
                 id={name}
                 name={name}
                 onChange={(e) => onChange(e.target.value)}
-                className="placeholder:text-xs placeholder:text-text5 pl-10 placeholder:dark:text-text5_dark sm:text-base text-sm placeholder:text-right border transition border-border hover:border-gray-400 hover:drop-shadow-sm rounded px-3 focus:!border-primary_start bg-background4 dark:bg-background4_dark dark:border-border_dark outline-none w-full z-10 text-text6 dark:text-text6_dark h-[44px] sm:h-[41px] !appearance-none selection:bg-border selection:dark:bg-border_dark"
+                className={`${classes ?? ""} placeholder:text-xs placeholder:text-text5 pl-10 placeholder:dark:text-text5_dark sm:text-base text-sm placeholder:text-right border transition border-border hover:border-gray-400 hover:drop-shadow-sm rounded px-3 focus:!border-primary_start bg-background4 dark:bg-background4_dark dark:border-border_dark outline-none w-full z-10 text-text6 dark:text-text6_dark h-[44px] sm:h-[41px] !appearance-none selection:bg-border selection:dark:bg-border_dark`}
             >
                 {
                     options.length > 0?
@@ -44,7 +45,7 @@ const SelectInput: React.FC<SelectInputProps> = ({ name, options = [], onChange 
             </div>
         </div>
         {options.length === 0 && (
-            <p className="font-['iransans-md'] text-red-600 text-sm mt-1">لیست دریافت نشد</p>
+            <p className={`${classes ?? ""}font-['iransans-md'] text-red-600 text-sm mt-1`}>لیست دریافت نشد</p>
         )}
     </div>
   );

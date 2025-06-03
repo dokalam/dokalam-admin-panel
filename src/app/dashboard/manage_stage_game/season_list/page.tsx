@@ -10,6 +10,9 @@ import axios from "axios";
 import SelectInput from "@/components/SelectInput";
 import { Switch } from "@headlessui/react";
 import Border from "@/components/Border";
+import Input from "@/components/Input";
+import FilterFooter from "@/components/Footer/FilterFooter";
+import GradientButton from "@/components/GradientButton";
 
 
 type SelectedOption = {
@@ -31,6 +34,16 @@ const CompletionStatus:SelectedOption[] = [
   {value:"complete", label:"کامل‌شده ولی قابل به‌روزرسانی"},
   {value:"finalized", label:"نهایی‌شده، بدون نیاز به تغییر"},
 ]
+const VisibleStatus:SelectedOption[] = [
+  {value:null, label:"انتخاب وضعیت قابل مشاهده بودن"},
+  {value:true, label:"فقط موارد قابل مشاهده"},
+  {value:false, label:"فقط موارد غیر قابل مشاهده"},
+]
+const ActiveStatus:SelectedOption[] = [
+  {value:null, label:"انتخاب وضعیت فعال بودن"},
+  {value:true, label:"فقط موارد فعال"},
+  {value:false, label:"فقط موارد غیر فعال"},
+]
 const Page = () => {
   const [search, setSearch] = useState("");
   const [data, setData] = useState<any>([]);
@@ -43,14 +56,11 @@ const Page = () => {
   const [searchTimeout, setSearchTimeout] = useState<any>(null);
   const [publicationStatus, setPublicationStatus] = useState<string | null>(null)
   const [completionStatus, setCompletionStatus] = useState<string | null>(null)
-  const [visible, setVisible] = useState(false);
-  const [active, setActive] = useState(false);
+  const [visible, setVisible] = useState<any>(null);
+  const [active, setActive] = useState<any>(null);
   const [language, setLanguage] = useState<string | null>(null)
   const [languageList, setLanguageList] = useState([])
-
-  useEffect(() => {
-    getDataForFirst(null);
-  }, []);
+  const [showMobileFilter, setShowMobileFilter] = useState(false);
 
   useEffect(()=>{
     getAllLanguage()
@@ -135,8 +145,8 @@ const Page = () => {
           search : txt?.length>1?txt:undefined,
           filter_publication_status : publicationStatus??undefined,
           filter_completion_status : completionStatus??undefined,
-          filter_visible : visible,
-          filter_active : active,
+          filter_visible : visible??undefined,
+          filter_active : active??undefined,
         },
       },
     })
@@ -212,8 +222,8 @@ const Page = () => {
           search : search?.length>1?search:undefined,
           filter_publication_status : publicationStatus??undefined,
           filter_completion_status : completionStatus??undefined,
-          filter_visible : visible,
-          filter_active : active,
+          filter_visible : visible??undefined,
+          filter_active : active??undefined,
         },
       },
     })
@@ -283,169 +293,205 @@ const Page = () => {
     getDataForFirst(txt);
   };
 
-  return (
-    <div className="h-full w-full m-0">
-      <div className="flex flex-col lg:flex-row h-full w-full">
-        <div className="lg:w-1/4 p-4 lg:h-full lg:overflow-visible overflow-auto">
-            
-
-
-            <div className="mt-6">
-                    <label
-                      className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-                      htmlFor="name"
-                    >
-                      زبان بسته
-                      <span className="text-red-500 px-1">*</span>
-                      <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
-                        <SelectInput
-                          name="stage-game-language"
-                          options={languageList}
-                          onChange={(value) => setLanguage(value || null)}
-                        />
-                      </div>
-                    </label>
-                  </div>
-
+  const filterContent = () =>{
+    return(
+      <div>
+          <div>
+              <label
+                className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
+                htmlFor="search-season"
+              >
+                جستجوی فصل
+                <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+                  <Input id="search-season" value={search} changeState={setSearch} classes="flex-1" inputStyles="!text-base" />
+                </div>
+              </label>
+            </div>
             <div className="mt-6">
               <label
-                className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] sm:text-[.85rem] cursor-pointer py-3"
+                className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
                 htmlFor="name"
               >
-                وضعیت انتشار فصل
+                فیلتر زبان فصل
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
-                    name="stage-game-language"
+                    name="stage-game-language-filter"
+                    options={languageList}
+                    onChange={(value) => setLanguage(value || null)}
+                    classes={"!text-[.75rem]"}
+                  />
+                </div>
+              </label>
+            </div>
+            <div className="mt-6">
+              <label
+                className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
+                htmlFor="name"
+              >
+                فیلتر وضعیت انتشار فصل
+                <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+                  <SelectInput
+                    name="stage-game-publication-filter"
                     options={PublicationStatus}
                     onChange={(value) => setPublicationStatus(value)}
+                    classes={"!text-[.75rem]"}
                   />
                 </div>
               </label>
             </div>
             <div className="mt-6">
               <label
-                className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] sm:text-[.85rem] cursor-pointer py-3"
+                className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
                 htmlFor="name"
               >
-                وضعیت کامل بودن فصل
+                فیلتر وضعیت کامل بودن فصل
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
-                    name="stage-game-language"
+                    name="stage-game-completion-filter"
                     options={CompletionStatus}
                     onChange={(value) => setCompletionStatus(value)}
+                    classes={"!text-[.75rem]"}
                   />
                 </div>
               </label>
             </div>
-
-
-            
-      <div
-        className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
-        onClick={() => setVisible((last) => !last)}
-      >
-        <div className="flex items-center justify-between w-full h-[42px] pl-2 rounded">
-          <label className={`text-sm font-['iransans-md'] cursor-pointer`}>
-            <h3 className="text-text dark:text-text_dark font-['iransans-md'] text-[15px]">
-              قابل نمایش شود
-            </h3>
-          </label>
-          <Switch
-            checked={visible}
-            onChange={() => setVisible((last) => !last)}
-            onClick={(e) => e.stopPropagation()}
-            className={`${visible ? "bg-rgba2" : "bg-border dark:bg-border_dark"}
-relative h-[19px] w-[33px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out flex items-center`}
-          >
-            <span
-              aria-hidden="true"
-              className={`${
-                visible
-                  ? "translate-x-2 bg-primary"
-                  : "-translate-x-[16px] bg-text5 dark:bg-text5_dark"
-              }
-pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow-lg ring-0 transition duration-200 ease-in-out`}
-            />
-          </Switch>
-        </div>
-        <p className="text-justify font-['iransans-md'] text-text5 dark:text-text5_dark text-[12px] sm:text-[14px] mb-1">
-          با فعال بودن این گزینه، آیتم قابل نمایش برای کاربران ثبت خواهد شد.
-        </p>
-      </div>
-      <Border />
-      <div
-        className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
-        onClick={() => setActive((last) => !last)}
-      >
-        <div className="flex items-center justify-between w-full h-[42px] pl-2 rounded">
-          <label className={`text-sm font-['iransans-md'] cursor-pointer`}>
-            <h3 className="text-text dark:text-text_dark font-['iransans-md'] text-[15px]">
-              فعال شود
-            </h3>
-          </label>
-          <Switch
-            checked={active}
-            onChange={() => setActive((last) => !last)}
-            onClick={(e) => e.stopPropagation()}
-            className={`${active ? "bg-rgba2" : "bg-border dark:bg-border_dark"}
-relative h-[19px] w-[33px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out flex items-center`}
-          >
-            <span
-              aria-hidden="true"
-              className={`${
-                active
-                  ? "translate-x-2 bg-primary"
-                  : "-translate-x-[16px] bg-text5 dark:bg-text5_dark"
-              }
-pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow-lg ring-0 transition duration-200 ease-in-out`}
-            />
-          </Switch>
-        </div>
-        <p className="text-justify font-['iransans-md'] text-text5 dark:text-text5_dark text-[12px] sm:text-[14px] mb-1">
-          با فعال بودن این گزینه، آیتم به عنوان فعال شده ثبت خواهد شد.
-        </p>
-      </div>
-      <Border />
-
-
-
-
-        </div>
-        <div className="lg:w-3/4 p-0 lg:h-[100vh] overflow-auto">
-          <div className="p-4">
-            
-            {loading ? (
-              <div className="flex justify-center items-center h-[70vh] sm:h-[80vh]">
-                <ScreenLoading notItem={noItem} getError={getError} tryAgain={tryAgain} />
-              </div>
-            ) : (
-              <InfiniteScroll
-                dataLength={data?.length}
-                next={() => getDataForMore()}
-                hasMore={!loading && footerLoading ? true : false}
-                loader={
-                  !loading && data?.length > 0 ? (
-                    <FooterPaginate loading={footerLoading} footerTry={footerTry} tryOperation={getDataForFirst} />
-                  ) : (
-                    ""
-                  )
-                }
+            <div className="mt-6">
+              <label
+                className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
+                htmlFor="name"
               >
-                <ul
-                  role="list"
-                  className={`grid gap-4 sm:mx-auto sm:gap-6 grid-cols-1 mt-8 sm:mt-10 max-w-[1300px] ${
-                    !open ? "2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2" : "xl:grid-cols-2 2xl:grid-cols-3"
-                  }`}
-                >
-                  {data?.map((item: any, index: number) => (
-                    <div>
+                فیلتر وضعیت قابل مشاهده بودن
+                <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+                  <SelectInput
+                    name="stage-game-is-visible-filter"
+                    options={VisibleStatus}
+                    onChange={(value) => setVisible(value)}
+                    classes={"!text-[.75rem]"}
+                  />
+                </div>
+              </label>
+            </div>
+            <div className="mt-6">
+              <label
+                className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
+                htmlFor="name"
+              >
+                فیلتر وضعیت فعال بودن
+                <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+                  <SelectInput
+                    name="stage-game-is-active-filter"
+                    options={ActiveStatus}
+                    onChange={(value) => setActive(value)}
+                    classes={"!text-[.75rem]"}
+                  />
+                </div>
+              </label>
+            </div>
+      </div>
+    )
+  }
+  const dataContent = ()=>{
+    return(
+      <div className="w-full h-full">
+        {loading ? (
+          <div className="flex justify-center items-center w-full h-full">
+            <ScreenLoading notItem={noItem} getError={getError} tryAgain={tryAgain} />
+          </div>
+        ) : (
+          <InfiniteScroll
+            dataLength={data?.length}
+            next={() => getDataForMore()}
+            hasMore={!loading && footerLoading ? true : false}
+            loader={
+              !loading && data?.length > 0 ? (
+                <FooterPaginate loading={footerLoading} footerTry={footerTry} tryOperation={getDataForFirst} />
+              ) : (
+                ""
+              )
+            }
+          >
+            <ul
+              role="list"
+              className={`grid gap-4 sm:mx-auto sm:gap-6 grid-cols-1 mt-8 sm:mt-10 max-w-[1300px] ${
+                !open ? "2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2" : "xl:grid-cols-2 2xl:grid-cols-3"
+              }`}
+            >
+              {data?.map((item: any, index: number) => (
+                <div>
 
-                    </div>
-                  ))}
-                </ul>
-              </InfiniteScroll>
-            )}
+                </div>
+              ))}
+            </ul>
+          </InfiniteScroll>
+        )}
 
+      </div>
+    )
+  }
+
+  return (
+    <div className="h-[calc(100vh-60px)]">
+      <div className="w-full h-full flex overflow-hidden">
+        {/* محتوای اصلی همراه با سایدبار (در دسکتاپ) */}
+        <div className="w-full h-full flex flex-col lg:flex-row overflow-hidden">
+          <div className="lg:hidden p-4">
+            <GradientButton
+              buttonText={"نمایش فیلترها"}
+              onClickFn={() => setShowMobileFilter(true)}
+              loading={false}
+              classes="!text-base !flex-none !px-8 !w-full"
+            />
+          </div>
+          {/* ستون فیلتر در دسکتاپ */}
+          <div className="hidden lg:flex lg:flex-col lg:w-[280px] lg:shrink-0 bg-background2 dark:bg-background2_dark border-l border-border dark:border-border_dark shadow-lg z-10">
+            <div className="flex-1 overflow-y-auto p-4">
+              {filterContent()}
+            </div>
+            {/* فوتر */}
+            <div className="sticky bottom-0 w-full">
+              <FilterFooter
+                buttonText="اعمال فیلتر"
+                buttonFn={() => {}}
+                loadingButton={false}
+                classes="w-full"
+              />
+            </div>
+          </div>
+          {/* ستون دیتا */}
+          <div className="w-full lg:w-[calc(100%-290px)] overflow-y-auto h-full p-4 z-0">
+            {dataContent()}
+          </div>
+          {/* لایه شفاف پشت فیلتر موبایل */}
+          {showMobileFilter && (
+            <div
+              className="lg:hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
+              onClick={() => setShowMobileFilter(false)}
+            />
+          )}
+          {/* فیلتر دراور کشویی در موبایل */}
+          <div
+            className={`
+              fixed top-0 right-0 h-[calc(100%-150px)] z-50
+              bg-background2 dark:bg-background2_dark
+              transition-transform duration-300 ease-in-out
+              ${showMobileFilter ? "translate-y-0" : "-translate-y-full"}
+              rounded-b-2xl shadow-lg flex flex-col
+              lg:hidden
+              w-full sm:right-0 sm:left-0
+              md:w-[calc(100%-288px)] md:right-auto md:left-0
+            `}
+          >
+              <div className="overflow-y-auto p-4 flex-1 pt-[70px]">
+                {filterContent()}
+              </div>
+              <div className="sticky bottom-0 w-full">
+                <FilterFooter
+                  buttonText="اعمال فیلتر"
+                  buttonFn={() => setShowMobileFilter(false)}
+                  loadingButton={false}
+                  classes="w-full"
+                />
+              </div>
           </div>
         </div>
       </div>
