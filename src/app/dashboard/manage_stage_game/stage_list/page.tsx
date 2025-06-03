@@ -216,33 +216,12 @@ const Page = () => {
   return (
     <div className="h-full w-full m-0">
       <div className="flex flex-col lg:flex-row h-full w-full">
-        
-        {/* ✅ فیلتر: در دسکتاپ (lg) کنار، در موبایل و تبلت بالا */}
-        <div className="lg:w-1/4 bg-red-300 p-4 lg:h-full lg:overflow-visible overflow-auto">
-          <h2 className="font-bold mb-4">فیلتر</h2>
-          <input
-            type="text"
-            placeholder="جستجو..."
-            className="w-full p-2 rounded border mb-2"
-          />
-          <select className="w-full p-2 rounded border">
-            <option>همه</option>
-            <option>فعال</option>
-            <option>غیرفعال</option>
-          </select>
+        <div className="lg:w-1/4 p-4 lg:h-full lg:overflow-visible overflow-auto">
+          
         </div>
-
-        {/* ✅ لیست */}
-        <div className="lg:w-3/4 bg-green-300 p-0 lg:h-[100vh] overflow-auto">
+        <div className="lg:w-3/4 p-0 lg:h-[100vh] overflow-auto">
           <div className="p-4">
-            <h2 className="font-bold mb-4">لیست آیتم‌ها</h2>
-            <div className="space-y-2">
-              {[...Array(500)].map((_, i) => (
-                <div key={i} className="bg-white p-3 rounded shadow">
-                  آیتم شماره {i + 1}
-                </div>
-              ))}
-            </div>
+            
           </div>
         </div>
       </div>
