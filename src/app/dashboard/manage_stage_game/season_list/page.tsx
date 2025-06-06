@@ -13,6 +13,10 @@ import Border from "@/components/Border";
 import Input from "@/components/Input";
 import FilterFooter from "@/components/Footer/FilterFooter";
 import GradientButton from "@/components/GradientButton";
+import { IoFilter, IoSearch, IoSearchOutline } from "react-icons/io5";
+import { FaFilter } from "react-icons/fa6";
+import { MdFilterListAlt } from "react-icons/md";
+import { RiFilter2Fill } from "react-icons/ri";
 
 
 type SelectedOption = {
@@ -64,6 +68,7 @@ const Page = () => {
 
   useEffect(()=>{
     getAllLanguage()
+    getDataForFirst()
   }, [])
   const getAllLanguage = async()=>{
     const data = {
@@ -87,6 +92,7 @@ const Page = () => {
     }).then(async (response) => {
         const data = response.data.data.getAllLanguageForAdmin;
         if (data.length > 0) {
+          setLanguage(data[0]?._id)
           const items = data.map((item: any) => ({
             label: item.name,
             value: item._id,
@@ -103,7 +109,7 @@ const Page = () => {
       });
   }
 
-  const getDataForFirst = async (txt: any) => {
+  const getDataForFirst = async (txt?: any) => {
     await axios({
       url: "/",
       method: "post",
@@ -118,6 +124,8 @@ const Page = () => {
               $filter_completion_status : String,
               $filter_visible : Boolean,
               $filter_active : Boolean,
+
+              
             ){
                 paginateStageGameSeasonForAdmin(
                   page : $page,
@@ -278,7 +286,7 @@ const Page = () => {
 
   const clearSearchFn = () => {
     setSearch("");
-    getDataForFirst("");
+    getDataForFirst();
     clearTimeout(searchTimeout);
   };
 
@@ -301,18 +309,38 @@ const Page = () => {
                 className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
                 htmlFor="search-season"
               >
-                جستجوی فصل
+                <div className="flex flex-row items-center gap-2">
+                  <IoSearch className="text-text5 dark:text-text5_dark text-[20px]"/>
+                  جستجوی فصل
+                </div>
                 <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-                  <Input id="search-season" value={search} changeState={setSearch} classes="flex-1" inputStyles="!text-base" />
+                  <Input
+                    type="search"
+                    id="search-season"
+                    value={search}
+                    classes="flex-1"
+                    onKeyDownFn={submitSearch}
+                    changeState={(e: string) => handleSearch(e)}
+                    SearchLoading={loading && search.length > 0 && getError == false && noItem == false ? true : false}
+                    placeholder="جستجوِی عناوین فصل"
+                    inputStyles="!text-[14px] lg:!h-[35px] placeholder:!text-[11px]"
+                    searchIconStyle="!hidden"
+                    clearSearchIconStyles="!text-base"
+                    clearFn={clearSearchFn}
+                  />
                 </div>
               </label>
             </div>
+            <div className="mt-4 w-full border-2 border-dashed border-text5 dark:border-text5_dark"/>
             <div className="mt-6">
               <label
                 className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
                 htmlFor="name"
               >
-                فیلتر زبان فصل
+                <div className="flex flex-row items-center gap-2">
+                  <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
+                  فیلتر زبان فصل
+                </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
                     name="stage-game-language-filter"
@@ -328,7 +356,10 @@ const Page = () => {
                 className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
                 htmlFor="name"
               >
-                فیلتر وضعیت انتشار فصل
+                <div className="flex flex-row items-center gap-2">
+                  <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
+                  فیلتر وضعیت انتشار فصل
+                </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
                     name="stage-game-publication-filter"
@@ -344,7 +375,10 @@ const Page = () => {
                 className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
                 htmlFor="name"
               >
-                فیلتر وضعیت کامل بودن فصل
+                <div className="flex flex-row items-center gap-2">
+                  <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
+                  فیلتر وضعیت کامل بودن فصل
+                </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
                     name="stage-game-completion-filter"
@@ -360,7 +394,10 @@ const Page = () => {
                 className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
                 htmlFor="name"
               >
-                فیلتر وضعیت قابل مشاهده بودن
+                <div className="flex flex-row items-center gap-2">
+                  <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
+                  فیلتر وضعیت قابل مشاهده بودن
+                </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
                     name="stage-game-is-visible-filter"
@@ -376,7 +413,10 @@ const Page = () => {
                 className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
                 htmlFor="name"
               >
-                فیلتر وضعیت فعال بودن
+                <div className="flex flex-row items-center gap-2">
+                  <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
+                  فیلتر وضعیت فعال بودن
+                </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
                     name="stage-game-is-active-filter"
