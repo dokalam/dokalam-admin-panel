@@ -125,8 +125,6 @@ const Page = () => {
               $filter_completion_status : String,
               $filter_visible : Boolean,
               $filter_active : Boolean,
-
-              
             ){
                 paginateStageGameSeasonForAdmin(
                   page : $page,
@@ -142,7 +140,7 @@ const Page = () => {
                       _id,
                       title,
                       description,
-                      language : ID,
+                      language{name, rtl},
                       media{path, file_type, duration, order},
                       music{path, file_type, duration},
                       badg,
@@ -235,7 +233,7 @@ const Page = () => {
                       _id,
                       title,
                       description,
-                      language : ID,
+                      language{name, rtl},
                       media{path, file_type, duration, order},
                       music{path, file_type, duration},
                       badg,
@@ -492,25 +490,25 @@ const Page = () => {
               {data?.map((item: any, index: number) => (
                 <div key={index.toString()}>
                   <SeasonSG
-                      rtl={item.rtl}
-                      title={item.title}
-                      description={item.description}
-                      language={item.language}
-                      media={item.media}
-                      music={item.music}
-                      badg={item.badg}
-                      season_number={item.season_number}
-                      stage_number_from={item.stage_number_from}
-                      stage_number_to={item.stage_number_to}
-                      number_stage={item.number_stage}
-                      is_visible={item.is_visible}
-                      is_active={item.is_active}
-                      content_source_type={item.content_source_type}
-                      publication_status={item.publication_status}
-                      completion_status={item.completion_status}
-                      version_created={item.version_created}
-                      version_updated={item.version_updated}
-                      version_deleted={item.version_deleted}
+                      rtl={item?.language?.rtl}
+                      title={item?.title}
+                      description={item?.description}
+                      language={item?.language?.name}
+                      media={item?.media}
+                      music={item?.music}
+                      badg={item?.badg}
+                      season_number={item?.season_number}
+                      stage_number_from={item?.stage_number_from}
+                      stage_number_to={item?.stage_number_to}
+                      number_stage={item?.number_stage}
+                      is_visible={item?.is_visible}
+                      is_active={item?.is_active}
+                      content_source_type={item?.content_source_type}
+                      publication_status={item?.publication_status}
+                      completion_status={item?.completion_status}
+                      version_created={item?.version_created}
+                      version_updated={item?.version_updated}
+                      version_deleted={item?.version_deleted}
                   />
                 </div>
               ))}
