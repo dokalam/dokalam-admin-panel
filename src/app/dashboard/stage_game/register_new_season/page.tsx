@@ -204,7 +204,7 @@ const Page = () => {
           order: (index+1),
           duration: item.duration??undefined,
         })),
-        music : music?.file && music?.duration ? { file: null, duration: music.duration } : undefined,
+        music : (music?.file && music?.duration) ? { file: null, duration: music.duration } : undefined,
         badg: badg?.length > 0?badg:undefined,
         season_number: Number(seasonNumber),
         stage_number_from : Number(stageNumberFrom),
