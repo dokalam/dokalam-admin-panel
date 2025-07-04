@@ -30,6 +30,25 @@ type TopicCategorySelected = {
   title: string;
   image: string;
 }
+type SelectedOption = {
+  value: any;
+  label: string;
+};
+const PublicationStatus:SelectedOption[] = [
+  {value:null, label:"انتخاب وضعیت انتشار محتوا"},
+  {value:"draft", label:"پیشنویس"},
+  {value:"ready", label:"آماده انتشار"},
+  {value:"published", label:"منتشر شده"},
+  {value:"archived", label:"آرشیو شده، غیرفعال"},
+  {value:"rejected", label:"رد شده"},
+]
+const CompletionStatus:SelectedOption[] = [
+  {value:null, label:"انتخاب وضعیت کامل بودن محتوا"},
+  {value:"incomplete", label:"ناقص (نیاز به بخش‌هایی بیشتر)"},
+  {value:"in_progress", label:"در حال کار و بازبینی"},
+  {value:"complete", label:"کامل‌شده ولی قابل به‌روزرسانی"},
+  {value:"finalized", label:"نهایی‌شده، بدون نیاز به تغییر"},
+]
 const Page = () => {
   const inputImageRef: any = useRef();
   const [loading, setLoading] = useState(false);
@@ -43,6 +62,8 @@ const Page = () => {
   const [active, setActive] = useState(false);
   const [order, setOrder] = useState("")
   const [topicCategorySelected, setTopicCategorySelected] = useState<TopicCategorySelected | null>(null)
+  const [publicationStatus, setPublicationStatus] = useState<string | null>(null)
+  const [completionStatus, setCompletionStatus] = useState<string | null>(null)
 
 
   const handleAddPhotos = (e: any) => {
@@ -89,6 +110,8 @@ const Page = () => {
             $icon_type : String,
             $is_visible : Boolean!,
             $is_active : Boolean!,
+            $publication_status : String!,
+            $completion_status : String!,
             $order : Int
           ){
             newTopicCategoryDefinition(
@@ -101,6 +124,8 @@ const Page = () => {
                 icon_type : $icon_type,
                 is_visible : $is_visible,
                 is_active : $is_active,
+                publication_status : $publication_status,
+                completion_status : $completion_status,
                 order : $order
             ) {
               status,
@@ -118,6 +143,8 @@ const Page = () => {
         icon_type : (iconName.length>2 && iconType.length>2)?iconType:undefined,
         is_visible : visible,
         is_active : active,
+        publication_status: publicationStatus,
+        completion_status: completionStatus,
         order : Number(order)
       },
     };
@@ -305,6 +332,38 @@ const Page = () => {
           تایپ آیکون
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
             <Input id="name" value={iconType} changeState={setIconType} classes="flex-1" inputStyles="!text-base" />
+          </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="name"
+        >
+          وضعیت انتشار دسته بندی
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+            <SelectInput
+              name="stage-game-language"
+              options={PublicationStatus}
+              onChange={(value) => setPublicationStatus(value)}
+            />
+          </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="name"
+        >
+          وضعیت کامل بودن دسته بندی
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+            <SelectInput
+              name="stage-game-language"
+              options={CompletionStatus}
+              onChange={(value) => setCompletionStatus(value)}
+            />
           </div>
         </label>
       </div>

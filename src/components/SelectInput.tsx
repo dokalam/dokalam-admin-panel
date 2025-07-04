@@ -22,7 +22,7 @@ const SelectInput: React.FC<SelectInputProps> = ({ name, options = [], onChange,
                 {
                     options.length > 0?
                     options.map((option, index) => (
-                        <option key={index.toString()} value={option.value}>
+                        <option key={index.toString()} value={option.value} className={`${option.value?"text-text dark:text-text_dark":"text-text5 dark:text-text5_dark"}`}>
                             {option.label}
                         </option>
                     ))

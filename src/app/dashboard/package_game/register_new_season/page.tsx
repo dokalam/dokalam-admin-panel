@@ -34,26 +34,8 @@ type SelectedOption = {
   value: any;
   label: string;
 };
-const LiteraryFormList:SelectedOption[] = [
-  {value:null, label:"انتخاب فرم نگارش ادبی"},
-  {value:"نثر - رمان", label:"نثر - رمان"},
-  {value:"نثر - داستان کوتاه", label:"نثر - داستان کوتاه"},
-  {value:"نثر - مقاله", label:"نثر - مقاله"},
-  {value:"نثر - زندگینامه", label:"نثر - زندگینامه"},
-  {value:"نثر - یادداشت‌ها / خاطره‌نگاری", label:"نثر - یادداشت‌ها / خاطره‌نگاری"},
-  {value:"نثر - سفرنامه", label:"نثر - سفرنامه"},
-  {value:"نثر - نامه", label:"نثر - نامه"},
-  {value:"نثر - گفت‌وگو", label:"نثر - گفت‌وگو"},
-  {value:"نثر - مقاله علمی یا عمومی", label:"نثر - مقاله علمی یا عمومی"},
-  {value:"نظم - حماسی", label:"نظم - حماسی"},
-  {value:"نظم - غنایی", label:"نظم - غنایی"},
-  {value:"نظم - هجو / طنز شعری", label:"نظم - هجو / طنز شعری"},
-  {value:"نظم - شعر آزاد", label:"نظم - شعر آزاد"},
-  {value:"نظم - شعر بی‌قافیه با وزن مشخص", label:"نظم - شعر بی‌قافیه با وزن مشخص"},
-  {value:"نظم - شعرهای قالب‌دار خارجی", label:"نظم - شعرهای قالب‌دار خارجی"},
-]
 const PublicationStatus:SelectedOption[] = [
-  {value:null, label:"انتخاب وضعیت انتشار"},
+  {value:null, label:"انتخاب وضعیت انتشار محتوا"},
   {value:"draft", label:"پیشنویس"},
   {value:"ready", label:"آماده انتشار"},
   {value:"published", label:"منتشر شده"},
@@ -61,7 +43,7 @@ const PublicationStatus:SelectedOption[] = [
   {value:"rejected", label:"رد شده"},
 ]
 const CompletionStatus:SelectedOption[] = [
-  {value:null, label:"انتخاب وضعیت کامل بودن فصل"},
+  {value:null, label:"انتخاب وضعیت کامل بودن محتوا"},
   {value:"incomplete", label:"ناقص (نیاز به بخش‌هایی بیشتر)"},
   {value:"in_progress", label:"در حال کار و بازبینی"},
   {value:"complete", label:"کامل‌شده ولی قابل به‌روزرسانی"},
@@ -205,7 +187,7 @@ const Page = () => {
               $package : [ID!]!,
               $title : String!,
               $description : String,
-              $language : ID!,
+              $language_ref : ID!,
               $media : [FileInput!]!,
               $music : FileInput,
               $badg : String,
@@ -221,7 +203,7 @@ const Page = () => {
                 package : $package,
                 title : $title,
                 description : $description,
-                language : $language,
+                language_ref : $language_ref,
                 media : $media,
                 music : $music,
                 badg : $badg,
@@ -242,7 +224,7 @@ const Page = () => {
         package:packageSelected?.map(item => item._id),
         title: title,
         description: description?.length > 2?description:undefined,
-        language: language,
+        language_ref: language,
         media: media.map((item:any, index:number) => ({
           file: null,
           order: (index+1),

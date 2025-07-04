@@ -184,6 +184,12 @@ const Page = () => {
   }
   const checkedAndRegister = async()=>{
     setLoading(true)
+    const src = takenSource.title?.length > 1?{
+      title: takenSource.title,
+      poet: takenSource.poet.length > 1?takenSource.poet:undefined,
+      author: takenSource.author.length > 1?takenSource.author:undefined,
+      literary_form: takenSource?.literary_form??undefined
+    }:undefined
     let data = {
       query: `
           mutation newPackageDefinitionForPackageGame(
@@ -195,7 +201,7 @@ const Page = () => {
             $content_source_type : String!,
             $publication_status : String!,
             $completion_status : String!,
-            $language : ID!,
+            $language_ref : ID!,
             $topic_category : [ID],
             $package_collection : [ID],
             $icon_image : Upload!,
@@ -220,7 +226,7 @@ const Page = () => {
               content_source_type : $content_source_type,
               publication_status : $publication_status,
               completion_status : $completion_status,
-              language : $language,
+              language_ref : $language_ref,
               topic_category : $topic_category,
               package_collection : $package_collection,
               icon_image : $icon_image,
@@ -246,13 +252,13 @@ const Page = () => {
         description : description,
         subject : subject,
         badg : badg,
-        taken_source : takenSource,
+        taken_source : src,
         content_source_type : contentSourceType.selected,
         publication_status : publicationStatus,
         completion_status : completionStatus,
-        language : language,
-        topic_category : topicCategory?.length > 0?topicCategory:undefined,
-        package_collection : packageCollection?.length > 0?packageCollection:undefined,
+        language_ref : language,
+        topic_category : topicCategory?.length > 0?topicCategory.map(item => item._id):undefined,
+        package_collection : packageCollection?.length > 0?packageCollection.map(item => item._id):undefined,
         icon_image: null,
         banner_image: null,
         music: music?.file && music?.duration ? { file: null, duration: music.duration } : undefined,
@@ -301,6 +307,7 @@ const Page = () => {
           "Content-Type": "multipart/form-data",
         },
     }).then(async (response) => {
+      console.log("111111111111", response)
         setLoading(false);
         if (response.data?.data?.newPackageDefinitionForPackageGame?.status == 200) {
             toast.success(response.data?.data?.newPackageDefinitionForPackageGame?.message, {
@@ -328,7 +335,8 @@ const Page = () => {
           });
         }
       })
-      .catch(() => {
+      .catch((err) => {
+      console.log("22222222222222222", err)
         toast.error("مشکلی پیش آمد دوباره تلاش کنید", {
           position: "top-center",
           autoClose: 3000,

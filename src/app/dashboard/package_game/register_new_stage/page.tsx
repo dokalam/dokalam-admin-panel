@@ -51,6 +51,25 @@ type PackageSelectedInfo = {
   title: string;
   image: string;
 }
+type SelectedOption = {
+  value: any;
+  label: string;
+};
+const PublicationStatus:SelectedOption[] = [
+  {value:null, label:"انتخاب وضعیت انتشار محتوا"},
+  {value:"draft", label:"پیشنویس"},
+  {value:"ready", label:"آماده انتشار"},
+  {value:"published", label:"منتشر شده"},
+  {value:"archived", label:"آرشیو شده، غیرفعال"},
+  {value:"rejected", label:"رد شده"},
+]
+const CompletionStatus:SelectedOption[] = [
+  {value:null, label:"انتخاب وضعیت کامل بودن محتوا"},
+  {value:"incomplete", label:"ناقص (نیاز به بخش‌هایی بیشتر)"},
+  {value:"in_progress", label:"در حال کار و بازبینی"},
+  {value:"complete", label:"کامل‌شده ولی قابل به‌روزرسانی"},
+  {value:"finalized", label:"نهایی‌شده، بدون نیاز به تغییر"},
+]
 const Page = () => {
   const inputImageRef: any = useRef();
   const inputVideoRef: any = useRef();
@@ -72,6 +91,8 @@ const Page = () => {
   const [video, setVideo] = useState<any>([]);
   const media = video.concat(image);
   const [music, setMusic] = useState<any[]>([])
+  const [publicationStatus, setPublicationStatus] = useState<string | null>(null)
+  const [completionStatus, setCompletionStatus] = useState<string | null>(null)
   
   useEffect(()=>{
     getAllLanguage()
@@ -154,7 +175,7 @@ const Page = () => {
       });
   }
   const registerAndConfirm = ()=>{
-    if(!season || !language || stageNumber.length == 0){
+    if(!season || !language || stageNumber.length == 0 || !publicationStatus || !completionStatus){
       toast.error("ابتدا موارد الزامی را وارد کنید", {
         position: "top-center",
         autoClose: 6000,
@@ -192,23 +213,27 @@ const Page = () => {
             $parts : [StageStructure!]!,
             $stage_hint : String,
             $season : ID!,
-            $language : ID!,
+            $language_ref : ID!,
             $stage_number : Int!,
             $is_visible : Boolean!,
             $is_active : Boolean!,
             $media : [FileInput],
             $voice : [FileInput],
+            $publication_status : String!,
+            $completion_status : String!,
           ){
             newStageDefinitionForPackageGame(
               parts : $parts,
               stage_hint : $stage_hint,
               season : $season,
-              language : $language,
+              language_ref : $language_ref,
               stage_number : $stage_number,
               is_visible : $is_visible,
               is_active : $is_active,
               media : $media,
               voice : $voice,
+              publication_status : $publication_status,
+              completion_status : $completion_status,
             ) {
               status,
               message,
@@ -219,7 +244,7 @@ const Page = () => {
         parts : normalData,
         stage_hint : stageHint.trim().length < 3?undefined:stageHint,
         season : season,
-        language: language,
+        language_ref: language,
         stage_number : Number(stageNumber),
         is_visible : visible,
         is_active : active,
@@ -233,6 +258,8 @@ const Page = () => {
           order: (index+1),
           duration: item.duration??undefined,
         })):undefined,
+        publication_status: publicationStatus,
+        completion_status: completionStatus
       },
     };
     const map: any = {};
@@ -1021,7 +1048,7 @@ const Page = () => {
       </div>
       <div className="mt-12">
         <GradientButton
-          buttonText={"انتخاب بسته و پکیج فصل"}
+          buttonText={"انتخاب بسته و پکیج مرحله"}
           onClickFn={selectPackages}
           loading={false}
           classes="!text-sm !flex-none !px-8 sm:!w-[300px] !w-full"
@@ -1097,6 +1124,38 @@ const Page = () => {
             textAreaStyles="!text-sm mt-1"
             rows={4}
           />
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="name"
+        >
+          وضعیت انتشار مرحله
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+            <SelectInput
+              name="stage-game-language"
+              options={PublicationStatus}
+              onChange={(value) => setPublicationStatus(value)}
+            />
+          </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="name"
+        >
+          وضعیت کامل بودن مرحله
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+            <SelectInput
+              name="stage-game-language"
+              options={CompletionStatus}
+              onChange={(value) => setCompletionStatus(value)}
+            />
+          </div>
         </label>
       </div>
       <div

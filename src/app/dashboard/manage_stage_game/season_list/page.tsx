@@ -25,7 +25,7 @@ type SelectedOption = {
   label: string;
 };
 const PublicationStatus:SelectedOption[] = [
-  {value:null, label:"انتخاب وضعیت انتشار"},
+  {value:null, label:"انتخاب وضعیت انتشار محتوا"},
   {value:"draft", label:"پیشنویس"},
   {value:"ready", label:"آماده انتشار"},
   {value:"published", label:"منتشر شده"},
@@ -33,7 +33,7 @@ const PublicationStatus:SelectedOption[] = [
   {value:"rejected", label:"رد شده"},
 ]
 const CompletionStatus:SelectedOption[] = [
-  {value:null, label:"انتخاب وضعیت کامل بودن فصل"},
+  {value:null, label:"انتخاب وضعیت کامل بودن محتوا"},
   {value:"incomplete", label:"ناقص (نیاز به بخش‌هایی بیشتر)"},
   {value:"in_progress", label:"در حال کار و بازبینی"},
   {value:"complete", label:"کامل‌شده ولی قابل به‌روزرسانی"},
@@ -119,7 +119,7 @@ const Page = () => {
             query paginateStageGameSeasonForAdmin(
               $page : Int,
               $limit : Int,
-              $language : ID,
+              $language_ref : ID,
               $search : String,
               $filter_publication_status : String,
               $filter_completion_status : String,
@@ -129,7 +129,7 @@ const Page = () => {
                 paginateStageGameSeasonForAdmin(
                   page : $page,
                   limit : $limit,
-                  language : $language,
+                  language_ref : $language_ref,
                   search : $search,
                   filter_publication_status : $filter_publication_status,
                   filter_completion_status : $filter_completion_status,
@@ -140,7 +140,7 @@ const Page = () => {
                       _id,
                       title,
                       description,
-                      language{name, rtl},
+                      language_ref{name, rtl},
                       media{path, file_type, duration, order},
                       music{path, file_type, duration},
                       badg,
@@ -164,7 +164,7 @@ const Page = () => {
             `,
         variables: {
           page : 1,
-          language : language??undefined,
+          language_ref : language??undefined,
           search : txt?.length>1?txt:undefined,
           filter_publication_status : publicationStatus??undefined,
           filter_completion_status : completionStatus??undefined,
@@ -212,7 +212,7 @@ const Page = () => {
             query paginateStageGameSeasonForAdmin(
               $page : Int,
               $limit : Int,
-              $language : ID,
+              $language_ref : ID,
               $search : String,
               $filter_publication_status : String,
               $filter_completion_status : String,
@@ -222,7 +222,7 @@ const Page = () => {
                 paginateStageGameSeasonForAdmin(
                   page : $page,
                   limit : $limit,
-                  language : $language,
+                  language_ref : $language_ref,
                   search : $search,
                   filter_publication_status : $filter_publication_status,
                   filter_completion_status : $filter_completion_status,
@@ -233,7 +233,7 @@ const Page = () => {
                       _id,
                       title,
                       description,
-                      language{name, rtl},
+                      language_ref{name, rtl},
                       media{path, file_type, duration, order},
                       music{path, file_type, duration},
                       badg,
@@ -257,7 +257,7 @@ const Page = () => {
             `,
         variables: {
           page : page,
-          language : language??undefined,
+          language_ref : language??undefined,
           search : search?.length>1?search:undefined,
           filter_publication_status : publicationStatus??undefined,
           filter_completion_status : completionStatus??undefined,
@@ -490,10 +490,10 @@ const Page = () => {
               {data?.map((item: any, index: number) => (
                 <div key={index.toString()}>
                   <SeasonSG
-                      rtl={item?.language?.rtl}
+                      rtl={item?.language_ref?.rtl}
                       title={item?.title}
                       description={item?.description}
-                      language={item?.language?.name}
+                      language={item?.language_ref?.name}
                       media={item?.media}
                       music={item?.music}
                       badg={item?.badg}
