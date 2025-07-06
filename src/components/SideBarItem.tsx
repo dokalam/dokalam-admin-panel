@@ -91,7 +91,7 @@ const SideBarItem = ({
               <SideBarItem
                 name={item?.name}
                 href={`${href}${item?.href}`}
-                active={path == `${href}${item?.href}` ? true : false}
+                active={path.includes(`${href}${item?.href}`) ? true : false}
                 child={item?.children?.length > 0 ? item?.children : []}
                 closeDrawer={closeDrawer}
                 icon={item?.icon}

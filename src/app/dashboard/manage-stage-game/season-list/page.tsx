@@ -140,7 +140,7 @@ const Page = () => {
                       _id,
                       title,
                       description,
-                      language_ref{name, rtl},
+                      language_info{name, rtl},
                       media{path, file_type, duration, order},
                       music{path, file_type, duration},
                       badg,
@@ -150,9 +150,9 @@ const Page = () => {
                       number_stage,
                       is_visible,
                       is_active,
-                      content_source_type,
-                      publication_status,
-                      completion_status,
+                      content_source_type_label,
+                      publication_status_label,
+                      completion_status_label,
                       version_created,
                       version_updated,
                       version_deleted,
@@ -194,7 +194,7 @@ const Page = () => {
           }
         }
       })
-      .catch(() => {
+      .catch((err) => {
         setFooterLoading(false);
         setLoading(true);
         setFooterTry(false);
@@ -243,9 +243,9 @@ const Page = () => {
                       number_stage,
                       is_visible,
                       is_active,
-                      content_source_type,
-                      publication_status,
-                      completion_status,
+                      content_source_type_label,
+                      publication_status_label,
+                      completion_status_label,
                       version_created,
                       version_updated,
                       version_deleted,
@@ -376,7 +376,7 @@ const Page = () => {
                   <SelectInput
                     name="stage-game-language-filter"
                     options={languageList}
-                    onChange={(value) => setLanguage(value || null)}
+                    onChange={(value) => setLanguage(value)}
                     classes={"!text-[.75rem]"}
                   />
                 </div>
@@ -490,10 +490,11 @@ const Page = () => {
               {data?.map((item: any, index: number) => (
                 <div key={index.toString()}>
                   <SeasonSG
-                      rtl={item?.language_ref?.rtl}
+                      _id={item?._id}
+                      rtl={item?.language_info?.rtl}
                       title={item?.title}
                       description={item?.description}
-                      language={item?.language_ref?.name}
+                      language={item?.language_info?.name}
                       media={item?.media}
                       music={item?.music}
                       badg={item?.badg}
@@ -503,9 +504,9 @@ const Page = () => {
                       number_stage={item?.number_stage}
                       is_visible={item?.is_visible}
                       is_active={item?.is_active}
-                      content_source_type={item?.content_source_type}
-                      publication_status={item?.publication_status}
-                      completion_status={item?.completion_status}
+                      content_source_type={item?.content_source_type_label}
+                      publication_status={item?.publication_status_label}
+                      completion_status={item?.completion_status_label}
                       version_created={item?.version_created}
                       version_updated={item?.version_updated}
                       version_deleted={item?.version_deleted}
@@ -542,8 +543,8 @@ const Page = () => {
             <div className="sticky bottom-0 w-full">
               <FilterFooter
                 buttonText="اعمال فیلتر"
-                buttonFn={() => {}}
-                loadingButton={false}
+                buttonFn={tryAgain}
+                loadingButton={(loading == true && getError == false && noItem == false)?true:false}
                 classes="w-full"
               />
             </div>
@@ -578,8 +579,11 @@ const Page = () => {
               <div className="sticky bottom-0 w-full">
                 <FilterFooter
                   buttonText="اعمال فیلتر"
-                  buttonFn={() => setShowMobileFilter(false)}
-                  loadingButton={false}
+                  buttonFn={() => {
+                    setShowMobileFilter(false)
+                    tryAgain()
+                  }}
+                  loadingButton={(loading == true && getError == false && noItem == false)?true:false}
                   classes="w-full"
                 />
               </div>

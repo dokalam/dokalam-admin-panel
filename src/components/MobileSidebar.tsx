@@ -34,7 +34,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
     },
     {
       name: "ثبت محتوای بازی مرحله‌ای",
-      href: "/dashboard/stage_game",
+      href: "/dashboard/stage-game",
       icon: (
         <div className="text-xl">
           <TbHexagonPlusFilled />
@@ -44,7 +44,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
       children: [
         {
           name: "ثبت فصل جدید",
-          href: "/register_new_season",
+          href: "/register-new-season",
           icon: (
             <div className="text-xl">
               <TbHexagonalPrismPlus />
@@ -53,7 +53,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
         },
         {
           name: "ثبت مرحله جدید",
-          href: "/register_new_stage",
+          href: "/register-new-stage",
           icon: (
             <div className="text-xl">
               <TbHexagonalPrismPlus />
@@ -64,7 +64,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
     },
     {
       name: "مدیریت محتوای بازی مرحله‌ای",
-      href: "/dashboard/manage_stage_game",
+      href: "/dashboard/manage-stage-game",
       icon: (
         <div className="text-xl">
           <FaDiceD6 />
@@ -74,7 +74,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
       children: [
         {
           name: "لیست فصل‌ها",
-          href: "/season_list",
+          href: "/season-list",
           icon: (
             <div className="text-xl">
               <LuClipboardList />
@@ -83,7 +83,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
         },
         {
           name: "لیست مراحل",
-          href: "/stage_list",
+          href: "/stage-list",
           icon: (
             <div className="text-xl">
               <LuClipboardList />
@@ -94,7 +94,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
     },
     {
       name: "ثبت محتوای پکیج‌های بازی",
-      href: "/dashboard/package_game",
+      href: "/dashboard/package-game",
       icon: (
         <div className="text-xl">
           <RiApps2AddFill />
@@ -104,7 +104,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
       children: [
         {
           name: "ثبت پکیج بازی جدید",
-          href: "/register_new_package_game",
+          href: "/register-new-package-game",
           icon: (
             <div className="text-xl">
               <TbDiaboloPlus />
@@ -113,7 +113,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
         },
         {
           name: "ثبت فصل جدید",
-          href: "/register_new_season",
+          href: "/register-new-season",
           icon: (
             <div className="text-xl">
               <TbDiaboloPlus />
@@ -122,7 +122,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
         },
         {
           name: "ثبت مرحله جدید",
-          href: "/register_new_stage",
+          href: "/register-new-stage",
           icon: (
             <div className="text-xl">
               <TbDiaboloPlus />
@@ -131,7 +131,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
         },
         {
           name: "افزودن کالکشن جدید",
-          href: "/add_collection",
+          href: "/add-collection",
           icon: (
             <div className="text-xl">
               <TbDiaboloPlus />
@@ -142,7 +142,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
     },
     {
       name: "مدیریت محتوای پکیج‌های بازی",
-      href: "/dashboard/manage_package_game",
+      href: "/dashboard/manage-package-game",
       icon: (
         <div className="text-xl">
           <RiApps2Fill />
@@ -152,7 +152,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
       children: [
         {
           name: "لیست پکیج‌ها",
-          href: "/package_list",
+          href: "/package-list",
           icon: (
             <div className="text-xl">
               <LuClipboardList />
@@ -161,7 +161,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
         },
         {
           name: "لیست فصل‌ها",
-          href: "/season_list",
+          href: "/season-list",
           icon: (
             <div className="text-xl">
               <LuClipboardList />
@@ -170,7 +170,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
         },
         {
           name: "لیست مراحل",
-          href: "/stage_list",
+          href: "/stage-list",
           icon: (
             <div className="text-xl">
               <LuClipboardList />
@@ -179,7 +179,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
         },
         {
           name: "لیست کالکش‌ها",
-          href: "/collection_list",
+          href: "/collection-list",
           icon: (
             <div className="text-xl">
               <LuClipboardList />
@@ -200,7 +200,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
       children: [
         {
           name: "تعریف زبان",
-          href: "/add_language",
+          href: "/add-language",
           icon: (
             <div className="text-xl">
               <BsCloudPlus />
@@ -209,7 +209,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
         },
         {
           name: "تعریف دسته‌بندی موضوع",
-          href: "/add_topic_category",
+          href: "/add-topic-category",
           icon: (
             <div className="text-xl">
               <BsCloudPlus />
@@ -230,7 +230,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
       children: [
         {
           name: "لیست کاربران",
-          href: "/user_list",
+          href: "/user-list",
         },
       ],
     },

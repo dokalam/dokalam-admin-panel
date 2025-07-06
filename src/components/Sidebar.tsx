@@ -23,7 +23,7 @@ const navigation: any = [
   },
   {
     name: "ثبت محتوای بازی مرحله‌ای",
-    href: "/dashboard/stage_game",
+    href: "/dashboard/stage-game",
     icon: (
       <div className="text-xl">
         <TbHexagonPlusFilled />
@@ -33,7 +33,7 @@ const navigation: any = [
     children: [
       {
         name: "ثبت فصل جدید",
-        href: "/register_new_season",
+        href: "/register-new-season",
         icon: (
           <div className="text-xl">
             <TbHexagonalPrismPlus />
@@ -42,7 +42,7 @@ const navigation: any = [
       },
       {
         name: "ثبت مرحله جدید",
-        href: "/register_new_stage",
+        href: "/register-new-stage",
         icon: (
           <div className="text-xl">
             <TbHexagonalPrismPlus />
@@ -53,7 +53,7 @@ const navigation: any = [
   },
   {
     name: "مدیریت محتوای بازی مرحله‌ای",
-    href: "/dashboard/manage_stage_game",
+    href: "/dashboard/manage-stage-game",
     icon: (
       <div className="text-xl">
         <FaDiceD6 />
@@ -63,7 +63,7 @@ const navigation: any = [
     children: [
       {
         name: "لیست فصل‌ها",
-        href: "/season_list",
+        href: "/season-list",
         icon: (
           <div className="text-xl">
             <LuClipboardList />
@@ -72,7 +72,7 @@ const navigation: any = [
       },
       {
         name: "لیست مراحل",
-        href: "/stage_list",
+        href: "/stage-list",
         icon: (
           <div className="text-xl">
             <LuClipboardList />
@@ -83,7 +83,7 @@ const navigation: any = [
   },
   {
     name: "ثبت محتوای پکیج‌های بازی",
-    href: "/dashboard/package_game",
+    href: "/dashboard/package-game",
     icon: (
       <div className="text-xl">
         <RiApps2AddFill />
@@ -93,7 +93,7 @@ const navigation: any = [
     children: [
       {
         name: "ثبت پکیج بازی جدید",
-        href: "/register_new_package_game",
+        href: "/register-new-package-game",
         icon: (
           <div className="text-xl">
             <TbDiaboloPlus />
@@ -102,7 +102,7 @@ const navigation: any = [
       },
       {
         name: "ثبت فصل جدید",
-        href: "/register_new_season",
+        href: "/register-new-season",
         icon: (
           <div className="text-xl">
             <TbDiaboloPlus />
@@ -111,7 +111,7 @@ const navigation: any = [
       },
       {
         name: "ثبت مرحله جدید",
-        href: "/register_new_stage",
+        href: "/register-new-stage",
         icon: (
           <div className="text-xl">
             <TbDiaboloPlus />
@@ -120,7 +120,7 @@ const navigation: any = [
       },
       {
         name: "افزودن کالکشن جدید",
-        href: "/add_collection",
+        href: "/add-collection",
         icon: (
           <div className="text-xl">
             <TbDiaboloPlus />
@@ -131,7 +131,7 @@ const navigation: any = [
   },
   {
     name: "مدیریت محتوای پکیج‌های بازی",
-    href: "/dashboard/manage_package_game",
+    href: "/dashboard/manage-package-game",
     icon: (
       <div className="text-xl">
         <RiApps2Fill />
@@ -141,7 +141,7 @@ const navigation: any = [
     children: [
       {
         name: "لیست پکیج‌ها",
-        href: "/package_list",
+        href: "/package-list",
         icon: (
           <div className="text-xl">
             <LuClipboardList />
@@ -150,7 +150,7 @@ const navigation: any = [
       },
       {
         name: "لیست فصل‌ها",
-        href: "/season_list",
+        href: "/season-list",
         icon: (
           <div className="text-xl">
             <LuClipboardList />
@@ -159,7 +159,7 @@ const navigation: any = [
       },
       {
         name: "لیست مراحل",
-        href: "/stage_list",
+        href: "/stage-list",
         icon: (
           <div className="text-xl">
             <LuClipboardList />
@@ -168,7 +168,7 @@ const navigation: any = [
       },
       {
         name: "لیست کالکش‌ها",
-        href: "/collection_list",
+        href: "/collection-list",
         icon: (
           <div className="text-xl">
             <LuClipboardList />
@@ -189,7 +189,7 @@ const navigation: any = [
     children: [
       {
         name: "تعریف زبان",
-        href: "/add_language",
+        href: "/add-language",
         icon: (
           <div className="text-xl">
             <BsCloudPlus />
@@ -198,7 +198,7 @@ const navigation: any = [
       },
       {
         name: "تعریف دسته‌بندی موضوع",
-        href: "/add_topic_category",
+        href: "/add-topic-category",
         icon: (
           <div className="text-xl">
             <BsCloudPlus />
@@ -219,7 +219,7 @@ const navigation: any = [
     children: [
       {
         name: "لیست کاربران",
-        href: "/user_list",
+        href: "/user-list",
       },
     ],
   },

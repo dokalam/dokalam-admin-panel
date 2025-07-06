@@ -1,20 +1,23 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { BsMusicNoteBeamed } from "react-icons/bs";
-import { IoIosVideocam } from "react-icons/io";
+import { IoIosVideocam, IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { MdVerifiedUser } from "react-icons/md";
 import { FaPlay } from "react-icons/fa";
 import ImageComponent from "@/components/ImageComponent";
 import { secondsToTime } from "@/utils/SecondToTime";
+import { HiDotsVertical } from "react-icons/hi";
 
 const SeasonSG = ({
+  _id,
   rtl,
   title,
   description,
   language,
   media,
   music,
-  badg,
+  badg ="جدید",
   season_number,
   stage_number_from,
   stage_number_to,
@@ -28,6 +31,7 @@ const SeasonSG = ({
   version_updated,
   version_deleted,
 }: {
+  _id: string;
   rtl: boolean;
   title: string;
   description?: string;
@@ -57,16 +61,66 @@ const SeasonSG = ({
   version_updated?: number;
   version_deleted?: number;
 }) => {
+  const router = useRouter();
   const direction = rtl ? "rtl" : "ltr";
   const textAlign = rtl ? "text-right" : "text-left";
   const flexDir = rtl ? "flex-row-reverse" : "flex-row";
   const itemAlign = rtl ? "items-end sm:items-start" : "items-start sm:items-end";
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const seasonId = _id
+
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
-    <div
-      dir={direction}
-      className={`w-full p-4 rounded-2xl shadow-sm bg-white dark:bg-zinc-900 flex flex-col gap-4 ${textAlign}`}
-    >
+    <div 
+      dir={direction} 
+      className={`relative w-full p-4 rounded-2xl shadow-bottom dark:shadow-bottom-dark m-1 bg-background5 dark:bg-background5_dark flex flex-col gap-4 ${textAlign}`}
+      >
+      <div
+        className={`absolute top-2 ${rtl ? "left-2" : "right-2"} z-20`}
+        ref={menuRef}
+      >
+        <div className="relative inline-block text-left">
+          <button
+            onClick={() => setMenuOpen((prev) => !prev)}
+            className="p-1 rounded-full text-primary hover:bg-rgba0 hover:text-white"
+          >
+            <HiDotsVertical className="text-xl" />
+          </button>
+
+          {menuOpen && (
+            <div
+              className={`absolute mt-2 w-32 rounded-md font-['iransans-md'] shadow-lg bg-background dark:bg-background_dark ring-1 ring-black ring-opacity-5 focus:outline-none z-30 ${
+                rtl ? "left-0" : "right-0"
+              }`}
+            >
+              <div className="py-1">
+                <button
+                  className="block w-full text-right px-2 py-2 text-sm text-text2 dark:text-text2_dark hover:bg-border2 dark:hover:bg-border2_dark"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    router.push(`/dashboard/manage-stage-game/season-list/edit-season/${seasonId}`)
+                  }}
+                >
+                  ویرایش
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
       {/* رسانه‌ها */}
       {(media?.length || music) && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -112,29 +166,29 @@ const SeasonSG = ({
       <div className={`flex flex-col sm:${flexDir} gap-4`}>
         <div className="flex-1">
           <div className="flex items-center justify-between gap-2 flex-wrap">
-            <h2 className="text-lg font-bold">{title}</h2>
+            <h2 className="text-lg font-['iransans-bold']">{title}</h2>
             {badg && (
-              <span className="text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 px-2 py-1 rounded">
+              <span className="text-xs bg-info text-white px-2 py-1 rounded">
                 {badg}
               </span>
             )}
           </div>
 
           {description && (
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">
+            <p className="text-sm text-text6 dark:text-text6_dark mt-2 line-clamp-2 font-['iransans-md']">
               {description}
             </p>
           )}
 
-          <div className="mt-2 text-sm flex flex-wrap gap-x-4 gap-y-1 text-gray-700 dark:text-gray-300">
+          <div className="mt-2 text-sm flex flex-wrap gap-x-6 gap-y-1 text-text6 dark:text-text6_dark font-['iransans-md']">
             <span>زبان: {language}</span>
             <span>فصل: {season_number}</span>
             <span>
-              مراحل: {stage_number_from} تا {stage_number_to} ({number_stage})
+              مراحل: {stage_number_from} تا {stage_number_to} ( {number_stage} مرحله )
             </span>
           </div>
 
-          <div className="mt-2 flex flex-wrap gap-2 text-xs">
+          <div className="mt-2 flex flex-wrap gap-2 text-xs font-['iransans-md'] text-text dark:text-text_dark">
             <span className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
               منبع: {content_source_type}
             </span>
@@ -147,12 +201,12 @@ const SeasonSG = ({
           </div>
         </div>
 
-        <div className={`flex sm:flex-col gap-2 ${itemAlign} text-sm`}>
+        <div className={`flex sm:flex-col gap-2 ${itemAlign} text-sm font-['iransans-md'] text-text6 dark:text-text6_dark`}>
           <div className="flex items-center gap-1">
             {is_visible ? (
-              <AiOutlineEye className="text-green-600" />
+              <IoMdEye className="text-green-600" />
             ) : (
-              <AiOutlineEyeInvisible className="text-red-600" />
+              <IoMdEyeOff className="text-red-600" />
             )}
             <span className="hidden sm:inline">
               {is_visible ? "قابل نمایش" : "مخفی"}
