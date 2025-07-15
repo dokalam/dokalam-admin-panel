@@ -61,6 +61,7 @@ const Page = () => {
   const inputImageRef: any = useRef();
   const inputVideoRef: any = useRef();
   const inputMusicRef: any = useRef();
+  const [oldData, setOldData] = useState<any>(null)
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [visible, setVisible] = useState(false);
@@ -133,6 +134,7 @@ const Page = () => {
     }).then(async (response) => {
         const data = response.data.data.getStageGameSeasonInformation;
         if (data) {
+          setOldData(data)
           setTitle(data?.title)
           setDescription(data?.description??"")
           setLanguage(data?.language_info?._id)
@@ -171,7 +173,7 @@ const Page = () => {
     getData()
   }
   const registerAndConfirm = ()=>{
-    if(title.length == 0 ){
+    if(title.length == 0 || seasonNumber.length == 0 || stageNumberFrom.length == 0 || stageNumberTo.length == 0 || numberStage.length == 0 || !contentSourceType.selected || !completionStatus || !publicationStatus){
       toast.error("ابتدا موارد الزامی را وارد کنید", {
         position: "top-center",
         autoClose: 3000,
@@ -190,27 +192,27 @@ const Page = () => {
     setLoading(true)
     let data = {
       query: `
-          mutation newSeasonDefinitionForStageGame(
-            $title : String!,
+          mutation editStageGameSeasonInformation(
+            $_id : ID!,
+            $title : String,
             $description : String,
-            $language_ref : ID!,
             $media : [FileInput!]!,
             $music : FileInput,
             $badg : String,
-            $season_number : Int!,
-            $stage_number_from : Int!,
-            $stage_number_to : Int!,
-            $number_stage : Int!,
-            $is_visible : Boolean!,
-            $is_active : Boolean!,
-            $content_source_type : String!,
-            $publication_status : String!,
-            $completion_status : String!,
+            $season_number : Int,
+            $stage_number_from : Int,
+            $stage_number_to : Int,
+            $number_stage : Int,
+            $is_visible : Boolean,
+            $is_active : Boolean,
+            $content_source_type : String,
+            $publication_status : String,
+            $completion_status : String,
           ){
-            newSeasonDefinitionForStageGame(
+            editStageGameSeasonInformation(
+              _id : $_id,
               title : $title,
               description : $description,
-              language_ref : $language_ref,
               media : $media,
               music : $music,
               badg : $badg,
@@ -230,25 +232,25 @@ const Page = () => {
           }
           `,
       variables: {
-        title : title,
-        description : description?.length > 0?description:undefined,
-        language_ref : language,
+        _id : seasonId,
+        title : title !== oldData?.title?title:undefined,
+        description : (description !== oldData?.description && description?.length > 0)?description:undefined,
         media: media.map((item:any, index:number) => ({
           file: null,
           order: (index+1),
           duration: item.duration??undefined,
         })),
         music : (music?.file && music?.duration) ? { file: null, duration: music.duration } : undefined,
-        badg: badg?.length > 0?badg:undefined,
-        season_number: Number(seasonNumber),
-        stage_number_from : Number(stageNumberFrom),
-        stage_number_to : Number(stageNumberTo),
-        number_stage: Number(numberStage),
-        is_visible : visible,
-        is_active : active,
-        content_source_type : contentSourceType.selected,
-        publication_status : publicationStatus,
-        completion_status : completionStatus,
+        badg: (oldData?.badg && oldData?.badg?.length > 0 && badg !== oldData?.badg)?badg:((!oldData?.badg || oldData?.badg == "")&&badg.trim().length ==0)?undefined:badg,
+        season_number: (oldData?.seasonNumber !== seasonNumber && Number(seasonNumber) > 0)?Number(seasonNumber):undefined,
+        stage_number_from : (oldData?.stageNumberFrom !== stageNumberFrom && Number(stageNumberFrom) > 0)?Number(stageNumberFrom):undefined,
+        stage_number_to : (oldData?.stageNumberTo !== stageNumberTo && Number(stageNumberTo) > 0)?Number(stageNumberTo):undefined,
+        number_stage: (oldData?.numberStage !== numberStage && Number(numberStage) > 0)?Number(numberStage):undefined,
+        is_visible : (oldData?.is_visible !== visible)?visible:undefined,
+        is_active : (oldData?.is_active !== active)?active:undefined,
+        content_source_type : (oldData?.content_source_type !== contentSourceType.selected)?contentSourceType.selected:undefined,
+        publication_status : (oldData?.publication_status !== publicationStatus)?publicationStatus:undefined,
+        completion_status : (oldData?.completion_status !== completionStatus)?completionStatus:undefined,
       },
     };
     let map: any = {};
@@ -280,8 +282,8 @@ const Page = () => {
     })
       .then(async (response) => {
         setLoading(false);
-        if (response.data?.data?.newSeasonDefinitionForStageGame?.status == 200) {
-            toast.success(response.data?.data?.newSeasonDefinitionForStageGame?.message, {
+        if (response.data?.data?.editStageGameSeasonInformation?.status == 200) {
+            toast.success(response.data?.data?.editStageGameSeasonInformation?.message, {
               position: "top-center",
               autoClose: 3000,
               hideProgressBar: false,
