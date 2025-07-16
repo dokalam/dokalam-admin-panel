@@ -138,6 +138,15 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
             </div>
           ),
         },
+        {
+          name: "افزودن بنر جدید",
+          href: "/add-collection-banner",
+          icon: (
+            <div className="text-xl">
+              <TbDiaboloPlus />
+            </div>
+          ),
+        },
       ],
     },
     {

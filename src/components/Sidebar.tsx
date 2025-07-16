@@ -127,6 +127,15 @@ const navigation: any = [
           </div>
         ),
       },
+      {
+        name: "افزودن بنر جدید",
+        href: "/add-collection-banner",
+        icon: (
+          <div className="text-xl">
+            <TbDiaboloPlus />
+          </div>
+        ),
+      },
     ],
   },
   {
