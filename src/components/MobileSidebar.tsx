@@ -140,7 +140,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
         },
         {
           name: "افزودن بنر جدید",
-          href: "/add-collection-banner",
+        href: "/add-banner-to-collection",
           icon: (
             <div className="text-xl">
               <TbDiaboloPlus />

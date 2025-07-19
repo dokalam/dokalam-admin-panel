@@ -129,7 +129,7 @@ const navigation: any = [
       },
       {
         name: "افزودن بنر جدید",
-        href: "/add-collection-banner",
+        href: "/add-banner-to-collection",
         icon: (
           <div className="text-xl">
             <TbDiaboloPlus />
