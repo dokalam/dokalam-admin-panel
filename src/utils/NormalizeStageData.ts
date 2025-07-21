@@ -4,6 +4,7 @@ type WordItem = {
   unknown_word: boolean;
   letters: string[];
   additional_words: string[];
+  hidden_words: string[];
   order?: number;
 };
 
@@ -26,6 +27,7 @@ export function normalizeStageData(parts: PartItem[]): PartItem[] {
       if (!wordItem.unknown_word) {
         normalizedItem.letters = [];
         normalizedItem.additional_words = [];
+        normalizedItem.hidden_words = [];
       }
 
       // اگر word_hint خالی یا کمتر از ۳ کاراکتر واقعی بود → undefined

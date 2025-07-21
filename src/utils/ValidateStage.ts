@@ -4,6 +4,7 @@ type WordItem = {
   unknown_word: boolean;
   letters: string[];
   additional_words: string[];
+  hidden_words: string[];
   order?: number;
 };
 
@@ -149,6 +150,27 @@ export function validateStage(parts: PartItem[]): { status: number; message: str
             return {
               status: 401,
               message: `در جمله شماره ${i + 1}، حروف برای ساخت کلمه اضافه "${additional}" در "${wordItem.word}" کافی نیست.`,
+            };
+          }
+        }
+
+        for (const hidden of wordItem.hidden_words) {
+          if (hidden !== hidden.trim()) {
+            return {
+              status: 401,
+              message: `در جمله شماره ${i + 1}، کلمه پنهان "${hidden}" در کلمه‌ی "${wordItem.word}" دارای فاصله‌ی اضافی در ابتدا یا انتها است.`,
+            };
+          }
+          if (hidden.includes(" ")) {
+            return {
+              status: 401,
+              message: `در جمله شماره ${i + 1}، کلمه پنهان "${hidden}" در کلمه‌ی "${wordItem.word}" نباید دارای فاصله در وسط کلمه باشد.`,
+            };
+          }
+          if (!canMakeWord(hidden)) {
+            return {
+              status: 401,
+              message: `در جمله شماره ${i + 1}، حروف برای ساخت کلمه پنهان "${hidden}" در "${wordItem.word}" کافی نیست.`,
             };
           }
         }

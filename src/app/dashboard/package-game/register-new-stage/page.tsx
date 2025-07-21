@@ -38,6 +38,7 @@ type WordItem = {
   unknown_word: boolean;
   letters: string[];
   additional_words: string[];
+  hidden_words: string[];
   order?: number;
 };
 type PartItem = {
@@ -391,6 +392,7 @@ const Page = () => {
       unknown_word: false,
       letters: [],
       additional_words: [],
+      hidden_words: [],
       order:undefined
     };
     setParts(prev => {
@@ -451,10 +453,24 @@ const Page = () => {
       return [...updated];
     });
   };
+  const addHiddenWord = (index: number) => {
+    setParts(prev => {
+      const updated = [...prev];
+      updated[activeTab].words[index].hidden_words.push("");
+      return [...updated];
+    });
+  }
   const changeAdditionalWord = (wordIndex: number, wordIdx: number, newValue: string) => {
     setParts(prev => {
       const updated = [...prev];
       updated[activeTab].words[wordIndex].additional_words[wordIdx] = newValue;
+      return [...updated];
+    });
+  };
+  const changeHiddenWord = (wordIndex: number, wordIdx: number, newValue: string) => {
+    setParts(prev => {
+      const updated = [...prev];
+      updated[activeTab].words[wordIndex].hidden_words[wordIdx] = newValue;
       return [...updated];
     });
   };
@@ -469,6 +485,13 @@ const Page = () => {
     setParts(prev => {
       const updated = [...prev];
       updated[activeTab].words[wordIndex].additional_words.splice(wordIdx, 1);
+      return [...updated];
+    });
+  };
+  const deleteHiddenWord = (wordIndex: number, wordIdx: number) => {
+    setParts(prev => {
+      const updated = [...prev];
+      updated[activeTab].words[wordIndex].hidden_words.splice(wordIdx, 1);
       return [...updated];
     });
   };
@@ -1369,13 +1392,19 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
                           buttonText={"افزودن حرف"}
                           onClickFn={() => addLetter(index)}
                           loading={false}
-                          classes="!text-sm !flex-none !px-8 !w-[48%]"
+                          classes="!text-sm !flex-none !px-8 !w-[31%]"
                         />
                         <GradientButton
                           buttonText={"افزودن کلمه اضافه"}
                           onClickFn={() => addAdditionalWord(index)}
                           loading={false}
-                          classes="!text-sm !flex-none !px-8 !w-[48%]"
+                          classes="!text-sm !flex-none !px-8 !w-[31%]"
+                        />
+                        <GradientButton
+                          buttonText={"افزودن کلمه پنهان"}
+                          onClickFn={() => addHiddenWord(index)}
+                          loading={false}
+                          classes="!text-sm !flex-none !px-8 !w-[31%]"
                         />
                       </div>
                       {
@@ -1401,6 +1430,7 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
                           </div>
                         )
                       }
+                      {item?.additional_words?.length > 0&&<Border top="mt-4" bottom="mb-4"/>}
                       {
                         item?.additional_words?.length > 0&&(
                           <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -1414,6 +1444,29 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
                                 />
                                 <div
                                   onClick={() => deleteAdditionalWord(index, addIdx)}
+                                  className="absolute -top-2 -right-2 z-10 text-red_error items-center justify-center cursor-pointer text-[20px] sm:text-[20px]"
+                                >
+                                  <BiTrash size={20} />
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )
+                      }
+                      {item?.hidden_words?.length > 0&&<Border top="mt-4" bottom="mb-4"/>}
+                      {
+                        item?.hidden_words?.length > 0&&(
+                          <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+                            {item.hidden_words.map((word:any, addIdx:number) => (
+                              <div key={addIdx} className="relative">
+                                <Input
+                                  value={word}
+                                  changeState={(val: string) => changeHiddenWord(index, addIdx, val)}
+                                  classes="w-full rounded-md"
+                                  inputStyles="text-sm"
+                                />
+                                <div
+                                  onClick={() => deleteHiddenWord(index, addIdx)}
                                   className="absolute -top-2 -right-2 z-10 text-red_error items-center justify-center cursor-pointer text-[20px] sm:text-[20px]"
                                 >
                                   <BiTrash size={20} />
