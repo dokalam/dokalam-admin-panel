@@ -307,7 +307,6 @@ const Page = () => {
           "Content-Type": "multipart/form-data",
         },
     }).then(async (response) => {
-      console.log("111111111111", response)
         setLoading(false);
         if (response.data?.data?.newPackageDefinitionForPackageGame?.status == 200) {
             toast.success(response.data?.data?.newPackageDefinitionForPackageGame?.message, {
@@ -336,7 +335,6 @@ const Page = () => {
         }
       })
       .catch((err) => {
-      console.log("22222222222222222", err)
         toast.error("مشکلی پیش آمد دوباره تلاش کنید", {
           position: "top-center",
           autoClose: 3000,
@@ -352,7 +350,6 @@ const Page = () => {
   }
   const handleAddIconPhoto = (e: any) => {
     const photo = e.target.files;
-    console.log(photo[0])
     const data = {
       file: photo[0],
       preview: URL.createObjectURL(photo[0]),
@@ -362,7 +359,6 @@ const Page = () => {
   };
   const handleAddBannerPhoto = (e: any) => {
     const photo = e.target.files;
-    console.log(photo[0])
     const data = {
       file: photo[0],
       preview: URL.createObjectURL(photo[0]),

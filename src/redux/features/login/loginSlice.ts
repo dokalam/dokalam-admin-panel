@@ -74,7 +74,7 @@ export const loginRequest = createAsyncThunk(
                   status,
                   message,
                   required,
-                  minuts,
+                  minutes,
                   seconds,
                   token,
               }
@@ -111,7 +111,7 @@ export const loginRequest = createAsyncThunk(
           const data = response.data.data?.loginToAdminPanelDashboard;
           if (data?.status == 200) {
             if (data?.required == true) {
-              const minutes = data?.minuts;
+              const minutes = data?.minutes;
               const seconds = data?.seconds;
 
               router.push("/auth/login/otp");

@@ -64,7 +64,7 @@ const Page = () => {
   
   const registerAndConfirm = ()=>{
     if(!banner){
-      toast.error("برای تعریف فصل جدید، حداقل یک عکس یا فیلم لازم است.", {
+      toast.error("برای ایجاد بنر انتخاب تصویر یا ویدیو الزامی است.", {
         position: "top-center",
         autoClose: 4000,
         hideProgressBar: false,
@@ -113,11 +113,11 @@ const Page = () => {
           `,
       variables: {
         banner: (banner?.file) ? { file: null, duration: banner?.duration??undefined } : undefined,
-        click_type: "",
-        link: "",
-        navigate: "",
-        params_id: "",
-        params_other: "",
+        click_type: clickTyoe,
+        link: link?.length > 7?link:undefined,
+        navigate: navigate,
+        params_id: paramsId?.length>0?paramsId:undefined,
+        params_other: paramsOther?.length>0?paramsOther:undefined,
         order: Number(order),
         page: Number(page),
         is_visible: visible,
@@ -145,6 +145,7 @@ const Page = () => {
       },
     })
       .then(async (response) => {
+        console.log(response)
         setLoading(false);
         if (response.data?.data?.newBannerDefinitionForPackageGameCollection?.status == 200) {
             toast.success(response.data?.data?.newBannerDefinitionForPackageGameCollection?.message, {
@@ -170,7 +171,8 @@ const Page = () => {
           });
         }
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e)
         toast.error("مشکلی پیش آمد دوباره تلاش کنید", {
           position: "top-center",
           autoClose: 3000,
@@ -227,14 +229,12 @@ const Page = () => {
           theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
         });
       } else {
-        const items: any = [];
         const data = {
           file: videos[0],
           preview: uri,
           duration: duration.toFixed(0).toString(),
         };
-        items.push(data);
-        setBanner(items);
+        setBanner(data);
         inputVideoRef.current.value = "";
       }
     };
@@ -285,35 +285,62 @@ const Page = () => {
         </label>
       </div>
 
-      {banner && (
-          <div
-            className="relative w-40 h-20 sm:w-60 sm:h-28 cursor-pointer"
-            onClick={() =>
-              ShowImageModalHelper.showModal({
-                src: banner?.preview,
-              })
-            }
-          >
-            <ImageComponent
-              src={banner?.preview}
-              alt="banner"
-              baseURI={false}
-              parentclasses="h-full w-full object-cover rounded-md cursor-pointer"
-            />
-            <div className="absolute top-0 w-full flex justify-between px-1 pt-1">
-              <div
-                onClick={(e: any) => {
-                  e.stopPropagation();
-                  deleteBanner();
-                }}
-                className="flex justify-center items-center rounded transition text-white bg-[#00000080] hover:bg-[#33333370] text-lg w-6 h-6"
-              >
-                <BiTrash />
+
+
+
+        {banner && (
+        <div className="mt-4 border-2 border-dashed border-primary rounded-md py-4 px-2">
+          <div className="flex justify-center items-center gap-4">
+            <div
+              className="relative w-40 h-20 sm:w-60 sm:h-28 cursor-pointer"
+              onClick={() =>{
+                if (banner?.file?.type.includes("video") == true) {
+                    ShowVideoModalHelper.showModal({
+                      src: banner?.preview,
+                    });
+                  } else {
+                    ShowImageModalHelper.showModal({
+                      src: banner?.preview,
+                    })
+                  }
+              }}
+            >
+              {banner.file.type.includes("video") == true ? (
+                <div className="relative h-full w-full">
+                  <video src={banner.preview} className="inset-0 h-full w-full rounded-md object-cover" />
+                  <div className="absolute top-[26%] right-[26%] text-xl sm:text-2xl text-primary bg-background6 bg-opacity-30 rounded-full p-3">
+                    <FaPlay />
+                  </div>
+                  <div className="absolute bottom-1 left-1 flex items-center gap-2 bg-[#00000099] rounded px-1">
+                    <p className="text-xs font-['iransans-light'] text-white">{secondsToTime(banner.duration)}</p>
+                    <div className="text-sm text-white">
+                      <IoIosVideocam />
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <ImageComponent
+                  src={banner?.preview}
+                  alt="banner"
+                  baseURI={false}
+                  parentclasses="h-full w-full object-cover rounded-md cursor-pointer"
+                />
+              )}
+              <div className="absolute top-0 w-full flex justify-between px-1 pt-1">
+                <div
+                  onClick={(e: any) => {
+                    e.stopPropagation();
+                    deleteBanner();
+                  }}
+                  className="flex justify-center items-center rounded transition text-white bg-[#00000080] hover:bg-[#33333370] text-lg w-6 h-6"
+                >
+                  <BiTrash />
+                </div>
               </div>
             </div>
           </div>
-        )}
-
+        </div>
+      )}
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
