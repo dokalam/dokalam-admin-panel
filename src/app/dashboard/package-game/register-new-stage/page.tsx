@@ -83,7 +83,8 @@ const Page = () => {
   const [seasonList, setSeasonList] = useState([])
   const [visible, setVisible] = useState(true);
   const [active, setActive] = useState(true);
-  const [stageNumber, setStageNumber] = useState("")
+  const [stageNumberInPackage, setStageNumberInPackage] = useState("")
+  const [stageNumberInSeason, setStageNumberInSeason] = useState("")
   const [stageHint, setStageHint] = useState("")
   const [parts, setParts] = useState<PartItem[]>([]);
   const [activeTab, setActiveTab] = useState(0);
@@ -176,7 +177,7 @@ const Page = () => {
       });
   }
   const registerAndConfirm = ()=>{
-    if(!season || !language || stageNumber.length == 0 || !publicationStatus || !completionStatus){
+    if(!season || !language || stageNumberInPackage.length == 0 || stageNumberInSeason.length == 0 || !publicationStatus || !completionStatus){
       toast.error("ابتدا موارد الزامی را وارد کنید", {
         position: "top-center",
         autoClose: 6000,
@@ -213,9 +214,11 @@ const Page = () => {
           mutation newStageDefinitionForPackageGame(
             $parts : [StageStructure!]!,
             $stage_hint : String,
+            $package : ID!,
             $season : ID!,
             $language_ref : ID!,
-            $stage_number : Int!,
+            $stage_number_in_package : Int!,
+            $stage_number_in_season : Int!,
             $is_visible : Boolean!,
             $is_active : Boolean!,
             $media : [FileInput],
@@ -226,9 +229,11 @@ const Page = () => {
             newStageDefinitionForPackageGame(
               parts : $parts,
               stage_hint : $stage_hint,
+              package : $package,
               season : $season,
               language_ref : $language_ref,
-              stage_number : $stage_number,
+              stage_number_in_package : $stage_number_in_package,
+              stage_number_in_season : $stage_number_in_season,
               is_visible : $is_visible,
               is_active : $is_active,
               media : $media,
@@ -244,9 +249,11 @@ const Page = () => {
       variables: {
         parts : normalData,
         stage_hint : stageHint.trim().length < 3?undefined:stageHint,
+        package : packageSelected?._id, 
         season : season,
         language_ref: language,
-        stage_number : Number(stageNumber),
+        stage_number_in_package : Number(stageNumberInPackage),
+        stage_number_in_season : Number(stageNumberInSeason),
         is_visible : visible,
         is_active : active,
         media: media?.length > 0? media.map((item:any, index:number) => ({
@@ -321,7 +328,8 @@ const Page = () => {
             setMusic([])
             setVideo([])
             setStageHint("")
-            setStageNumber("")
+            setStageNumberInPackage("")
+            setStageNumberInSeason("")
         } else {
           toast.error((response.data?.errors[0]?.data[0]?.message || "مشکلی پیش آمد دوباره تلاش کنید"), {
             position: "top-center",
@@ -526,11 +534,11 @@ const Page = () => {
   };
   ////////////////////////////////////////////////////////////////////////
   const selectPackages = ()=>{
-    const previousSelected = {
-      _id: packageSelected?._id?[packageSelected?._id]:[],
-      title: packageSelected?.title?[packageSelected?.title]:[],
-      image: packageSelected?.image?[packageSelected?.image]:[],
-    };
+    const previousSelected = packageSelected?{
+      _id: [packageSelected?._id],
+      title: [packageSelected?.title],
+      image: [packageSelected?.image],
+    }:undefined;
     PackageListHelper.openModal({
       previousSelected:previousSelected,
       numberSelected: 1,
@@ -1127,10 +1135,22 @@ const Page = () => {
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="stage-number"
         >
-          شماره مرحله
+          شماره مرحله در پکیج
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input type="number" id="stage-number" value={stageNumber} changeState={setStageNumber} classes="flex-1" inputStyles="!text-base" />
+            <Input type="number" id="stage-number" value={stageNumberInPackage} changeState={setStageNumberInPackage} classes="flex-1" inputStyles="!text-base" />
+          </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="stage-number"
+        >
+          شماره مرحله در فصل
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+            <Input type="number" id="stage-number" value={stageNumberInSeason} changeState={setStageNumberInSeason} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
