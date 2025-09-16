@@ -47,20 +47,25 @@ const NavigateList:SelectedOption[] = [
   {value:"Package", label:"پکیج بازی"},
   {value:"PackageStage", label:"مرحله از پکیج"},
 ]
+type PackageSelectedInfo = {
+  _id: string;
+  title: string;
+  image: string;
+}
 const Page = () => {
   const inputImageRef: any = useRef();
   const inputVideoRef: any = useRef();
   const [clickTyoe, setClickType] = useState<string | null>(null)
   const [link, setLink] = useState("")
   const [navigate, setNavigate] = useState<string | null>(null)
-  const [paramsId, setParamsId] = useState("")
-  const [paramsOther, setParamsOther] = useState("")
+  const [navigateParams, setNavigateParams] = useState("")
   const [visible, setVisible] = useState(false);
   const [active, setActive] = useState(false);
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState("")
   const [page, setPage] = useState("")
   const [banner, setBanner] = useState<any>(null)
+  const [packageSelected, setPackageSelected] = useState<PackageSelectedInfo | null>(null)
   
   const registerAndConfirm = ()=>{
     if(!banner){
@@ -84,11 +89,11 @@ const Page = () => {
       query: `
           mutation newBannerDefinitionForPackageGameCollection(
               $banner : FileInput!,
+              $package : ID,
               $click_type : String!,
               $link : String,
               $navigate : String,
-              $params_id : ID,
-              $params_other : String,
+              $navigate_params : String,
               $order : Int!,
               $page : Int!,
               $is_visible : Boolean!,
@@ -96,11 +101,11 @@ const Page = () => {
           ){
             newBannerDefinitionForPackageGameCollection(
                 banner : $banner,
+                package : $package,
                 click_type : $click_type,
                 link : $link,
                 navigate : $navigate,
-                params_id : $params_id,
-                params_other : $params_other,
+                navigate_params : $navigate_params,
                 order : $order,
                 page : $page,
                 is_visible : $is_visible,
@@ -113,11 +118,11 @@ const Page = () => {
           `,
       variables: {
         banner: (banner?.file) ? { file: null, duration: banner?.duration??undefined } : undefined,
+        package:packageSelected?._id?packageSelected._id:undefined,
         click_type: clickTyoe,
         link: link?.length > 7?link:undefined,
         navigate: navigate,
-        params_id: paramsId?.length>0?paramsId:undefined,
-        params_other: paramsOther?.length>0?paramsOther:undefined,
+        navigate_params: navigateParams?.length>0?navigateParams:undefined,
         order: Number(order),
         page: Number(page),
         is_visible: visible,
@@ -244,6 +249,42 @@ const Page = () => {
     setBanner(null)
   }
 
+  const selectPackages = ()=>{
+    const previousSelected = packageSelected?{
+      _id: [packageSelected?._id],
+      title: [packageSelected?.title],
+      image: [packageSelected?.image],
+    }:undefined;
+    PackageListHelper.openModal({
+      previousSelected:previousSelected,
+      numberSelected: 1,
+      buttons: [
+        {
+          buttonText: "لغو",
+          type: "border",
+          onClickFn: () => {
+            PackageListHelper.closeModal();
+          },
+        },
+        {
+          buttonText: "انتخاب بسته‌ها",
+          type: "bold",
+          onClickFn: ({ data }: { data: any }) => {
+            setPackageSelected({
+              _id: data._id[0],
+              title: data.title[0],
+              image: data.image[0],
+            })
+            PackageListHelper.closeModal();
+          },
+        },
+      ],
+    });
+  }
+  const deletePackageItem = () => {
+    setPackageSelected(null);
+  };
+
   return (
     <div className="flex flex-col justify-between w-full lg:w-[600px] 2xl:w-[750px] mt-10 mb-28 px-4 sm:mx-auto">
       
@@ -341,6 +382,44 @@ const Page = () => {
           </div>
         </div>
       )}
+      <div className="mt-12">
+        <GradientButton
+          buttonText={"انتخاب بسته و پکیج بنر"}
+          onClickFn={selectPackages}
+          loading={false}
+          classes="!text-sm !flex-none !px-8 sm:!w-[300px] !w-full"
+        />
+      </div>
+      {packageSelected && (
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-12 gap-x-2 sm:gap-y-12 sm:gap-x-2 mt-4 border-2 border-dashed border-primary dark:border-primary rounded-md p-4">
+
+            <div className="flex flex-col items-center gap-2 bg-background3 dark:bg-background3_dark border border-dashed border-info dark:border-info rounded-md py-4">
+              <div
+                className="relative w-[90%] h-22 3xs:h-24 sm:h-32 cursor-pointer"
+              >
+
+                  <ImageComponent
+                    src={packageSelected.image}
+                    alt={"file_photos"}
+                    parentclasses="h-full w-full cursor-pointer"
+                  />
+                <div className="absolute top-0 w-full flex justify-between px-1 pt-1">
+                  <div
+                    onClick={(e: any) => {
+                      e.stopPropagation();
+                      deletePackageItem();
+                    }}
+                    className="flex justify-center items-center rounded transition text-white bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6"
+                  >
+                    <BiTrash />
+                  </div>
+                </div>
+              </div>
+              <p className="text-xs text-center font-['iransans-md'] text-text dark:text-text_dark w-22 sm:w-32 3xs:w-24 h-8">{packageSelected.title}</p>
+            </div>
+
+        </div>
+      )}
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
@@ -394,27 +473,14 @@ const Page = () => {
         </label>
       </div>
 
-
-      <div className="mt-6">
-        <label
-          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="ollection-banner-id-params"
-        >
-          آی دی ارسالی
-          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="ollection-banner-id-params" value={paramsId} changeState={setParamsId} classes="flex-1" inputStyles="!text-base" />
-          </div>
-        </label>
-      </div>
-
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="ollection-banner-other-params"
         >
-          موارد ارسالی دیگر
+          پارامترهای ارسالی
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="ollection-banner-other-params" value={paramsOther} changeState={setParamsOther} classes="flex-1" inputStyles="!text-base" />
+            <Input id="ollection-banner-other-params" value={navigateParams} changeState={setNavigateParams} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
@@ -502,6 +568,11 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
       <Footer buttonFn={registerAndConfirm} buttonText="ثبت بنر" loadingButton={loading} classes="md:!mr-72 !justify-end" />
      
       
+      <PackageList
+        ref={(Ref) => {
+          PackageListHelper.setRef(Ref);
+        }}
+      />
       <ShowVideoModal
         ref={(Ref) => {
           ShowVideoModalHelper.setRef(Ref);

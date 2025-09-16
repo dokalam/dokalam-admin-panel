@@ -541,7 +541,7 @@ const Page = () => {
     }:undefined;
     PackageListHelper.openModal({
       previousSelected:previousSelected,
-      numberSelected: 8,
+      numberSelected: 1,
       buttons: [
         {
           buttonText: "لغو",
