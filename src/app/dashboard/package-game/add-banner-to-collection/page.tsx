@@ -44,8 +44,7 @@ const ClickTypeList:SelectedOption[] = [
 ]
 const NavigateList:SelectedOption[] = [
   {value:null, label:"انتخاب صفحه‌ی اپلیکیشن برای کلیک"},
-  {value:"Package", label:"پکیج بازی"},
-  {value:"PackageStage", label:"مرحله از پکیج"},
+  {value:"PackageInformation", label:"پکیج بازی"},
 ]
 type PackageSelectedInfo = {
   _id: string;
