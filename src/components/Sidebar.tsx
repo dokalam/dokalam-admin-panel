@@ -4,11 +4,12 @@ import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import SideBarItem from "./SideBarItem";
 import { AiFillDashboard } from "react-icons/ai";
-import { RiApps2AddFill, RiApps2Fill } from "react-icons/ri";
-import { TbCubePlus, TbDiaboloPlus, TbHexagonalPrismPlus, TbHexagonPlusFilled } from "react-icons/tb";
-import { FaDiceD6, FaUsers } from "react-icons/fa6";
+import { RiApps2AddFill, RiApps2Fill, RiVipCrown2Line } from "react-icons/ri";
+import { TbCoins, TbCubePlus, TbDiaboloPlus, TbHexagonalPrismPlus, TbHexagonPlusFilled } from "react-icons/tb";
+import { FaCoins, FaCrown, FaDiceD6, FaUsers } from "react-icons/fa6";
 import { BsCloudPlus, BsCloudPlusFill } from "react-icons/bs";
 import { LuClipboardList } from "react-icons/lu";
+import { MdListAlt, MdPayments } from "react-icons/md";
 
 const navigation: any = [
   {
@@ -232,6 +233,94 @@ const navigation: any = [
       },
     ],
   },
+  {
+    name: "مدیریت سکه",
+    href: "/dashboard/coin",
+    icon: (
+      <div className="text-xl">
+        <FaCoins />
+      </div>
+    ),
+    head:true,
+    children: [
+      {
+        name: "تعریف آیتم جدید سکه",
+        href: "/coin-plan-definition",
+        icon: (
+          <div className="text-xl">
+            <TbCoins />
+          </div>
+        ),
+      },
+      {
+        name: "لیست آیتم‌های سکه",
+        href: "/coin-plan-list",
+        icon: (
+          <div className="text-xl">
+            <MdListAlt />
+          </div>
+        ),
+      },
+      {
+        name: "پرداخت‌های خرید سکه",
+        href: "/coin-purchase-payment-list",
+        icon: (
+          <div className="text-xl">
+            <MdPayments />
+          </div>
+        ),
+      },
+    ],
+  },
+  {
+    name: "مدیریت اشتراک",
+    href: "/dashboard/subscription",
+    icon: (
+      <div className="text-xl">
+        <FaCrown />
+      </div>
+    ),
+    head:true,
+    children: [
+      {
+        name: "تعریف آیتم جدید اشتراک",
+        href: "/subscription-plan-definition",
+        icon: (
+          <div className="text-xl">
+            <RiVipCrown2Line />
+          </div>
+        ),
+      },
+      {
+        name: "لیست آیتم‌های اشتراک",
+        href: "/subscription-plan-list",
+        icon: (
+          <div className="text-xl">
+            <MdListAlt />
+          </div>
+        ),
+      },
+      {
+        name: "پرداخت‌های اشتراک",
+        href: "/subscription-payment-list",
+        icon: (
+          <div className="text-xl">
+            <MdPayments />
+          </div>
+        ),
+      },
+      {
+        name: "لیست اشتراک‌های کاربران",
+        href: "/user-subscription-list",
+        icon: (
+          <div className="text-xl">
+            <LuClipboardList />
+          </div>
+        ),
+      },
+    ],
+  },
+  
 ];
 const dark = typeof window !== "undefined" && localStorage.getItem("theme");
 const Sidebar = () => {
