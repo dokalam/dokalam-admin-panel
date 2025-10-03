@@ -36,7 +36,6 @@ export const loginRequest = createAsyncThunk(
     const device_brand = parserResults.device.vendor;
     const device_name = parserResults.device.type;
     const device_model = parserResults.device.model;
-    const app_version = typeof window !== "undefined" && localStorage.getItem("appVersion");
     const unique_id = uniqueId;
     const app_type = "web";
 
@@ -55,7 +54,6 @@ export const loginRequest = createAsyncThunk(
             $device_brand : String,
             $device_name : String,
             $device_model : String,
-            $app_version : String,
             $unique_id : String,
           ){
               loginToAdminPanelDashboard(
@@ -68,7 +66,6 @@ export const loginRequest = createAsyncThunk(
                 device_brand : $device_brand,
                 device_name : $device_name,
                 device_model : $device_model,
-                app_version : $app_version,
                 unique_id : $unique_id,
               ) {
                   status,
@@ -90,7 +87,6 @@ export const loginRequest = createAsyncThunk(
           device_brand: device_brand,
           device_name: device_name,
           device_model: device_model,
-          app_version: app_version,
           unique_id: unique_id,
         },
       },

@@ -4,12 +4,13 @@ import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import SideBarItem from "./SideBarItem";
 import { AiFillDashboard } from "react-icons/ai";
-import { RiApps2AddFill, RiApps2Fill, RiVipCrown2Line } from "react-icons/ri";
-import { TbCoins, TbCubePlus, TbDiaboloPlus, TbHexagonalPrismPlus, TbHexagonPlusFilled } from "react-icons/tb";
-import { FaCoins, FaCrown, FaDiceD6, FaUsers } from "react-icons/fa6";
+import { RiApps2AddFill, RiApps2Fill } from "react-icons/ri";
+import { TbCoins, TbDiaboloPlus, TbHexagonalPrismPlus, TbHexagonPlusFilled } from "react-icons/tb";
+import { FaCoins, FaDiceD6, FaUsers } from "react-icons/fa6";
 import { BsCloudPlus, BsCloudPlusFill } from "react-icons/bs";
 import { LuClipboardList } from "react-icons/lu";
 import { MdListAlt, MdPayments } from "react-icons/md";
+import { IoDiamondOutline, IoDiamondSharp } from "react-icons/io5";
 
 const navigation: any = [
   {
@@ -277,7 +278,7 @@ const navigation: any = [
     href: "/dashboard/subscription",
     icon: (
       <div className="text-xl">
-        <FaCrown />
+        <IoDiamondSharp />
       </div>
     ),
     head:true,
@@ -287,7 +288,7 @@ const navigation: any = [
         href: "/subscription-plan-definition",
         icon: (
           <div className="text-xl">
-            <RiVipCrown2Line />
+            <IoDiamondOutline />
           </div>
         ),
       },
