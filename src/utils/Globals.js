@@ -55,38 +55,6 @@ const exports = {
           icon: "question",
         },
       },
-      file_status: {
-        checking: {
-          key: "checking",
-          status: "در حال بررسی",
-          color: "#FF8800",
-          icon: <TbAlertSquare />,
-        },
-        disactive: {
-          key: "disactive",
-          status: "غیر فعال",
-          color: "#444444",
-          icon: <IoPowerSharp />,
-        },
-        verify: {
-          key: "verify",
-          status: "تایید شده",
-          color: "#309334",
-          icon: <IoIosCheckboxOutline />,
-        },
-        blocked: {
-          key: "blocked",
-          status: "مسدود و رد شده",
-          color: "#CC0000",
-          icon: <MdOutlineBlock />,
-        },
-        need_change: {
-          key: "need_change",
-          status: "نیاز به تغییر",
-          color: "#CC0000",
-          icon: <CgCloseR />,
-        },
-      },
     },
   },
 };
