@@ -833,18 +833,6 @@ const Page = () => {
           </div>
         </label>
       </div>
-      <div className="mt-6">
-        <label
-          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="number-stage-season"
-        >
-          تعداد مراحل فصل
-          <span className="text-red-500 px-1">*</span>
-          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input type="number" id="number-stage-season" value={numberStage} changeState={setNumberStage} classes="flex-1" inputStyles="!text-base" />
-          </div>
-        </label>
-      </div>
        <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"

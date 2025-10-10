@@ -11,6 +11,7 @@ type WordItem = {
 type PartItem = {
   sentence: string;
   sentence_hint: string;
+  sentence_display: string;
   words: WordItem[];
   order?: number;
 };

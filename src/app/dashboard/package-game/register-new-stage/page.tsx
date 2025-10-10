@@ -44,6 +44,7 @@ type WordItem = {
 type PartItem = {
   sentence: string;
   sentence_hint: string;
+  sentence_display: string;
   words: WordItem[];
   order?: number;
 }
@@ -363,6 +364,7 @@ const Page = () => {
     const newItem: PartItem = {
       sentence: "",
       sentence_hint: "",
+      sentence_display: "",
       words: [],
       order: undefined
     }
@@ -393,6 +395,14 @@ const Page = () => {
       return updated;
     });
   };
+  const changeSentenceDisplay = (newValue: string) => {
+    const index = activeTab
+    setParts(prev => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], sentence_display: newValue };
+      return updated;
+    });
+  }; 
   const addNewWord = () => {
     const newItem: WordItem = {
       word: "",
@@ -1339,6 +1349,17 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
                 راهنمای جمله
                 <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
                   <Input id="sentence-stage" value={parts[activeTab].sentence_hint} changeState={(value: string) => changeSentenceHint(value)} classes="flex-1" inputStyles="!text-base" />
+                </div>
+              </label>
+            </div>
+            <div className="mt-6">
+              <label
+                className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+                htmlFor="sentence-stage"
+              >
+                نمایش جمله
+                <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+                  <Input id="sentence-stage" value={parts[activeTab].sentence_display} changeState={(value: string) => changeSentenceDisplay(value)} classes="flex-1" inputStyles="!text-base" />
                 </div>
               </label>
             </div>

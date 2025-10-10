@@ -11,6 +11,7 @@ type WordItem = {
 type PartItem = {
   sentence: string;
   sentence_hint: string;
+  sentence_display: string;
   words: WordItem[];
   order?: number;
 };
@@ -47,6 +48,11 @@ export function normalizeStageData(parts: PartItem[]): PartItem[] {
     // اگر sentence_hint خالی یا کمتر از ۳ کاراکتر واقعی بود → undefined
     if (!part.sentence_hint || part.sentence_hint.trim().length < 3) {
       normalizedPart.sentence_hint = undefined as any;
+    }
+
+    // اگر sentence_display خالی یا کمتر از ۳ کاراکتر واقعی بود → undefined
+    if (!part.sentence_display || part.sentence_display.trim().length < 3) {
+      normalizedPart.sentence_display = undefined as any;
     }
 
     return normalizedPart;
