@@ -53,7 +53,7 @@ const Page = () => {
   const [packageGame, setPackageGame] = useState(false);
   const [visible, setVisible] = useState(false);
   const [active, setActive] = useState(false);
-  const [badg, setBadg] = useState("");
+  const [badge, setBadge] = useState("");
   const [loading, setLoading] = useState(false);
   const [publicationStatus, setPublicationStatus] = useState<string | null>(null)
   const [completionStatus, setCompletionStatus] = useState<string | null>(null)
@@ -81,7 +81,7 @@ const Page = () => {
       query: `
           mutation newLanguageDefinition(
             $name : String!,
-            $badg : String,
+            $badge : String,
             $code : String!,
             $stage_game : Boolean!,
             $package_game : Boolean!,
@@ -94,7 +94,7 @@ const Page = () => {
           ){
             newLanguageDefinition(
                 name : $name,
-                badg : $badg,
+                badge : $badge,
                 code : $code,
                 stage_game : $stage_game,
                 package_game : $package_game,
@@ -113,7 +113,7 @@ const Page = () => {
       variables: {
         name: name,
         code: code,
-        badg: badg?.length > 0?badg:undefined,
+        badge: badge?.length > 0?badge:undefined,
         stage_game: stageGame,
         package_game: packageGame,
         rtl: rtl,
@@ -143,7 +143,7 @@ const Page = () => {
               theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
             });
             setName("")
-            setBadg("")
+            setBadge("")
             setCode("")
         } else {
           toast.error((response.data?.errors[0]?.data[0]?.message || "مشکلی پیش آمد دوباره تلاش کنید"), {
@@ -204,11 +204,11 @@ const Page = () => {
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="badg-stage-language"
+          htmlFor="badge-stage-language"
         >
           نشان ( مثل جدید یا به‌زودی )
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="badg-stage-language" value={badg} changeState={setBadg} classes="flex-1" inputStyles="!text-base" />
+            <Input id="badge-stage-language" value={badge} changeState={setBadge} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>

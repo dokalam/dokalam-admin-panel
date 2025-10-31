@@ -20,7 +20,7 @@ const Page = () => {
   const [productId, setProductId] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [badg, setBadg] = useState("");
+  const [badge, setBadge] = useState("");
   const [visible, setVisible] = useState(false);
   const [active, setActive] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -66,7 +66,7 @@ const Page = () => {
             $product_id : String!,
             $title : String,
             $description : String,
-            $badg : String,
+            $badge : String,
             $icon_image : Upload!,
             $number_coin : Int!,
             $price : Int!,
@@ -80,7 +80,7 @@ const Page = () => {
               product_id : $product_id,
               title : $title,
               description : $description,
-              badg : $badg,
+              badge : $badge,
               icon_image : $icon_image,
               number_coin : $number_coin,
               price : $price,
@@ -99,7 +99,7 @@ const Page = () => {
         product_id : productId,
         title : title,
         description : description,
-        badg : badg,
+        badge : badge,
         icon_image : null,
         number_coin : Number(numberCoin),
         price : Number(price),
@@ -148,7 +148,7 @@ const Page = () => {
             });
             setTitle("")
             setDescription("")
-            setBadg("")
+            setBadge("")
             setNumberCoin("")
             setPrice("")
             setIconImage(null)
@@ -304,22 +304,22 @@ const Page = () => {
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="badg-stage-season"
+          htmlFor="badge-stage-season"
         >
           تخفیف روی مبلغ کل (ریال)
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="badg-stage-season" value={discountAmount} changeState={setDiscountAmount} classes="flex-1" inputStyles="!text-base" />
+            <Input id="badge-stage-season" value={discountAmount} changeState={setDiscountAmount} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="badg-stage-season"
+          htmlFor="badge-stage-season"
         >
           تخفیف به درصد
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="badg-stage-season" value={discountPercent} changeState={setDiscountPercent} classes="flex-1" inputStyles="!text-base" />
+            <Input id="badge-stage-season" value={discountPercent} changeState={setDiscountPercent} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
@@ -341,11 +341,11 @@ const Page = () => {
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="badg-stage-season"
+          htmlFor="badge-stage-season"
         >
           نشان ( مثل جدید یا به‌زودی )
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="badg-stage-season" value={badg} changeState={setBadg} classes="flex-1" inputStyles="!text-base" />
+            <Input id="badge-stage-season" value={badge} changeState={setBadge} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>

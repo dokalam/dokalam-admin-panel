@@ -66,7 +66,7 @@ const Page = () => {
   const [description, setDescription] = useState("");
   const [visible, setVisible] = useState(false);
   const [active, setActive] = useState(false);
-  const [badg, setBadg] = useState("");
+  const [badge, setBadge] = useState("");
   const [language, setLanguage] = useState<string | null>(null)
   const [languageList, setLanguageList] = useState<languageListType[]>([])
   const [loading, setLoading] = useState(false);
@@ -111,7 +111,7 @@ const Page = () => {
                     language_info{_id, name, rtl},
                     media{path, file_type, duration, order},
                     music{path, file_type, duration},
-                    badg,
+                    badge,
                     season_number,
                     stage_number_from,
                     stage_number_to,
@@ -138,7 +138,7 @@ const Page = () => {
           setTitle(data?.title)
           setDescription(data?.description??"")
           setLanguage(data?.language_info?._id)
-          setBadg(data?.badg??"")
+          setBadge(data?.badge??"")
           setSeasonNumber(data?.season_number??"")
           setStageNumberFrom(data?.stage_number_from??"")
           setStageNumberTo(data?.stage_number_to??"")
@@ -198,7 +198,7 @@ const Page = () => {
             $description : String,
             $media : [FileInput!]!,
             $music : FileInput,
-            $badg : String,
+            $badge : String,
             $season_number : Int,
             $stage_number_from : Int,
             $stage_number_to : Int,
@@ -215,7 +215,7 @@ const Page = () => {
               description : $description,
               media : $media,
               music : $music,
-              badg : $badg,
+              badge : $badge,
               season_number : $season_number,
               stage_number_from : $stage_number_from,
               stage_number_to : $stage_number_to,
@@ -241,7 +241,7 @@ const Page = () => {
           duration: item.duration??undefined,
         })),
         music : (music?.file && music?.duration) ? { file: null, duration: music.duration } : undefined,
-        badg: (oldData?.badg && oldData?.badg?.length > 0 && badg !== oldData?.badg)?badg:((!oldData?.badg || oldData?.badg == "")&&badg.trim().length ==0)?undefined:badg,
+        badge: (oldData?.badge && oldData?.badge?.length > 0 && badge !== oldData?.badge)?badge:((!oldData?.badge || oldData?.badge == "")&&badge.trim().length ==0)?undefined:badge,
         season_number: (oldData?.seasonNumber !== seasonNumber && Number(seasonNumber) > 0)?Number(seasonNumber):undefined,
         stage_number_from : (oldData?.stageNumberFrom !== stageNumberFrom && Number(stageNumberFrom) > 0)?Number(stageNumberFrom):undefined,
         stage_number_to : (oldData?.stageNumberTo !== stageNumberTo && Number(stageNumberTo) > 0)?Number(stageNumberTo):undefined,
@@ -295,7 +295,7 @@ const Page = () => {
             });
             setTitle("")
             setDescription("")
-            setBadg("")
+            setBadge("")
             setImage([])
             setVideo([])
             setNumberStage("")
@@ -848,11 +848,11 @@ const Page = () => {
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="badg-stage-season"
+          htmlFor="badge-stage-season"
         >
           نشان ( مثل جدید یا به‌زودی )
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="badg-stage-season" value={badg} changeState={setBadg} classes="flex-1" inputStyles="!text-base" />
+            <Input id="badge-stage-season" value={badge} changeState={setBadge} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>

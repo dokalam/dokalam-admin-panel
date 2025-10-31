@@ -143,7 +143,7 @@ const Page = () => {
                       language_info{name, rtl},
                       media{path, file_type, duration, order},
                       music{path, file_type, duration},
-                      badg,
+                      badge,
                       season_number,
                       stage_number_from,
                       stage_number_to,
@@ -236,7 +236,7 @@ const Page = () => {
                       language_ref{name, rtl},
                       media{path, file_type, duration, order},
                       music{path, file_type, duration},
-                      badg,
+                      badge,
                       season_number,
                       stage_number_from,
                       stage_number_to,
@@ -497,7 +497,7 @@ const Page = () => {
                       language={item?.language_info?.name}
                       media={item?.media}
                       music={item?.music}
-                      badg={item?.badg}
+                      badge={item?.badge}
                       season_number={item?.season_number}
                       stage_number_from={item?.stage_number_from}
                       stage_number_to={item?.stage_number_to}

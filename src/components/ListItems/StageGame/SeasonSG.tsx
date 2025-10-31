@@ -17,7 +17,7 @@ const SeasonSG = ({
   language,
   media,
   music,
-  badg ="جدید",
+  badge ="جدید",
   season_number,
   stage_number_from,
   stage_number_to,
@@ -47,7 +47,7 @@ const SeasonSG = ({
     file_type?: string;
     duration?: string;
   };
-  badg?: string;
+  badge?: string;
   season_number: number;
   stage_number_from: number;
   stage_number_to: number;
@@ -167,9 +167,9 @@ const SeasonSG = ({
         <div className="flex-1">
           <div className="flex items-center justify-between gap-2 flex-wrap">
             <h2 className="text-lg font-['iransans-bold']">{title}</h2>
-            {badg && (
+            {badge && (
               <span className="text-xs bg-info text-white px-2 py-1 rounded">
-                {badg}
+                {badge}
               </span>
             )}
           </div>

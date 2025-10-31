@@ -95,7 +95,7 @@ const Page = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [subject, setSubject] = useState("");
-  const [badg, setBadg] = useState("");
+  const [badge, setBadge] = useState("");
   const [takenSource, setTakenSource] = useState<TakenSource>({
     title: "",
     poet: "",
@@ -196,7 +196,7 @@ const Page = () => {
             $title : String!,
             $description : String,
             $subject : String,
-            $badg : String,
+            $badge : String,
             $taken_source : TakenSource,
             $content_source_type : String!,
             $publication_status : String!,
@@ -221,7 +221,7 @@ const Page = () => {
               title : $title,
               description : $description,
               subject : $subject,
-              badg : $badg,
+              badge : $badge,
               taken_source : $taken_source,
               content_source_type : $content_source_type,
               publication_status : $publication_status,
@@ -251,7 +251,7 @@ const Page = () => {
         title : title,
         description : description,
         subject : subject,
-        badg : badg,
+        badge : badge,
         taken_source : src,
         content_source_type : contentSourceType.selected,
         publication_status : publicationStatus,
@@ -673,11 +673,11 @@ const Page = () => {
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="badg-stage-season"
+          htmlFor="badge-stage-season"
         >
           نشان ( مثل جدید یا به‌زودی )
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input id="badg-stage-season" value={badg} changeState={setBadg} classes="flex-1" inputStyles="!text-base" />
+            <Input id="badge-stage-season" value={badge} changeState={setBadge} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
