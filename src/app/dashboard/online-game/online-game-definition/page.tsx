@@ -30,9 +30,6 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
   const [iconImage, setIconImage] = useState<any>(null);
   const [order, setOrder] = useState("")
-  const [free, setFree] = useState(true)
-  const [freeWithSubscription, setFreeWithSubscription] = useState(false)
-  const [price, setPrice] = useState("")
 
   
   const registerAndConfirm = ()=>{
@@ -60,9 +57,6 @@ const Page = () => {
             $description : String,
             $badge : String,
             $icon_image : Upload!,
-            $free : Boolean!,
-            $free_with_subscription : Boolean!,
-            $price : Int!,
             $order : Int
             $is_visible : Boolean!,
             $is_active : Boolean!
@@ -72,9 +66,6 @@ const Page = () => {
               description : $description,
               badge : $badge,
               icon_image : $icon_image,
-              free : $free,
-              free_with_subscription : $free_with_subscription,
-              price : $price,
               order : $order,
               is_visible : $is_visible,
               is_active : $is_active
@@ -89,9 +80,6 @@ const Page = () => {
         description : description,
         badge : badge,
         icon_image: null,
-        free : free,
-        free_with_subscription : freeWithSubscription,
-        price : price?.length > 0?Number(price):0,
         order : order?.length>0?Number(order):undefined,
         is_visible : visible,
         is_active : active,
@@ -278,18 +266,6 @@ const Page = () => {
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="number-stage-season"
-        >
-          تعداد سکه برای فعال سازی
-          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input type="number" id="number-stage-season" value={price} changeState={setPrice} classes="flex-1" inputStyles="!text-base" />
-          </div>
-        </label>
-      </div>
-      <Border />
-      <div className="mt-6">
-        <label
-          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="number-season-stage-season"
         >
           ترتیب نمایش
@@ -298,73 +274,6 @@ const Page = () => {
           </div>
         </label>
       </div>
-      <Border />
-      <div
-        className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
-        onClick={() => setFree((last) => !last)}
-      >
-        <div className="flex items-center justify-between w-full h-[42px] pl-2 rounded">
-          <label className={`text-sm font-['iransans-md'] cursor-pointer`}>
-            <h3 className="text-text dark:text-text_dark font-['iransans-md'] text-[15px]">
-              بازی رایگان است
-            </h3>
-          </label>
-          <Switch
-            checked={free}
-            onChange={() => setFree((last) => !last)}
-            onClick={(e) => e.stopPropagation()}
-            className={`${free ? "bg-rgba2" : "bg-border dark:bg-border_dark"}
-relative h-[19px] w-[33px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out flex items-center`}
-          >
-            <span
-              aria-hidden="true"
-              className={`${
-                free
-                  ? "translate-x-2 bg-primary"
-                  : "-translate-x-[16px] bg-text5 dark:bg-text5_dark"
-              }
-pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow-lg ring-0 transition duration-200 ease-in-out`}
-            />
-          </Switch>
-        </div>
-        <p className="text-justify font-['iransans-md'] text-text5 dark:text-text5_dark text-[12px] sm:text-[14px] mb-1">
-          با فعال بودن این گزینه، این بازی برای همه‌ی کاربران رایگان خواهد بود.
-        </p>
-      </div>
-      <Border />
-      <div
-        className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
-        onClick={() => setFreeWithSubscription((last) => !last)}
-      >
-        <div className="flex items-center justify-between w-full h-[42px] pl-2 rounded">
-          <label className={`text-sm font-['iransans-md'] cursor-pointer`}>
-            <h3 className="text-text dark:text-text_dark font-['iransans-md'] text-[15px]">
-              بازی با داشتن اشتراک رایگان است
-            </h3>
-          </label>
-          <Switch
-            checked={freeWithSubscription}
-            onChange={() => setFreeWithSubscription((last) => !last)}
-            onClick={(e) => e.stopPropagation()}
-            className={`${freeWithSubscription ? "bg-rgba2" : "bg-border dark:bg-border_dark"}
-relative h-[19px] w-[33px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out flex items-center`}
-          >
-            <span
-              aria-hidden="true"
-              className={`${
-                freeWithSubscription
-                  ? "translate-x-2 bg-primary"
-                  : "-translate-x-[16px] bg-text5 dark:bg-text5_dark"
-              }
-pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow-lg ring-0 transition duration-200 ease-in-out`}
-            />
-          </Switch>
-        </div>
-        <p className="text-justify font-['iransans-md'] text-text5 dark:text-text5_dark text-[12px] sm:text-[14px] mb-1">
-          با فعال بودن این گزینه، کاربران با داشتن اشتراک به رایگان به این بازی دسترسی  خواهند داشت.
-        </p>
-      </div>
-      <Border />
       <div
         className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
         onClick={() => setVisible((last) => !last)}
