@@ -10,7 +10,7 @@ import { FaCoins, FaDiceD6, FaUsers } from "react-icons/fa6";
 import { BsCloudPlus, BsCloudPlusFill } from "react-icons/bs";
 import { LuClipboardList } from "react-icons/lu";
 import { MdListAlt, MdPayments } from "react-icons/md";
-import { IoDiamondOutline, IoDiamondSharp } from "react-icons/io5";
+import { IoDiamondOutline, IoDiamondSharp, IoTrailSign, IoTrailSignOutline } from "react-icons/io5";
 
 const navigation: any = [
   {
@@ -321,7 +321,27 @@ const navigation: any = [
       },
     ],
   },
-  
+  {
+    name: "بازی آنلاین",
+    href: "/dashboard/online-game",
+    icon: (
+      <div className="text-xl">
+        <IoTrailSign />
+      </div>
+    ),
+    head:true,
+    children: [
+      {
+        name: "تعریف بازی جدید",
+        href: "/online-game-definition",
+        icon: (
+          <div className="text-xl">
+            <IoTrailSignOutline />
+          </div>
+        ),
+      },
+    ],
+  },
 ];
 const dark = typeof window !== "undefined" && localStorage.getItem("theme");
 const Sidebar = () => {

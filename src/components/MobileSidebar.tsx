@@ -4,10 +4,12 @@ import SideBarItem from "./SideBarItem";
 import { usePathname } from "next/navigation";
 import { AiFillDashboard } from "react-icons/ai";
 import { RiApps2AddFill, RiApps2Fill } from "react-icons/ri";
-import { TbDiaboloPlus, TbHexagonalPrismPlus, TbHexagonPlusFilled } from "react-icons/tb";
-import { FaDiceD6, FaUsers } from "react-icons/fa6";
+import { TbCoins, TbDiaboloPlus, TbHexagonalPrismPlus, TbHexagonPlusFilled } from "react-icons/tb";
+import { FaCoins, FaDiceD6, FaUsers } from "react-icons/fa6";
 import { LuClipboardList } from "react-icons/lu";
 import { BsCloudPlus, BsCloudPlusFill } from "react-icons/bs";
+import { IoDiamondOutline, IoDiamondSharp, IoTrailSign, IoTrailSignOutline } from "react-icons/io5";
+import { MdListAlt, MdPayments } from "react-icons/md";
 
 export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpenSidebar: boolean; closeSidebarFn: any }) {
   const dark = typeof window !== "undefined" && localStorage.getItem("theme");
@@ -140,7 +142,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
         },
         {
           name: "افزودن بنر جدید",
-        href: "/add-banner-to-collection",
+          href: "/add-banner-to-collection",
           icon: (
             <div className="text-xl">
               <TbDiaboloPlus />
@@ -240,6 +242,114 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
         {
           name: "لیست کاربران",
           href: "/user-list",
+        },
+      ],
+    },
+    {
+      name: "مدیریت سکه",
+      href: "/dashboard/coin",
+      icon: (
+        <div className="text-xl">
+          <FaCoins />
+        </div>
+      ),
+      head:true,
+      children: [
+        {
+          name: "تعریف آیتم جدید سکه",
+          href: "/coin-plan-definition",
+          icon: (
+            <div className="text-xl">
+              <TbCoins />
+            </div>
+          ),
+        },
+        {
+          name: "لیست آیتم‌های سکه",
+          href: "/coin-plan-list",
+          icon: (
+            <div className="text-xl">
+              <MdListAlt />
+            </div>
+          ),
+        },
+        {
+          name: "پرداخت‌های خرید سکه",
+          href: "/coin-purchase-payment-list",
+          icon: (
+            <div className="text-xl">
+              <MdPayments />
+            </div>
+          ),
+        },
+      ],
+    },
+    {
+      name: "مدیریت اشتراک",
+      href: "/dashboard/subscription",
+      icon: (
+        <div className="text-xl">
+          <IoDiamondSharp />
+        </div>
+      ),
+      head:true,
+      children: [
+        {
+          name: "تعریف آیتم جدید اشتراک",
+          href: "/subscription-plan-definition",
+          icon: (
+            <div className="text-xl">
+              <IoDiamondOutline />
+            </div>
+          ),
+        },
+        {
+          name: "لیست آیتم‌های اشتراک",
+          href: "/subscription-plan-list",
+          icon: (
+            <div className="text-xl">
+              <MdListAlt />
+            </div>
+          ),
+        },
+        {
+          name: "پرداخت‌های اشتراک",
+          href: "/subscription-payment-list",
+          icon: (
+            <div className="text-xl">
+              <MdPayments />
+            </div>
+          ),
+        },
+        {
+          name: "لیست اشتراک‌های کاربران",
+          href: "/user-subscription-list",
+          icon: (
+            <div className="text-xl">
+              <LuClipboardList />
+            </div>
+          ),
+        },
+      ],
+    },
+    {
+      name: "بازی آنلاین",
+      href: "/dashboard/online-game",
+      icon: (
+        <div className="text-xl">
+          <IoTrailSign />
+        </div>
+      ),
+      head:true,
+      children: [
+        {
+          name: "تعریف بازی جدید",
+          href: "/online-game-definition",
+          icon: (
+            <div className="text-xl">
+              <IoTrailSignOutline />
+            </div>
+          ),
         },
       ],
     },
