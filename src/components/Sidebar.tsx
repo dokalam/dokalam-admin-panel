@@ -365,7 +365,7 @@ const Sidebar = () => {
           <h1
             className={`bg-gradient-to-r primaryGradient from-primary_start to-primary_end bg-clip-text text-transparent text-[2rem] mt-4 font-black items-center text-center font-['iransans-black']`}
           >
-            WORD GAME
+            DoKalam
           </h1>
         </div>
         <nav className={`w-full flex self-center flex-1 flex-col`}>

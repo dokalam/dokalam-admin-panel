@@ -64,10 +64,10 @@ const PublicationStatus:SelectedOption[] = [
 ]
 const CompletionStatus:SelectedOption[] = [
   {value:null, label:"انتخاب وضعیت تکمیل بودن بسته"},
-  {value:"incomplete", label:"ناقص (نیاز به بخش‌هایی بیشتر)"},
-  {value:"in_progress", label:"در حال کار و بازبینی"},
-  {value:"complete", label:"کامل‌شده ولی قابل به‌روزرسانی"},
-  {value:"finalized", label:"نهایی‌شده، بدون نیاز به تغییر"},
+  {value:"incomplete", label:"ناقص (نیاز به بخش‌هایی بیشتر) | (# محتوا آماده نیست (به‌زودی))"},
+  {value:"in_progress", label:"در حال کار و بازبینی | (# فصل جدید (به‌زودی))"},
+  {value:"complete", label:"کامل‌شده ولی قابل به‌روزرسانی | (# مراحل کامل است)"},
+  {value:"finalized", label:"نهایی‌شده، بدون نیاز به تغییر | (# مراحل کامل است)"},
 ]
 type TakenSource = {
   title: string;
