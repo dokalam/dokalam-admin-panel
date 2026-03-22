@@ -35,12 +35,12 @@ const Page = () => {
       method: "post",
       data: {
         query: `
-            query paginatePublicNotificationForAdmin(
+            query paginatePublicMessageInAppForAdmin(
               $page : Int,
               $limit : Int,
               $search : String,
             ){
-                paginatePublicNotificationForAdmin(
+                paginatePublicMessageInAppForAdmin(
                   page : $page,
                   limit : $limit,
                   search : $search,
@@ -69,7 +69,7 @@ const Page = () => {
       },
     })
       .then((response) => {
-        const riciveData = response.data.data.paginatePublicNotificationForAdmin;
+        const riciveData = response.data.data.paginatePublicMessageInAppForAdmin;
         if (riciveData.hasNextPage == true) {
           setLoading(false);
           setData(riciveData.list);
@@ -104,12 +104,12 @@ const Page = () => {
       method: "post",
       data: {
         query: `
-            query paginatePublicNotificationForAdmin(
+            query paginatePublicMessageInAppForAdmin(
               $page : Int,
               $limit : Int,
               $search : String,
             ){
-                paginatePublicNotificationForAdmin(
+                paginatePublicMessageInAppForAdmin(
                   page : $page,
                   limit : $limit,
                   search : $search,
@@ -138,7 +138,7 @@ const Page = () => {
       },
     })
       .then((response) => {
-        const riciveData = response.data.data.paginatePublicNotificationForAdmin;
+        const riciveData = response.data.data.paginatePublicMessageInAppForAdmin;
         if (riciveData.hasNextPage == true) {
           setData([...data, ...riciveData.list]);
           setPage(riciveData.nextPage);
@@ -213,7 +213,7 @@ const Page = () => {
               >
                 <div className="flex flex-row items-center gap-2">
                   <IoSearch className="text-text5 dark:text-text5_dark text-[20px]"/>
-                  جستجوی اعلان‌های عمومی
+                  جستجوی پیام‌های عمومی
                 </div>
                 <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
                   <Input
@@ -268,7 +268,7 @@ const Page = () => {
                 <div key={index.toString()}>
                   <NotificationItem
                     _id = {item._id}
-                    type = {"public-notification"}
+                    type = {"public-message-in-app"}
                     admin = {{first_name: item.admin.first_name, last_name:item.admin.last_name}}
                     title = {item.title}
                     body = {item.body}

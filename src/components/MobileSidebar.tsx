@@ -4,11 +4,11 @@ import SideBarItem from "./SideBarItem";
 import { usePathname } from "next/navigation";
 import { AiFillDashboard } from "react-icons/ai";
 import { RiApps2AddFill, RiApps2Fill } from "react-icons/ri";
-import { TbCoins, TbDiaboloPlus, TbHexagonalPrismPlus, TbHexagonPlusFilled } from "react-icons/tb";
+import { TbBellPlus, TbCoins, TbDiaboloPlus, TbHexagonalPrismPlus, TbHexagonPlusFilled, TbMessagePlus } from "react-icons/tb";
 import { FaCoins, FaDiceD6, FaUsers } from "react-icons/fa6";
 import { LuClipboardList } from "react-icons/lu";
 import { BsCloudPlus, BsCloudPlusFill } from "react-icons/bs";
-import { IoDiamondOutline, IoDiamondSharp, IoTrailSign, IoTrailSignOutline } from "react-icons/io5";
+import { IoDiamondOutline, IoDiamondSharp, IoNotifications, IoTrailSign, IoTrailSignOutline } from "react-icons/io5";
 import { MdListAlt, MdPayments } from "react-icons/md";
 
 export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpenSidebar: boolean; closeSidebarFn: any }) {
@@ -33,6 +33,54 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
         </div>
       ),
       head:true
+    },
+    {
+      name: "مدیریت اعلانات و پیام‌ها",
+      href: "/dashboard/notification-management",
+      icon: (
+        <div className="text-xl">
+          <IoNotifications />
+        </div>
+      ),
+      head:true,
+      children: [
+        {
+          name: "ارسال اعلان عمومی",
+          href: "/send-public-notification",
+          icon: (
+            <div className="text-xl">
+              <TbBellPlus />
+            </div>
+          ),
+        },
+        {
+          name: "ارسال اعلان خصوصی",
+          href: "/send-private-notification",
+          icon: (
+            <div className="text-xl">
+              <TbBellPlus />
+            </div>
+          ),
+        },
+        {
+          name: "ارسال پیام عمومی",
+          href: "/send-public-message",
+          icon: (
+            <div className="text-xl">
+              <TbMessagePlus />
+            </div>
+          ),
+        },
+        {
+          name: "ارسال پیام خصوصی",
+          href: "/send-private-message",
+          icon: (
+            <div className="text-xl">
+              <TbMessagePlus />
+            </div>
+          ),
+        },
+      ],
     },
     {
       name: "ثبت محتوای بازی مرحله‌ای",

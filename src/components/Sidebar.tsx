@@ -5,12 +5,12 @@ import { usePathname } from "next/navigation";
 import SideBarItem from "./SideBarItem";
 import { AiFillDashboard } from "react-icons/ai";
 import { RiApps2AddFill, RiApps2Fill } from "react-icons/ri";
-import { TbCoins, TbDiaboloPlus, TbHexagonalPrismPlus, TbHexagonPlusFilled } from "react-icons/tb";
+import { TbCoins, TbDiaboloPlus, TbHexagonalPrismPlus, TbHexagonPlusFilled, TbBellPlus, TbMessagePlus, TbListSearch } from "react-icons/tb";
 import { FaCoins, FaDiceD6, FaUsers } from "react-icons/fa6";
 import { BsCloudPlus, BsCloudPlusFill } from "react-icons/bs";
 import { LuClipboardList } from "react-icons/lu";
 import { MdListAlt, MdPayments } from "react-icons/md";
-import { IoDiamondOutline, IoDiamondSharp, IoTrailSign, IoTrailSignOutline } from "react-icons/io5";
+import { IoDiamondOutline, IoDiamondSharp, IoTrailSign, IoTrailSignOutline, IoNotifications } from "react-icons/io5";
 
 const navigation: any = [
   {
@@ -22,6 +22,90 @@ const navigation: any = [
       </div>
     ),
     head:true
+  },
+  {
+    name: "مدیریت اعلانات و پیام‌ها",
+    href: "/dashboard/notification-management",
+    icon: (
+      <div className="text-xl">
+        <IoNotifications />
+      </div>
+    ),
+    head:true,
+    children: [
+      {
+        name: "ارسال اعلان عمومی",
+        href: "/send-public-notification",
+        icon: (
+          <div className="text-xl">
+            <TbBellPlus />
+          </div>
+        ),
+      },
+      {
+        name: "لیست اعلان‌های عمومی",
+        href: "/public-notification-list",
+        icon: (
+          <div className="text-xl">
+            <TbListSearch />
+          </div>
+        ),
+      },
+      {
+        name: "ارسال اعلان خصوصی",
+        href: "/send-private-notification",
+        icon: (
+          <div className="text-xl">
+            <TbBellPlus />
+          </div>
+        ),
+      },
+      {
+        name: "لیست اعلان‌های خصوصی",
+        href: "/private-notification-list",
+        icon: (
+          <div className="text-xl">
+            <TbListSearch />
+          </div>
+        ),
+      },
+      {
+        name: "ارسال پیام عمومی",
+        href: "/send-public-message",
+        icon: (
+          <div className="text-xl">
+            <TbMessagePlus />
+          </div>
+        ),
+      },
+      {
+        name: "لیست پیام‌های عمومی",
+        href: "/public-message-list",
+        icon: (
+          <div className="text-xl">
+            <TbListSearch />
+          </div>
+        ),
+      },
+      {
+        name: "ارسال پیام خصوصی",
+        href: "/send-private-message",
+        icon: (
+          <div className="text-xl">
+            <TbMessagePlus />
+          </div>
+        ),
+      },
+      {
+        name: "لیست پیام‌های خصوصی",
+        href: "/private-message-list",
+        icon: (
+          <div className="text-xl">
+            <TbListSearch />
+          </div>
+        ),
+      },
+    ],
   },
   {
     name: "ثبت محتوای بازی مرحله‌ای",
