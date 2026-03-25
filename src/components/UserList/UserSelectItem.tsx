@@ -68,7 +68,7 @@ const UserSelectItem = ({
                  {name?`${name}`:""}
                 </h3>
                 <h3 className="text-[10px] 2xl:text-[12px] font-['iransans-md'] text-text5 dark:text-text5_dark line-clamp-1">
-                  {type == "guest"?"کاربر مهمان":type == "registered"?"کاربر ثبت نام شده":""}
+                  {type == "guest"?"کاربر میهمان":type == "registered"?"کاربر ثبت نام شده":""}
                 </h3>
                 <h3 className="text-[12px] 2xl:text-[14px] font-['iransans-md'] text-primary">
                   {`تعداد سکه : ${number_coins}`}

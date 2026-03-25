@@ -253,7 +253,11 @@ const CollectionList = forwardRef((_, ref) => {
     extendedState.title.splice(index, 1);
     setExtendedState({ ...extendedState });
   };
-
+  const footertryAgain = () => {
+    setFooterLoading(true);
+    setFooterTry(false);
+    getDataForMore();
+  };
   return (
     <div>
       <Transition.Root show={isOpen} as={React.Fragment}>
@@ -375,7 +379,7 @@ const CollectionList = forwardRef((_, ref) => {
                                     <FooterPaginate
                                       loading={footerLoading}
                                       footerTry={footerTry}
-                                      tryOperation={getDataForFirst}
+                                      tryOperation={footertryAgain}
                                     />
                                   ) : (
                                     ""

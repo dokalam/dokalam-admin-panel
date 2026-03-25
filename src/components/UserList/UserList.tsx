@@ -311,7 +311,11 @@ const UserList = forwardRef((_, ref) => {
     extendedState.name.splice(index, 1)
     setExtendedState({ ...extendedState });
   };
-
+  const footertryAgain = () => {
+    setFooterLoading(true);
+    setFooterTry(false);
+    getDataForMore();
+  };
   return (
     <div>
       <Transition.Root show={isOpen} as={React.Fragment}>
@@ -395,7 +399,7 @@ const UserList = forwardRef((_, ref) => {
                                 SearchLoading={
                                   loading && search.length > 0 && getError == false && noItem == false ? true : false
                                 }
-                                placeholder="جستجوی کاربر (شماره موبایل یا نام‌کاربری)"
+                                placeholder="جستجوی کاربر (شماره موبایل، نام‌کاربری، نام، نام‌خانوادگی)"
                                 inputStyles="!text-[14px] placeholder:!text-[11px]"
                                 searchIconStyle="!hidden"
                                 clearSearchIconStyles="!text-base"
@@ -455,7 +459,7 @@ const UserList = forwardRef((_, ref) => {
                                     <FooterPaginate
                                       loading={footerLoading}
                                       footerTry={footerTry}
-                                      tryOperation={getDataForFirst}
+                                      tryOperation={footertryAgain}
                                     />
                                   ) : (
                                     ""

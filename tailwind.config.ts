@@ -71,6 +71,8 @@ const config: Config = {
         "iransans-black": ["iransans-black"],
         "iransans-ULight": ["iransans-ULight"],
         "iransans-light-en": ["iransans-light-en"],
+        "iransans-md-en": ["iransans-md-en"],
+        "iransans-black-en": ["iransans-black-en"],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

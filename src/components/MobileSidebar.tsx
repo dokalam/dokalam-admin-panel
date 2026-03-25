@@ -35,6 +35,22 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
       head:true
     },
     {
+      name: "مدیریت کاربران",
+      href: "/dashboard/users",
+      icon: (
+        <div className="text-xl">
+          <FaUsers />
+        </div>
+      ),
+      head:true,
+      children: [
+        {
+          name: "لیست کاربران",
+          href: "/user-list",
+        },
+      ],
+    },
+    {
       name: "مدیریت اعلانات و پیام‌ها",
       href: "/dashboard/notification-management",
       icon: (
@@ -274,22 +290,6 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
               <BsCloudPlus />
             </div>
           ),
-        },
-      ],
-    },
-    {
-      name: "مدیریت کاربران",
-      href: "/dashboard/users",
-      icon: (
-        <div className="text-xl">
-          <FaUsers />
-        </div>
-      ),
-      head:true,
-      children: [
-        {
-          name: "لیست کاربران",
-          href: "/user-list",
         },
       ],
     },

@@ -24,6 +24,22 @@ const navigation: any = [
     head:true
   },
   {
+    name: "مدیریت کاربران",
+    href: "/dashboard/users",
+    icon: (
+      <div className="text-xl">
+        <FaUsers />
+      </div>
+    ),
+    head:true,
+    children: [
+      {
+        name: "لیست کاربران",
+        href: "/user-list",
+      },
+    ],
+  },
+  {
     name: "مدیریت اعلانات و پیام‌ها",
     href: "/dashboard/notification-management",
     icon: (
@@ -299,22 +315,6 @@ const navigation: any = [
             <BsCloudPlus />
           </div>
         ),
-      },
-    ],
-  },
-  {
-    name: "مدیریت کاربران",
-    href: "/dashboard/users",
-    icon: (
-      <div className="text-xl">
-        <FaUsers />
-      </div>
-    ),
-    head:true,
-    children: [
-      {
-        name: "لیست کاربران",
-        href: "/user-list",
       },
     ],
   },

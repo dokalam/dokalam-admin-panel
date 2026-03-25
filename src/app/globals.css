@@ -32,6 +32,16 @@
   src: url("../assets/fonts/IRANSansWeb_Light.ttf");
 }
 
+@font-face {
+  font-family: "iransans-md-en";
+  src: url("../assets/fonts/IRANSansWeb_Medium.ttf");
+}
+
+@font-face {
+  font-family: "iransans-black-en";
+  src: url("../assets/fonts/IRANSansWeb_Black.ttf");
+}
+
 .scrollbar-hide {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */

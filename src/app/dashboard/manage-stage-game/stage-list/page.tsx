@@ -390,9 +390,14 @@ const Page = () => {
       </div>
     )
   }
+  const footertryAgain = () => {
+    setFooterLoading(true);
+    setFooterTry(false);
+    getDataForMore();
+  };
   const dataContent = ()=>{
     return(
-      <div className="w-full h-full">
+      <div id="scrollableDiv" className="w-full h-full overflow-y-auto">
         {loading ? (
           <div className="flex justify-center items-center w-full h-full">
             <ScreenLoading notItem={noItem} getError={getError} tryAgain={tryAgain} />
@@ -404,17 +409,16 @@ const Page = () => {
             hasMore={!loading && footerLoading ? true : false}
             loader={
               !loading && data?.length > 0 ? (
-                <FooterPaginate loading={footerLoading} footerTry={footerTry} tryOperation={getDataForFirst} />
+                <FooterPaginate loading={footerLoading} footerTry={footerTry} tryOperation={footertryAgain} />
               ) : (
                 ""
               )
             }
+            scrollableTarget="scrollableDiv"
           >
             <ul
               role="list"
-              className={`grid gap-4 sm:mx-auto sm:gap-6 grid-cols-1 mt-8 sm:mt-10 max-w-[1300px] ${
-                !open ? "2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2" : "xl:grid-cols-2 2xl:grid-cols-3"
-              }`}
+              className={`grid gap-4 sm:mx-auto sm:gap-6 grid-cols-1 mt-8 sm:mt-10 xl:grid-cols-2 2xl:grid-cols-3 px-4`}
             >
               {data?.map((item: any, index: number) => (
                 <div>

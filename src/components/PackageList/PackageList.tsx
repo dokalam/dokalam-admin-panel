@@ -294,6 +294,11 @@ const PackageList = forwardRef((_, ref) => {
     extendedState.image.splice(index, 1)
     setExtendedState({ ...extendedState });
   };
+  const footertryAgain = () => {
+    setFooterLoading(true);
+    setFooterTry(false);
+    getDataForMore();
+  };
 
   return (
     <div>
@@ -432,7 +437,7 @@ const PackageList = forwardRef((_, ref) => {
                                     <FooterPaginate
                                       loading={footerLoading}
                                       footerTry={footerTry}
-                                      tryOperation={getDataForFirst}
+                                      tryOperation={footertryAgain}
                                     />
                                   ) : (
                                     ""

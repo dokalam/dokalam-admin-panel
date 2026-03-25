@@ -9,7 +9,7 @@ import Input from "@/components/Input";
 import FilterFooter from "@/components/Footer/FilterFooter";
 import GradientButton from "@/components/GradientButton";
 import { IoSearch } from "react-icons/io5";
-import NotificationItem from "@/components/ListItems/notification/NotificationItem";
+import UserItem from "@/components/ListItems/User/UserItem";
 
 
 
@@ -35,27 +35,24 @@ const Page = () => {
       method: "post",
       data: {
         query: `
-            query paginatePublicNotificationForAdmin(
+            query getAllUserForAdmin(
               $page : Int,
               $limit : Int,
               $search : String,
             ){
-                paginatePublicNotificationForAdmin(
+                getAllUserForAdmin(
                   page : $page,
                   limit : $limit,
                   search : $search,
                 ) {
                     list{
                       _id,
-                      admin{first_name, last_name},
-                      title,
-                      body,
-                      link,
-                      package{title, icon_image},
-                      number_free_coin,
-                      duration_free_subscription,
-                      admin_note,
-                      send_notification,
+                      type,
+                      phone,
+                      user_name,
+                      first_name,
+                      last_name,
+                      number_coins,
                     },
                     hasNextPage,
                     nextPage
@@ -69,7 +66,7 @@ const Page = () => {
       },
     })
       .then((response) => {
-        const riciveData = response.data.data.paginatePublicNotificationForAdmin;
+        const riciveData = response.data.data.getAllUserForAdmin;
         if (riciveData.hasNextPage == true) {
           setLoading(false);
           setData(riciveData.list);
@@ -104,27 +101,24 @@ const Page = () => {
       method: "post",
       data: {
         query: `
-            query paginatePublicNotificationForAdmin(
+            query getAllUserForAdmin(
               $page : Int,
               $limit : Int,
               $search : String,
             ){
-                paginatePublicNotificationForAdmin(
+                getAllUserForAdmin(
                   page : $page,
                   limit : $limit,
                   search : $search,
                 ) {
                     list{
                       _id,
-                      admin{first_name, last_name},
-                      title,
-                      body,
-                      link,
-                      package{title, icon_image},
-                      number_free_coin,
-                      duration_free_subscription,
-                      admin_note,
-                      send_notification,
+                      type,
+                      phone,
+                      user_name,
+                      first_name,
+                      last_name,
+                      number_coins,
                     },
                     hasNextPage,
                     nextPage
@@ -138,7 +132,7 @@ const Page = () => {
       },
     })
       .then((response) => {
-        const riciveData = response.data.data.paginatePublicNotificationForAdmin;
+        const riciveData = response.data.data.getAllUserForAdmin;
         if (riciveData.hasNextPage == true) {
           setData([...data, ...riciveData.list]);
           setPage(riciveData.nextPage);
@@ -213,7 +207,7 @@ const Page = () => {
               >
                 <div className="flex flex-row items-center gap-2">
                   <IoSearch className="text-text5 dark:text-text5_dark text-[20px]"/>
-                  جستجوی اعلان‌های عمومی
+                  جستجوی کاربر
                 </div>
                 <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
                   <Input
@@ -224,7 +218,7 @@ const Page = () => {
                     onKeyDownFn={submitSearch}
                     changeState={(e: string) => handleSearch(e)}
                     SearchLoading={loading && search.length > 0 && getError == false && noItem == false ? true : false}
-                    placeholder="جستجوِی عنوان یا متن"
+                    placeholder="جستجوِی کاربر"
                     inputStyles="!text-[14px] lg:!h-[35px] placeholder:!text-[11px]"
                     searchIconStyle="!hidden"
                     clearSearchIconStyles="!text-base"
@@ -238,9 +232,16 @@ const Page = () => {
       </div>
     )
   }
+
+  const footertryAgain = () => {
+    setFooterLoading(true);
+    setFooterTry(false);
+    getDataForMore();
+  };
+
   const dataContent = ()=>{
     return(
-      <div className="w-full h-full">
+      <div id="scrollableDiv" className="w-full h-full overflow-y-auto">
         {loading ? (
           <div className="flex justify-center items-center w-full h-full">
             <ScreenLoading notItem={noItem} getError={getError} tryAgain={tryAgain} />
@@ -252,37 +253,27 @@ const Page = () => {
             hasMore={!loading && footerLoading ? true : false}
             loader={
               !loading && data?.length > 0 ? (
-                <FooterPaginate loading={footerLoading} footerTry={footerTry} tryOperation={getDataForFirst} />
+                <FooterPaginate loading={footerLoading} footerTry={footerTry} tryOperation={footertryAgain} />
               ) : (
                 ""
               )
             }
+            scrollableTarget="scrollableDiv"
           >
             <ul
               role="list"
-              className={`grid gap-4 sm:mx-auto sm:gap-6 grid-cols-1 mt-8 sm:mt-10 max-w-[1300px] ${
-                !open ? "2xl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-2" : "xl:grid-cols-2 2xl:grid-cols-3"
-              }`}
+              className={`grid gap-4 sm:mx-auto sm:gap-6 grid-cols-1 mt-8 sm:mt-10 xl:grid-cols-2 2xl:grid-cols-3 px-4`}
             >
               {data?.map((item: any, index: number) => (
                 <div key={index.toString()}>
-                  <NotificationItem
-                    _id = {item._id}
-                    type = {"public-notification"}
-                    admin = {{first_name: item.admin.first_name, last_name:item.admin.last_name}}
-                    title = {item.title}
-                    body = {item.body}
-                    link = {item?.link}
-                    packageInfo = {item?.package?{title:item.package?.title, icon_image: item.package.icon_image}:null}
-                    numberFreeCoin = {item?.number_free_coin}
-                    durationFreeSubscription = {item?.duration_free_subscription}
-                    adminNote = {item?.admin_note}
-                    sendNotification = {item?.send_notification}
-                    deleteOperation={()=>{
-                      const newData = [...data];
-                      newData.splice(index, 1);
-                      setData(newData);
-                    }}
+                  <UserItem
+                    _id={item._id}
+                    type={item?.type}
+                    user_name={item?.user_name}
+                    first_name={item?.first_name}
+                    last_name={item?.last_name}
+                    phone={item?.phone}
+                    number_coins={item?.number_coins}
                   />
                 </div>
               ))}
