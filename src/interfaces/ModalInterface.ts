@@ -16,6 +16,18 @@ export interface UserListModalInterface {
   previousSelected?: { _id: string[]; user_name: string[]; phone: any[]; name?: any[]};
 }
 
+export interface FreeCoinListModalInterface {
+  buttons?: { onClickFn?: (data: any) => any; buttonText?: string; type: string }[];
+  numberSelected?: number;
+  previousSelected?: { _id: string[]; type: string[]; title: string[]; icon_image?: string[]; number_coin: string[]};
+}
+
+export interface FreeSubscriptionListModalInterface {
+  buttons?: { onClickFn?: (data: any) => any; buttonText?: string; type: string }[];
+  numberSelected?: number;
+  previousSelected?: { _id: string[]; type: string[]; title: string[]; icon_image?: string[]; duration: string[]};
+}
+
 export interface CollectionListModalInterface {
   buttons?: { onClickFn?: (data: any) => any; buttonText?: string; type: string }[];
   numberSelected?: number;
@@ -264,4 +276,13 @@ export interface RatingAndCommentsModalInterface {
   avatar?: any;
   agencyType?: boolean;
   ratingItemData?: { rating_average: number; rating_info: number[]; reviews: number };
+}
+
+export interface CalendarModalInterface {
+  callBack: { callBackCalendar: (date: any) => any };
+  minDate?: any;
+  maxDate?: any;
+  initialDate?: any;
+  selectedDate: any;
+  hideButtons?: boolean;
 }

@@ -26,7 +26,6 @@ const UserSelectItem = ({
   deletedItem: any;
   selectedItem: any;
   numberSelect?: number;
-  imageSrc?: any
 }) => {
   const [select, setSelect] = useState(checked);
 

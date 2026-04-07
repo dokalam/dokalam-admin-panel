@@ -35,12 +35,12 @@ const Page = () => {
       method: "post",
       data: {
         query: `
-            query PaginatePrivateMessageInAppForAdmin(
+            query paginatePrivateMessageInAppForAdmin(
               $page : Int,
               $limit : Int,
               $search : String,
             ){
-                PaginatePrivateMessageInAppForAdmin(
+                paginatePrivateMessageInAppForAdmin(
                   page : $page,
                   limit : $limit,
                   search : $search,
@@ -53,8 +53,8 @@ const Page = () => {
                       body,
                       link,
                       package{title, icon_image},
-                      number_free_coin,
-                      duration_free_subscription,
+                      free_coin_plan{type, title, icon_image, number_coin, expiration, expired, is_active},
+                      free_subscription_plan{type, title, icon_image, duration, expiration, expired, is_active},
                       admin_note,
                       send_notification,
                       seen
@@ -71,7 +71,7 @@ const Page = () => {
       },
     })
       .then((response) => {
-        const riciveData = response.data.data.PaginatePrivateMessageInAppForAdmin;
+        const riciveData = response.data.data.paginatePrivateMessageInAppForAdmin;
         if (riciveData.hasNextPage == true) {
           setLoading(false);
           setData(riciveData.list);
@@ -106,12 +106,12 @@ const Page = () => {
       method: "post",
       data: {
         query: `
-            query PaginatePrivateMessageInAppForAdmin(
+            query paginatePrivateMessageInAppForAdmin(
               $page : Int,
               $limit : Int,
               $search : String,
             ){
-                PaginatePrivateMessageInAppForAdmin(
+                paginatePrivateMessageInAppForAdmin(
                   page : $page,
                   limit : $limit,
                   search : $search,
@@ -124,8 +124,8 @@ const Page = () => {
                       body,
                       link,
                       package{title, icon_image},
-                      number_free_coin,
-                      duration_free_subscription,
+                      free_coin_plan{type, title, icon_image, number_coin, expiration, expired, is_active},
+                      free_subscription_plan{type, title, icon_image, duration, expiration, expired, is_active},
                       admin_note,
                       send_notification,
                       seen
@@ -142,7 +142,7 @@ const Page = () => {
       },
     })
       .then((response) => {
-        const riciveData = response.data.data.PaginatePrivateMessageInAppForAdmin;
+        const riciveData = response.data.data.paginatePrivateMessageInAppForAdmin;
         if (riciveData.hasNextPage == true) {
           setData([...data, ...riciveData.list]);
           setPage(riciveData.nextPage);
@@ -283,8 +283,8 @@ const Page = () => {
                     body = {item.body}
                     link = {item?.link}
                     packageInfo = {item?.package?{title:item.package?.title, icon_image: item.package.icon_image}:null}
-                    numberFreeCoin = {item?.number_free_coin}
-                    durationFreeSubscription = {item?.duration_free_subscription}
+                    freeCoinPlan = {item?.free_coin_plan}
+                    freeSubscriptionPlan = {item?.free_subscription_plan}
                     adminNote = {item?.admin_note}
                     sendNotification = {item?.send_notification}
                     seen = {item?.seen}

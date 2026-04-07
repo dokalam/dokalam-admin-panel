@@ -1,9 +1,3 @@
-import { TbAlertSquare } from "react-icons/tb";
-import { IoIosCheckboxOutline } from "react-icons/io";
-import { IoPowerSharp } from "react-icons/io5";
-import { MdOutlineBlock } from "react-icons/md";
-import { CgCloseR } from "react-icons/cg";
-
 const url = process.env.NEXT_PUBLIC_URL;
 const uri = process.env.NEXT_PUBLIC_URI
 

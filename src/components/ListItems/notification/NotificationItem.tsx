@@ -7,6 +7,10 @@ import { FaUserLarge, FaCoins} from "react-icons/fa6";
 import axios from "axios";
 import { toast } from "react-toastify";
 import DialogHelper from "@/components/Dialog/DialogHelper";
+import { getTime } from "@/utils/GetTime";
+import moment from "moment-jalaali";
+import "moment/locale/fa";
+moment.loadPersian({ usePersianDigits: false, dialect: "persian-modern" });
 
 const NotificationItem = ({
   _id,
@@ -17,8 +21,8 @@ const NotificationItem = ({
   body,
   link,
   packageInfo,
-  numberFreeCoin,
-  durationFreeSubscription,
+  freeCoinPlan,
+  freeSubscriptionPlan,
   adminNote,
   sendNotification,
   seen,
@@ -32,8 +36,8 @@ const NotificationItem = ({
   body: string;
   link?: string;
   packageInfo?: {title: string; icon_image?: string;} | null;
-  numberFreeCoin?: number;
-  durationFreeSubscription?: number;
+  freeCoinPlan?: any;
+  freeSubscriptionPlan?: any;
   adminNote?: string;
   sendNotification: boolean;
   seen?: boolean | null;
@@ -249,21 +253,75 @@ const NotificationItem = ({
             </p>
           )}
           {
-            (numberFreeCoin && numberFreeCoin > 0)&&
-            <div className="flex flex-row items-center gap-2 mt-6 flex flex-wrap gap-2 text-xs font-['iransans-md'] text-text dark:text-text_dark">
-              <FaCoins className="text-warning text-[20px]"/>
-              <span className="bg-green-100 dark:bg-green-800 px-2 py-1 rounded">
-                {`${numberFreeCoin} سکه رایگان داده شده است!`} 
-              </span>
+            (freeCoinPlan)&&
+            <div className="flex items-center mt-4">
+              <div className="flex w-full items-center justify-between">
+                {
+                  freeCoinPlan?.icon_image?
+                  <ImageComponent
+                    parentclasses="w-16 h-16 lg:h-16 lg:w-16 2xl:h-24 2xl:w-24 !rounded-xl"
+                    imageClasses="!rounded-xl"
+                    src={freeCoinPlan?.icon_image}
+                  />
+                  :
+                  <div className="flex w-16 h-16 lg:h-16 lg:w-16 2xl:h-24 2xl:w-24 !rounded-xl bg-green_color items-center justify-center">
+                    <FaCoins className="w-8 h-8 lg:h-12 lg:w-12 2xl:h-16 2xl:w-16"/>
+                  </div>
+                }
+                <div className="flex-1 pr-3 flex flex-col justify-between gap-y-[4px]">
+                    <p className="text-[10px] 2xl:text-[12px] font-['iransans-md'] text-text dark:text-text_dark line-clmp-1">
+                      {freeCoinPlan?.title}
+                    </p>
+                    <p className="text-[10px] 2xl:text-[12px] font-['iransans-md'] text-text5 dark:text-text5_dark line-clamp-1">
+                      {"نوع آیتم : "}
+                      <span className="text-warning">{freeCoinPlan?.type == "private"?"خصوصی":freeCoinPlan?.type == "public"?"عمومی":""}</span>
+                    </p>
+                    <p className="text-[10px] 2xl:text-[12px] font-['iransans-md'] text-primary">
+                      {`${freeCoinPlan?.number_coin} سکه`}
+                      {freeCoinPlan?.is_active === false&& <span className="text-warning"> ( غیر فعال )</span>}
+                    </p>
+                    <p className="text-[8px] 2xl:text-[10px] font-['iransans-md'] text-text5 dark:text-text5_dark line-clamp-1">
+                      {"تاریخ انقضا : "}
+                      <span className="text-primary">{freeCoinPlan?.expiration?`( ${getTime(freeCoinPlan?.expiration)}   ___  ${moment(freeCoinPlan?.expiration).format("jYYYY/jMM/jDD")} )${freeCoinPlan?.expired === true?" ( منقضی شده )":""}`:"نامحدود"}</span>
+                    </p>
+                </div>
+              </div>
             </div>
           }
           {
-            (durationFreeSubscription && durationFreeSubscription > 0)&&
-            <div className="flex flex-row items-center gap-2 mt-6 flex flex-wrap gap-2 text-xs font-['iransans-md'] text-text dark:text-text_dark">
-              <IoDiamondSharp className="text-info text-[20px]"/>
-              <span className="bg-green-100 dark:bg-green-800 px-2 py-1 rounded">
-                {`${durationFreeSubscription} روز اشتراک رایگان داده شده است!`} 
-              </span>
+            (freeSubscriptionPlan)&&
+            <div className="flex items-center mt-4">
+              <div className="flex w-full items-center justify-between">
+                {
+                  freeSubscriptionPlan?.icon_image?
+                  <ImageComponent
+                    parentclasses="w-16 h-16 lg:h-16 lg:w-16 2xl:h-24 2xl:w-24 !rounded-xl"
+                    imageClasses="!rounded-xl"
+                    src={freeSubscriptionPlan.icon_image}
+                  />
+                  :
+                  <div className="flex w-16 h-16 lg:h-16 lg:w-16 2xl:h-24 2xl:w-24 !rounded-xl bg-green_color items-center justify-center">
+                    <IoDiamondSharp className="w-8 h-8 lg:h-12 lg:w-12 2xl:h-16 2xl:w-16"/>
+                  </div>
+                }
+                <div className="flex-1 pr-3 flex flex-col justify-between gap-y-[4px]">
+                    <p className="text-[10px] 2xl:text-[12px] font-['iransans-md'] text-text dark:text-text_dark line-clmp-1">
+                      {freeSubscriptionPlan?.title}
+                    </p>
+                    <p className="text-[10px] 2xl:text-[12px] font-['iransans-md'] text-text5 dark:text-text5_dark line-clamp-1">
+                      {"نوع آیتم : "}
+                      <span className="text-warning">{freeSubscriptionPlan?.type == "private"?"خصوصی":freeSubscriptionPlan?.type == "public"?"عمومی":""}</span>
+                    </p>
+                    <p className="text-[10px] 2xl:text-[12px] font-['iransans-md'] text-primary">
+                      {`${freeSubscriptionPlan?.duration} روز اشتراک`}
+                      {freeSubscriptionPlan?.is_active === false&& <span className="text-warning"> ( غیر فعال )</span>}
+                    </p>
+                    <p className="text-[8px] 2xl:text-[10px] font-['iransans-md'] text-text5 dark:text-text5_dark line-clamp-1">
+                      {"تاریخ انقضا : "}
+                      <span className="text-primary">{freeSubscriptionPlan?.expiration?`( ${getTime(freeSubscriptionPlan?.expiration)}   ___  ${moment(freeSubscriptionPlan?.expiration).format("jYYYY/jMM/jDD")} )${freeSubscriptionPlan?.expired === true?" ( منقضی شده )":""}`:"نامحدود"}</span>
+                    </p>
+                </div>
+              </div>
             </div>
           }
           {

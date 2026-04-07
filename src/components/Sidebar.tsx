@@ -10,7 +10,7 @@ import { FaCoins, FaDiceD6, FaUsers } from "react-icons/fa6";
 import { BsCloudPlus, BsCloudPlusFill } from "react-icons/bs";
 import { LuClipboardList } from "react-icons/lu";
 import { MdListAlt, MdPayments } from "react-icons/md";
-import { IoDiamondOutline, IoDiamondSharp, IoTrailSign, IoTrailSignOutline, IoNotifications } from "react-icons/io5";
+import { IoDiamondOutline, IoDiamondSharp, IoTrailSign, IoTrailSignOutline, IoNotifications, IoMail } from "react-icons/io5";
 
 const navigation: any = [
   {
@@ -40,7 +40,7 @@ const navigation: any = [
     ],
   },
   {
-    name: "مدیریت اعلانات و پیام‌ها",
+    name: "مدیریت اعلانات",
     href: "/dashboard/notification-management",
     icon: (
       <div className="text-xl">
@@ -85,6 +85,18 @@ const navigation: any = [
           </div>
         ),
       },
+    ],
+  },
+  {
+    name: "مدیریت پیام‌ها",
+    href: "/dashboard/message-management",
+    icon: (
+      <div className="text-xl">
+        <IoMail />
+      </div>
+    ),
+    head:true,
+    children: [
       {
         name: "ارسال پیام عمومی",
         href: "/send-public-message",
@@ -338,6 +350,15 @@ const navigation: any = [
         ),
       },
       {
+        name: "تعریف آیتم جدید سکه رایگان",
+        href: "/free-coin-plan-definition",
+        icon: (
+          <div className="text-xl">
+            <TbCoins />
+          </div>
+        ),
+      },
+      {
         name: "لیست آیتم‌های سکه",
         href: "/coin-plan-list",
         icon: (
@@ -370,6 +391,15 @@ const navigation: any = [
       {
         name: "تعریف آیتم جدید اشتراک",
         href: "/subscription-plan-definition",
+        icon: (
+          <div className="text-xl">
+            <IoDiamondOutline />
+          </div>
+        ),
+      },
+      {
+        name: "تعریف آیتم جدید اشتراک رایگان",
+        href: "/free-subscription-plan-definition",
         icon: (
           <div className="text-xl">
             <IoDiamondOutline />

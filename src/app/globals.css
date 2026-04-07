@@ -218,3 +218,15 @@ input::-webkit-inner-spin-button {
 .apexcharts-toolbar {
   cursor: default !important;
 }
+
+.setReportHour {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.setReportHourOption {
+  -webkit-appearance: none;
+  appearance: none;
+  direction: ltr !important;
+  text-align: center;
+}

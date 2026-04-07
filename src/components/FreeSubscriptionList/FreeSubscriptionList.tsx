@@ -13,16 +13,18 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import FooterPaginate from "../FooterPaginate";
 import Border from "../Border";
 import { useTheme } from "next-themes";
-import { CollectionListModalInterface } from "@/interfaces/ModalInterface";
+import { FreeSubscriptionListModalInterface } from "@/interfaces/ModalInterface";
 import { toast } from "react-toastify";
 import moment from "moment-jalaali";
 import "moment/locale/fa";
-import CollectionSelectItem from "./CollectionSelectItem";
+import FreeSubscriptionSelectItem from "./FreeSubscriptionSelectItem";
+import { getTime } from "@/utils/GetTime";
 moment.loadPersian({ usePersianDigits: false, dialect: "persian-modern" });
 
-const CollectionList = forwardRef((_, ref) => {
+const FreeSubscriptionList = forwardRef((_, ref) => {
   const { theme } = useTheme();
   const [numberSelected, setNumberSelected] = useState(1);
+  const [search, setSearch] = useState("");
   const [data, setData] = useState<any>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -32,9 +34,13 @@ const CollectionList = forwardRef((_, ref) => {
   const [buttons, setButtons] = useState<any>([]);
   const [footerLoading, setFooterLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [searchTimeout, setSearchTimeout] = useState<any>(null);
   const [extendedState, setExtendedState] = useState<any>({
     _id: [],
+    type: [],
     title: [],
+    icon_image: [],
+    duration: [],
   });
   const handleBackBrowserBtn = () => {
     const back = true;
@@ -44,17 +50,20 @@ const CollectionList = forwardRef((_, ref) => {
     window.history.back();
   };
 
-  const openModal = (options: CollectionListModalInterface) => {
+  const openModal = (options: FreeSubscriptionListModalInterface) => {
     window.history.pushState(null, "", window.location.pathname);
     window.addEventListener("popstate", handleBackBrowserBtn);
     setIsOpen(true);
     setButtons(options?.buttons ? options.buttons : []);
-    getDataForFirst();
+    getDataForFirst(null);
     setNumberSelected(options?.numberSelected ? options.numberSelected : 1);
     if (options.previousSelected) {
       setExtendedState({
         _id: options?.previousSelected._id,
-        title: options?.previousSelected.title,
+        type: options?.previousSelected?.type,
+        title: options?.previousSelected?.title,
+        icon_image: options?.previousSelected?.icon_image,
+        duration: options?.previousSelected?.duration,
       });
     }
   };
@@ -69,8 +78,12 @@ const CollectionList = forwardRef((_, ref) => {
     setNumberSelected(1);
     setExtendedState({
       _id: [],
+      type: [],
       title: [],
+      icon_image: [],
+      duration: [],
     });
+    setSearch("");
     setData([]);
     setPage(1);
     setLoading(true);
@@ -78,6 +91,7 @@ const CollectionList = forwardRef((_, ref) => {
     setNoItem(false);
     setFooterTry(false);
     setFooterLoading(false);
+    setSearchTimeout(null);
   };
 
   useImperativeHandle(ref, () => ({
@@ -85,21 +99,26 @@ const CollectionList = forwardRef((_, ref) => {
     closeModal,
   }));
 
-  const getDataForFirst = async () => {
+  const getDataForFirst = async (txt: any) => {
     await axios({
       url: "/",
       method: "post",
       data: {
         query: `
-            query getAllPackageCollectionForAdmin($page : Int, $limit : Int){
-                getAllPackageCollectionForAdmin(page : $page, limit : $limit) {
+            query getAllFreeSubscriptionPlanForAdmin($page : Int, $limit : Int, $search : String){
+                getAllFreeSubscriptionPlanForAdmin(page : $page, limit : $limit, search : $search) {
                     list{
                       _id,
+                      type,
+                      private_users{phone, user_name, first_name, last_name},
+                      admin{first_name, last_name},
                       title,
-                      list{_id, title, icon_image},
-                      is_visible,
+                      icon_image,
+                      duration,
                       is_active,
-                    }
+                      expiration,
+                      expired
+                    },
                     hasNextPage,
                     nextPage
                 }
@@ -107,12 +126,12 @@ const CollectionList = forwardRef((_, ref) => {
             `,
         variables: {
           page: 1,
+          search: txt,
         },
       },
     })
       .then((response) => {
-        console.log(response)
-        const riciveData = response.data.data.getAllPackageCollectionForAdmin;
+        const riciveData = response.data.data.getAllFreeSubscriptionPlanForAdmin;
         if (riciveData.hasNextPage == true) {
           setLoading(false);
           setData(riciveData.list);
@@ -147,15 +166,20 @@ const CollectionList = forwardRef((_, ref) => {
       method: "post",
       data: {
         query: `
-            query getAllPackageCollectionForAdmin($page : Int, $limit : Int){
-                getAllPackageCollectionForAdmin(page : $page, limit : $limit) {
-                     list{
+            query getAllFreeSubscriptionPlanForAdmin($page : Int, $limit : Int, $search : String){
+                getAllFreeSubscriptionPlanForAdmin(page : $page, limit : $limit, search : $search) {
+                    list{
                       _id,
+                      type,
+                      private_users{phone, user_name, first_name, last_name},
+                      admin{first_name, last_name},
                       title,
-                      list{_id, title, icon_image},
-                      is_visible,
+                      icon_image,
+                      duration,
                       is_active,
-                    }
+                      expiration,
+                      expired
+                    },
                     hasNextPage,
                     nextPage
                 }
@@ -163,11 +187,12 @@ const CollectionList = forwardRef((_, ref) => {
             `,
         variables: {
           page: page,
+          search: null,
         },
       },
     })
       .then((response) => {
-        const riciveData = response.data.data.getAllPackageCollectionForAdmin;
+        const riciveData = response.data.data.getAllFreeSubscriptionPlanForAdmin;
         if (riciveData.hasNextPage == true) {
           setData([...data, ...riciveData.list]);
           setPage(riciveData.nextPage);
@@ -191,6 +216,36 @@ const CollectionList = forwardRef((_, ref) => {
       });
   };
 
+  const handleSearch = (e: string) => {
+    setSearch(e);
+    clearTimeout(searchTimeout);
+    setSearchTimeout(
+      setTimeout(() => {
+        setPage(1);
+        setLoading(true);
+        setFooterLoading(false);
+        setGetError(false);
+        setNoItem(false);
+        setFooterTry(false);
+        setData([]);
+
+        getDataForFirst(e);
+        clearTimeout(searchTimeout);
+      }, 1500)
+    );
+  };
+
+  const submitSearch = () => {
+    getDataForFirst(search);
+    clearTimeout(searchTimeout);
+  };
+
+  const clearSearchFn = () => {
+    setSearch("");
+    getDataForFirst("");
+    clearTimeout(searchTimeout);
+  };
+
   const tryAgain = () => {
     setFooterLoading(false);
     setLoading(true);
@@ -198,29 +253,45 @@ const CollectionList = forwardRef((_, ref) => {
     setNoItem(false);
     setPage(1);
     setFooterTry(false);
-    getDataForFirst();
+    const txt = search == "" ? null : search;
+    getDataForFirst(txt);
   };
 
   const deletedItem = ({ item }: { item: any }) => {
     const index = extendedState._id.findIndex((i: any) => i == item._id);
     extendedState._id.splice(index, 1);
+    extendedState.type.splice(index, 1);
     extendedState.title.splice(index, 1);
+    extendedState.icon_image.splice(index, 1);
+    extendedState.duration.splice(index, 1);
     setExtendedState({ ...extendedState });
   };
   const selectedItem = ({ item }: { item: any }) => {
     if (numberSelected == 1) {
       const _id = item._id;
+      const type = item.type;
       const title = item.title;
+      const icon_image = item?.icon_image
+      const duration = item.duration
       setExtendedState({
         _id: [_id],
+        type: [type],
         title: [title],
+        icon_image: [icon_image],
+        duration: [duration],
       });
     } else {
       if (extendedState._id.length < numberSelected) {
         const _id = item._id;
+        const type = item.type;
         const title = item.title;
+        const icon_image = item?.icon_image
+        const duration = item.duration
         extendedState._id.push(_id);
-        extendedState.title.push(title);
+        extendedState.type.push(type);
+        extendedState.title.push(title)
+        extendedState.icon_image.push(icon_image)
+        extendedState.duration.push(duration)
         setExtendedState({ ...extendedState });
       } else {
         toast.warning(`بیشتر از ${numberSelected} مورد نمیتوانید انتخاب کنید.`, {
@@ -250,7 +321,10 @@ const CollectionList = forwardRef((_, ref) => {
 
   const deleteItemFromHeader = (index: number) => {
     extendedState._id.splice(index, 1);
+    extendedState.type.splice(index, 1);
     extendedState.title.splice(index, 1);
+    extendedState.icon_image.splice(index, 1);
+    extendedState.duration.splice(index, 1);
     setExtendedState({ ...extendedState });
   };
   const footertryAgain = () => {
@@ -320,7 +394,7 @@ const CollectionList = forwardRef((_, ref) => {
                                   <IoArrowForwardOutline />
                                 </div>
                                 <div className="text-text6 dark:text-text6_dark text-right text-[.9rem] sm:text-[.95rem]">
-                                  {"لیست کالکشن"}
+                                  {"لیست آیتم‌های اشتراک رایگان"}
                                 </div>
                               </div>
                               <div
@@ -332,18 +406,40 @@ const CollectionList = forwardRef((_, ref) => {
                                 <Io5Icons icon={"IoClose"} />
                               </div>
                             </div>
+                            <div className="z-50 right-0 left-0 fixed sm:static bg-background2 dark:bg-background2_dark sm:!bg-transparent shadow-[0_4px_2px_-2px_rgba(0,0,0,0.15)] sm:shadow-none px-4 pb-2">
+                              <Input
+                                onKeyDownFn={submitSearch}
+                                value={search}
+                                type="search"
+                                changeState={(e: string) => handleSearch(e)}
+                                SearchLoading={
+                                  loading && search.length > 0 && getError == false && noItem == false ? true : false
+                                }
+                                placeholder="جستجوی آیتم اشتراک رایگان (عنوان آیتم، یادداشت ادمین)"
+                                inputStyles="!text-[14px] placeholder:!text-[11px]"
+                                searchIconStyle="!hidden"
+                                clearSearchIconStyles="!text-base"
+                                clearFn={clearSearchFn}
+                              />
+                            </div>
                             {extendedState?._id?.length > 0 && (
                               <div
                                 id="selectedContacts-wrapper"
                                 onWheel={scrollHorizontal}
-                                className="z-[1000] sm:z-auto flex font-['iransans-md'] text-xs gap-3 overflow-x-auto no-scrollbar px-4 pb-2 max-w-lg 2xl:max-w-2xl"
+                                className="z-[1000] sm:z-auto flex font-['iransans-md'] text-xs gap-3 overflow-x-auto no-scrollbar px-4 pb-2 mt-14 sm:mt-0 max-w-lg 2xl:max-w-2xl"
                               >
                                 {extendedState.title.map((item: any, index: number) => (
                                   <div
                                     className="flex border items-center gap-2 border-primary py-[.3rem] px-2 rounded-md text-primary shrink-0 bg-rgba4 dark:bg-rgba3 select-none"
                                     key={`${item}${index}`}
                                   >
-                                    {item}
+                                    <p className="font-['iransans-md'] text-text dark:text-text_dark line-clmp-1">
+                                      {item?`${item}`:""}
+                                      {extendedState.type[index]?<span className="text-warning"> | </span>:""}
+                                      {extendedState.type[index]?`${extendedState.type[index] == "private"?"خصوصی":extendedState.type[index] == "public"?"عمومی":""}`:""}
+                                      {extendedState.duration[index]?<span className="text-warning"> | </span>:""}
+                                      {extendedState.duration[index]?`${extendedState.duration[index]}`:""}
+                                    </p>
                                     <div
                                       className="text-lg cursor-pointer rounded-md text-primary bg-background dark:bg-background_dark hover:bg-border dark:hover:bg-border_dark transition border border-primary"
                                       onClick={() => deleteItemFromHeader(index)}
@@ -356,7 +452,7 @@ const CollectionList = forwardRef((_, ref) => {
                             )}
                           </Dialog.Title>
                         </div>
-                        <main >
+                        <main className={`${extendedState?._id?.length > 0 ? "mt-5 sm:mt-0" : "mt-12 sm:mt-0"}`}>
                           {loading ? (
                             <div className="flex justify-center items-center h-[calc(100dvh-170px)]">
                               <ScreenLoading notItem={noItem} getError={getError} tryAgain={tryAgain} />
@@ -365,8 +461,8 @@ const CollectionList = forwardRef((_, ref) => {
                             <div
                               id="scrollableDiv"
                               className={`${extendedState?._id?.length > 0
-                                ? " !h-[calc(100dvh-175px)] sm:!h-[calc(100dvh-165px)]"
-                                : "!h-[calc(100dvh-135px)] sm:!h-[calc(100dvh-125px)]"
+                                ? " !h-[calc(100dvh-230px)] sm:!h-[calc(100dvh-210px)]"
+                                : "!h-[calc(100dvh-180px)] sm:!h-[calc(100dvh-170px)]"
                                 } overflow-y-auto ${theme == "dark" ? "custom-scrollbar-dark" : "custom-scrollbar"}`}
                             >
                               <InfiniteScroll
@@ -392,15 +488,21 @@ const CollectionList = forwardRef((_, ref) => {
                                       className="px-4 hover:bg-border2 dark:hover:bg-border2_dark transition cursor-pointer"
                                       key={index.toString()}
                                     >
-                                      <CollectionSelectItem
-                                        _id={item._id}
+                                      <FreeSubscriptionSelectItem
                                         key={index.toString()}
+                                        _id={item._id}
+                                        type={item.type}
+                                        private_users={item?.private_users}
+                                        admin={item.admin}
                                         title={item.title}
+                                        icon_image={item?.icon_image}
+                                        duration={item.duration}
+                                        is_active={item.is_active}
+                                        expiration={item?.expiration?`( ${getTime(item?.expiration)}   ___  ${moment(item?.expiration).format("jYYYY/jMM/jDD")} )${item?.expired === true?" ( منقضی شده )":""}`:"نامحدود"}
                                         checked={extendedState._id.find((i: any) => i == item._id) ? true : false}
                                         numberSelect={numberSelected}
                                         deletedItem={() => deletedItem({ item })}
                                         selectedItem={() => selectedItem({ item })}
-                                        list={item.list}
                                       />
                                       <Border />
                                     </div>
@@ -449,5 +551,5 @@ const CollectionList = forwardRef((_, ref) => {
   );
 });
 
-CollectionList.displayName = "CollectionList";
-export default CollectionList;
+FreeSubscriptionList.displayName = "FreeSubscriptionList";
+export default FreeSubscriptionList;

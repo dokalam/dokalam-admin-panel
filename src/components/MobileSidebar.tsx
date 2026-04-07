@@ -4,11 +4,11 @@ import SideBarItem from "./SideBarItem";
 import { usePathname } from "next/navigation";
 import { AiFillDashboard } from "react-icons/ai";
 import { RiApps2AddFill, RiApps2Fill } from "react-icons/ri";
-import { TbBellPlus, TbCoins, TbDiaboloPlus, TbHexagonalPrismPlus, TbHexagonPlusFilled, TbMessagePlus } from "react-icons/tb";
+import { TbBellPlus, TbCoins, TbDiaboloPlus, TbHexagonalPrismPlus, TbHexagonPlusFilled, TbListSearch, TbMessagePlus } from "react-icons/tb";
 import { FaCoins, FaDiceD6, FaUsers } from "react-icons/fa6";
 import { LuClipboardList } from "react-icons/lu";
 import { BsCloudPlus, BsCloudPlusFill } from "react-icons/bs";
-import { IoDiamondOutline, IoDiamondSharp, IoNotifications, IoTrailSign, IoTrailSignOutline } from "react-icons/io5";
+import { IoDiamondOutline, IoDiamondSharp, IoMail, IoNotifications, IoTrailSign, IoTrailSignOutline } from "react-icons/io5";
 import { MdListAlt, MdPayments } from "react-icons/md";
 
 export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpenSidebar: boolean; closeSidebarFn: any }) {
@@ -51,7 +51,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
       ],
     },
     {
-      name: "مدیریت اعلانات و پیام‌ها",
+      name: "مدیریت اعلانات",
       href: "/dashboard/notification-management",
       icon: (
         <div className="text-xl">
@@ -70,6 +70,15 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
           ),
         },
         {
+          name: "لیست اعلان‌های عمومی",
+          href: "/public-notification-list",
+          icon: (
+            <div className="text-xl">
+              <TbListSearch />
+            </div>
+          ),
+        },
+        {
           name: "ارسال اعلان خصوصی",
           href: "/send-private-notification",
           icon: (
@@ -78,6 +87,27 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
             </div>
           ),
         },
+        {
+          name: "لیست اعلان‌های خصوصی",
+          href: "/private-notification-list",
+          icon: (
+            <div className="text-xl">
+              <TbListSearch />
+            </div>
+          ),
+        },
+      ],
+    },
+    {
+      name: "مدیریت پیام‌ها",
+      href: "/dashboard/message-management",
+      icon: (
+        <div className="text-xl">
+          <IoMail />
+        </div>
+      ),
+      head:true,
+      children: [
         {
           name: "ارسال پیام عمومی",
           href: "/send-public-message",
@@ -88,11 +118,29 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
           ),
         },
         {
+          name: "لیست پیام‌های عمومی",
+          href: "/public-message-list",
+          icon: (
+            <div className="text-xl">
+              <TbListSearch />
+            </div>
+          ),
+        },
+        {
           name: "ارسال پیام خصوصی",
           href: "/send-private-message",
           icon: (
             <div className="text-xl">
               <TbMessagePlus />
+            </div>
+          ),
+        },
+        {
+          name: "لیست پیام‌های خصوصی",
+          href: "/private-message-list",
+          icon: (
+            <div className="text-xl">
+              <TbListSearch />
             </div>
           ),
         },
@@ -313,6 +361,15 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
           ),
         },
         {
+          name: "تعریف آیتم جدید سکه رایگان",
+          href: "/free-coin-plan-definition",
+          icon: (
+            <div className="text-xl">
+              <TbCoins />
+            </div>
+          ),
+        },
+        {
           name: "لیست آیتم‌های سکه",
           href: "/coin-plan-list",
           icon: (
@@ -345,6 +402,15 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
         {
           name: "تعریف آیتم جدید اشتراک",
           href: "/subscription-plan-definition",
+          icon: (
+            <div className="text-xl">
+              <IoDiamondOutline />
+            </div>
+          ),
+        },
+        {
+          name: "تعریف آیتم جدید اشتراک رایگان",
+          href: "/free-subscription-plan-definition",
           icon: (
             <div className="text-xl">
               <IoDiamondOutline />

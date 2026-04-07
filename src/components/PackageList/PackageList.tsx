@@ -482,8 +482,10 @@ const PackageList = forwardRef((_, ref) => {
                                         : "bg-gradient-to-b from-primary_start to-primary_end text-white"
                                     }`}
                                   onClick={() => {
-                                    if (button?.onClickFn) {
+                                    if(button?.type == "bold" && extendedState?._id?.length > 0){
                                       button?.onClickFn({ data: extendedState });
+                                    } else if(button?.type !== "bold") {
+                                      button?.onClickFn();
                                     }
                                   }}
                                 >

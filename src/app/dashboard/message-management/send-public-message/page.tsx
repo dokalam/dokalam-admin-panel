@@ -13,6 +13,12 @@ import { Switch } from "@headlessui/react";
 import GradientButton from "@/components/GradientButton";
 import PackageListHelper from "@/components/PackageList/PackageListHelper";
 import PackageList from "@/components/PackageList/PackageList";
+import FreeCoinList from "@/components/FreeCoinList/FreeCoinList";
+import FreeSubscriptionList from "@/components/FreeSubscriptionList/FreeSubscriptionList";
+import FreeCoinListHelper from "@/components/FreeCoinList/FreeCoinListHelper";
+import FreeSubscriptionListHelper from "@/components/FreeSubscriptionList/FreeSubscriptionListHelper";
+import { FaCoins } from "react-icons/fa6";
+import { IoDiamondSharp } from "react-icons/io5";
 
 
 
@@ -22,14 +28,28 @@ type PackageSelectedInfo = {
   title: string;
   image: string;
 }
+type FreeCoinSelectedInfo = {
+  _id: string;
+  type: string;
+  title: string;
+  icon_image: string;
+  number_coin: string;
+}
+type FreeSubscriptionSelectedInfo = {
+  _id: string;
+  type: string;
+  title: string;
+  icon_image: string;
+  duration: string;
+}
 const Page = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [loading, setLoading] = useState(false);
   const [packageSelected, setPackageSelected] = useState<PackageSelectedInfo | null>(null)
   const [link, setLink] = useState("")
-  const [freeCoin, setFreeCoin] = useState("")
-  const [freeSubscription, setFreeSubscription] = useState("")
+  const [freeCoinSelected, setFreeCoinSelected] = useState<FreeCoinSelectedInfo | null>(null)
+  const [freeSubscriptionSelected, setFreeSubscriptionSelected] = useState<FreeSubscriptionSelectedInfo | null>(null)
   const [sendNotification, setSendNotification] = useState(false)
   const [description, setDescription] = useState("")
   
@@ -70,8 +90,8 @@ const Page = () => {
             $body : String!,
             $link : String,
             $package : ID,
-            $number_free_coin : Int,
-            $duration_free_subscription : Int,
+            $free_coin_plan : ID,
+            $free_subscription_plan : ID,
             $admin_note : String,
             $send_notification : Boolean,
           ){
@@ -80,8 +100,8 @@ const Page = () => {
               body : $body,
               link : $link,
               package : $package,
-              number_free_coin : $number_free_coin,
-              duration_free_subscription : $duration_free_subscription,
+              free_coin_plan : $free_coin_plan,
+              free_subscription_plan : $free_subscription_plan,
               admin_note : $admin_note,
               send_notification : $send_notification,
             ) {
@@ -95,8 +115,8 @@ const Page = () => {
         body : body,
         link : link?.length > 7?link:undefined,
         package : packageSelected?._id?packageSelected._id:undefined,
-        number_free_coin : freeCoin.length > 0?Number(freeCoin):undefined,
-        duration_free_subscription : freeSubscription.length > 0?Number(freeSubscription):undefined,
+        free_coin_plan : freeCoinSelected?._id?freeCoinSelected._id:undefined,
+        free_subscription_plan : freeSubscriptionSelected?._id?freeSubscriptionSelected._id:undefined,
         admin_note : description?.length > 0?description:undefined,
         send_notification : sendNotification,
       },
@@ -122,8 +142,8 @@ const Page = () => {
             setTitle("")
             setBody("")
             setLink("")
-            setFreeCoin("")
-            setFreeSubscription("")
+            setFreeCoinSelected(null)
+            setFreeSubscriptionSelected(null)
             setDescription("")
             setSendNotification(false)
             setPackageSelected(null)
@@ -189,6 +209,86 @@ const Page = () => {
   }
   const deletePackageItem = () => {
     setPackageSelected(null);
+  };
+  
+  const selectFreeCoinPlan = ()=>{
+    const previousSelected = freeCoinSelected?{
+      _id: [freeCoinSelected?._id],
+      type: [freeCoinSelected?.type],
+      title: [freeCoinSelected?.title],
+      icon_image: [freeCoinSelected?.icon_image],
+      number_coin: [freeCoinSelected?.number_coin],
+    }:undefined;
+    FreeCoinListHelper.openModal({
+      previousSelected:previousSelected,
+      numberSelected: 1,
+      buttons: [
+        {
+          buttonText: "لغو",
+          type: "border",
+          onClickFn: () => {
+            FreeCoinListHelper.closeModal();
+          },
+        },
+        {
+          buttonText: "انتخاب سکه رایگان",
+          type: "bold",
+          onClickFn: ({ data }: { data: any }) => {
+            setFreeCoinSelected({
+              _id: data._id[0],
+              type: data.type[0],
+              title: data.title[0],
+              icon_image: data.icon_image[0],
+              number_coin: data.number_coin[0],
+            })
+            FreeCoinListHelper.closeModal();
+          },
+        },
+      ],
+    });
+  }
+  const deleteFreeCoinPlan = () => {
+    setFreeCoinSelected(null);
+  };
+
+  const selectFreeSubscriptionPlan = ()=>{
+    const previousSelected = freeSubscriptionSelected?{
+      _id: [freeSubscriptionSelected?._id],
+      type: [freeSubscriptionSelected?.type],
+      title: [freeSubscriptionSelected?.title],
+      icon_image: [freeSubscriptionSelected?.icon_image],
+      duration: [freeSubscriptionSelected?.duration],
+    }:undefined;
+    FreeSubscriptionListHelper.openModal({
+      previousSelected:previousSelected,
+      numberSelected: 1,
+      buttons: [
+        {
+          buttonText: "لغو",
+          type: "border",
+          onClickFn: () => {
+            FreeCoinListHelper.closeModal();
+          },
+        },
+        {
+          buttonText: "انتخاب اشتراک رایگان",
+          type: "bold",
+          onClickFn: ({ data }: { data: any }) => {
+            setFreeSubscriptionSelected({
+              _id: data._id[0],
+              type: data.type[0],
+              title: data.title[0],
+              icon_image: data.icon_image[0],
+              duration: data.duration[0],
+            })
+            FreeCoinListHelper.closeModal();
+          },
+        },
+      ],
+    });
+  }
+  const deleteFreeSubscriptionPlan = () => {
+    setFreeSubscriptionSelected(null);
   };
 
   return (
@@ -293,29 +393,93 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
         </div>
       )}
       <div className="mt-12">
-        <label
-          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="number-season-stage-season"
-        >
-          دادن سکه رایگان در اعلان
-          <span className="text-red-500 px-1">(بر اساس تعداد سکه)</span>
-          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input type="number" id="number-season-stage-season" value={freeCoin} changeState={setFreeCoin} classes="flex-1" inputStyles="!text-base" />
-          </div>
-        </label>
+        <GradientButton
+          buttonText={"دادن سکه رایگان"}
+          onClickFn={selectFreeCoinPlan}
+          loading={false}
+          classes="!text-sm !flex-none !px-8 sm:!w-[300px] !w-full"
+        />
       </div>
-      <div className="mt-6">
-        <label
-          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="number-season-stage-season"
-        >
-          دادن اشتراک رایگان در اعلان  
-          <span className="text-red-500 px-1">(بر اساس تعداد روز)</span>
-          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-            <Input type="number" id="number-season-stage-season" value={freeSubscription} changeState={setFreeSubscription} classes="flex-1" inputStyles="!text-base" />
-          </div>
-        </label>
+      {freeCoinSelected && (
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-12 gap-x-2 sm:gap-y-12 sm:gap-x-2 mt-4 border-2 border-dashed border-primary dark:border-primary rounded-md p-4">
+            <div className="flex flex-col gap-y-4 items-center bg-background3 dark:bg-background3_dark border border-dashed border-info dark:border-info rounded-md py-2">
+              <div
+                className="relative w-[90%] h-22 3xs:h-24 sm:h-32 cursor-pointer"
+              >
+                  {
+                    freeCoinSelected?.icon_image?
+                    <ImageComponent
+                      src={freeCoinSelected?.icon_image}
+                      alt={"file_photos"}
+                      parentclasses="h-full w-full cursor-pointer"
+                    />
+                    :
+                    <div className="p-6">
+                      <FaCoins className="h-full w-full cursor-pointer text-warning"/>
+                    </div>
+                  }
+                <div className="absolute top-0 w-full flex justify-between px-1 pt-1">
+                  <div
+                    onClick={(e: any) => {
+                      e.stopPropagation();
+                      deleteFreeCoinPlan();
+                    }}
+                    className="flex justify-center items-center rounded transition text-white bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6"
+                  >
+                    <BiTrash />
+                  </div>
+                </div>
+              </div>
+              <p className="text-xs text-center font-['iransans-md'] text-text dark:text-text_dark w-22 sm:w-32 3xs:w-24">{freeCoinSelected?.title}</p>
+              <p className="text-xs text-center font-['iransans-md'] text-info w-22 sm:w-32 3xs:w-24">{freeCoinSelected?.type == "private"?"( آیتم خصوصی )":freeCoinSelected?.type == "public"?"( آیتم عمومی )":""}</p>
+              <p className="text-[18px] text-center font-['iransans-black-en'] text-warning w-22 sm:w-32 3xs:w-24">{`${freeCoinSelected?.number_coin} سکه`}</p>
+            </div>
+        </div>
+      )}
+      <div className="mt-12">
+        <GradientButton
+          buttonText={"دادن اشتراک رایگان"}
+          onClickFn={selectFreeSubscriptionPlan}
+          loading={false}
+          classes="!text-sm !flex-none !px-8 sm:!w-[300px] !w-full"
+        />
       </div>
+      {freeSubscriptionSelected && (
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-12 gap-x-2 sm:gap-y-12 sm:gap-x-2 mt-4 border-2 border-dashed border-primary dark:border-primary rounded-md p-4">
+            <div className="flex flex-col gap-y-4 items-center bg-background3 dark:bg-background3_dark border border-dashed border-info dark:border-info rounded-md py-2">
+              <div
+                className="relative w-[90%] h-22 3xs:h-24 sm:h-32 cursor-pointer"
+              >
+                  {
+                    freeSubscriptionSelected?.icon_image?
+                    <ImageComponent
+                      src={freeSubscriptionSelected?.icon_image}
+                      alt={"file_photos"}
+                      parentclasses="h-full w-full cursor-pointer"
+                    />
+                    :
+                    <div className="p-6">
+                      <IoDiamondSharp className="h-full w-full cursor-pointer text-info"/>
+                    </div>
+                  }
+                <div className="absolute top-0 w-full flex justify-between px-1 pt-1">
+                  <div
+                    onClick={(e: any) => {
+                      e.stopPropagation();
+                      deleteFreeSubscriptionPlan();
+                    }}
+                    className="flex justify-center items-center rounded transition text-white bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6"
+                  >
+                    <BiTrash />
+                  </div>
+                </div>
+              </div>
+              <p className="text-xs text-center font-['iransans-md'] text-text dark:text-text_dark w-22 sm:w-32 3xs:w-24">{freeSubscriptionSelected?.title}</p>
+              <p className="text-xs text-center font-['iransans-md'] text-info w-22 sm:w-32 3xs:w-24">{freeSubscriptionSelected?.type == "private"?"( آیتم خصوصی )":freeSubscriptionSelected?.type == "public"?"( آیتم عمومی )":""}</p>
+              <p className="text-[18px] text-center font-['iransans-black-en'] text-warning w-22 sm:w-32 3xs:w-24">{`${freeSubscriptionSelected?.duration} روز`}</p>
+            </div>
+        </div>
+      )}
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
@@ -346,6 +510,16 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
       <PackageList
         ref={(Ref) => {
           PackageListHelper.setRef(Ref);
+        }}
+      />
+      <FreeCoinList
+        ref={(Ref) => {
+          FreeCoinListHelper.setRef(Ref);
+        }}
+      />
+      <FreeSubscriptionList
+        ref={(Ref) => {
+          FreeSubscriptionListHelper.setRef(Ref);
         }}
       />
     </div>

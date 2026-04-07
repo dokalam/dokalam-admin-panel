@@ -126,6 +126,7 @@ const Page = () => {
                     last_seen_public_message_in_app,
                     blocked,
                     createdAt,
+                    number_open_app,
                     user_package_game{
                         package_info{
                           title,
@@ -316,6 +317,13 @@ const Page = () => {
             <p className="text-[16px] 2xl:text-[18px] font-['iransans-md'] text-info line-clmp-1">
               <span className="text-text5 dark:text-text5_dark">آخرین خروج از حساب کاربری : </span>
               {`( ${getTime(data?.last_logout_date)}   ___  ${moment(data?.last_logout_date).format("jYYYY/jMM/jDD")} )`}
+            </p>
+          }
+          {
+            data?.number_open_app > 0&&
+            <p className="text-[16px] 2xl:text-[18px] font-['iransans-md'] text-text dark:text-text_dark line-clmp-1">
+                <span className="text-text5 dark:text-text5_dark">تعداد دفعات بازگشت به بازی ( با اینترنت ) : </span>
+                {data?.number_open_app}
             </p>
           }
           <p className="text-[16px] 2xl:text-[18px] font-['iransans-md'] text-text dark:text-text_dark line-clmp-1 mt-6">{"اطلاعات کاربری"}</p>

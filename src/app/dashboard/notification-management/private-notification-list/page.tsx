@@ -53,8 +53,8 @@ const Page = () => {
                       body,
                       link,
                       package{title, icon_image},
-                      number_free_coin,
-                      duration_free_subscription,
+                      free_coin_plan{type, title, icon_image, number_coin, expiration, expired, is_active},
+                      free_subscription_plan{type, title, icon_image, duration, expiration, expired, is_active},
                       admin_note,
                       send_notification,
                     },
@@ -123,8 +123,8 @@ const Page = () => {
                       body,
                       link,
                       package{title, icon_image},
-                      number_free_coin,
-                      duration_free_subscription,
+                      free_coin_plan{type, title, icon_image, number_coin, expiration, expired, is_active},
+                      free_subscription_plan{type, title, icon_image, duration, expiration, expired, is_active},
                       admin_note,
                       send_notification,
                       createdAt
@@ -282,8 +282,8 @@ const Page = () => {
                     body = {item.body}
                     link = {item?.link}
                     packageInfo = {item?.package?{title:item.package?.title, icon_image: item.package.icon_image}:null}
-                    numberFreeCoin = {item?.number_free_coin}
-                    durationFreeSubscription = {item?.duration_free_subscription}
+                    freeCoinPlan = {item?.free_coin_plan}
+                    freeSubscriptionPlan = {item?.free_subscription_plan}
                     adminNote = {item?.admin_note}
                     sendNotification = {item?.send_notification}
                     seen = {(item?.user?.last_seen_notifications && new Date(item?.user?.last_seen_notifications).getTime() > new Date(item.createdAt).getTime())?true:false}
