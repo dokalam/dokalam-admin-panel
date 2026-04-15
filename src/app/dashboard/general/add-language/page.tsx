@@ -24,27 +24,12 @@ import Footer from "@/components/Footer/Footer";
 import Border from "@/components/Border";
 import { Switch } from "@headlessui/react";
 import SelectInput from "@/components/SelectInput";
+import { FaCamera } from "react-icons/fa6";
 
-type SelectedOption = {
-  value: any;
-  label: string;
-};
-const PublicationStatus:SelectedOption[] = [
-  {value:null, label:"انتخاب وضعیت انتشار محتوا"},
-  {value:"draft", label:"پیشنویس"},
-  {value:"ready", label:"آماده انتشار"},
-  {value:"published", label:"منتشر شده"},
-  {value:"archived", label:"آرشیو شده، غیرفعال"},
-  {value:"rejected", label:"رد شده"},
-]
-const CompletionStatus:SelectedOption[] = [
-  {value:null, label:"انتخاب وضعیت کامل بودن محتوا"},
-  {value:"incomplete", label:"ناقص (نیاز به بخش‌هایی بیشتر)"},
-  {value:"in_progress", label:"در حال کار و بازبینی"},
-  {value:"complete", label:"کامل‌شده ولی قابل به‌روزرسانی"},
-  {value:"finalized", label:"نهایی‌شده، بدون نیاز به تغییر"},
-]
+
 const Page = () => {
+  const inputIconImageRef: any = useRef();
+  const [iconImage, setIconImage] = useState<any>(null);
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
   const [rtl, setRtl] = useState(true);
@@ -55,12 +40,11 @@ const Page = () => {
   const [active, setActive] = useState(false);
   const [badge, setBadge] = useState("");
   const [loading, setLoading] = useState(false);
-  const [publicationStatus, setPublicationStatus] = useState<string | null>(null)
-  const [completionStatus, setCompletionStatus] = useState<string | null>(null)
+  const [order, setOrder] = useState("")
 
 
   const registerAndConfirm = ()=>{
-    if(name.length == 0 || code.length == 0 || !publicationStatus || !completionStatus){
+    if(name.length == 0 || code.length == 0){
       toast.error("ابتدا موارد الزامی را وارد کنید", {
         position: "top-center",
         autoClose: 3000,
@@ -80,6 +64,7 @@ const Page = () => {
     let data = {
       query: `
           mutation newLanguageDefinition(
+            $icon_image : Upload,
             $name : String!,
             $badge : String,
             $code : String!,
@@ -89,10 +74,10 @@ const Page = () => {
             $ltr : Boolean!,
             $is_visible : Boolean!,
             $is_active : Boolean!,
-            $publication_status : String!,
-            $completion_status : String!,
+            $order : Int,
           ){
             newLanguageDefinition(
+                icon_image : $icon_image,
                 name : $name,
                 badge : $badge,
                 code : $code,
@@ -102,8 +87,7 @@ const Page = () => {
                 ltr : $ltr,
                 is_visible : $is_visible,
                 is_active : $is_active,
-                publication_status : $publication_status,
-                completion_status : $completion_status,
+                order : $order,
             ) {
               status,
               message,
@@ -111,6 +95,7 @@ const Page = () => {
           }
           `,
       variables: {
+        icon_image : null,
         name: name,
         code: code,
         badge: badge?.length > 0?badge:undefined,
@@ -120,16 +105,35 @@ const Page = () => {
         ltr: ltr,
         is_visible: visible,
         is_active: active,
-        publication_status: publicationStatus,
-        completion_status: completionStatus
+        order: Number(order),
       },
     };
+    const formData = new FormData();
+    const map: Record<string, string[]> = {};
+    let fileIndex = 0;
+    const fileMap: Record<string, File> = {};
+    if (iconImage?.file) {
+      map[fileIndex.toString()] = ['variables.icon_image'];
+      fileMap[fileIndex.toString()] = iconImage.file;
+      fileIndex++;
+    }
+    formData.append('operations', JSON.stringify(data));
+    formData.append('map', JSON.stringify(map));
+
+    for (const index in fileMap) {
+      formData.append(index, fileMap[index]);
+    }
     await axios({
       url: "/",
       method: "post",
-      data: data,
+      data: formData,
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "multipart/form-data",
+      },
     })
       .then(async (response) => {
+        console.log(response)
         setLoading(false);
         if (response.data?.data?.newLanguageDefinition?.status == 200) {
             toast.success(response.data?.data?.newLanguageDefinition?.message, {
@@ -145,6 +149,8 @@ const Page = () => {
             setName("")
             setBadge("")
             setCode("")
+            setOrder("")
+            setIconImage(null)
         } else {
           toast.error((response.data?.errors[0]?.data[0]?.message || "مشکلی پیش آمد دوباره تلاش کنید"), {
             position: "top-center",
@@ -158,7 +164,8 @@ const Page = () => {
           });
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err)
         toast.error("مشکلی پیش آمد دوباره تلاش کنید", {
           position: "top-center",
           autoClose: 3000,
@@ -172,10 +179,75 @@ const Page = () => {
         setLoading(false);
       });
   }
+  const handleAddIconPhoto = (e: any) => {
+    const photo = e.target.files;
+    const data = {
+      file: photo[0],
+      preview: URL.createObjectURL(photo[0]),
+    };
+    setIconImage(data);
+    inputIconImageRef.current.value = "";
+  };
   return (
     <div className="flex flex-col justify-between w-full lg:w-[600px] 2xl:w-[750px] mt-10 mb-28 px-4 sm:mx-auto">
  
-        
+        <div className="flex gap-6 justify-center font-['iransans-md'] mt-1">
+        <label
+          className="text-text6 dark:text-text6_dark border-2 border-dashed border-text5 dark:border-text5_dark py-6 text-lg flex-1 rounded-md cursor-pointer transition sm:hover:bg-border2 sm:dark:hover:bg-border2_dark flex flex-col justify-center items-center gap-y-2"
+          htmlFor="upload_file_photo_icon"
+          tabIndex={0}
+        >
+          <div className="text-4xl">
+            <FaCamera />
+          </div>
+          <p className="text-xs 3xs:text-sm text-center">افزودن عکس آیکون</p>
+          <input
+            ref={inputIconImageRef}
+            autoComplete="off"
+            tabIndex={-1}
+            className="hidden"
+            id="upload_file_photo_icon"
+            type="file"
+            accept="image/*"
+            onChange={handleAddIconPhoto}
+          />
+        </label>
+      </div>
+
+      {iconImage && (
+        <div className="mt-4 border-2 border-dashed border-primary rounded-md py-4 px-2">
+          <div className="flex justify-center items-center gap-4">
+            {iconImage && (
+              <div
+                className="relative w-20 h-20 sm:w-28 sm:h-28 cursor-pointer flex-shrink-0"
+                onClick={() =>
+                  ShowImageModalHelper.showModal({
+                    src: iconImage.preview,
+                  })
+                }
+              >
+                <ImageComponent
+                  src={iconImage.preview}
+                  alt="icon"
+                  baseURI={false}
+                  parentclasses="h-full w-full object-cover rounded-md cursor-pointer"
+                />
+                <div className="absolute top-0 w-full flex justify-between px-1 pt-1">
+                  <div
+                    onClick={(e: any) => {
+                      e.stopPropagation();
+                      setIconImage(null)
+                    }}
+                    className="flex justify-center items-center rounded transition text-white bg-[#00000080] hover:bg-[#33333370] text-lg w-6 h-6"
+                  >
+                    <BiTrash />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="mt-6">
         <label
@@ -215,32 +287,11 @@ const Page = () => {
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="name"
+          htmlFor="number-season-stage-season"
         >
-          وضعیت انتشار زبان
-          <span className="text-red-500 px-1">*</span>
-          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
-            <SelectInput
-              name="stage-game-language"
-              options={PublicationStatus}
-              onChange={(value) => setPublicationStatus(value)}
-            />
-          </div>
-        </label>
-      </div>
-      <div className="mt-6">
-        <label
-          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="name"
-        >
-          وضعیت کامل بودن زبان
-          <span className="text-red-500 px-1">*</span>
-          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
-            <SelectInput
-              name="stage-game-language"
-              options={CompletionStatus}
-              onChange={(value) => setCompletionStatus(value)}
-            />
+          ترتیب نمایش
+          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+            <Input type="number" id="number-season-stage-season" value={order} changeState={setOrder} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>

@@ -123,7 +123,6 @@ const Page = () => {
                     new_hidden_words,
                     new_private_notifications,
                     last_seen_notifications,
-                    last_seen_public_message_in_app,
                     blocked,
                     createdAt,
                     number_open_app,
@@ -282,13 +281,6 @@ const Page = () => {
             <p className="text-[16px] 2xl:text-[18px] font-['iransans-md'] text-info line-clmp-1">
                 <span className="text-text5 dark:text-text5_dark">آخرین بازدید از اعلانات : </span>
                 {`( ${getTime(data?.last_seen_notifications)}   ___  ${moment(data?.last_seen_notifications).format("jYYYY/jMM/jDD")} )`}
-            </p>
-          }
-          {
-            data?.last_seen_public_message_in_app&&
-            <p className="text-[16px] 2xl:text-[18px] font-['iransans-md'] text-info line-clmp-1">
-                <span className="text-text5 dark:text-text5_dark">آخرین بازدید از پیام عمومی : </span>
-                {`( ${getTime(data?.last_seen_public_message_in_app)}   ___  ${moment(data?.last_seen_public_message_in_app).format("jYYYY/jMM/jDD")} )`}
             </p>
           }
           {

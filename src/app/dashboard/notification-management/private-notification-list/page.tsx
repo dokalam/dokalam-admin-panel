@@ -57,6 +57,7 @@ const Page = () => {
                       free_subscription_plan{type, title, icon_image, duration, expiration, expired, is_active},
                       admin_note,
                       send_notification,
+                      createdAt
                     },
                     hasNextPage,
                     nextPage

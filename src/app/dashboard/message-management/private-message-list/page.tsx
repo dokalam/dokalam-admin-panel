@@ -48,7 +48,7 @@ const Page = () => {
                     list{
                       _id,
                       admin{first_name, last_name},
-                      user{name, phone},
+                      user{name, phone, last_private_message_in_app_seened},
                       title,
                       body,
                       link,
@@ -57,7 +57,7 @@ const Page = () => {
                       free_subscription_plan{type, title, icon_image, duration, expiration, expired, is_active},
                       admin_note,
                       send_notification,
-                      seen
+                      createdAt
                     },
                     hasNextPage,
                     nextPage
@@ -119,7 +119,7 @@ const Page = () => {
                     list{
                       _id,
                       admin{first_name, last_name},
-                      user{name, phone},
+                      user{name, phone, last_private_message_in_app_seened},
                       title,
                       body,
                       link,
@@ -128,7 +128,7 @@ const Page = () => {
                       free_subscription_plan{type, title, icon_image, duration, expiration, expired, is_active},
                       admin_note,
                       send_notification,
-                      seen
+                      createdAt
                     },
                     hasNextPage,
                     nextPage
@@ -287,7 +287,7 @@ const Page = () => {
                     freeSubscriptionPlan = {item?.free_subscription_plan}
                     adminNote = {item?.admin_note}
                     sendNotification = {item?.send_notification}
-                    seen = {item?.seen}
+                    seen = {(item?.user?.last_private_message_in_app_seened && new Date(item?.user?.last_private_message_in_app_seened).getTime() > new Date(item.createdAt).getTime())?true:false}
                     deleteOperation={()=>{
                       const newData = [...data];
                       newData.splice(index, 1);
