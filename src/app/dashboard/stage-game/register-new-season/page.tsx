@@ -567,12 +567,10 @@ const Page = () => {
                     if (item?.file?.type.includes("video") == true) {
                       ShowVideoModalHelper.showModal({
                         src: item.preview,
-                        title: item?.title ? item.title : null,
                       });
                     } else {
                       ShowImageModalHelper.showModal({
                         src: item.preview,
-                        title: item?.title ? item.title : null,
                       });
                     }
                   }}
@@ -737,7 +735,7 @@ const Page = () => {
           className="text-right lg:w-2/3 w-5/6 xl:w-3/5 2xl:w-1/2 text-text6 dark:text-text6_dark cursor-pointer font-iransans-md text-sm"
           htmlFor="description-stage-season"
         >
-          توضیحات فصل
+          دربارهٔ فصل
           <TextAreaInput
             id={"description-stage-season"}
             value={description}

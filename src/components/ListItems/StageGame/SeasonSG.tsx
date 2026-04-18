@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { BsMusicNoteBeamed } from "react-icons/bs";
 import { IoIosVideocam, IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { MdVerifiedUser } from "react-icons/md";
@@ -8,16 +7,17 @@ import { FaPlay } from "react-icons/fa";
 import ImageComponent from "@/components/ImageComponent";
 import { secondsToTime } from "@/utils/SecondToTime";
 import { HiDotsVertical } from "react-icons/hi";
+import { FaImage, FaPencil } from "react-icons/fa6";
+import Globals from "@/utils/Globals";
 
 const SeasonSG = ({
   _id,
   rtl,
   title,
-  description,
   language,
   media,
   music,
-  badge ="جدید",
+  badge,
   season_number,
   stage_number_from,
   stage_number_to,
@@ -27,14 +27,10 @@ const SeasonSG = ({
   content_source_type,
   publication_status,
   completion_status,
-  version_created,
-  version_updated,
-  version_deleted,
 }: {
   _id: string;
   rtl: boolean;
   title: string;
-  description?: string;
   language: string;
   media?: {
     path: string;
@@ -57,9 +53,6 @@ const SeasonSG = ({
   content_source_type: string;
   publication_status: string;
   completion_status: string;
-  version_created?: number;
-  version_updated?: number;
-  version_deleted?: number;
 }) => {
   const router = useRouter();
   const direction = rtl ? "rtl" : "ltr";
@@ -86,7 +79,7 @@ const SeasonSG = ({
   return (
     <div 
       dir={direction} 
-      className={`relative w-full p-4 rounded-2xl shadow-bottom dark:shadow-bottom-dark m-1 bg-background5 dark:bg-background5_dark flex flex-col gap-4 ${textAlign}`}
+      className={`relative w-full p-4 rounded-2xl shadow-bottom dark:shadow-bottom-dark m-1 bg-background7 dark:bg-background7_dark flex flex-col gap-4 ${textAlign}`}
       >
       <div
         className={`absolute top-2 ${rtl ? "left-2" : "right-2"} z-20`}
@@ -99,22 +92,29 @@ const SeasonSG = ({
           >
             <HiDotsVertical className="text-xl" />
           </button>
-
           {menuOpen && (
             <div
-              className={`absolute mt-2 w-32 rounded-md font-['iransans-md'] shadow-lg bg-background dark:bg-background_dark ring-1 ring-black ring-opacity-5 focus:outline-none z-30 ${
-                rtl ? "left-0" : "right-0"
-              }`}
+              ref={menuRef}
+              className={`absolute mt-2 w-60 rounded-[15px] font-['iransans-md'] shadow-lg bg-background2 dark:bg-background2_dark ring-1 ring-black ring-opacity-5 focus:outline-none z-30 left-6`}
             >
-              <div className="py-1">
+              <div className="py-4">
                 <button
-                  className="block w-full text-right px-2 py-2 text-sm text-text2 dark:text-text2_dark hover:bg-border2 dark:hover:bg-border2_dark"
+                  className="block flex flex-row items-center gap-2 w-full text-right px-2 py-4 text-sm text-text2 dark:text-text2_dark hover:bg-border dark:hover:bg-border_dark"
                   onClick={() => {
-                    setMenuOpen(false);
                     router.push(`/dashboard/manage-stage-game/season-list/edit-season/${seasonId}`)
                   }}
                 >
-                  ویرایش
+                  <FaPencil className="text-text4 dark:text-text4_dark text-lg"/>
+                  ویرایش اطلاعات
+                </button>
+                <button
+                  className="block flex flex-row items-center gap-2 w-full text-right px-2 py-4 text-sm text-text2 dark:text-text2_dark hover:bg-border dark:hover:bg-border_dark"
+                  onClick={() => {
+                    router.push(`/dashboard/manage-stage-game/season-list/edit-season-media/${seasonId}`)
+                  }}
+                >
+                  <FaImage className="text-text4 dark:text-text4_dark text-lg"/>
+                  ویرایش رسانه
                 </button>
               </div>
             </div>
@@ -122,7 +122,7 @@ const SeasonSG = ({
         </div>
       </div>
       {/* رسانه‌ها */}
-      {(media?.length || music) && (
+      {((media && media?.length > 0) || music) && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {media?.map((item, index) =>
             item.duration ? (
@@ -131,7 +131,7 @@ const SeasonSG = ({
                 className="relative aspect-video overflow-hidden rounded-lg"
               >
                 <video
-                  src={item.path}
+                  src={`${Globals.uri}${item.path}`}
                   className="w-full h-full object-cover rounded-lg"
                 />
                 <div className="absolute inset-0 flex justify-center items-center bg-black/30">
@@ -155,7 +155,7 @@ const SeasonSG = ({
           )}
           {music && (
             <div className="relative bg-primary bg-opacity-10 rounded-lg p-3 w-full col-span-1 sm:col-span-2">
-              <audio src={music.path} controls className="w-full rounded-md" />
+              <audio src={`${Globals.uri}${music.path}`} controls className="w-full rounded-md" />
               <BsMusicNoteBeamed className="absolute top-2 right-2 text-primary text-xl" />
             </div>
           )}
@@ -173,12 +173,6 @@ const SeasonSG = ({
               </span>
             )}
           </div>
-
-          {description && (
-            <p className="text-sm text-text6 dark:text-text6_dark mt-2 line-clamp-2 font-['iransans-md']">
-              {description}
-            </p>
-          )}
 
           <div className="mt-2 text-sm flex flex-wrap gap-x-6 gap-y-1 text-text6 dark:text-text6_dark font-['iransans-md']">
             <span>زبان: {language}</span>

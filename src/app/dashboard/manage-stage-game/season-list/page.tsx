@@ -93,7 +93,6 @@ const Page = () => {
     }).then(async (response) => {
         const data = response.data.data.getAllLanguageForAdmin;
         if (data.length > 0) {
-          setLanguage(data[0]?._id)
           const items = data.map((item: any) => ({
             label: item.name,
             value: item._id,
@@ -139,7 +138,6 @@ const Page = () => {
                     list{
                       _id,
                       title,
-                      description,
                       language_info{name, rtl},
                       media{path, file_type, duration, order},
                       music{path, file_type, duration},
@@ -153,9 +151,6 @@ const Page = () => {
                       content_source_type_label,
                       publication_status_label,
                       completion_status_label,
-                      version_created,
-                      version_updated,
-                      version_deleted,
                     },
                     hasNextPage,
                     nextPage
@@ -168,8 +163,8 @@ const Page = () => {
           search : txt?.length>1?txt:undefined,
           filter_publication_status : publicationStatus??undefined,
           filter_completion_status : completionStatus??undefined,
-          filter_visible : visible??undefined,
-          filter_active : active??undefined,
+          filter_visible : (visible === true || visible === false)?visible:undefined,
+          filter_active : (active === true || active === false)?active:undefined,
         },
       },
     })
@@ -232,8 +227,7 @@ const Page = () => {
                     list{
                       _id,
                       title,
-                      description,
-                      language_ref{name, rtl},
+                      language_info{name, rtl},
                       media{path, file_type, duration, order},
                       music{path, file_type, duration},
                       badge,
@@ -246,9 +240,6 @@ const Page = () => {
                       content_source_type_label,
                       publication_status_label,
                       completion_status_label,
-                      version_created,
-                      version_updated,
-                      version_deleted,
                     },
                     hasNextPage,
                     nextPage
@@ -261,8 +252,8 @@ const Page = () => {
           search : search?.length>1?search:undefined,
           filter_publication_status : publicationStatus??undefined,
           filter_completion_status : completionStatus??undefined,
-          filter_visible : visible??undefined,
-          filter_active : active??undefined,
+          filter_visible : (visible === true || visible === false)?visible:undefined,
+          filter_active : (active === true || active === false)?active:undefined,
         },
       },
     })
@@ -284,7 +275,7 @@ const Page = () => {
           }
         }
       })
-      .catch(() => {
+      .catch((e) => {
         setLoading(data.length > 0 ? false : true);
         setFooterTry(data.length > 0 ? true : false);
         setGetError(data.length > 0 ? false : true);
@@ -497,7 +488,6 @@ const Page = () => {
                       _id={item?._id}
                       rtl={item?.language_info?.rtl}
                       title={item?.title}
-                      description={item?.description}
                       language={item?.language_info?.name}
                       media={item?.media}
                       music={item?.music}
@@ -511,9 +501,6 @@ const Page = () => {
                       content_source_type={item?.content_source_type_label}
                       publication_status={item?.publication_status_label}
                       completion_status={item?.completion_status_label}
-                      version_created={item?.version_created}
-                      version_updated={item?.version_updated}
-                      version_deleted={item?.version_deleted}
                   />
                 </div>
               ))}

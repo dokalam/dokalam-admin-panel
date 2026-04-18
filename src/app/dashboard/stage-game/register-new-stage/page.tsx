@@ -2,10 +2,9 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
-import { FaCamera, FaMusic, FaPlay, FaRegSquarePlus, FaVideo } from "react-icons/fa6";
+import { FaCamera, FaMusic, FaPlay, FaVideo } from "react-icons/fa6";
 import { toast } from "react-toastify";
-import DialogHelper from "@/components/Dialog/DialogHelper";
-import { BiEditAlt, BiTrash } from "react-icons/bi";
+import { BiTrash } from "react-icons/bi";
 import { IoIosVideocam } from "react-icons/io";
 import { secondsToTime } from "@/utils/SecondToTime";
 import ImageComponent from "@/components/ImageComponent";
@@ -17,13 +16,9 @@ import ShowImageModal from "@/components/ShowMediaModal/ShowImageModal";
 import ModalInput from "@/components/ModalInput/ModalInput";
 import Input from "@/components/Input";
 import TextAreaInput from "@/components/TextAreaInput";
-import { priceDigitSeperator } from "@/utils/PriceDigitSeparator";
-import { numberToWords } from "@persian-tools/persian-tools";
-import { MdDelete } from "react-icons/md";
-import { IoClose } from "react-icons/io5";
 import Footer from "@/components/Footer/Footer";
 import GradientButton from "@/components/GradientButton";
-import { Switch, Listbox, Transition } from "@headlessui/react";
+import { Switch } from "@headlessui/react";
 import SelectInput from "@/components/SelectInput";
 import Border from "@/components/Border";
 import { validateStage } from "@/utils/ValidateStage";
@@ -1083,7 +1078,7 @@ const Page = () => {
           className="text-right lg:w-2/3 w-5/6 xl:w-3/5 2xl:w-1/2 text-text6 dark:text-text6_dark cursor-pointer font-iransans-md text-sm"
           htmlFor="description-stage-season"
         >
-          راهنمای مرحله
+          دربارهٔ مرحله
           <TextAreaInput
             id={"description-stage-season"}
             value={stageHint}
@@ -1271,7 +1266,7 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
                 className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
                 htmlFor="sentence-stage"
               >
-                راهنمای جمله
+                نمایش جمله
                 <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
                   <Input id="sentence-stage" value={parts[activeTab].sentence_display} changeState={(value: string) => changeSentenceDisplay(value)} classes="flex-1" inputStyles="!text-base" />
                 </div>

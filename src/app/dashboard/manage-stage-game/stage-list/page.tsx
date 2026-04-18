@@ -3,16 +3,15 @@
 import React, { useEffect, useState } from "react";
 import FooterPaginate from "@/components/FooterPaginate";
 import ScreenLoading from "@/components/ScreenLoading";
-import { AppDispatch, RootState } from "@/redux/store";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import SelectInput from "@/components/SelectInput";
-import { Switch } from "@headlessui/react";
-import Border from "@/components/Border";
 import Input from "@/components/Input";
 import FilterFooter from "@/components/Footer/FilterFooter";
 import GradientButton from "@/components/GradientButton";
+import { IoSearch } from "react-icons/io5";
+import { RiFilter2Fill } from "react-icons/ri";
+import StageCardSG from "@/components/ListItems/StageGame/StageCardSG";
 
 
 type SelectedOption = {
@@ -64,6 +63,7 @@ const Page = () => {
 
   useEffect(()=>{
     getAllLanguage()
+    getDataForFirst()
   }, [])
   const getAllLanguage = async()=>{
     const data = {
@@ -103,13 +103,13 @@ const Page = () => {
       });
   }
 
-  const getDataForFirst = async (txt: any) => {
+  const getDataForFirst = async (txt?: any) => {
     await axios({
       url: "/",
       method: "post",
       data: {
         query: `
-            query paginateStageGameSeasonForAdmin(
+            query paginateStageGameStagesForAdmin(
               $page : Int,
               $limit : Int,
               $language_ref : ID,
@@ -119,7 +119,7 @@ const Page = () => {
               $filter_visible : Boolean,
               $filter_active : Boolean,
             ){
-                paginateStageGameSeasonForAdmin(
+                paginateStageGameStagesForAdmin(
                   page : $page,
                   limit : $limit,
                   language_ref : $language_ref,
@@ -130,9 +130,24 @@ const Page = () => {
                   filter_active : $filter_active,
                 ) {
                     list{
-                        _id,
-                        title,
-                        icon_image
+                      _id,
+                      parts{
+                        sentence,
+                        sentence_hint,
+                        sentence_display,
+                        words{word, unknown_word, letters, additional_words, hidden_words}
+                      },
+                      stage_hint,
+                      language_info{name, rtl},
+                      season_info{title, season_number},
+                      media{path, file_type, duration},
+                      voice{path, file_type, duration},
+                      stage_number_in_language,
+                      stage_number_in_season,
+                      is_visible,
+                      is_active,
+                      publication_status_label,
+                      completion_status_label,
                     },
                     hasNextPage,
                     nextPage
@@ -142,16 +157,16 @@ const Page = () => {
         variables: {
           page : 1,
           language_ref : language??undefined,
-          search : txt?.length>1?txt:undefined,
+          search : txt?.length>0?txt:undefined,
           filter_publication_status : publicationStatus??undefined,
           filter_completion_status : completionStatus??undefined,
-          filter_visible : visible??undefined,
-          filter_active : active??undefined,
+          filter_visible : (visible === true || visible === false)?visible:undefined,
+          filter_active : (active === true || active === false)?active:undefined,
         },
       },
     })
       .then((response) => {
-        const riciveData = response.data.data.paginateStageGameSeasonForAdmin;
+        const riciveData = response.data.data.paginateStageGameStagesForAdmin;
         if (riciveData.hasNextPage == true) {
           setLoading(false);
           setData(riciveData.list);
@@ -171,7 +186,7 @@ const Page = () => {
           }
         }
       })
-      .catch(() => {
+      .catch((err) => {
         setFooterLoading(false);
         setLoading(true);
         setFooterTry(false);
@@ -186,7 +201,7 @@ const Page = () => {
       method: "post",
       data: {
         query: `
-            query paginateStageGameSeasonForAdmin(
+            query paginateStageGameStagesForAdmin(
               $page : Int,
               $limit : Int,
               $language_ref : ID,
@@ -196,7 +211,7 @@ const Page = () => {
               $filter_visible : Boolean,
               $filter_active : Boolean,
             ){
-                paginateStageGameSeasonForAdmin(
+                paginateStageGameStagesForAdmin(
                   page : $page,
                   limit : $limit,
                   language_ref : $language_ref,
@@ -207,9 +222,24 @@ const Page = () => {
                   filter_active : $filter_active,
                 ) {
                     list{
-                        _id,
-                        title,
-                        icon_image
+                      _id,
+                      parts{
+                        sentence,
+                        sentence_hint,
+                        sentence_display,
+                        words{word, unknown_word, letters, additional_words, hidden_words}
+                      },
+                      stage_hint,
+                      language_info{name, rtl},
+                      season_info{title, season_number},
+                      media{path, file_type, duration},
+                      voice{path, file_type, duration},
+                      stage_number_in_language,
+                      stage_number_in_season,
+                      is_visible,
+                      is_active,
+                      publication_status_label,
+                      completion_status_label,
                     },
                     hasNextPage,
                     nextPage
@@ -219,16 +249,16 @@ const Page = () => {
         variables: {
           page : page,
           language_ref : language??undefined,
-          search : search?.length>1?search:undefined,
+          search : search?.length>0?search:undefined,
           filter_publication_status : publicationStatus??undefined,
           filter_completion_status : completionStatus??undefined,
-          filter_visible : visible??undefined,
-          filter_active : active??undefined,
+          filter_visible : (visible === true || visible === false)?visible:undefined,
+          filter_active : (active === true || active === false)?active:undefined,
         },
       },
     })
       .then((response) => {
-        const riciveData = response.data.data.paginateStageGameSeasonForAdmin;
+        const riciveData = response.data.data.paginateStageGameStagesForAdmin;
         if (riciveData.hasNextPage == true) {
           setData([...data, ...riciveData.list]);
           setPage(riciveData.nextPage);
@@ -245,7 +275,7 @@ const Page = () => {
           }
         }
       })
-      .catch(() => {
+      .catch((e) => {
         setLoading(data.length > 0 ? false : true);
         setFooterTry(data.length > 0 ? true : false);
         setGetError(data.length > 0 ? false : true);
@@ -278,7 +308,7 @@ const Page = () => {
 
   const clearSearchFn = () => {
     setSearch("");
-    getDataForFirst("");
+    getDataForFirst();
     clearTimeout(searchTimeout);
   };
 
@@ -299,25 +329,45 @@ const Page = () => {
           <div>
               <label
                 className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
-                htmlFor="search-season"
+                htmlFor="search-stage"
               >
-                جستجوی فصل
+                <div className="flex flex-row items-center gap-2">
+                  <IoSearch className="text-text5 dark:text-text5_dark text-[20px]"/>
+                  جستجوی مرحله
+                </div>
                 <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
-                  <Input id="search-season" value={search} changeState={setSearch} classes="flex-1" inputStyles="!text-base" />
+                  <Input
+                    type="number"
+                    id="search-stage"
+                    value={search}
+                    classes="flex-1"
+                    onKeyDownFn={submitSearch}
+                    changeState={(e: string) => handleSearch(e)}
+                    SearchLoading={loading && search.length > 0 && getError == false && noItem == false ? true : false}
+                    placeholder="شماره مرحله در فصل یا زبان"
+                    inputStyles="!text-[14px] lg:!h-[35px] placeholder:!text-[11px]"
+                    searchIconStyle="!hidden"
+                    clearSearchIconStyles="!text-base"
+                    clearFn={clearSearchFn}
+                  />
                 </div>
               </label>
             </div>
+            <div className="mt-4 w-full border-2 border-dashed border-text5 dark:border-text5_dark"/>
             <div className="mt-6">
               <label
                 className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
                 htmlFor="name"
               >
-                فیلتر زبان فصل
+                <div className="flex flex-row items-center gap-2">
+                  <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
+                  فیلتر زبان فصل
+                </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
                     name="stage-game-language-filter"
                     options={languageList}
-                    onChange={(value) => setLanguage(value || null)}
+                    onChange={(value) => setLanguage(value)}
                     classes={"!text-[.75rem]"}
                   />
                 </div>
@@ -328,7 +378,10 @@ const Page = () => {
                 className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
                 htmlFor="name"
               >
-                فیلتر وضعیت انتشار فصل
+                <div className="flex flex-row items-center gap-2">
+                  <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
+                  فیلتر وضعیت انتشار فصل
+                </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
                     name="stage-game-publication-filter"
@@ -344,7 +397,10 @@ const Page = () => {
                 className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
                 htmlFor="name"
               >
-                فیلتر وضعیت کامل بودن فصل
+                <div className="flex flex-row items-center gap-2">
+                  <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
+                  فیلتر وضعیت کامل بودن فصل
+                </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
                     name="stage-game-completion-filter"
@@ -360,7 +416,10 @@ const Page = () => {
                 className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
                 htmlFor="name"
               >
-                فیلتر وضعیت قابل مشاهده بودن
+                <div className="flex flex-row items-center gap-2">
+                  <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
+                  فیلتر وضعیت قابل مشاهده بودن
+                </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
                     name="stage-game-is-visible-filter"
@@ -376,7 +435,10 @@ const Page = () => {
                 className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
                 htmlFor="name"
               >
-                فیلتر وضعیت فعال بودن
+                <div className="flex flex-row items-center gap-2">
+                  <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
+                  فیلتر وضعیت فعال بودن
+                </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
                     name="stage-game-is-active-filter"
@@ -418,12 +480,27 @@ const Page = () => {
           >
             <ul
               role="list"
-              className={`grid gap-4 sm:mx-auto sm:gap-6 grid-cols-1 mt-8 sm:mt-10 xl:grid-cols-2 2xl:grid-cols-3 px-4`}
+              className={`grid gap-4 sm:mx-auto sm:gap-6 grid-cols-1 mt-8 sm:mt-10 xl:grid-cols-2 2xl:grid-cols-3 px-4`}  // حذف auto-rows-fr
             >
               {data?.map((item: any, index: number) => (
-                <div>
-
-                </div>
+                <li key={index.toString()} className="flex"> 
+                  <StageCardSG
+                    _id={item?._id}
+                    parts={item?.parts}
+                    season={item?.season_info}
+                    stage_number_in_language={item.stage_number_in_language}
+                    stage_number_in_season={item.stage_number_in_season}
+                    stage_hint={item?.stage_hint}
+                    rtl={item?.language_info?.rtl}
+                    language={item?.language_info?.name}
+                    media={item?.media}
+                    voice={item?.voice}
+                    is_visible={item?.is_visible}
+                    is_active={item?.is_active}
+                    publication_status={item?.publication_status_label}
+                    completion_status={item?.completion_status_label}
+                  />
+                </li>
               ))}
             </ul>
           </InfiniteScroll>
@@ -455,8 +532,8 @@ const Page = () => {
             <div className="sticky bottom-0 w-full">
               <FilterFooter
                 buttonText="اعمال فیلتر"
-                buttonFn={() => {}}
-                loadingButton={false}
+                buttonFn={tryAgain}
+                loadingButton={(loading == true && getError == false && noItem == false)?true:false}
                 classes="w-full"
               />
             </div>
@@ -491,8 +568,11 @@ const Page = () => {
               <div className="sticky bottom-0 w-full">
                 <FilterFooter
                   buttonText="اعمال فیلتر"
-                  buttonFn={() => setShowMobileFilter(false)}
-                  loadingButton={false}
+                  buttonFn={() => {
+                    setShowMobileFilter(false)
+                    tryAgain()
+                  }}
+                  loadingButton={(loading == true && getError == false && noItem == false)?true:false}
                   classes="w-full"
                 />
               </div>

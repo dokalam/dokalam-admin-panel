@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 type SelectInputProps = {
   name: string;
   options?: { value: any; label: string }[];
-  onChange: (value: string | null) => void;
+  onChange: (value: any) => void;
   value?: string | null;
   classes?: string;
   disabled?: boolean | undefined;
@@ -33,7 +33,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
   }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const val = e.target.value === NULL_KEY ? null : e.target.value;
+    const val = e.target.value === NULL_KEY ? null : e.target.value == "true"?true:e.target.value == "false"?false:e.target.value;
 
     if (value === undefined) {
       // حالت uncontrolled: داخلی state آپدیت کن

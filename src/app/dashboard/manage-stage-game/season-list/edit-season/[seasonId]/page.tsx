@@ -3,12 +3,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { FaCamera, FaMusic, FaPlay, FaRegSquarePlus, FaVideo } from "react-icons/fa6";
-import DialogHelper from "@/components/Dialog/DialogHelper";
-import { BiEditAlt, BiTrash } from "react-icons/bi";
-import { IoIosVideocam } from "react-icons/io";
-import { secondsToTime } from "@/utils/SecondToTime";
-import ImageComponent from "@/components/ImageComponent";
 import ShowVideoModalHelper from "@/components/ShowMediaModal/ShowVideoModalHelper";
 import ShowImageModalHelper from "@/components/ShowMediaModal/ShowImageModalHelper";
 import ModalInputHelper from "@/components/ModalInput/ModalInputHelper";
@@ -17,10 +11,6 @@ import ShowImageModal from "@/components/ShowMediaModal/ShowImageModal";
 import ModalInput from "@/components/ModalInput/ModalInput";
 import Input from "@/components/Input";
 import TextAreaInput from "@/components/TextAreaInput";
-import { priceDigitSeperator } from "@/utils/PriceDigitSeparator";
-import { numberToWords } from "@persian-tools/persian-tools";
-import { MdDelete } from "react-icons/md";
-import { IoClose } from "react-icons/io5";
 import Footer from "@/components/Footer/Footer";
 import Border from "@/components/Border";
 import { Switch, Listbox, Transition } from "@headlessui/react";
@@ -58,14 +48,12 @@ type languageListType = {
 };
 const Page = () => {
   const { seasonId } = useParams();
-  const inputImageRef: any = useRef();
-  const inputVideoRef: any = useRef();
-  const inputMusicRef: any = useRef();
   const [oldData, setOldData] = useState<any>(null)
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [visible, setVisible] = useState(false);
   const [active, setActive] = useState(false);
+  const [changeVersionUpdated, setChangeVersionUpdated] = useState(false);
   const [badge, setBadge] = useState("");
   const [language, setLanguage] = useState<string | null>(null)
   const [languageList, setLanguageList] = useState<languageListType[]>([])
@@ -80,14 +68,8 @@ const Page = () => {
   })
   const [publicationStatus, setPublicationStatus] = useState<string | null>(null)
   const [completionStatus, setCompletionStatus] = useState<string | null>(null)
-  const [image, setImage] = useState<any>([]);
-  const [video, setVideo] = useState<any>([]);
-  const media = video.concat(image);
-  const [music, setMusic] = useState<any>(null)
   const [loading2, setLoading2] = useState(true)
   const [getError, setGetError] = useState(false)
-  const [previousMedia, setPreviousMedia] = useState([])
-  const mergeMedia = previousMedia.concat(media)
   
 
   useEffect(()=>{
@@ -109,8 +91,6 @@ const Page = () => {
                     title,
                     description,
                     language_info{_id, name, rtl},
-                    media{path, file_type, duration, order},
-                    music{path, file_type, duration},
                     badge,
                     season_number,
                     stage_number_from,
@@ -134,7 +114,8 @@ const Page = () => {
     }).then(async (response) => {
         const data = response.data.data.getStageGameSeasonInformation;
         if (data) {
-          setOldData(data)
+          const deepCopy = structuredClone(data);
+          setOldData(deepCopy);
           setTitle(data?.title)
           setDescription(data?.description??"")
           setLanguage(data?.language_info?._id)
@@ -156,9 +137,7 @@ const Page = () => {
             value: data?.language_info?._id,
           }]
           setLanguageList(languages)
-          setPreviousMedia(data?.media)
           setLoading2(false)
-          
         } else {
           setGetError(true)
         }
@@ -196,8 +175,6 @@ const Page = () => {
             $_id : ID!,
             $title : String,
             $description : String,
-            $media : [FileInput!]!,
-            $music : FileInput,
             $badge : String,
             $season_number : Int,
             $stage_number_from : Int,
@@ -208,13 +185,12 @@ const Page = () => {
             $content_source_type : String,
             $publication_status : String,
             $completion_status : String,
+            $change_version_updated : Boolean!
           ){
             editStageGameSeasonInformation(
               _id : $_id,
               title : $title,
               description : $description,
-              media : $media,
-              music : $music,
               badge : $badge,
               season_number : $season_number,
               stage_number_from : $stage_number_from,
@@ -225,6 +201,7 @@ const Page = () => {
               content_source_type : $content_source_type,
               publication_status : $publication_status,
               completion_status : $completion_status,
+              change_version_updated : $change_version_updated
             ) {
               status,
               message,
@@ -233,59 +210,32 @@ const Page = () => {
           `,
       variables: {
         _id : seasonId,
-        title : title !== oldData?.title?title:undefined,
-        description : (description !== oldData?.description && description?.length > 0)?description:undefined,
-        media: media.map((item:any, index:number) => ({
-          file: null,
-          order: (index+1),
-          duration: item.duration??undefined,
-        })),
-        music : (music?.file && music?.duration) ? { file: null, duration: music.duration } : undefined,
-        badge: (oldData?.badge && oldData?.badge?.length > 0 && badge !== oldData?.badge)?badge:((!oldData?.badge || oldData?.badge == "")&&badge.trim().length ==0)?undefined:badge,
-        season_number: (oldData?.seasonNumber !== seasonNumber && Number(seasonNumber) > 0)?Number(seasonNumber):undefined,
-        stage_number_from : (oldData?.stageNumberFrom !== stageNumberFrom && Number(stageNumberFrom) > 0)?Number(stageNumberFrom):undefined,
-        stage_number_to : (oldData?.stageNumberTo !== stageNumberTo && Number(stageNumberTo) > 0)?Number(stageNumberTo):undefined,
-        number_stage: (oldData?.numberStage !== numberStage && Number(numberStage) > 0)?Number(numberStage):undefined,
+        title : (title !== oldData?.title && title?.length > 0)?title:undefined,
+        description : ((oldData?.description && description !== oldData?.description) || (!oldData?.description && description?.length >0))?description:undefined,
+        badge: ((oldData?.badge && badge !== oldData?.badge) || (!oldData?.badge && badge?.length >0))?badge:undefined,
+        season_number: (oldData?.season_number !== Number(seasonNumber) && Number(seasonNumber) > 0)?Number(seasonNumber):undefined,
+        stage_number_from : (oldData?.stage_number_from !== Number(stageNumberFrom) && Number(stageNumberFrom) > 0)?Number(stageNumberFrom):undefined,
+        stage_number_to : (oldData?.stage_number_to !== Number(stageNumberTo) && Number(stageNumberTo) > 0)?Number(stageNumberTo):undefined,
+        number_stage: (oldData?.number_stage !== Number(numberStage) && Number(numberStage) > 0)?Number(numberStage):undefined,
         is_visible : (oldData?.is_visible !== visible)?visible:undefined,
         is_active : (oldData?.is_active !== active)?active:undefined,
         content_source_type : (oldData?.content_source_type !== contentSourceType.selected)?contentSourceType.selected:undefined,
         publication_status : (oldData?.publication_status !== publicationStatus)?publicationStatus:undefined,
         completion_status : (oldData?.completion_status !== completionStatus)?completionStatus:undefined,
+        change_version_updated : changeVersionUpdated
       },
     };
-    let map: any = {};
-    let fileIndex = 0;
-    media.forEach((item: any, index: number) => {
-      map[fileIndex] = [`variables.media.${index}.file`];
-      fileIndex++;
-    });
-    if (music?.file && music?.duration) {
-      map[fileIndex] = [`variables.music.file`];
-    }
-    let formD = new FormData();
-    formD.append("operations", JSON.stringify(data));
-    formD.append("map", JSON.stringify(map));
-    media.forEach((item: any, index: number) => {
-      formD.append(`${index}`, item.file);
-    });
-    if (music?.file && music?.duration) {
-      formD.append(`${fileIndex}`, music.file);
-    }
     await axios({
       url: "/",
       method: "post",
-      data: formD,
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "multipart/form-data",
-      },
+      data: data,
     })
       .then(async (response) => {
         setLoading(false);
         if (response.data?.data?.editStageGameSeasonInformation?.status == 200) {
             toast.success(response.data?.data?.editStageGameSeasonInformation?.message, {
               position: "top-center",
-              autoClose: 3000,
+              autoClose: 5000,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: true,
@@ -293,13 +243,6 @@ const Page = () => {
               progress: undefined,
               theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
             });
-            setTitle("")
-            setDescription("")
-            setBadge("")
-            setImage([])
-            setVideo([])
-            setNumberStage("")
-            setSeasonNumber("")
         } else {
           toast.error((response.data?.errors[0]?.data[0]?.message || "مشکلی پیش آمد دوباره تلاش کنید"), {
             position: "top-center",
@@ -328,227 +271,6 @@ const Page = () => {
       });
   }
 
-  const handleAddPhotos = (e: any) => {
-    const photos = e.target.files;
-    if (photos.length > 10) {
-      toast.warning("بیشتر از 10 عکس نمی‌توانید برای فصل انتخاب کنید.", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-      });
-    } else {
-      if (image.length + photos.length > 10) {
-        toast.warning("بیشتر از 10 عکس نمی‌توانید برای فصل انتخاب کنید.", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-        });
-      } else {
-        const newData: any = [...image];
-        for (let index = 0; index < photos.length; index++) {
-          const data = {
-            file: photos[index],
-            preview: URL.createObjectURL(photos[index]),
-          };
-          newData.push(data);
-        }
-        setImage(newData);
-      }
-      inputImageRef.current.value = "";
-    }
-  };
-
-  const handleAddVideos = (e: any) => {
-    const uri = URL.createObjectURL(e.target.files[0]);
-    var videoElement = document.createElement("video");
-    videoElement.preload = "metadata";
-    videoElement.src = URL.createObjectURL(e.target.files[0]);
-    videoElement.onloadedmetadata = function () {
-      const videos = e.target.files;
-      window.URL.revokeObjectURL(videoElement.src);
-      const duration = videoElement.duration;
-      if (duration < 30) {
-        toast.warning("ویدیوی انتخابی نمیتواند کمتر از 30 ثانیه باشد.", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-        });
-      } else if (duration > 120) {
-        toast.warning("ویدیوی انتخابی نمیتواند بیشتر از 120 ثانیه باشد.", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-        });
-      } else {
-        const items: any = [];
-        const data = {
-          file: videos[0],
-          preview: uri,
-          duration: duration.toFixed(0).toString(),
-        };
-        items.push(data);
-        setVideo(items);
-        inputVideoRef.current.value = "";
-      }
-    };
-  };
-
-  const handleAddMusic = (e: any) => {
-    const uri = URL.createObjectURL(e.target.files[0]);
-    var musicElement = document.createElement("audio");
-    musicElement.preload = "metadata";
-    musicElement.src = URL.createObjectURL(e.target.files[0]);
-    musicElement.onloadedmetadata = function () {
-      const audios = e.target.files;
-      window.URL.revokeObjectURL(musicElement.src);
-      const duration = musicElement.duration;
-      if (duration < 3) {
-        toast.warning("موزیک متن نمیتواند کمتر از 3 ثانیه باشد", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-        });
-      } else if (duration > 180) {
-        toast.warning("موزیک متن نمیتواند بیشتر از 180 ثانیه باشد.", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-        });
-      } else {
-        const data = {
-          file: audios[0],
-          preview: uri,
-          duration: duration.toFixed(0).toString(),
-        };
-        setMusic(data);
-        inputMusicRef.current.value = "";
-      }
-    };
-  };
-
-  const deleteMediaItem = (item: any) => {
-    if (item?.file?.type.includes("video") == true) {
-      setVideo([]);
-    } else {
-      let index = image.findIndex((i: any) => i.preview == item.preview);
-      const newData = [...image];
-      newData.splice(index, 1);
-      setImage(newData);
-    }
-  };
-
-  const moveImage = (fromMediaIndex: number, toMediaIndex: number) => {
-    const videoOffset = video.length === 1 ? 1 : 0;
-    if (
-      fromMediaIndex < videoOffset ||
-      toMediaIndex < videoOffset ||
-      fromMediaIndex >= media.length ||
-      toMediaIndex >= media.length
-    ) {
-      toast.warning("در صورت وجود ویدیو، باید در اولین آیتم لیست، ویدیو قرار گیرد.", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-      });
-      return;
-    }
-    const fromImageIndex = fromMediaIndex - videoOffset;
-    const toImageIndex = toMediaIndex - videoOffset;
-    const newImageArray = [...image];
-    const [movedItem] = newImageArray.splice(fromImageIndex, 1);
-    newImageArray.splice(toImageIndex, 0, movedItem);
-    setImage(newImageArray);
-  };
-  const setOrderForMediaItem = ({item, index}:{item:any, index:number}) => {
-    if(item?.file?.type.includes("video") == true){
-      toast.warning("ترتیب نمایش ویدیو همیشه در اولین آیتم است و قابل تغییر نمیباشد.", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-      });
-    } else {
-      let title = `ترتیب نمایش عکس = (${index + 1})`;
-      ModalInputHelper.showModalInput({
-        title: title,
-        description: "میتوانید ترتیب نمایش این عکس را تغییر دهید.",
-        inputValue: `${index + 1}`,
-        buttons:[
-                {
-                  buttonText: "تایید",
-                  onClickFn: (call) => {
-                    const value = Number(call)
-                    if(typeof value === 'number' && Number.isFinite(value) && value < 12 && value > 0){
-                      const fromMediaIndex = index
-                      const toMediaIndex = value - 1
-                      moveImage(fromMediaIndex, toMediaIndex)
-                      ModalInputHelper.closeModalInput();
-                    } else {
-                      toast.warning("مقدار وارد شده معتبر نمیباشد", {
-                          position: "top-center",
-                          autoClose: 3000,
-                          hideProgressBar: false,
-                          closeOnClick: true,
-                          pauseOnHover: true,
-                          draggable: true,
-                          progress: undefined,
-                          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
-                      });
-                    }
-                  },
-                },
-                {
-                  buttonText: "انصراف",
-                  onClickFn: () => {
-                    ModalInputHelper.closeModalInput();
-                  },
-                },
-              ],
-        options: {
-          maxLength: 2,
-        },
-      });
-    }
-  };
   return (
     loading2 == true?
     <div className="flex items-center justify-center w-full h-[calc(100dvh-60px)]">
@@ -560,213 +282,6 @@ const Page = () => {
     </div>
     :
     <div className="flex flex-col justify-between w-full lg:w-[600px] 2xl:w-[750px] mt-10 mb-28 px-4 sm:mx-auto">
-      <div className="flex gap-6 justify-center font-['iransans-md'] mt-1">
-        <label
-          className="text-text6 dark:text-text6_dark border-2 border-dashed border-text5 dark:border-text5_dark py-6 text-lg flex-1 rounded-md cursor-pointer transition sm:hover:bg-border2 sm:dark:hover:bg-border2_dark flex flex-col justify-center items-center gap-y-2"
-          htmlFor="upload_file_photos"
-          tabIndex={0}
-        >
-          <div className="text-4xl">
-            <FaCamera />
-          </div>
-          <p className="text-xs 3xs:text-sm text-center">افزودن عکس</p>
-          <input
-            ref={inputImageRef}
-            autoComplete="off"
-            tabIndex={-1}
-            className="hidden"
-            id="upload_file_photos"
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleAddPhotos}
-          />
-        </label>
-        <label
-          className="text-text6 dark:text-text6_dark border-2 border-dashed border-text5 dark:border-text5_dark py-6 text-lg flex-1 rounded-md cursor-pointer transition sm:hover:bg-border2 sm:dark:hover:bg-border2_dark flex flex-col justify-center items-center gap-y-2"
-          htmlFor="upload_file_video"
-        >
-          <div className="text-4xl">
-            <FaVideo />
-          </div>
-          <p className="text-xs 3xs:text-sm text-center">افزودن ویدیو</p>
-          <input
-            ref={inputVideoRef}
-            className="hidden"
-            id="upload_file_video"
-            type="file"
-            accept="video/*"
-            onChange={handleAddVideos}
-          />
-        </label>
-        <label
-          className="text-text6 dark:text-text6_dark border-2 border-dashed border-text5 dark:border-text5_dark py-6 text-lg flex-1 rounded-md cursor-pointer transition sm:hover:bg-border2 sm:dark:hover:bg-border2_dark flex flex-col justify-center items-center gap-y-2"
-          htmlFor="upload_file_audio"
-        >
-          <div className="text-4xl">
-            <FaMusic />
-          </div>
-          <p className="text-xs 3xs:text-sm text-center">افزودن موزیک</p>
-          <input
-            ref={inputMusicRef}
-            className="hidden"
-            id="upload_file_audio"
-            type="file"
-            accept=".mp3,audio/mpeg"
-            onChange={handleAddMusic}
-          />
-        </label>
-      </div>
-      {(mergeMedia.length > 0 || music)&& (
-        <div className="border-2 border-dashed border-primary dark:border-primary rounded-md py-2 mt-4">
-          <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-4 sm:gap-y-4 my-4 ">
-            {mergeMedia.map((item: any, index: number) => (
-              item?.path?
-              <div key={`${index.toString()}`} className="w-full h-20 3xs:h-24 sm:h-28 flex justify-center items-center">
-                <div
-                  className="relative w-20 h-20 3xs:w-24 3xs:h-24 sm:w-28 sm:h-28 cursor-pointer"
-                  onClick={() => {
-                    if (item?.file?.type.includes("video") == true) {
-                      ShowVideoModalHelper.showModal({
-                        src: item.path,
-                        title: item?.title ? item.title : null,
-                      });
-                    } else {
-                      ShowImageModalHelper.showModal({
-                        src: item.path,
-                        title: item?.title ? item.title : null,
-                      });
-                    }
-                  }}
-                >
-                  {item?.duration ? (
-                    <div className="relative h-full w-full">
-                      <video src={item.preview} className="inset-0 h-full w-full rounded-md object-cover" />
-                      <div className="absolute top-[26%] right-[26%] text-xl sm:text-2xl text-primary bg-background6 bg-opacity-30 rounded-full p-3">
-                        <FaPlay />
-                      </div>
-                      <div className="absolute bottom-1 left-1 flex items-center gap-2 bg-[#00000099] rounded px-1">
-                        <p className="text-xs font-['iransans-light'] text-white">{secondsToTime(item.duration)}</p>
-                        <div className="text-sm text-white">
-                          <IoIosVideocam />
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <ImageComponent
-                      src={item.path}
-                      alt={"file_photos"}
-                      parentclasses="h-full w-full cursor-pointer"
-                    />
-                  )}
-                  <div className="absolute top-0 w-full flex justify-between px-1 pt-1">
-                    <div
-                      onClick={(e: any) => {
-                        e.stopPropagation();
-                        setOrderForMediaItem({item, index});
-                      }}
-                      className={`flex justify-center items-center rounded transition text-red_color bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6`}
-                    >
-                      <p className="text-xs 3xs:text-sm text-center font-['iransans-md']">{index + 1}</p>
-                    </div>
-                    <div
-                      onClick={(e: any) => {
-                        e.stopPropagation();
-                        deleteMediaItem(item);
-                      }}
-                      className="flex justify-center items-center rounded transition text-white bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6"
-                    >
-                      <BiTrash />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              :
-              <div key={`${index.toString()}`} className="w-full h-20 3xs:h-24 sm:h-28 flex justify-center items-center">
-                <div
-                  className="relative w-20 h-20 3xs:w-24 3xs:h-24 sm:w-28 sm:h-28 cursor-pointer"
-                  onClick={() => {
-                    if (item?.file?.type.includes("video") == true) {
-                      ShowVideoModalHelper.showModal({
-                        src: item.preview,
-                        title: item?.title ? item.title : null,
-                      });
-                    } else {
-                      ShowImageModalHelper.showModal({
-                        src: item.preview,
-                        title: item?.title ? item.title : null,
-                      });
-                    }
-                  }}
-                >
-                  {item?.file?.type.includes("video") == true ? (
-                    <div className="relative h-full w-full">
-                      <video src={item.preview} className="inset-0 h-full w-full rounded-md object-cover" />
-                      <div className="absolute top-[26%] right-[26%] text-xl sm:text-2xl text-primary bg-background6 bg-opacity-30 rounded-full p-3">
-                        <FaPlay />
-                      </div>
-                      <div className="absolute bottom-1 left-1 flex items-center gap-2 bg-[#00000099] rounded px-1">
-                        <p className="text-xs font-['iransans-light'] text-white">{secondsToTime(item.duration)}</p>
-                        <div className="text-sm text-white">
-                          <IoIosVideocam />
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <ImageComponent
-                      src={item.preview}
-                      alt={"file_photos"}
-                      baseURI={false}
-                      parentclasses="h-full w-full cursor-pointer"
-                    />
-                  )}
-                  <div className="absolute top-0 w-full flex justify-between px-1 pt-1">
-                    <div
-                      onClick={(e: any) => {
-                        e.stopPropagation();
-                        setOrderForMediaItem({item, index});
-                      }}
-                      className={`flex justify-center items-center rounded transition text-red_color bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6`}
-                    >
-                      <p className="text-xs 3xs:text-sm text-center font-['iransans-md']">{index + 1}</p>
-                    </div>
-                    <div
-                      onClick={(e: any) => {
-                        e.stopPropagation();
-                        deleteMediaItem(item);
-                      }}
-                      className="flex justify-center items-center rounded transition text-white bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6"
-                    >
-                      <BiTrash />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          {music && (
-            <div className="relative bg-primary rounded-lg p-4 w-full max-w-xs mx-auto mb-2">
-              <audio
-                src={music.preview}
-                controls
-                className="w-full rounded-md"
-              />
-              <div className="absolute top-2 left-2">
-                <div
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setMusic(null)
-                  }}
-                  className="w-6 h-6 bg-black/50 text-white hover:bg-black/70 rounded flex items-center justify-center"
-                >
-                  <BiTrash size={14} />
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
@@ -861,7 +376,7 @@ const Page = () => {
           className="text-right lg:w-2/3 w-5/6 xl:w-3/5 2xl:w-1/2 text-text6 dark:text-text6_dark cursor-pointer font-iransans-md text-sm"
           htmlFor="description-stage-season"
         >
-          توضیحات فصل
+          دربارهٔ فصل
           <TextAreaInput
             id={"description-stage-season"}
             value={description}
@@ -988,6 +503,39 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
         </div>
         <p className="text-justify font-['iransans-md'] text-text5 dark:text-text5_dark text-[12px] sm:text-[14px] mb-1">
           با فعال بودن این گزینه، آیتم به عنوان فعال شده ثبت خواهد شد.
+        </p>
+      </div>
+      <Border />
+      <div
+        className="py-4 cursor-pointer sm:hover:bg-border2 dark:sm:hover:bg-border2_dark transition select-none"
+        onClick={() => setChangeVersionUpdated((last) => !last)}
+      >
+        <div className="flex items-center justify-between w-full h-[42px] pl-2 rounded">
+          <label className={`text-sm font-['iransans-md'] cursor-pointer`}>
+            <h3 className="text-text dark:text-text_dark font-['iransans-md'] text-[15px]">
+              ورژن آپدیت ارتقا یابد
+            </h3>
+          </label>
+          <Switch
+            checked={changeVersionUpdated}
+            onChange={() => setChangeVersionUpdated((last) => !last)}
+            onClick={(e) => e.stopPropagation()}
+            className={`${changeVersionUpdated ? "bg-rgba2" : "bg-border dark:bg-border_dark"}
+relative h-[19px] w-[33px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out flex items-center`}
+          >
+            <span
+              aria-hidden="true"
+              className={`${
+                changeVersionUpdated
+                  ? "translate-x-2 bg-primary"
+                  : "-translate-x-[16px] bg-text5 dark:bg-text5_dark"
+              }
+pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow-lg ring-0 transition duration-200 ease-in-out`}
+            />
+          </Switch>
+        </div>
+        <p className="text-justify font-['iransans-md'] text-text5 dark:text-text5_dark text-[12px] sm:text-[14px] mb-1">
+          با فعال بودن این گزینه، بعد از ویرایش، ورژن آپدیت سند (version_updated) افزایش میابد.
         </p>
       </div>
       <Border />

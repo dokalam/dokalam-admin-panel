@@ -138,7 +138,7 @@ const NotificationItem = ({
   };
   return (
     <div 
-      className={`relative w-full p-4 rounded-2xl shadow-bottom dark:shadow-bottom-dark m-1 bg-background5 dark:bg-background5_dark flex flex-col gap-4`}
+      className={`relative w-full p-4 rounded-2xl shadow-bottom dark:shadow-bottom-dark m-1 bg-background7 dark:bg-background7_dark flex flex-col gap-4`}
       >
       <div
         className={`top-2 "left-2" z-20`}

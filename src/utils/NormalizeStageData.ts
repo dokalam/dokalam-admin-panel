@@ -1,4 +1,5 @@
 type WordItem = {
+  _id?: string;
   word: string;
   word_hint: string;
   unknown_word: boolean;
@@ -9,6 +10,7 @@ type WordItem = {
 };
 
 type PartItem = {
+  _id?: string;
   sentence: string;
   sentence_hint: string;
   sentence_display: string;
@@ -31,8 +33,8 @@ export function normalizeStageData(parts: PartItem[]): PartItem[] {
         normalizedItem.hidden_words = [];
       }
 
-      // اگر word_hint خالی یا کمتر از ۳ کاراکتر واقعی بود → undefined
-      if (!wordItem.word_hint || wordItem.word_hint.trim().length < 3) {
+      // اگر word_hint خالی یا کمتر از 2 کاراکتر واقعی بود → undefined
+      if (!wordItem.word_hint || wordItem.word_hint.trim().length < 2) {
         normalizedItem.word_hint = undefined as any;
       }
 

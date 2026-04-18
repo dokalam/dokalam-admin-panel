@@ -1,4 +1,5 @@
 type WordItem = {
+  _id?: string;
   word: string;
   word_hint: string;
   unknown_word: boolean;
@@ -9,6 +10,7 @@ type WordItem = {
 };
 
 type PartItem = {
+  _id?: string;
   sentence: string;
   sentence_hint: string;
   sentence_display: string;
@@ -118,8 +120,12 @@ export function validateStage(parts: PartItem[]): { status: number; message: str
       if (wordItem.unknown_word) {
         const availableLetters = [...wordItem.letters];
         const canMakeWord = (target: string) => {
+          const normalize = (target: string): string => {
+              return target.replace(/آ/g, "ا");
+          };
+          const normalTarget = normalize(target)
           const temp = [...availableLetters];
-          for (const ch of target) {
+          for (const ch of normalTarget) {
             const idx = temp.indexOf(ch);
             if (idx === -1) return false;
             temp.splice(idx, 1);
