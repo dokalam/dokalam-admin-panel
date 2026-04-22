@@ -571,6 +571,7 @@ const Page = () => {
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
             <SelectInput
+              value={season}
               disabled={true}
               name="stage-game-season"
               options={seasonList}

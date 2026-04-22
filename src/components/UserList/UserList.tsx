@@ -6,8 +6,6 @@ import ScreenLoading from "../ScreenLoading";
 import axios from "axios";
 import Io5Icons from "@/utils/Icons/Io5Icons";
 import { IoArrowForwardOutline } from "react-icons/io5";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 import Input from "../Input";
 import InfiniteScroll from "react-infinite-scroll-component";
 import FooterPaginate from "../FooterPaginate";
@@ -15,9 +13,9 @@ import Border from "../Border";
 import { useTheme } from "next-themes";
 import { UserListModalInterface } from "@/interfaces/ModalInterface";
 import { toast } from "react-toastify";
-import moment from "moment-jalaali";
-import "moment/locale/fa";
 import UserSelectItem from "./UserSelectItem";
+import moment from "moment-jalaali";
+moment.locale('fa');
 moment.loadPersian({ usePersianDigits: false, dialect: "persian-modern" });
 
 const UserList = forwardRef((_, ref) => {

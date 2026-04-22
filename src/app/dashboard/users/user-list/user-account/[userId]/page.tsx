@@ -2,36 +2,16 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
-import { FaCamera, FaMusic, FaPlay, FaRegSquarePlus, FaUserLarge, FaVideo } from "react-icons/fa6";
-import DialogHelper from "@/components/Dialog/DialogHelper";
-import { BiEditAlt, BiTrash } from "react-icons/bi";
-import { IoIosVideocam } from "react-icons/io";
-import { secondsToTime } from "@/utils/SecondToTime";
+import { FaUserLarge } from "react-icons/fa6";
 import ImageComponent from "@/components/ImageComponent";
-import ShowVideoModalHelper from "@/components/ShowMediaModal/ShowVideoModalHelper";
-import ShowImageModalHelper from "@/components/ShowMediaModal/ShowImageModalHelper";
-import ModalInputHelper from "@/components/ModalInput/ModalInputHelper";
-import ShowVideoModal from "@/components/ShowMediaModal/ShowVideoModal";
-import ShowImageModal from "@/components/ShowMediaModal/ShowImageModal";
-import ModalInput from "@/components/ModalInput/ModalInput";
-import Input from "@/components/Input";
-import TextAreaInput from "@/components/TextAreaInput";
 import { priceDigitSeperator } from "@/utils/PriceDigitSeparator";
-import { numberToWords } from "@persian-tools/persian-tools";
-import { MdDelete } from "react-icons/md";
-import { IoClose } from "react-icons/io5";
-import Footer from "@/components/Footer/Footer";
-import Border from "@/components/Border";
-import { Switch, Listbox, Transition } from "@headlessui/react";
-import SelectInput from "@/components/SelectInput";
 import ScreenLoading from "@/components/ScreenLoading";
 import { useParams } from "next/navigation";
-import moment from "moment-jalaali";
-import "moment/locale/fa";
 import { getTime } from "@/utils/GetTime";
 import GradientButton from "@/components/GradientButton";
 import { HiOutlineEyeOff, HiOutlineTrash } from "react-icons/hi";
+import moment from "moment-jalaali";
+moment.locale('fa');
 moment.loadPersian({ usePersianDigits: false, dialect: "persian-modern" });
 
 const getGender = (type:string)=>{

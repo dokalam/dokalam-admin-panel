@@ -35,7 +35,7 @@ const UserItem = ({
 
     return (
         <div 
-        className={`relative w-full p-4 rounded-2xl shadow-bottom dark:shadow-bottom-dark m-1 bg-background5 dark:bg-background5_dark flex flex-col gap-4 border-[1px] border-border dark:border-border_dark`}
+        className={`relative w-full p-4 rounded-2xl shadow-bottom dark:shadow-bottom-dark m-1 bg-background7 dark:bg-background7_dark flex flex-col gap-4 border-[1px] border-border dark:border-border_dark`}
         >
             <div className="flex flex-row items-center gap-4">
                 <FaUserLarge className="text-info text-[35px] 2xl:text-[40px]"/>

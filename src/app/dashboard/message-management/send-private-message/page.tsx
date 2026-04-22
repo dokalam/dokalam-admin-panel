@@ -65,7 +65,7 @@ const Page = () => {
 
   const registerAndConfirm = ()=>{
     if(!userSelected?._id){
-      toast.error("کاربری برای ارسال اعلان خصوصی انتخاب نکرده‌اید.", {
+      toast.error("کاربری برای ارسال پیام خصوصی انتخاب نکرده‌اید.", {
         position: "top-center",
         autoClose: 4000,
         hideProgressBar: false,
@@ -397,7 +397,7 @@ const Page = () => {
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="name-stage-season"
         >
-          عنوان اعلان
+          عنوان پیام
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
             <Input id="name-stage-season" value={title} changeState={setTitle} classes="flex-1" inputStyles="!text-base" />
@@ -409,7 +409,7 @@ const Page = () => {
           className="text-right lg:w-2/3 w-5/6 xl:w-3/5 2xl:w-1/2 text-text6 dark:text-text6_dark cursor-pointer font-iransans-md text-sm"
           htmlFor="description-stage-season"
         >
-          متن اعلان
+          متن پیام
           <span className="text-red-500 px-1">*</span>
           <TextAreaInput
             id={"body-public-notification"}

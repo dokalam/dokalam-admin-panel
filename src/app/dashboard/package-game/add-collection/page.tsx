@@ -1,50 +1,21 @@
 "use client";
 
 import axios from "axios";
-import React, { useRef, useState, useEffect } from "react";
-import { FaCamera, FaPlay, FaRegSquarePlus, } from "react-icons/fa6";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
-import DialogHelper from "@/components/Dialog/DialogHelper";
-import { BiEditAlt, BiTrash } from "react-icons/bi";
-import { secondsToTime } from "@/utils/SecondToTime";
+import { BiTrash } from "react-icons/bi";
 import ImageComponent from "@/components/ImageComponent";
-import ShowImageModalHelper from "@/components/ShowMediaModal/ShowImageModalHelper";
-import ShowImageModal from "@/components/ShowMediaModal/ShowImageModal";
 import Input from "@/components/Input";
-import TextAreaInput from "@/components/TextAreaInput";
-import { priceDigitSeperator } from "@/utils/PriceDigitSeparator";
-import { numberToWords } from "@persian-tools/persian-tools";
-import { MdDelete } from "react-icons/md";
-import { IoClose } from "react-icons/io5";
 import Footer from "@/components/Footer/Footer";
 import Border from "@/components/Border";
 import { Switch } from "@headlessui/react";
-import SelectInput from "@/components/SelectInput";
 import GradientButton from "@/components/GradientButton";
 import PackageList from "@/components/PackageList/PackageList";
 import PackageListHelper from "@/components/PackageList/PackageListHelper";
 import ModalInput from "@/components/ModalInput/ModalInput";
 import ModalInputHelper from "@/components/ModalInput/ModalInputHelper";
 
-type SelectedOption = {
-  value: any;
-  label: string;
-};
-const PublicationStatus:SelectedOption[] = [
-  {value:null, label:"انتخاب وضعیت انتشار محتوا"},
-  {value:"draft", label:"پیشنویس"},
-  {value:"ready", label:"آماده انتشار"},
-  {value:"published", label:"منتشر شده"},
-  {value:"archived", label:"آرشیو شده، غیرفعال"},
-  {value:"rejected", label:"رد شده"},
-]
-const CompletionStatus:SelectedOption[] = [
-  {value:null, label:"انتخاب وضعیت کامل بودن محتوا"},
-  {value:"incomplete", label:"ناقص (نیاز به بخش‌هایی بیشتر)"},
-  {value:"in_progress", label:"در حال کار و بازبینی"},
-  {value:"complete", label:"کامل‌شده ولی قابل به‌روزرسانی"},
-  {value:"finalized", label:"نهایی‌شده، بدون نیاز به تغییر"},
-]
+
 const Page = () => {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
@@ -61,11 +32,19 @@ const Page = () => {
     title: packageSelected.title[index],
     image: packageSelected.image[index]
   }));
-  const [publicationStatus, setPublicationStatus] = useState<string | null>(null)
-  const [completionStatus, setCompletionStatus] = useState<string | null>(null)
+  const [allPackageSelected, setAllPackageSelected] = useState<any>({
+    _id: [],
+    title: [],
+    image: []
+  })
+  const merged2 = allPackageSelected._id.map((id: string, index: number) => ({
+    _id: id,
+    title: allPackageSelected.title[index],
+    image: allPackageSelected.image[index]
+  }));
 
   const registerAndConfirm = ()=>{
-    if(title.length < 3 || order.length == 0 || !publicationStatus || !completionStatus){
+    if(title.length < 3 || order.length == 0){
       toast.error("ابتدا موارد الزامی را به درستی وارد کنید", {
         position: "top-center",
         autoClose: 3000,
@@ -98,20 +77,18 @@ const Page = () => {
           mutation newPackageCollectionDefinitionForPackageGame(
             $title : String!,
             $list : [CollectionListItem!]!,
+            $more_list : [ID!]!,
             $order : Int!,
             $is_visible : Boolean!,
             $is_active : Boolean!,
-            $publication_status : String!,
-            $completion_status : String!,
           ){
             newPackageCollectionDefinitionForPackageGame(
               title : $title,
               list : $list,
+              more_list : $more_list,
               order : $order,
               is_visible : $is_visible,
               is_active : $is_active,
-              publication_status : $publication_status,
-              completion_status : $completion_status,
             ) {
               status,
               message,
@@ -124,11 +101,10 @@ const Page = () => {
           package : item,
           order : index + 1
         })),
+        more_list : allPackageSelected._id,
         order : Number(order),
         is_visible : visible,
         is_active : active,
-        publication_status: publicationStatus,
-        completion_status: completionStatus
       },
     };
     await axios({
@@ -152,6 +128,11 @@ const Page = () => {
             setTitle("")
             setOrder("")
             setPackageSelected({
+              _id: [],
+              title: [],
+              image: []
+            })
+            setAllPackageSelected({
               _id: [],
               title: [],
               image: []
@@ -200,6 +181,29 @@ const Page = () => {
           type: "bold",
           onClickFn: ({ data }: { data: any }) => {
             setPackageSelected(data)
+            const missingItems = data?._id?.filter(
+                (item: string) => !allPackageSelected._id.includes(item)
+            );
+            if (missingItems?.length > 0) {
+                const newIds:any[] = [];
+                const newTitles:any[] = [];
+                const newImages:any[] = [];
+                for (let i = 0; i < missingItems.length; i++) {
+                    const element = missingItems[i];
+                    const index = data._id.findIndex((id: string) => id === element);
+                    
+                    if (index !== -1) {
+                        newIds.push(element);
+                        newTitles.push(data.title[index]);
+                        newImages.push(data.image[index]);
+                    }
+                }
+                setAllPackageSelected((prevState: any) => ({
+                    _id: [...prevState._id, ...newIds],
+                    title: [...prevState.title, ...newTitles],
+                    image: [...prevState.image, ...newImages]
+                }));
+            }
             PackageListHelper.closeModal();
           },
         },
@@ -272,6 +276,59 @@ const Page = () => {
         },
       });
   };
+  const selectAllPackages = ()=>{
+    PackageListHelper.openModal({
+      previousSelected: allPackageSelected,
+      numberSelected: 50,
+      buttons: [
+        {
+          buttonText: "لغو",
+          type: "border",
+          onClickFn: () => {
+            PackageListHelper.closeModal();
+          },
+        },
+        {
+          buttonText: "انتخاب بسته‌ها",
+          type: "bold",
+          onClickFn: ({ data }: { data: any }) => {
+            setAllPackageSelected(data)
+            setPackageSelected((prevState: any) => {
+                const existingIds = data?._id ?? [];
+                const indicesToKeep = prevState._id.reduce((acc: number[], id: string, index: number) => {
+                    if (existingIds.includes(id)) {
+                        acc.push(index);
+                    }
+                    return acc;
+                }, []);
+                return {
+                    _id: indicesToKeep.map((i:any) => prevState._id[i]),
+                    title: indicesToKeep.map((i:any) => prevState.title[i]),
+                    image: indicesToKeep.map((i:any) => prevState.image[i])
+                };
+            });
+            PackageListHelper.closeModal();
+          },
+        },
+      ],
+    });
+  }
+  const deleteAllPackageItem = (indexToRemove: number) => {
+    const mainListId = allPackageSelected._id[indexToRemove]
+    const mainListIndex = packageSelected._id.findIndex((i:string)=>i == mainListId)
+    setAllPackageSelected((prevState: any) => ({
+      _id: prevState._id.filter((_: any, index: number) => index !== indexToRemove),
+      title: prevState.title.filter((_: any, index: number) => index !== indexToRemove),
+      image: prevState.image.filter((_: any, index: number) => index !== indexToRemove)
+    }));
+    if(mainListIndex >= 0){
+      setPackageSelected((prevState: any) => ({
+        _id: prevState._id.filter((_: any, index: number) => index !== mainListIndex),
+        title: prevState.title.filter((_: any, index: number) => index !== mainListIndex),
+        image: prevState.image.filter((_: any, index: number) => index !== mainListIndex)
+      }));
+    }
+  };
   return (
     <div className="flex flex-col justify-between w-full lg:w-[600px] 2xl:w-[750px] mt-10 mb-28 px-4 sm:mx-auto">
       <div className="mt-6">
@@ -333,6 +390,49 @@ const Page = () => {
           ))}
         </div>
       )}
+      <div className="mt-12">
+        <GradientButton
+          buttonText={"انتخاب همهٔ موارد این کالکشن"}
+          onClickFn={selectAllPackages}
+          loading={false}
+          classes="!text-sm !flex-none !px-8 sm:!w-[300px] !w-full"
+        />
+      </div>
+      {merged2.length > 0 && (
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-y-12 sm:gap-y-12 mt-4 border-2 border-dashed border-primary dark:border-primary rounded-md py-4">
+          {merged2.map((item: any, index: number) => (
+            <div key={`${index.toString()}`} className="flex flex-col items-center gap-2">
+              <div
+                className="relative w-20 h-22 3xs:w-24 3xs:h-24 sm:w-28 sm:h-28 cursor-pointer"
+              >
+
+                  <ImageComponent
+                    src={item.image}
+                    alt={"file_photos"}
+                    parentclasses="h-full w-full cursor-pointer"
+                  />
+                <div className="absolute top-0 w-full flex justify-between px-1 pt-1">
+                  <div
+                    className={`flex justify-center items-center rounded transition text-white bg-[#00000099] text-lg w-6 h-6`}
+                  >
+                    <p className="text-xs 3xs:text-sm text-center font-['iransans-md']">{index + 1}</p>
+                  </div>
+                  <div
+                    onClick={(e: any) => {
+                      e.stopPropagation();
+                      deleteAllPackageItem(index);
+                    }}
+                    className="flex justify-center items-center rounded transition text-white bg-[#00000099] sm:hover:bg-[#33333370] text-lg w-6 h-6"
+                  >
+                    <BiTrash />
+                  </div>
+                </div>
+              </div>
+              <p className="text-xs text-center font-['iransans-md'] text-text dark:text-text_dark w-20 sm:w-28 3xs:w-24">{item.title}</p>
+            </div>
+          ))}
+        </div>
+      )}
       <div className="mt-8">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
@@ -342,38 +442,6 @@ const Page = () => {
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
             <Input type="number" id="number-season-stage-season" value={order} changeState={setOrder} classes="flex-1" inputStyles="!text-base" />
-          </div>
-        </label>
-      </div>
-      <div className="mt-6">
-        <label
-          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="name"
-        >
-          وضعیت انتشار کالشکن
-          <span className="text-red-500 px-1">*</span>
-          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
-            <SelectInput
-              name="stage-game-language"
-              options={PublicationStatus}
-              onChange={(value) => setPublicationStatus(value)}
-            />
-          </div>
-        </label>
-      </div>
-      <div className="mt-6">
-        <label
-          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="name"
-        >
-          وضعیت کامل بودن کالشکن
-          <span className="text-red-500 px-1">*</span>
-          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
-            <SelectInput
-              name="stage-game-language"
-              options={CompletionStatus}
-              onChange={(value) => setCompletionStatus(value)}
-            />
           </div>
         </label>
       </div>

@@ -6,8 +6,6 @@ import ScreenLoading from "../ScreenLoading";
 import axios from "axios";
 import Io5Icons from "@/utils/Icons/Io5Icons";
 import { IoArrowForwardOutline } from "react-icons/io5";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 import Input from "../Input";
 import InfiniteScroll from "react-infinite-scroll-component";
 import FooterPaginate from "../FooterPaginate";
@@ -15,10 +13,7 @@ import Border from "../Border";
 import { useTheme } from "next-themes";
 import { PackageListModalInterface } from "@/interfaces/ModalInterface";
 import { toast } from "react-toastify";
-import moment from "moment-jalaali";
-import "moment/locale/fa";
 import PackageSelectItem from "./PackageSelectItem";
-moment.loadPersian({ usePersianDigits: false, dialect: "persian-modern" });
 
 const PackageList = forwardRef((_, ref) => {
   const { theme } = useTheme();
@@ -98,8 +93,8 @@ const PackageList = forwardRef((_, ref) => {
       method: "post",
       data: {
         query: `
-            query getAllPackageForAdmin($page : Int, $limit : Int, $search : String){
-                getAllPackageForAdmin(page : $page, limit : $limit, search : $search) {
+            query paginatePackageGamePackagesForAdmin($page : Int, $search : String){
+                paginatePackageGamePackagesForAdmin(page : $page, search : $search) {
                     list{
                         _id,
                         title,
@@ -117,7 +112,7 @@ const PackageList = forwardRef((_, ref) => {
       },
     })
       .then((response) => {
-        const riciveData = response.data.data.getAllPackageForAdmin;
+        const riciveData = response.data.data.paginatePackageGamePackagesForAdmin;
         if (riciveData.hasNextPage == true) {
           setLoading(false);
           setData(riciveData.list);
@@ -152,8 +147,8 @@ const PackageList = forwardRef((_, ref) => {
       method: "post",
       data: {
         query: `
-            query getAllPackageForAdmin($page : Int, $limit : Int, $search : String){
-                getAllPackageForAdmin(page : $page, limit : $limit, search : $search) {
+            query paginatePackageGamePackagesForAdmin($page : Int, $search : String){
+                paginatePackageGamePackagesForAdmin(page : $page, search : $search) {
                     list{
                         _id,
                         title,
@@ -171,7 +166,7 @@ const PackageList = forwardRef((_, ref) => {
       },
     })
       .then((response) => {
-        const riciveData = response.data.data.getAllPackageForAdmin;
+        const riciveData = response.data.data.paginatePackageGamePackagesForAdmin;
         if (riciveData.hasNextPage == true) {
           setData([...data, ...riciveData.list]);
           setPage(riciveData.nextPage);
@@ -362,7 +357,7 @@ const PackageList = forwardRef((_, ref) => {
                                   <IoArrowForwardOutline />
                                 </div>
                                 <div className="text-text6 dark:text-text6_dark text-right text-[.9rem] sm:text-[.95rem]">
-                                  {"پکیج‌ها و بسته‌های بازی"}
+                                  {"بسته‌های بازی داستانی"}
                                 </div>
                               </div>
                               <div
@@ -383,7 +378,7 @@ const PackageList = forwardRef((_, ref) => {
                                 SearchLoading={
                                   loading && search.length > 0 && getError == false && noItem == false ? true : false
                                 }
-                                placeholder="جستجوی بسته‌ها و پکیج‌ها"
+                                placeholder="جستجوی عناوین و موضوعات بسته‌ها"
                                 inputStyles="!text-[14px] placeholder:!text-[11px]"
                                 searchIconStyle="!hidden"
                                 clearSearchIconStyles="!text-base"

@@ -3,10 +3,10 @@ import { Fragment, useEffect, useState } from "react";
 import SideBarItem from "./SideBarItem";
 import { usePathname } from "next/navigation";
 import { AiFillDashboard } from "react-icons/ai";
-import { RiApps2AddFill, RiApps2Fill } from "react-icons/ri";
+import { RiApps2AddFill, RiApps2Fill, RiTextSpacing } from "react-icons/ri";
 import { TbBellPlus, TbCoins, TbDiaboloPlus, TbHexagonalPrismPlus, TbHexagonPlusFilled, TbListSearch, TbMessagePlus } from "react-icons/tb";
 import { FaCoins, FaDiceD6, FaUsers } from "react-icons/fa6";
-import { LuClipboardList } from "react-icons/lu";
+import { LuBookText, LuClipboardList } from "react-icons/lu";
 import { BsCloudPlus, BsCloudPlusFill } from "react-icons/bs";
 import { IoDiamondOutline, IoDiamondSharp, IoMail, IoNotifications, IoTrailSign, IoTrailSignOutline } from "react-icons/io5";
 import { MdListAlt, MdPayments } from "react-icons/md";
@@ -462,6 +462,36 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
           icon: (
             <div className="text-xl">
               <IoTrailSignOutline />
+            </div>
+          ),
+        },
+      ],
+    },
+    {
+      name: "سرویس دیکشنری",
+      href: "/dashboard/dictionary",
+      icon: (
+        <div className="text-xl">
+          <RiTextSpacing />
+        </div>
+      ),
+      head:true,
+      children: [
+        {
+          name: "یافتن کلمات",
+          href: "/find-word",
+          icon: (
+            <div className="text-xl">
+              <LuBookText />
+            </div>
+          ),
+        },
+        {
+          name: "افزودن کلمات جدید",
+          href: "/add-new-word",
+          icon: (
+            <div className="text-xl">
+              <TbDiaboloPlus />
             </div>
           ),
         },

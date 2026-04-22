@@ -19,7 +19,7 @@ import UserListHelper from "@/components/UserList/UserListHelper";
 import UserList from "@/components/UserList/UserList";
 import { LuCalendarDays, LuClock3 } from "react-icons/lu";
 import moment from "moment-jalaali";
-import "moment/locale/fa";
+moment.locale('fa');
 moment.loadPersian({ usePersianDigits: false, dialect: "persian-modern" });
 
 type SelectedOption = {

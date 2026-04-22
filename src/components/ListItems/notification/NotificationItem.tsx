@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import DialogHelper from "@/components/Dialog/DialogHelper";
 import { getTime } from "@/utils/GetTime";
 import moment from "moment-jalaali";
-import "moment/locale/fa";
+moment.locale('fa');
 moment.loadPersian({ usePersianDigits: false, dialect: "persian-modern" });
 
 const NotificationItem = ({

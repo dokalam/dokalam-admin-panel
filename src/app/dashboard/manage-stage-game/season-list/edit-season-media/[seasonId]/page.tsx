@@ -184,7 +184,7 @@ const Page = () => {
           mutation addNewMediaToStageGameSeason(
             $_id : ID!,
             $media : [FileInput],
-            $music : FileInput,,
+            $music : FileInput,
             $change_version_updated : Boolean!
           ){
             addNewMediaToStageGameSeason(

@@ -30,6 +30,7 @@ const Input = ({
   searchIconStyle,
   clearSearchIconStyles,
   onKeyDownFn,
+  onPaste, // پراپ جدید
 }: {
   type?: string;
   id?: string;
@@ -54,6 +55,7 @@ const Input = ({
   searchIconStyle?: string;
   clearSearchIconStyles?: string;
   onKeyDownFn?: any;
+  onPaste?: (e: React.ClipboardEvent<HTMLInputElement>) => void; // تایپ پراپ جدید
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [inputType, setInputType] = useState(type);
@@ -131,6 +133,7 @@ const Input = ({
           }
           if (onBlur) onBlur();
         }}
+        onPaste={onPaste} // اضافه کردن هندلر پیست
         style={{
           fontFamily: fontFamily,
           fontSize: fontSize,
