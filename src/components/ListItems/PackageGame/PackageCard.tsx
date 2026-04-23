@@ -9,6 +9,7 @@ import { secondsToTime } from "@/utils/SecondToTime";
 import { HiDotsVertical } from "react-icons/hi";
 import { FaImage, FaPencil } from "react-icons/fa6";
 import Globals from "@/utils/Globals";
+import GradientButton from "@/components/GradientButton";
 
 const PackageCard = ({
   _id,
@@ -34,6 +35,9 @@ const PackageCard = ({
   completion_status,
   rating_number,
   rating_average,
+  version_created_pending_diff,
+  version_updated_pending_diff,
+  version_deleted_pending_diff,
 }: {
   _id: string;
   rtl: boolean;
@@ -66,6 +70,9 @@ const PackageCard = ({
   completion_status: string;
   rating_number?: number;
   rating_average?: number;
+  version_created_pending_diff?: number;
+  version_updated_pending_diff?: number;
+  version_deleted_pending_diff?: number;
 }) => {
   const router = useRouter();
   const direction = rtl ? "rtl" : "ltr";
@@ -92,7 +99,7 @@ const PackageCard = ({
   return (
     <div 
       dir={direction} 
-      className={`flex flex-col justify-between relative w-full p-4 rounded-2xl shadow-bottom dark:shadow-bottom-dark m-1 bg-background7 dark:bg-background7_dark flex flex-col gap-4 ${textAlign}`}
+      className={`flex flex-col justify-between relative w-full p-4 rounded-2xl shadow-bottom dark:shadow-bottom-dark m-1 bg-background7 dark:bg-background7_dark gap-4 ${textAlign}`}
       >
         <div className="flex flex-col gap-4">
           <div
@@ -173,7 +180,7 @@ const PackageCard = ({
           <div className="flex items-center justify-between gap-2 flex-wrap">
             <h2 className="text-lg font-['iransans-bold'] text-text dark:text-text_dark">{title}</h2>
             {badge && (
-              <span className="text-xs bg-info text-white px-2 py-1 rounded">
+              <span className="text-xs bg-info text-white px-2 py-1 rounded font-['iransans-md']">
                 {badge}
               </span>
             )}
@@ -208,7 +215,7 @@ const PackageCard = ({
               {subject}
             </p>)}
             {
-              description&&<p className="text-text5 dark:text-text5_dark text-[10px] mt-2">{description}</p>
+              description&&<p className="text-text5 dark:text-text5_dark text-[12px] mt-2">{description}</p>
             }
           </div>
         </div>
@@ -280,6 +287,38 @@ const PackageCard = ({
                 {is_active ? "فعال" : "غیرفعال"}
               </span>
             </div>
+          </div>
+          <div className="flex flex-col gap-2">
+            {
+              (version_created_pending_diff && version_created_pending_diff > 0)?
+              <GradientButton
+                  buttonText={"در انتظار اعمال ورژن ایجاد"}
+                  onClickFn={()=>{}}
+                  loading={false}
+                  type={"border"}
+                  classes="!text-base !px-8 !w-full rounded-[15px] !bg-red_error"
+              />:null
+            }
+            {
+              (version_updated_pending_diff && version_updated_pending_diff > 0)?
+              <GradientButton
+                  buttonText={"در انتظار اعمال ورژن آپدیت"}
+                  onClickFn={()=>{}}
+                  loading={false}
+                  type={"border"}
+                  classes="!text-base !px-8 !w-full rounded-[15px] !bg-red_error"
+              />:null
+            }
+            {
+              (version_deleted_pending_diff && version_deleted_pending_diff > 0)?
+              <GradientButton
+                  buttonText={"در انتظار اعمال ورژن حذف"}
+                  onClickFn={()=>{}}
+                  loading={false}
+                  type={"border"}
+                  classes="!text-base !px-8 !w-full rounded-[15px] !bg-red_error"
+              />:null
+            }
           </div>
         </div>
     </div>

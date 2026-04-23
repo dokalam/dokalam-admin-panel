@@ -51,12 +51,12 @@ const CalendarModal = forwardRef((_, ref) => {
     }
     window.removeEventListener("popstate", handleBackBrowserBtn);
     setIsOpen(false);
-    const time = setTimeout(() => {
+    setTimeout(() => {
+      setCalendarValue(new Date())
       setCallBackC(null);
       setMaxDate(undefined);
       setMinDate(undefined);
       setHideButtons(false)
-      clearTimeout(time)
     }, 200)
   };
 

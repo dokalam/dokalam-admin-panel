@@ -22,6 +22,7 @@ import { normalizeStageData } from "@/utils/NormalizeStageData";
 import { useParams } from "next/navigation";
 import ScreenLoading from "@/components/ScreenLoading";
 import { normalizeStageDataInEdit } from "@/utils/NormalizeStageDataInEdit";
+import ImageComponent from "@/components/ImageComponent";
 
 
 type WordItem = {
@@ -104,18 +105,56 @@ const Page = () => {
   const [getError, setGetError] = useState(false)
   
   useEffect(()=>{
+    getAllLanguage()
     getData()
   }, [])
+  const getAllLanguage = async()=>{
+    const data = {
+      query: `
+        query getAllLanguageForAdmin($filter_visible : Boolean, $filter_active : Boolean){
+          getAllLanguageForAdmin(filter_visible : $filter_visible, filter_active : $filter_active) {
+            _id,
+            name,
+          }
+        }
+        `,
+      variables: {
+        filter_visible: false,
+        filter_active: false,
+      },
+    };
+    await axios({
+      url: "/",
+      method: "post",
+      data: data,
+    }).then(async (response) => {
+        const data = response.data.data.getAllLanguageForAdmin;
+        if (data.length > 0) {
+          const items = data.map((item: any) => ({
+            label: item.name,
+            value: item._id,
+          }));
+          items.unshift({
+            label: "انتخاب زبان",
+            value: null,
+          })
+          setLanguageList(items);
+        }
+      })
+      .catch(() => {
+        setLanguageList([])
+      });
+  }
   const getData = async()=>{
     await axios({
       url: "/",
       method: "post",
       data: {
         query: `
-            query getStageGameStageInformation(
+            query getPackageGameStageInformation(
               $_id : ID!,
             ){
-                getStageGameStageInformation(
+                getPackageGameStageInformation(
                   _id : $_id,
                 ) {
                     _id,
@@ -129,8 +168,9 @@ const Page = () => {
                     },
                     stage_hint,
                     season_info{_id, title},
-                    language_info{_id, name},
-                    stage_number_in_language,
+                    language_ref,
+                    package_info{title, icon_image}
+                    stage_number_in_package,
                     stage_number_in_season,
                     is_visible,
                     is_active,
@@ -144,26 +184,21 @@ const Page = () => {
         },
       },
     }).then(async (response) => {
-        const data = response.data.data.getStageGameStageInformation;
+        const data = response.data.data.getPackageGameStageInformation;
         if (data) {
           const deepCopy = structuredClone(data);
           setOldData(deepCopy);
-          setLanguage(data?.language_info?._id)
+          setLanguage(data?.language_ref)
           setSeason(data?.season_info?._id)
           setVisible(data?.is_visible)
           setActive(data?.is_active)
           const normalData = normalizeStageDataInEdit(data?.parts)
           setParts(normalData)
           setStageHint(data?.stage_hint)
-          setStageNumberInLanguage(data?.stage_number_in_language)
+          setStageNumberInLanguage(data?.stage_number_in_package)
           setStageNumberInSeason(data?.stage_number_in_season)
           setPublicationStatus(data?.publication_status)
           setCompletionStatus(data?.completion_status)
-          const languages = [{
-            label: data?.language_info?.name,
-            value: data?.language_info?._id,
-          }]
-          setLanguageList(languages)
           const seasons = [{
             label: data?.season_info?.title,
             value: data?.season_info?._id,
@@ -227,24 +262,26 @@ const Page = () => {
     setLoading(true)
     let data = {
       query: `
-          mutation editStageGameStageInformation(
+          mutation editPackageGameStageInformation(
             $_id : ID!,
             $parts : [StageStructure],
             $stage_hint : String,
-            $stage_number_in_language : Int,
+            $stage_number_in_package : Int,
             $stage_number_in_season : Int,
+            $language_ref : ID,
             $is_visible : Boolean,
             $is_active : Boolean,
             $publication_status : String,
             $completion_status : String,
             $change_version_updated : Boolean!
           ){
-            editStageGameStageInformation(
+            editPackageGameStageInformation(
               _id : $_id,
               parts : $parts,
               stage_hint : $stage_hint,
-              stage_number_in_language : $stage_number_in_language,
+              stage_number_in_package : $stage_number_in_package,
               stage_number_in_season : $stage_number_in_season,
+              language_ref : $language_ref,
               is_visible : $is_visible,
               is_active : $is_active,
               publication_status : $publication_status,
@@ -260,8 +297,9 @@ const Page = () => {
         _id : stageId,
         parts : (normalData && normalData?.length > 0)?normalData:undefined,
         stage_hint : ((oldData?.stage_hint && stageHint !== oldData?.stage_hint) || (!oldData?.stage_hint && stageHint?.length >0))?stageHint:undefined,
-        stage_number_in_language : (oldData?.stage_number_in_language !== Number(stageNumberInLanguage) && Number(stageNumberInLanguage) > 0)?Number(stageNumberInLanguage):undefined,
+        stage_number_in_package : (oldData?.stage_number_in_package !== Number(stageNumberInLanguage) && Number(stageNumberInLanguage) > 0)?Number(stageNumberInLanguage):undefined,
         stage_number_in_season : (oldData?.stage_number_in_season !== Number(stageNumberInSeason) && Number(stageNumberInSeason) > 0)?Number(stageNumberInSeason):undefined,
+        language_ref : language !== oldData?.language_ref?language:undefined,
         is_visible : (oldData?.is_visible !== visible)?visible:undefined,
         is_active : (oldData?.is_active !== active)?active:undefined,
         publication_status : (oldData?.publication_status !== publicationStatus)?publicationStatus:undefined,
@@ -276,8 +314,8 @@ const Page = () => {
     })
       .then(async (response) => {
         setLoading(false);
-        if (response.data?.data?.editStageGameStageInformation?.status == 200) {
-            toast.success(response.data?.data?.editStageGameStageInformation?.message, {
+        if (response.data?.data?.editPackageGameStageInformation?.status == 200) {
+            toast.success(response.data?.data?.editPackageGameStageInformation?.message, {
               position: "top-center",
               autoClose: 5000,
               hideProgressBar: false,
@@ -544,24 +582,24 @@ const Page = () => {
           </p>
         </div>
         <Border />
-      <div className="mt-6">
-        <label
-          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
-          htmlFor="name"
-        >
-          زبان مرحله
-          <span className="text-red-500 px-1">*</span>
-          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
-            <SelectInput
-              disabled={true}
-              value={language}
-              name="stage-game-language"
-              options={languageList}
-              onChange={(value) => setLanguage(value || null)}
-            />
+        <div className="flex w-full items-center justify-between mt-6">
+          {
+            oldData?.package_info?.icon_image && (
+              <ImageComponent
+                parentclasses="w-16 h-16 lg:h-[80px] lg:w-[80px] 2xl:h-[80px] 2xl:w-[80px] !rounded-xl"
+                imageClasses="!rounded-xl"
+                src={oldData.package_info.icon_image}
+              />
+            )
+          }
+          <div className="flex-1 pr-3 flex flex-col justify-between">
+            <div className="flex items-center">
+              <h1 className="text-[16px] 2xl:text-[18px] font-['iransans-bold'] text-text dark:text-text_dark">
+                {oldData.package_info.title}
+              </h1>
+            </div>
           </div>
-        </label>
-      </div>
+        </div>
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
@@ -573,7 +611,7 @@ const Page = () => {
             <SelectInput
               value={season}
               disabled={true}
-              name="stage-game-season"
+              name="package-game-season"
               options={seasonList}
               onChange={(value) => {
                 setSeason(value || null)
@@ -585,9 +623,26 @@ const Page = () => {
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="name"
+        >
+          زبان مرحله
+          <span className="text-red-500 px-1">*</span>
+          <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+            <SelectInput
+              value={language}
+              name="package-game-language"
+              options={languageList}
+              onChange={(value) => setLanguage(value || null)}
+            />
+          </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
           htmlFor="stage-number-in-language"
         >
-          شماره مرحله در زبان
+          شماره مرحله در پکیج
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
             <Input type="number" id="stage-number-in-language" value={stageNumberInLanguage} changeState={setStageNumberInLanguage} classes="flex-1" inputStyles="!text-base" />
@@ -631,7 +686,7 @@ const Page = () => {
           <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
             <SelectInput
               value={publicationStatus}
-              name="stage-game-language"
+              name="package-game-publication-status"
               options={PublicationStatus}
               onChange={(value) => setPublicationStatus(value)}
             />
@@ -648,7 +703,7 @@ const Page = () => {
           <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
             <SelectInput
               value={completionStatus}
-              name="stage-game-language"
+              name="package-game-completion-status"
               options={CompletionStatus}
               onChange={(value) => setCompletionStatus(value)}
             />

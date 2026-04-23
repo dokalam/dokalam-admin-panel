@@ -10,12 +10,14 @@ import { HiDotsVertical } from "react-icons/hi";
 import { FaImage, FaPencil } from "react-icons/fa6";
 import Globals from "@/utils/Globals";
 
-const StageCardSG = ({
+const StageCard = ({
+  type,
   _id,
   parts,
   stage_hint,
+  packageInfo,
   season,
-  stage_number_in_language,
+  stage_number,
   stage_number_in_season,
   rtl,
   language,
@@ -26,6 +28,7 @@ const StageCardSG = ({
   publication_status,
   completion_status,
 }: {
+  type: "stage-game" | "package-game";
   _id: string;
   parts: {
     sentence: string;
@@ -39,9 +42,13 @@ const StageCardSG = ({
       hidden_words: string[];
     }[]
   }[],
-  stage_number_in_language: number;
+  stage_number: number;
   stage_number_in_season: number;
   stage_hint?: string;
+  packageInfo?: {
+    title: string;
+    icon_image?: string;
+  };
   season:{
     title: string;
     season_number: number;
@@ -113,7 +120,11 @@ const StageCardSG = ({
                   <button
                     className="block flex flex-row items-center gap-2 w-full text-right px-2 py-4 text-sm text-text2 dark:text-text2_dark hover:bg-border dark:hover:bg-border_dark"
                     onClick={() => {
-                      router.push(`/dashboard/manage-stage-game/stage-list/edit-stage/${stageId}`)
+                      if(type == "stage-game"){
+                        router.push(`/dashboard/manage-stage-game/stage-list/edit-stage/${stageId}`)
+                      } else if(type == "package-game"){
+                        router.push(`/dashboard/manage-package-game/stage-list/edit-stage/${stageId}`)
+                      }
                     }}
                   >
                     <FaPencil className="text-text4 dark:text-text4_dark text-lg"/>
@@ -122,7 +133,11 @@ const StageCardSG = ({
                   <button
                     className="block flex flex-row items-center gap-2 w-full text-right px-2 py-4 text-sm text-text2 dark:text-text2_dark hover:bg-border dark:hover:bg-border_dark"
                     onClick={() => {
-                      router.push(`/dashboard/manage-stage-game/stage-list/edit-stage-media/${stageId}`)
+                      if(type == "stage-game"){
+                        router.push(`/dashboard/manage-stage-game/stage-list/edit-stage-media/${stageId}`)
+                      } else if(type == "package-game"){
+                        router.push(`/dashboard/manage-package-game/stage-list/edit-stage-media/${stageId}`)
+                      }
                     }}
                   >
                     <FaImage className="text-text4 dark:text-text4_dark text-lg"/>
@@ -133,12 +148,44 @@ const StageCardSG = ({
             )}
           </div>
         </div>
-        <div className="mt-2 text-sm flex flex-col gap-x-6 gap-y-1 text-text6 dark:text-text6_dark font-['iransans-md']">
-          <div className="bg-primary dark:bg-primary px-4 py-1 rounded text-white text-[16px] w-fit">
-            <p>{`مرحله ${stage_number_in_language} زبان ${language}`}</p>
-          </div>
-          <div className="py-2 text-[10px] mt-2">
+        {
+            (type == "package-game" && packageInfo) && (
+            <div className="flex w-full items-center justify-between mt-6">
+              {
+                packageInfo?.icon_image && (
+                  <ImageComponent
+                    parentclasses="w-12 h-12 lg:h-18 lg:w-18 2xl:h-18 2xl:w-18 !rounded-xl"
+                    imageClasses="!rounded-xl"
+                    src={packageInfo.icon_image}
+                  />
+                )
+              }
+              <div className="flex-1 pr-3 flex flex-col justify-between font-['iransans-md']">
+                <div className="flex items-center">
+                  <h3 className="text-sm 2xl:text-base text-text dark:text-text_dark line-clamp-1">
+                    {packageInfo.title}
+                  </h3>
+                </div>
+                <div className="bg-primary dark:bg-primary px-6 rounded text-white text-[16px] w-fit">
+                  <p>{`مرحله ${stage_number}`}</p>
+                </div>
+              </div>
+            </div>
+          )
+        }
+        <div className="mt-2 text-sm flex flex-col gap-x-6 gap-y-4 text-text6 dark:text-text6_dark font-['iransans-md']">
+          {
+            type == "stage-game"&&
+            <div className="bg-primary dark:bg-primary px-4 py-1 rounded text-white text-[16px] w-fit">
+              <p>{`مرحله ${stage_number} زبان ${language}`}</p>
+            </div>
+          }
+          <div className="py-2 text-[12px]">
             <p>{`فصل ${season.title} ( مرحله ${stage_number_in_season} در فصل ${season.season_number} )`}</p>
+            {
+              type == "package-game"&&
+                <p className="mt-2">{`زبان ${language}`}</p>
+            }
           </div>
         </div>
         <div className="flex flex-col gap-6">
@@ -284,4 +331,4 @@ const StageCardSG = ({
   );
 };
 
-export default StageCardSG;
+export default StageCard;

@@ -11,7 +11,7 @@ import FilterFooter from "@/components/Footer/FilterFooter";
 import GradientButton from "@/components/GradientButton";
 import { IoSearch } from "react-icons/io5";
 import { RiFilter2Fill } from "react-icons/ri";
-import StageCardSG from "@/components/ListItems/StageGame/StageCardSG";
+import StageCard from "@/components/ListItems/General/StageCard";
 
 
 type SelectedOption = {
@@ -484,11 +484,12 @@ const Page = () => {
             >
               {data?.map((item: any, index: number) => (
                 <li key={index.toString()} className="flex"> 
-                  <StageCardSG
+                  <StageCard
+                    type={"stage-game"}
                     _id={item?._id}
                     parts={item?.parts}
                     season={item?.season_info}
-                    stage_number_in_language={item.stage_number_in_language}
+                    stage_number={item.stage_number_in_language}
                     stage_number_in_season={item.stage_number_in_season}
                     stage_hint={item?.stage_hint}
                     rtl={item?.language_info?.rtl}

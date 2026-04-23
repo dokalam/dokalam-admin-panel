@@ -152,6 +152,9 @@ const Page = () => {
                       is_active,
                       rating_number,
                       rating_average,
+                      version_created_pending_diff,
+                      version_updated_pending_diff,
+                      version_deleted_pending_diff,
                     },
                     hasNextPage,
                     nextPage
@@ -248,6 +251,9 @@ const Page = () => {
                       is_active,
                       rating_number,
                       rating_average,
+                      version_created_pending_diff,
+                      version_updated_pending_diff,
+                      version_deleted_pending_diff,
                     },
                     hasNextPage,
                     nextPage
@@ -488,7 +494,7 @@ const Page = () => {
           >
             <ul
               role="list"
-              className={`grid gap-4 sm:mx-auto sm:gap-6 grid-cols-1 mt-8 sm:mt-10 xl:grid-cols-2 2xl:grid-cols-3 px-4`}  // حذف auto-rows-fr
+              className={`grid gap-4 sm:mx-auto sm:gap-6 grid-cols-1 mt-8 sm:mt-10 xl:grid-cols-2 2xl:grid-cols-3 px-4`}
             >
               {data?.map((item: any, index: number) => (
                 <li key={index.toString()} className="flex"> 
@@ -516,6 +522,9 @@ const Page = () => {
                       completion_status={item?.completion_status_label}
                       rating_number={item?.rating_number}
                       rating_average={item?.rating_average}
+                      version_created_pending_diff={item?.version_created_pending_diff}
+                      version_updated_pending_diff={item?.version_updated_pending_diff}
+                      version_deleted_pending_diff={item?.version_deleted_pending_diff}
                   />
                 </li>
               ))}

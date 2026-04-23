@@ -17,6 +17,7 @@ import { Switch } from "@headlessui/react";
 import SelectInput from "@/components/SelectInput";
 import ScreenLoading from "@/components/ScreenLoading";
 import { useParams } from "next/navigation";
+import ImageComponent from "@/components/ImageComponent";
 
 
 type SelectedOption = {
@@ -73,24 +74,63 @@ const Page = () => {
   
 
   useEffect(()=>{
+    getAllLanguage()
     getData()
   }, [])
+  const getAllLanguage = async()=>{
+    const data = {
+      query: `
+        query getAllLanguageForAdmin($filter_visible : Boolean, $filter_active : Boolean){
+          getAllLanguageForAdmin(filter_visible : $filter_visible, filter_active : $filter_active) {
+            _id,
+            name,
+          }
+        }
+        `,
+      variables: {
+        filter_visible: false,
+        filter_active: false,
+      },
+    };
+    await axios({
+      url: "/",
+      method: "post",
+      data: data,
+    }).then(async (response) => {
+        const data = response.data.data.getAllLanguageForAdmin;
+        if (data.length > 0) {
+          const items = data.map((item: any) => ({
+            label: item.name,
+            value: item._id,
+          }));
+          items.unshift({
+            label: "انتخاب زبان",
+            value: null,
+          })
+          setLanguageList(items);
+        }
+      })
+      .catch(() => {
+        setLanguageList([])
+      });
+  }
   const getData = async()=>{
     await axios({
       url: "/",
       method: "post",
       data: {
         query: `
-            query getStageGameSeasonInformation(
+            query getPackageGameSeasonInformation(
               $_id : ID!,
             ){
-                getStageGameSeasonInformation(
+                getPackageGameSeasonInformation(
                   _id : $_id,
                 ) {
                     _id,
                     title,
                     description,
-                    language_info{_id, name, rtl},
+                    language_ref,
+                    package_info{title, icon_image}
                     badge,
                     season_number,
                     stage_number_from,
@@ -112,13 +152,13 @@ const Page = () => {
         },
       },
     }).then(async (response) => {
-        const data = response.data.data.getStageGameSeasonInformation;
+        const data = response.data.data.getPackageGameSeasonInformation;
         if (data) {
           const deepCopy = structuredClone(data);
           setOldData(deepCopy);
           setTitle(data?.title)
           setDescription(data?.description??"")
-          setLanguage(data?.language_info?._id)
+          setLanguage(data?.language_ref)
           setBadge(data?.badge??"")
           setSeasonNumber(data?.season_number??"")
           setStageNumberFrom(data?.stage_number_from??"")
@@ -132,11 +172,6 @@ const Page = () => {
           }))
           setPublicationStatus(data?.publication_status)
           setCompletionStatus(data?.completion_status)
-          const languages = [{
-            label: data?.language_info?.name,
-            value: data?.language_info?._id,
-          }]
-          setLanguageList(languages)
           setLoading2(false)
         } else {
           setGetError(true)
@@ -152,7 +187,7 @@ const Page = () => {
     getData()
   }
   const registerAndConfirm = ()=>{
-    if(title.length == 0 || seasonNumber.length == 0 || stageNumberFrom.length == 0 || stageNumberTo.length == 0 || numberStage.length == 0 || !contentSourceType.selected || !completionStatus || !publicationStatus){
+    if(!language || title.length == 0 || seasonNumber.length == 0 || stageNumberFrom.length == 0 || stageNumberTo.length == 0 || numberStage.length == 0 || !contentSourceType.selected || !completionStatus || !publicationStatus){
       toast.error("ابتدا موارد الزامی را وارد کنید", {
         position: "top-center",
         autoClose: 3000,
@@ -171,11 +206,12 @@ const Page = () => {
     setLoading(true)
     let data = {
       query: `
-          mutation editStageGameSeasonInformation(
+          mutation editPackageGameSeasonInformation(
             $_id : ID!,
             $title : String,
             $description : String,
             $badge : String,
+            $language_ref : ID,
             $season_number : Int,
             $stage_number_from : Int,
             $stage_number_to : Int,
@@ -187,11 +223,12 @@ const Page = () => {
             $completion_status : String,
             $change_version_updated : Boolean!
           ){
-            editStageGameSeasonInformation(
+            editPackageGameSeasonInformation(
               _id : $_id,
               title : $title,
               description : $description,
               badge : $badge,
+              language_ref : $language_ref,
               season_number : $season_number,
               stage_number_from : $stage_number_from,
               stage_number_to : $stage_number_to,
@@ -213,6 +250,7 @@ const Page = () => {
         title : (title !== oldData?.title && title?.length > 0)?title:undefined,
         description : ((oldData?.description && description !== oldData?.description) || (!oldData?.description && description?.length >0))?description:undefined,
         badge: ((oldData?.badge && badge !== oldData?.badge) || (!oldData?.badge && badge?.length >0))?badge:undefined,
+        language_ref : language !== oldData?.language_ref?language:undefined,
         season_number: (oldData?.season_number !== Number(seasonNumber) && Number(seasonNumber) > 0)?Number(seasonNumber):undefined,
         stage_number_from : (oldData?.stage_number_from !== Number(stageNumberFrom) && Number(stageNumberFrom) > 0)?Number(stageNumberFrom):undefined,
         stage_number_to : (oldData?.stage_number_to !== Number(stageNumberTo) && Number(stageNumberTo) > 0)?Number(stageNumberTo):undefined,
@@ -232,8 +270,8 @@ const Page = () => {
     })
       .then(async (response) => {
         setLoading(false);
-        if (response.data?.data?.editStageGameSeasonInformation?.status == 200) {
-            toast.success(response.data?.data?.editStageGameSeasonInformation?.message, {
+        if (response.data?.data?.editPackageGameSeasonInformation?.status == 200) {
+            toast.success(response.data?.data?.editPackageGameSeasonInformation?.message, {
               position: "top-center",
               autoClose: 5000,
               hideProgressBar: false,
@@ -282,6 +320,24 @@ const Page = () => {
     </div>
     :
     <div className="flex flex-col justify-between w-full lg:w-[600px] 2xl:w-[750px] mt-10 mb-28 px-4 sm:mx-auto">
+      <div className="flex w-full items-center justify-between mt-6">
+        {
+          oldData?.package_info?.icon_image && (
+            <ImageComponent
+              parentclasses="w-16 h-16 lg:h-[80px] lg:w-[80px] 2xl:h-[80px] 2xl:w-[80px] !rounded-xl"
+              imageClasses="!rounded-xl"
+              src={oldData.package_info.icon_image}
+            />
+          )
+        }
+        <div className="flex-1 pr-3 flex flex-col justify-between">
+          <div className="flex items-center">
+            <h1 className="text-[16px] 2xl:text-[18px] font-['iransans-bold'] text-text dark:text-text_dark">
+              {oldData.package_info.title}
+            </h1>
+          </div>
+        </div>
+      </div>
       <div className="mt-6">
         <label
           className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
@@ -291,7 +347,6 @@ const Page = () => {
           <span className="text-red-500 px-1">*</span>
           <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
             <SelectInput
-              disabled={true}
               value={language}
               name="stage-game-language"
               options={languageList}

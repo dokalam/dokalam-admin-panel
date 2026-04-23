@@ -9,7 +9,7 @@ import SelectInput from "@/components/SelectInput";
 import Input from "@/components/Input";
 import FilterFooter from "@/components/Footer/FilterFooter";
 import GradientButton from "@/components/GradientButton";
-import { IoSearch } from "react-icons/io5";
+import {  IoSearch } from "react-icons/io5";
 import { RiFilter2Fill } from "react-icons/ri";
 import SeasonCard from "@/components/ListItems/General/SeasonCard";
 
@@ -109,7 +109,7 @@ const Page = () => {
       method: "post",
       data: {
         query: `
-            query paginateStageGameSeasonForAdmin(
+            query paginatePackageGameSeasonForAdmin(
               $page : Int,
               $limit : Int,
               $language_ref : ID,
@@ -119,7 +119,7 @@ const Page = () => {
               $filter_visible : Boolean,
               $filter_active : Boolean,
             ){
-                paginateStageGameSeasonForAdmin(
+                paginatePackageGameSeasonForAdmin(
                   page : $page,
                   limit : $limit,
                   language_ref : $language_ref,
@@ -134,6 +134,7 @@ const Page = () => {
                       title,
                       description,
                       language_info{name, rtl},
+                      package_info{title, icon_image}
                       media{path, file_type, duration, order},
                       music{path, file_type, duration},
                       badge,
@@ -164,7 +165,7 @@ const Page = () => {
       },
     })
       .then((response) => {
-        const riciveData = response.data.data.paginateStageGameSeasonForAdmin;
+        const riciveData = response.data.data.paginatePackageGameSeasonForAdmin;
         if (riciveData.hasNextPage == true) {
           setLoading(false);
           setData(riciveData.list);
@@ -199,7 +200,7 @@ const Page = () => {
       method: "post",
       data: {
         query: `
-            query paginateStageGameSeasonForAdmin(
+            query paginatePackageGameSeasonForAdmin(
               $page : Int,
               $limit : Int,
               $language_ref : ID,
@@ -209,7 +210,7 @@ const Page = () => {
               $filter_visible : Boolean,
               $filter_active : Boolean,
             ){
-                paginateStageGameSeasonForAdmin(
+                paginatePackageGameSeasonForAdmin(
                   page : $page,
                   limit : $limit,
                   language_ref : $language_ref,
@@ -224,6 +225,7 @@ const Page = () => {
                       title,
                       description,
                       language_info{name, rtl},
+                      package_info{title, icon_image}
                       media{path, file_type, duration, order},
                       music{path, file_type, duration},
                       badge,
@@ -254,7 +256,7 @@ const Page = () => {
       },
     })
       .then((response) => {
-        const riciveData = response.data.data.paginateStageGameSeasonForAdmin;
+        const riciveData = response.data.data.paginatePackageGameSeasonForAdmin;
         if (riciveData.hasNextPage == true) {
           setData([...data, ...riciveData.list]);
           setPage(riciveData.nextPage);
@@ -481,11 +483,12 @@ const Page = () => {
               {data?.map((item: any, index: number) => (
                 <li key={index.toString()} className="flex"> 
                   <SeasonCard
-                      type={"stage-game"}
+                      type={"package-game"}
                       _id={item?._id}
                       rtl={item?.language_info?.rtl}
                       title={item?.title}
                       description={item?.description}
+                      packageInfo={item?.package_info}
                       language={item?.language_info?.name}
                       media={item?.media}
                       music={item?.music}

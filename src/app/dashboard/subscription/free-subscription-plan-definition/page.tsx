@@ -18,6 +18,8 @@ import GradientButton from "@/components/GradientButton";
 import UserListHelper from "@/components/UserList/UserListHelper";
 import UserList from "@/components/UserList/UserList";
 import { LuCalendarDays, LuClock3 } from "react-icons/lu";
+import CalendarModalHelper from "@/components/CalendarModal/CalendarModalHelper";
+import CalendarModal from "@/components/CalendarModal/CalendarModal";
 import moment from "moment-jalaali";
 moment.locale('fa');
 moment.loadPersian({ usePersianDigits: false, dialect: "persian-modern" });
@@ -49,7 +51,7 @@ const Page = () => {
   const [iconImage, setIconImage] = useState<any>(null);
   const [duration, setDuration] = useState("")
   const [note, setNote] = useState("")
-  const [expiration, setExpiration] = useState(null)
+  const [expiration, setExpiration] = useState<any>(null)
   const [expirationHour, setExpirationHour] = useState<any>(null)
   const dark = typeof window !== "undefined" && localStorage.getItem("theme");
 
@@ -432,7 +434,20 @@ const Page = () => {
             <div className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer">تاریخ انقضا</div>
             <div
               className="cursor-pointer border border-primary rounded p-2 font-iransans-md flex items-center justify-between h-[44px]"
-              onClick={() => {}}
+              onClick={() => {
+                CalendarModalHelper.openModal({
+                  callBack: {
+                    callBackCalendar: (date: any) => {
+                      if (date && date instanceof Date) {
+                        const new_date = date?.toISOString()
+                        setExpiration(new_date)
+                      }
+                    },
+                  },
+                  selectedDate: expiration,
+                  minDate: new Date(),
+                });
+              }}
             >
               <div className="text-primary text-base flex-1 text-center">
                 {expiration ? moment(expiration).format("jYYYY-jMM-jDD") : "تاریخ انقضا"}
@@ -571,6 +586,11 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
       <UserList
         ref={(Ref) => {
           UserListHelper.setRef(Ref);
+        }}
+      />
+      <CalendarModal
+        ref={(Ref) => {
+          CalendarModalHelper.setRef(Ref);
         }}
       />
     </div>

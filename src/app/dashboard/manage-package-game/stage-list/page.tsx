@@ -11,7 +11,7 @@ import FilterFooter from "@/components/Footer/FilterFooter";
 import GradientButton from "@/components/GradientButton";
 import { IoSearch } from "react-icons/io5";
 import { RiFilter2Fill } from "react-icons/ri";
-import SeasonCard from "@/components/ListItems/General/SeasonCard";
+import StageCard from "@/components/ListItems/General/StageCard";
 
 
 type SelectedOption = {
@@ -109,7 +109,7 @@ const Page = () => {
       method: "post",
       data: {
         query: `
-            query paginateStageGameSeasonForAdmin(
+            query paginatePackageGameStagesForAdmin(
               $page : Int,
               $limit : Int,
               $language_ref : ID,
@@ -119,7 +119,7 @@ const Page = () => {
               $filter_visible : Boolean,
               $filter_active : Boolean,
             ){
-                paginateStageGameSeasonForAdmin(
+                paginatePackageGameStagesForAdmin(
                   page : $page,
                   limit : $limit,
                   language_ref : $language_ref,
@@ -131,19 +131,22 @@ const Page = () => {
                 ) {
                     list{
                       _id,
-                      title,
-                      description,
+                      parts{
+                        sentence,
+                        sentence_hint,
+                        sentence_display,
+                        words{word, unknown_word, letters, additional_words, hidden_words}
+                      },
+                      stage_hint,
+                      package_info{title, icon_image},
                       language_info{name, rtl},
-                      media{path, file_type, duration, order},
-                      music{path, file_type, duration},
-                      badge,
-                      season_number,
-                      stage_number_from,
-                      stage_number_to,
-                      number_stage,
+                      season_info{title, season_number},
+                      media{path, file_type, duration},
+                      voice{path, file_type, duration},
+                      stage_number_in_package,
+                      stage_number_in_season,
                       is_visible,
                       is_active,
-                      content_source_type_label,
                       publication_status_label,
                       completion_status_label,
                     },
@@ -155,7 +158,7 @@ const Page = () => {
         variables: {
           page : 1,
           language_ref : language??undefined,
-          search : txt?.length>1?txt:undefined,
+          search : txt?.length>0?txt:undefined,
           filter_publication_status : publicationStatus??undefined,
           filter_completion_status : completionStatus??undefined,
           filter_visible : (visible === true || visible === false)?visible:undefined,
@@ -164,7 +167,7 @@ const Page = () => {
       },
     })
       .then((response) => {
-        const riciveData = response.data.data.paginateStageGameSeasonForAdmin;
+        const riciveData = response.data.data.paginatePackageGameStagesForAdmin;
         if (riciveData.hasNextPage == true) {
           setLoading(false);
           setData(riciveData.list);
@@ -199,7 +202,7 @@ const Page = () => {
       method: "post",
       data: {
         query: `
-            query paginateStageGameSeasonForAdmin(
+            query paginatePackageGameStagesForAdmin(
               $page : Int,
               $limit : Int,
               $language_ref : ID,
@@ -209,7 +212,7 @@ const Page = () => {
               $filter_visible : Boolean,
               $filter_active : Boolean,
             ){
-                paginateStageGameSeasonForAdmin(
+                paginatePackageGameStagesForAdmin(
                   page : $page,
                   limit : $limit,
                   language_ref : $language_ref,
@@ -221,19 +224,22 @@ const Page = () => {
                 ) {
                     list{
                       _id,
-                      title,
-                      description,
+                      parts{
+                        sentence,
+                        sentence_hint,
+                        sentence_display,
+                        words{word, unknown_word, letters, additional_words, hidden_words}
+                      },
+                      stage_hint,
+                      package_info{title, icon_image},
                       language_info{name, rtl},
-                      media{path, file_type, duration, order},
-                      music{path, file_type, duration},
-                      badge,
-                      season_number,
-                      stage_number_from,
-                      stage_number_to,
-                      number_stage,
+                      season_info{title, season_number},
+                      media{path, file_type, duration},
+                      voice{path, file_type, duration},
+                      stage_number_in_package,
+                      stage_number_in_season,
                       is_visible,
                       is_active,
-                      content_source_type_label,
                       publication_status_label,
                       completion_status_label,
                     },
@@ -245,7 +251,7 @@ const Page = () => {
         variables: {
           page : page,
           language_ref : language??undefined,
-          search : search?.length>1?search:undefined,
+          search : search?.length>0?search:undefined,
           filter_publication_status : publicationStatus??undefined,
           filter_completion_status : completionStatus??undefined,
           filter_visible : (visible === true || visible === false)?visible:undefined,
@@ -254,7 +260,7 @@ const Page = () => {
       },
     })
       .then((response) => {
-        const riciveData = response.data.data.paginateStageGameSeasonForAdmin;
+        const riciveData = response.data.data.paginatePackageGameStagesForAdmin;
         if (riciveData.hasNextPage == true) {
           setData([...data, ...riciveData.list]);
           setPage(riciveData.nextPage);
@@ -325,22 +331,22 @@ const Page = () => {
           <div>
               <label
                 className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
-                htmlFor="search-season"
+                htmlFor="search-stage"
               >
                 <div className="flex flex-row items-center gap-2">
                   <IoSearch className="text-text5 dark:text-text5_dark text-[20px]"/>
-                  جستجوی فصل
+                  جستجوی مرحله
                 </div>
                 <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
                   <Input
-                    type="search"
-                    id="search-season"
+                    type="number"
+                    id="search-stage"
                     value={search}
                     classes="flex-1"
                     onKeyDownFn={submitSearch}
                     changeState={(e: string) => handleSearch(e)}
                     SearchLoading={loading && search.length > 0 && getError == false && noItem == false ? true : false}
-                    placeholder="جستجوِی عناوین فصل"
+                    placeholder="شماره مرحله در فصل یا زبان"
                     inputStyles="!text-[14px] lg:!h-[35px] placeholder:!text-[11px]"
                     searchIconStyle="!hidden"
                     clearSearchIconStyles="!text-base"
@@ -476,29 +482,27 @@ const Page = () => {
           >
             <ul
               role="list"
-              className={`grid gap-4 sm:mx-auto sm:gap-6 grid-cols-1 mt-8 sm:mt-10 xl:grid-cols-2 2xl:grid-cols-3 px-4`}
+              className={`grid gap-4 sm:mx-auto sm:gap-6 grid-cols-1 mt-8 sm:mt-10 xl:grid-cols-2 2xl:grid-cols-3 px-4`}  // حذف auto-rows-fr
             >
               {data?.map((item: any, index: number) => (
                 <li key={index.toString()} className="flex"> 
-                  <SeasonCard
-                      type={"stage-game"}
-                      _id={item?._id}
-                      rtl={item?.language_info?.rtl}
-                      title={item?.title}
-                      description={item?.description}
-                      language={item?.language_info?.name}
-                      media={item?.media}
-                      music={item?.music}
-                      badge={item?.badge}
-                      season_number={item?.season_number}
-                      stage_number_from={item?.stage_number_from}
-                      stage_number_to={item?.stage_number_to}
-                      number_stage={item?.number_stage}
-                      is_visible={item?.is_visible}
-                      is_active={item?.is_active}
-                      content_source_type={item?.content_source_type_label}
-                      publication_status={item?.publication_status_label}
-                      completion_status={item?.completion_status_label}
+                  <StageCard
+                    type={"package-game"}
+                    _id={item?._id}
+                    packageInfo={item?.package_info}
+                    parts={item?.parts}
+                    season={item?.season_info}
+                    stage_number={item.stage_number_in_package}
+                    stage_number_in_season={item.stage_number_in_season}
+                    stage_hint={item?.stage_hint}
+                    rtl={item?.language_info?.rtl}
+                    language={item?.language_info?.name}
+                    media={item?.media}
+                    voice={item?.voice}
+                    is_visible={item?.is_visible}
+                    is_active={item?.is_active}
+                    publication_status={item?.publication_status_label}
+                    completion_status={item?.completion_status_label}
                   />
                 </li>
               ))}

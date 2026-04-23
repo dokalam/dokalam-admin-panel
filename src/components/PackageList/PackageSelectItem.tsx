@@ -62,13 +62,6 @@ const PackageSelectItem = ({
                   {title}
                 </h3>
               </div>
-              <div className="flex items-center w-full">
-                <p
-                  className={`text-[10px] 2xl:text-xs font-['iransans-md'] text-primary`}
-                >
-                  
-                </p>
-              </div>
             </div>
           </div>
 
