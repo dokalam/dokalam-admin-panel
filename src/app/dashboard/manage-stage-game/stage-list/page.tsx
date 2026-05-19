@@ -60,6 +60,8 @@ const Page = () => {
   const [language, setLanguage] = useState<string | null>(null)
   const [languageList, setLanguageList] = useState([])
   const [showMobileFilter, setShowMobileFilter] = useState(false);
+  const [season, setSeason] = useState<string | null>(null)
+  const [seasonList, setSeasonList] = useState([])
 
   useEffect(()=>{
     getAllLanguage()
@@ -102,6 +104,46 @@ const Page = () => {
         setLanguageList([])
       });
   }
+  const getAllSeason = async(value : string)=>{
+    const data = {
+      query: `
+        query getAllStageGameSeasonForAdmin($language_ref : ID, $filter_visible : Boolean, $filter_active : Boolean){
+          getAllStageGameSeasonForAdmin(language_ref : $language_ref, filter_visible : $filter_visible, filter_active : $filter_active) {
+            _id,
+            title,
+          }
+        }
+        `,
+      variables: {
+        language_ref: value,
+        filter_visible: false,
+        filter_active: false,
+      },
+    };
+    await axios({
+      url: "/",
+      method: "post",
+      data: data,
+    }).then(async (response) => {
+        const data = response.data.data.getAllStageGameSeasonForAdmin;
+        if (data.length > 0) {
+          const items = data.map((item: any) => ({
+            label: item.title,
+            value: item._id,
+          }));
+          items.unshift({
+            label: "انتخاب فصل",
+            value: null,
+          })
+          setSeasonList(items);
+        } else {
+          setSeasonList([])
+        }
+      })
+      .catch(() => {
+        setSeasonList([])
+      });
+  }
 
   const getDataForFirst = async (txt?: any) => {
     await axios({
@@ -118,6 +160,7 @@ const Page = () => {
               $filter_completion_status : String,
               $filter_visible : Boolean,
               $filter_active : Boolean,
+              $season : ID,
             ){
                 paginateStageGameStagesForAdmin(
                   page : $page,
@@ -128,6 +171,7 @@ const Page = () => {
                   filter_completion_status : $filter_completion_status,
                   filter_visible : $filter_visible,
                   filter_active : $filter_active,
+                  season : $season,
                 ) {
                     list{
                       _id,
@@ -162,6 +206,7 @@ const Page = () => {
           filter_completion_status : completionStatus??undefined,
           filter_visible : (visible === true || visible === false)?visible:undefined,
           filter_active : (active === true || active === false)?active:undefined,
+          season : season?season:undefined,
         },
       },
     })
@@ -210,6 +255,7 @@ const Page = () => {
               $filter_completion_status : String,
               $filter_visible : Boolean,
               $filter_active : Boolean,
+              $season : ID,
             ){
                 paginateStageGameStagesForAdmin(
                   page : $page,
@@ -220,6 +266,7 @@ const Page = () => {
                   filter_completion_status : $filter_completion_status,
                   filter_visible : $filter_visible,
                   filter_active : $filter_active,
+                  season : $season,
                 ) {
                     list{
                       _id,
@@ -254,6 +301,7 @@ const Page = () => {
           filter_completion_status : completionStatus??undefined,
           filter_visible : (visible === true || visible === false)?visible:undefined,
           filter_active : (active === true || active === false)?active:undefined,
+          season : season?season:undefined,
         },
       },
     })
@@ -361,13 +409,18 @@ const Page = () => {
               >
                 <div className="flex flex-row items-center gap-2">
                   <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
-                  فیلتر زبان فصل
+                  فیلتر زبان مرحله
                 </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
                     name="stage-game-language-filter"
                     options={languageList}
-                    onChange={(value) => setLanguage(value)}
+                    onChange={(value) => {
+                      setLanguage(value)
+                      if(value){
+                        getAllSeason(value)
+                      }
+                    }}
                     classes={"!text-[.75rem]"}
                   />
                 </div>
@@ -380,7 +433,26 @@ const Page = () => {
               >
                 <div className="flex flex-row items-center gap-2">
                   <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
-                  فیلتر وضعیت انتشار فصل
+                  فیلتر فصل مرحله
+                </div>
+                <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+                  <SelectInput
+                    name="stage-game-language-filter"
+                    options={seasonList}
+                    onChange={(value) => setSeason(value)}
+                    classes={"!text-[.75rem]"}
+                  />
+                </div>
+              </label>
+            </div>
+            <div className="mt-6">
+              <label
+                className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
+                htmlFor="name"
+              >
+                <div className="flex flex-row items-center gap-2">
+                  <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
+                  فیلتر وضعیت انتشار مرحله
                 </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
@@ -399,7 +471,7 @@ const Page = () => {
               >
                 <div className="flex flex-row items-center gap-2">
                   <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
-                  فیلتر وضعیت کامل بودن فصل
+                  فیلتر وضعیت کامل بودن مرحله
                 </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput

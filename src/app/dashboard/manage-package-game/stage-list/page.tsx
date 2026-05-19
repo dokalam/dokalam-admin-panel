@@ -12,6 +12,8 @@ import GradientButton from "@/components/GradientButton";
 import { IoSearch } from "react-icons/io5";
 import { RiFilter2Fill } from "react-icons/ri";
 import StageCard from "@/components/ListItems/General/StageCard";
+import PackageListHelper from "@/components/PackageList/PackageListHelper";
+import PackageList from "@/components/PackageList/PackageList";
 
 
 type SelectedOption = {
@@ -43,6 +45,11 @@ const ActiveStatus:SelectedOption[] = [
   {value:true, label:"فقط موارد فعال"},
   {value:false, label:"فقط موارد غیر فعال"},
 ]
+type PackageSelectedInfo = {
+  _id: string;
+  title: string;
+  image: string;
+}
 const Page = () => {
   const [search, setSearch] = useState("");
   const [data, setData] = useState<any>([]);
@@ -60,6 +67,9 @@ const Page = () => {
   const [language, setLanguage] = useState<string | null>(null)
   const [languageList, setLanguageList] = useState([])
   const [showMobileFilter, setShowMobileFilter] = useState(false);
+  const [packageSelected, setPackageSelected] = useState<PackageSelectedInfo | null>(null)
+  const [season, setSeason] = useState<string | null>(null)
+  const [seasonList, setSeasonList] = useState([])
 
   useEffect(()=>{
     getAllLanguage()
@@ -102,6 +112,46 @@ const Page = () => {
         setLanguageList([])
       });
   }
+  const getAllSeason = async(value:string)=>{
+    const data = {
+      query: `
+        query getAllPackageGameSeasonForAdmin($package : ID!, $filter_visible : Boolean, $filter_active : Boolean){
+          getAllPackageGameSeasonForAdmin(package : $package, filter_visible : $filter_visible, filter_active : $filter_active) {
+            _id,
+            title,
+          }
+        }
+        `,
+      variables: {
+        package: value,
+        filter_visible: false,
+        filter_active: false,
+      },
+    };
+    await axios({
+      url: "/",
+      method: "post",
+      data: data,
+    }).then(async (response) => {
+        const data = response.data.data.getAllPackageGameSeasonForAdmin;
+        if (data.length > 0) {
+          const items = data.map((item: any) => ({
+            label: item.title,
+            value: item._id,
+          }));
+          items.unshift({
+            label: "انتخاب فصل",
+            value: null,
+          })
+          setSeasonList(items);
+        } else {
+          setSeasonList([])
+        }
+      })
+      .catch(() => {
+        setSeasonList([])
+      });
+  }
 
   const getDataForFirst = async (txt?: any) => {
     await axios({
@@ -118,6 +168,8 @@ const Page = () => {
               $filter_completion_status : String,
               $filter_visible : Boolean,
               $filter_active : Boolean,
+              $package : ID,
+              $season : ID,
             ){
                 paginatePackageGameStagesForAdmin(
                   page : $page,
@@ -128,6 +180,8 @@ const Page = () => {
                   filter_completion_status : $filter_completion_status,
                   filter_visible : $filter_visible,
                   filter_active : $filter_active,
+                  package : $package,
+                  season : $season,
                 ) {
                     list{
                       _id,
@@ -163,6 +217,8 @@ const Page = () => {
           filter_completion_status : completionStatus??undefined,
           filter_visible : (visible === true || visible === false)?visible:undefined,
           filter_active : (active === true || active === false)?active:undefined,
+          package : packageSelected?packageSelected._id:undefined,
+          season : season?season:undefined
         },
       },
     })
@@ -211,6 +267,8 @@ const Page = () => {
               $filter_completion_status : String,
               $filter_visible : Boolean,
               $filter_active : Boolean,
+              $package : ID,
+              $season : ID,
             ){
                 paginatePackageGameStagesForAdmin(
                   page : $page,
@@ -221,6 +279,8 @@ const Page = () => {
                   filter_completion_status : $filter_completion_status,
                   filter_visible : $filter_visible,
                   filter_active : $filter_active,
+                  package : $package,
+                  season : $season,
                 ) {
                     list{
                       _id,
@@ -256,6 +316,8 @@ const Page = () => {
           filter_completion_status : completionStatus??undefined,
           filter_visible : (visible === true || visible === false)?visible:undefined,
           filter_active : (active === true || active === false)?active:undefined,
+          package : packageSelected?packageSelected._id:undefined,
+          season : season?season:undefined
         },
       },
     })
@@ -324,7 +386,42 @@ const Page = () => {
     const txt = search == "" ? null : search;
     getDataForFirst(txt);
   };
-
+  const selectPackages = ()=>{
+    const previousSelected = packageSelected?{
+      _id: [packageSelected?._id],
+      title: [packageSelected?.title],
+      image: [packageSelected?.image],
+    }:undefined;
+    PackageListHelper.openModal({
+      previousSelected:previousSelected,
+      numberSelected: 1,
+      buttons: [
+        {
+          buttonText: "لغو",
+          type: "border",
+          onClickFn: () => {
+            PackageListHelper.closeModal();
+          },
+        },
+        {
+          buttonText: "انتخاب بسته",
+          type: "bold",
+          onClickFn: ({ data }: { data: any }) => {
+            const item = {
+              _id: data._id[0],
+              title: data.title[0],
+              image: data.image[0],
+            }
+            setPackageSelected(item)
+            const value = data._id[0]
+            getAllSeason(value)
+            setSeason(null)
+            PackageListHelper.closeModal();
+          },
+        },
+      ],
+    });
+  }
   const filterContent = () =>{
     return(
       <div>
@@ -363,7 +460,42 @@ const Page = () => {
               >
                 <div className="flex flex-row items-center gap-2">
                   <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
-                  فیلتر زبان فصل
+                  فیلتر بستهٔ بازی
+                </div>
+                <div onClick={selectPackages} className={`mt-1 flex flex-1 px-3 gap-2 w-full items-center justify-between h-[40px] border border-border dark:border-border_dark rounded-md`}>
+                  <p>{packageSelected?packageSelected.title:"انتخاب بستهٔ بازی"}</p>
+                </div>
+              </label>
+            </div>
+
+            <div className="mt-6">
+              <label
+                className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
+                htmlFor="name"
+              >
+                <div className="flex flex-row items-center gap-2">
+                  <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
+                  فیلتر فصل مرحله
+                </div>
+                <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
+                  <SelectInput
+                    name="stage-game-language-filter"
+                    options={seasonList}
+                    onChange={(value) => setSeason(value)}
+                    classes={"!text-[.75rem]"}
+                  />
+                </div>
+              </label>
+            </div>
+
+            <div className="mt-6">
+              <label
+                className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
+                htmlFor="name"
+              >
+                <div className="flex flex-row items-center gap-2">
+                  <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
+                  فیلتر زبان مرحله
                 </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
@@ -382,7 +514,7 @@ const Page = () => {
               >
                 <div className="flex flex-row items-center gap-2">
                   <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
-                  فیلتر وضعیت انتشار فصل
+                  فیلتر وضعیت انتشار مرحله
                 </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
@@ -401,7 +533,7 @@ const Page = () => {
               >
                 <div className="flex flex-row items-center gap-2">
                   <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
-                  فیلتر وضعیت کامل بودن فصل
+                  فیلتر وضعیت کامل بودن مرحله
                 </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
@@ -583,6 +715,11 @@ const Page = () => {
           </div>
         </div>
       </div>
+      <PackageList
+        ref={(Ref) => {
+          PackageListHelper.setRef(Ref);
+        }}
+      />
     </div>
   );
 };

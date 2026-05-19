@@ -12,6 +12,8 @@ import GradientButton from "@/components/GradientButton";
 import {  IoSearch } from "react-icons/io5";
 import { RiFilter2Fill } from "react-icons/ri";
 import SeasonCard from "@/components/ListItems/General/SeasonCard";
+import PackageList from "@/components/PackageList/PackageList";
+import PackageListHelper from "@/components/PackageList/PackageListHelper";
 
 
 type SelectedOption = {
@@ -43,6 +45,11 @@ const ActiveStatus:SelectedOption[] = [
   {value:true, label:"فقط موارد فعال"},
   {value:false, label:"فقط موارد غیر فعال"},
 ]
+type PackageSelectedInfo = {
+  _id: string;
+  title: string;
+  image: string;
+}
 const Page = () => {
   const [search, setSearch] = useState("");
   const [data, setData] = useState<any>([]);
@@ -60,6 +67,7 @@ const Page = () => {
   const [language, setLanguage] = useState<string | null>(null)
   const [languageList, setLanguageList] = useState([])
   const [showMobileFilter, setShowMobileFilter] = useState(false);
+  const [packageSelected, setPackageSelected] = useState<PackageSelectedInfo | null>(null)
 
   useEffect(()=>{
     getAllLanguage()
@@ -118,6 +126,7 @@ const Page = () => {
               $filter_completion_status : String,
               $filter_visible : Boolean,
               $filter_active : Boolean,
+              $package : ID,
             ){
                 paginatePackageGameSeasonForAdmin(
                   page : $page,
@@ -128,6 +137,7 @@ const Page = () => {
                   filter_completion_status : $filter_completion_status,
                   filter_visible : $filter_visible,
                   filter_active : $filter_active,
+                  package : $package,
                 ) {
                     list{
                       _id,
@@ -161,6 +171,7 @@ const Page = () => {
           filter_completion_status : completionStatus??undefined,
           filter_visible : (visible === true || visible === false)?visible:undefined,
           filter_active : (active === true || active === false)?active:undefined,
+          package : packageSelected?packageSelected._id:undefined,
         },
       },
     })
@@ -209,6 +220,7 @@ const Page = () => {
               $filter_completion_status : String,
               $filter_visible : Boolean,
               $filter_active : Boolean,
+              $package : ID,
             ){
                 paginatePackageGameSeasonForAdmin(
                   page : $page,
@@ -219,6 +231,7 @@ const Page = () => {
                   filter_completion_status : $filter_completion_status,
                   filter_visible : $filter_visible,
                   filter_active : $filter_active,
+                  package : $package,
                 ) {
                     list{
                       _id,
@@ -252,6 +265,7 @@ const Page = () => {
           filter_completion_status : completionStatus??undefined,
           filter_visible : (visible === true || visible === false)?visible:undefined,
           filter_active : (active === true || active === false)?active:undefined,
+          package : packageSelected?packageSelected._id:undefined,
         },
       },
     })
@@ -320,7 +334,40 @@ const Page = () => {
     const txt = search == "" ? null : search;
     getDataForFirst(txt);
   };
-
+  const selectPackages = ()=>{
+    const previousSelected = packageSelected?{
+      _id: [packageSelected?._id],
+      title: [packageSelected?.title],
+      image: [packageSelected?.image],
+    }:undefined;
+    PackageListHelper.openModal({
+      previousSelected:previousSelected,
+      numberSelected: 1,
+      buttons: [
+        {
+          buttonText: "لغو",
+          type: "border",
+          onClickFn: () => {
+            PackageListHelper.closeModal();
+          },
+        },
+        {
+          buttonText: "انتخاب بسته",
+          type: "bold",
+          onClickFn: ({ data }: { data: any }) => {
+            const item = {
+              _id: data._id[0],
+              title: data.title[0],
+              image: data.image[0],
+            }
+            setPackageSelected(item)
+            const value = data._id[0]
+            PackageListHelper.closeModal();
+          },
+        },
+      ],
+    });
+  }
   const filterContent = () =>{
     return(
       <div>
@@ -352,6 +399,20 @@ const Page = () => {
               </label>
             </div>
             <div className="mt-4 w-full border-2 border-dashed border-text5 dark:border-text5_dark"/>
+            <div className="mt-6">
+              <label
+                className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
+                htmlFor="name"
+              >
+                <div className="flex flex-row items-center gap-2">
+                  <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
+                  فیلتر بستهٔ بازی
+                </div>
+                <div onClick={selectPackages} className={`mt-1 flex flex-1 px-3 gap-2 w-full items-center justify-between h-[40px] border border-border dark:border-border_dark rounded-md`}>
+                  <p>{packageSelected?packageSelected.title:"انتخاب بستهٔ بازی"}</p>
+                </div>
+              </label>
+            </div>
             <div className="mt-6">
               <label
                 className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
@@ -582,6 +643,11 @@ const Page = () => {
           </div>
         </div>
       </div>
+      <PackageList
+        ref={(Ref) => {
+          PackageListHelper.setRef(Ref);
+        }}
+      />
     </div>
   );
 };
