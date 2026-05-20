@@ -198,7 +198,7 @@ const StageCard = ({
                 <div className="flex flex-wrap gap-2 mt-4">
                   {
                     item?.words.map((item2, index2)=>(
-                      <div key={index2.toString()} className={`${item2.unknown_word == true?"bg-red_color":"bg-info"} rounded w-fit px-4 py-2 h-fit`}>
+                      <div key={index2.toString()} className={`${item2.unknown_word == true?"bg-warning":"bg-info"} rounded w-fit px-4 py-2 h-fit`}>
                         <p className={`text-white text-[16px] font-['iransans-md']`}>{item2.word}</p>
                         {
                           item2.unknown_word&&
@@ -208,7 +208,7 @@ const StageCard = ({
                                 <div className="flex flex-wrap gap-2">
                                 {
                                   item2?.letters?.map((item3, index3)=>(
-                                    <p key={index3.toString()} className={`text-black text-[12px] font-['iransans-md']`}>{item3}{index3+1 < item2.letters.length&&<span className="text-white"> - </span>}</p>
+                                    <p key={index3.toString()} className={`text-white text-[16px] font-['iransans-bold']`}>{item3}{index3+1 < item2.letters.length&&<span className="text-white"> - </span>}</p>
                                   ))
                                 }
                                 </div>
@@ -219,7 +219,7 @@ const StageCard = ({
                                 <div className="flex flex-wrap gap-2">
                                 {
                                   item2?.additional_words?.map((item3, index3)=>(
-                                    <p key={index3.toString()} className={`text-black text-[12px] font-['iransans-md']`}>{item3}{index3+1 < item2.additional_words.length&&<span className="text-white"> - </span>}</p>
+                                    <p key={index3.toString()} className={`text-black text-[12px] font-['iransans-md']`}>{item3.length>1?item3:"#NO#"}{index3+1 < item2.additional_words.length&&<span className="text-white"> - </span>}</p>
                                   ))
                                 }
                                 </div>
@@ -230,7 +230,7 @@ const StageCard = ({
                                 <div className="flex flex-wrap gap-2">
                                 {
                                   item2?.hidden_words?.map((item3, index3)=>(
-                                    <p key={index3.toString()} className={`text-black text-[12px] font-['iransans-md']`}>{item3}{index3+1 < item2.hidden_words.length&&<span className="text-white"> - </span>}</p>
+                                    <p key={index3.toString()} className={`text-red_error text-[12px] font-['iransans-md']`}>{item3.length>1?item3:"#NO#"}{index3+1 < item2.hidden_words.length&&<span className="text-white"> - </span>}</p>
                                   ))
                                 }
                                 </div>

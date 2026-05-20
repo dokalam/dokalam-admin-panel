@@ -1238,3 +1238,1565 @@
 2026-05-18T20:18:36:  ✓ Starting...
 2026-05-18T20:18:36:  ✓ Ready in 711ms
 2026-05-18T20:18:36:  ✓ Ready in 664ms
+2026-05-19T09:48:59:   ▲ Next.js 14.2.2
+2026-05-19T09:48:59:   ▲ Next.js 14.2.2
+2026-05-19T09:48:59:   ▲ Next.js 14.2.2
+2026-05-19T09:48:59:   - Local:        http://localhost:3000
+2026-05-19T09:48:59: 
+2026-05-19T09:48:59:  ✓ Starting...
+2026-05-19T09:48:59:   - Local:        http://localhost:3000
+2026-05-19T09:48:59: 
+2026-05-19T09:48:59:  ✓ Starting...
+2026-05-19T09:48:59:   ▲ Next.js 14.2.2
+2026-05-19T09:48:59: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:48:59: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:48:59:   ▲ Next.js 14.2.2
+2026-05-19T09:48:59:   - Local:        http://localhost:3000
+2026-05-19T09:48:59: 
+2026-05-19T09:48:59:  ✓ Starting...
+2026-05-19T09:48:59:   - Local:        http://localhost:3000
+2026-05-19T09:48:59: 
+2026-05-19T09:48:59:  ✓ Starting...
+2026-05-19T09:49:00: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:00:   ▲ Next.js 14.2.2
+2026-05-19T09:49:00: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:00:   ▲ Next.js 14.2.2
+2026-05-19T09:48:59:   - Local:        http://localhost:3000
+2026-05-19T09:48:59: 
+2026-05-19T09:48:59:  ✓ Starting...
+2026-05-19T09:49:00: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:00:   - Local:        http://localhost:3000
+2026-05-19T09:49:00: 
+2026-05-19T09:49:00:  ✓ Starting...
+2026-05-19T09:49:00: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:00:   ▲ Next.js 14.2.2
+2026-05-19T09:49:00:   - Local:        http://localhost:3000
+2026-05-19T09:49:00: 
+2026-05-19T09:49:00:  ✓ Starting...
+2026-05-19T09:49:00: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:00:   - Local:        http://localhost:3000
+2026-05-19T09:49:00: 
+2026-05-19T09:49:00:  ✓ Starting...
+2026-05-19T09:49:00: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:01:   ▲ Next.js 14.2.2
+2026-05-19T09:49:01:   ▲ Next.js 14.2.2
+2026-05-19T09:49:01:   ▲ Next.js 14.2.2
+2026-05-19T09:49:01:   - Local:        http://localhost:3000
+2026-05-19T09:49:01: 
+2026-05-19T09:49:01:  ✓ Starting...
+2026-05-19T09:49:01:   - Local:        http://localhost:3000
+2026-05-19T09:49:01: 
+2026-05-19T09:49:01:  ✓ Starting...
+2026-05-19T09:49:01:   ▲ Next.js 14.2.2
+2026-05-19T09:49:01: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:01:   - Local:        http://localhost:3000
+2026-05-19T09:49:01: 
+2026-05-19T09:49:01:  ✓ Starting...
+2026-05-19T09:49:01:   ▲ Next.js 14.2.2
+2026-05-19T09:49:01: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:01:   ▲ Next.js 14.2.2
+2026-05-19T09:49:01: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:01:   - Local:        http://localhost:3000
+2026-05-19T09:49:01: 
+2026-05-19T09:49:01:  ✓ Starting...
+2026-05-19T09:49:01:   - Local:        http://localhost:3000
+2026-05-19T09:49:01: 
+2026-05-19T09:49:01:  ✓ Starting...
+2026-05-19T09:49:02: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:02: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:02:   ▲ Next.js 14.2.2
+2026-05-19T09:49:01:   - Local:        http://localhost:3000
+2026-05-19T09:49:01: 
+2026-05-19T09:49:01:  ✓ Starting...
+2026-05-19T09:49:02: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:02:   - Local:        http://localhost:3000
+2026-05-19T09:49:02: 
+2026-05-19T09:49:02:  ✓ Starting...
+2026-05-19T09:49:02: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:02:   ▲ Next.js 14.2.2
+2026-05-19T09:49:02:   - Local:        http://localhost:3000
+2026-05-19T09:49:02: 
+2026-05-19T09:49:02:  ✓ Starting...
+2026-05-19T09:49:03: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:03:   ▲ Next.js 14.2.2
+2026-05-19T09:49:03:   ▲ Next.js 14.2.2
+2026-05-19T09:49:03:   - Local:        http://localhost:3000
+2026-05-19T09:49:03: 
+2026-05-19T09:49:03:  ✓ Starting...
+2026-05-19T09:49:04:   ▲ Next.js 14.2.2
+2026-05-19T09:49:04: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:04:   ▲ Next.js 14.2.2
+2026-05-19T09:49:04:   ▲ Next.js 14.2.2
+2026-05-19T09:49:03:   - Local:        http://localhost:3000
+2026-05-19T09:49:03: 
+2026-05-19T09:49:03:  ✓ Starting...
+2026-05-19T09:49:04: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:04:   - Local:        http://localhost:3000
+2026-05-19T09:49:04: 
+2026-05-19T09:49:04:  ✓ Starting...
+2026-05-19T09:49:04:   ▲ Next.js 14.2.2
+2026-05-19T09:49:04:   - Local:        http://localhost:3000
+2026-05-19T09:49:04: 
+2026-05-19T09:49:04:  ✓ Starting...
+2026-05-19T09:49:04: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:04: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:04:   - Local:        http://localhost:3000
+2026-05-19T09:49:04: 
+2026-05-19T09:49:04:  ✓ Starting...
+2026-05-19T09:49:04:   ▲ Next.js 14.2.2
+2026-05-19T09:49:04: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:04:   - Local:        http://localhost:3000
+2026-05-19T09:49:04: 
+2026-05-19T09:49:04:  ✓ Starting...
+2026-05-19T09:49:04: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:04:   - Local:        http://localhost:3000
+2026-05-19T09:49:04: 
+2026-05-19T09:49:04:  ✓ Starting...
+2026-05-19T09:49:04: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:05:   ▲ Next.js 14.2.2
+2026-05-19T09:49:05:   - Local:        http://localhost:3000
+2026-05-19T09:49:05: 
+2026-05-19T09:49:05:  ✓ Starting...
+2026-05-19T09:49:05:   ▲ Next.js 14.2.2
+2026-05-19T09:49:05: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:05:   ▲ Next.js 14.2.2
+2026-05-19T09:49:05:   - Local:        http://localhost:3000
+2026-05-19T09:49:05: 
+2026-05-19T09:49:05:  ✓ Starting...
+2026-05-19T09:49:05:   ▲ Next.js 14.2.2
+2026-05-19T09:49:05:   ▲ Next.js 14.2.2
+2026-05-19T09:49:05: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:05:   ▲ Next.js 14.2.2
+2026-05-19T09:49:05:   - Local:        http://localhost:3000
+2026-05-19T09:49:05: 
+2026-05-19T09:49:05:  ✓ Starting...
+2026-05-19T09:49:06: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:05:   - Local:        http://localhost:3000
+2026-05-19T09:49:05: 
+2026-05-19T09:49:05:  ✓ Starting...
+2026-05-19T09:49:06:   ▲ Next.js 14.2.2
+2026-05-19T09:49:05:   - Local:        http://localhost:3000
+2026-05-19T09:49:05: 
+2026-05-19T09:49:05:  ✓ Starting...
+2026-05-19T09:49:06: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:05:   - Local:        http://localhost:3000
+2026-05-19T09:49:05: 
+2026-05-19T09:49:05:  ✓ Starting...
+2026-05-19T09:49:06: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:06: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:06:   ▲ Next.js 14.2.2
+2026-05-19T09:49:06:   - Local:        http://localhost:3000
+2026-05-19T09:49:06: 
+2026-05-19T09:49:06:  ✓ Starting...
+2026-05-19T09:49:06: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:06:   - Local:        http://localhost:3000
+2026-05-19T09:49:06: 
+2026-05-19T09:49:06:  ✓ Starting...
+2026-05-19T09:49:06: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:06:   ▲ Next.js 14.2.2
+2026-05-19T09:49:06:   - Local:        http://localhost:3000
+2026-05-19T09:49:06: 
+2026-05-19T09:49:06:  ✓ Starting...
+2026-05-19T09:49:07: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:07:   ▲ Next.js 14.2.2
+2026-05-19T09:49:07:   ▲ Next.js 14.2.2
+2026-05-19T09:49:07:   - Local:        http://localhost:3000
+2026-05-19T09:49:07: 
+2026-05-19T09:49:07:  ✓ Starting...
+2026-05-19T09:49:07:   ▲ Next.js 14.2.2
+2026-05-19T09:49:07:   ▲ Next.js 14.2.2
+2026-05-19T09:49:07:   ▲ Next.js 14.2.2
+2026-05-19T09:49:07: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:07:   - Local:        http://localhost:3000
+2026-05-19T09:49:07: 
+2026-05-19T09:49:07:  ✓ Starting...
+2026-05-19T09:49:07:   - Local:        http://localhost:3000
+2026-05-19T09:49:07: 
+2026-05-19T09:49:07:  ✓ Starting...
+2026-05-19T09:49:07: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:07:   - Local:        http://localhost:3000
+2026-05-19T09:49:07: 
+2026-05-19T09:49:07:  ✓ Starting...
+2026-05-19T09:49:08: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:07:   - Local:        http://localhost:3000
+2026-05-19T09:49:07: 
+2026-05-19T09:49:07:  ✓ Starting...
+2026-05-19T09:49:08:   ▲ Next.js 14.2.2
+2026-05-19T09:49:08:   ▲ Next.js 14.2.2
+2026-05-19T09:49:08: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:08: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:08:   - Local:        http://localhost:3000
+2026-05-19T09:49:08: 
+2026-05-19T09:49:08:  ✓ Starting...
+2026-05-19T09:49:08:   - Local:        http://localhost:3000
+2026-05-19T09:49:08: 
+2026-05-19T09:49:08:  ✓ Starting...
+2026-05-19T09:49:08: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:08: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:08:   ▲ Next.js 14.2.2
+2026-05-19T09:49:08:   - Local:        http://localhost:3000
+2026-05-19T09:49:08: 
+2026-05-19T09:49:08:  ✓ Starting...
+2026-05-19T09:49:09: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:09:   ▲ Next.js 14.2.2
+2026-05-19T09:49:09:   ▲ Next.js 14.2.2
+2026-05-19T09:49:09:   ▲ Next.js 14.2.2
+2026-05-19T09:49:09:   - Local:        http://localhost:3000
+2026-05-19T09:49:09: 
+2026-05-19T09:49:09:  ✓ Starting...
+2026-05-19T09:49:09:   ▲ Next.js 14.2.2
+2026-05-19T09:49:09:   ▲ Next.js 14.2.2
+2026-05-19T09:49:09: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:09:   - Local:        http://localhost:3000
+2026-05-19T09:49:09: 
+2026-05-19T09:49:09:  ✓ Starting...
+2026-05-19T09:49:09:   - Local:        http://localhost:3000
+2026-05-19T09:49:09: 
+2026-05-19T09:49:09:  ✓ Starting...
+2026-05-19T09:49:09:   - Local:        http://localhost:3000
+2026-05-19T09:49:09: 
+2026-05-19T09:49:09:  ✓ Starting...
+2026-05-19T09:49:09: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:09: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:09:   - Local:        http://localhost:3000
+2026-05-19T09:49:09: 
+2026-05-19T09:49:09:  ✓ Starting...
+2026-05-19T09:49:10: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:10:   ▲ Next.js 14.2.2
+2026-05-19T09:49:10:   ▲ Next.js 14.2.2
+2026-05-19T09:49:10: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:10:   - Local:        http://localhost:3000
+2026-05-19T09:49:10: 
+2026-05-19T09:49:10:  ✓ Starting...
+2026-05-19T09:49:10:   - Local:        http://localhost:3000
+2026-05-19T09:49:10: 
+2026-05-19T09:49:10:  ✓ Starting...
+2026-05-19T09:49:10: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:10: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:10:   ▲ Next.js 14.2.2
+2026-05-19T09:49:10:   - Local:        http://localhost:3000
+2026-05-19T09:49:10: 
+2026-05-19T09:49:10:  ✓ Starting...
+2026-05-19T09:49:11: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:11:   ▲ Next.js 14.2.2
+2026-05-19T09:49:11:   ▲ Next.js 14.2.2
+2026-05-19T09:49:11:   ▲ Next.js 14.2.2
+2026-05-19T09:49:11:   ▲ Next.js 14.2.2
+2026-05-19T09:49:11:   ▲ Next.js 14.2.2
+2026-05-19T09:49:11:   - Local:        http://localhost:3000
+2026-05-19T09:49:11: 
+2026-05-19T09:49:11:  ✓ Starting...
+2026-05-19T09:49:11: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:11:   - Local:        http://localhost:3000
+2026-05-19T09:49:11: 
+2026-05-19T09:49:11:  ✓ Starting...
+2026-05-19T09:49:11:   - Local:        http://localhost:3000
+2026-05-19T09:49:11: 
+2026-05-19T09:49:11:  ✓ Starting...
+2026-05-19T09:49:11:   - Local:        http://localhost:3000
+2026-05-19T09:49:11: 
+2026-05-19T09:49:11:  ✓ Starting...
+2026-05-19T09:49:11: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:11: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:11:   - Local:        http://localhost:3000
+2026-05-19T09:49:11: 
+2026-05-19T09:49:11:  ✓ Starting...
+2026-05-19T09:49:11: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:11:   ▲ Next.js 14.2.2
+2026-05-19T09:49:11: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:12:   ▲ Next.js 14.2.2
+2026-05-19T09:49:11:   - Local:        http://localhost:3000
+2026-05-19T09:49:11: 
+2026-05-19T09:49:11:  ✓ Starting...
+2026-05-19T09:49:12:   - Local:        http://localhost:3000
+2026-05-19T09:49:12: 
+2026-05-19T09:49:12:  ✓ Starting...
+2026-05-19T09:49:12: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:12: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:12:   ▲ Next.js 14.2.2
+2026-05-19T09:49:12:   - Local:        http://localhost:3000
+2026-05-19T09:49:12: 
+2026-05-19T09:49:12:  ✓ Starting...
+2026-05-19T09:49:13: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:13:   ▲ Next.js 14.2.2
+2026-05-19T09:49:13:   ▲ Next.js 14.2.2
+2026-05-19T09:49:13:   ▲ Next.js 14.2.2
+2026-05-19T09:49:13:   ▲ Next.js 14.2.2
+2026-05-19T09:49:13:   ▲ Next.js 14.2.2
+2026-05-19T09:49:13:   - Local:        http://localhost:3000
+2026-05-19T09:49:13: 
+2026-05-19T09:49:13:  ✓ Starting...
+2026-05-19T09:49:13: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:13:   - Local:        http://localhost:3000
+2026-05-19T09:49:13: 
+2026-05-19T09:49:13:  ✓ Starting...
+2026-05-19T09:49:13:   - Local:        http://localhost:3000
+2026-05-19T09:49:13: 
+2026-05-19T09:49:13:  ✓ Starting...
+2026-05-19T09:49:13:   - Local:        http://localhost:3000
+2026-05-19T09:49:13: 
+2026-05-19T09:49:13:  ✓ Starting...
+2026-05-19T09:49:13: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:13: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:13: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:13:   - Local:        http://localhost:3000
+2026-05-19T09:49:13: 
+2026-05-19T09:49:13:  ✓ Starting...
+2026-05-19T09:49:13:   ▲ Next.js 14.2.2
+2026-05-19T09:49:13: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:13:   ▲ Next.js 14.2.2
+2026-05-19T09:49:13:   - Local:        http://localhost:3000
+2026-05-19T09:49:13: 
+2026-05-19T09:49:13:  ✓ Starting...
+2026-05-19T09:49:13:   - Local:        http://localhost:3000
+2026-05-19T09:49:13: 
+2026-05-19T09:49:13:  ✓ Starting...
+2026-05-19T09:49:14: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:14: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:14:   ▲ Next.js 14.2.2
+2026-05-19T09:49:14:   - Local:        http://localhost:3000
+2026-05-19T09:49:14: 
+2026-05-19T09:49:14:  ✓ Starting...
+2026-05-19T09:49:14:   ▲ Next.js 14.2.2
+2026-05-19T09:49:14: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:14:   ▲ Next.js 14.2.2
+2026-05-19T09:49:14:   ▲ Next.js 14.2.2
+2026-05-19T09:49:14:   ▲ Next.js 14.2.2
+2026-05-19T09:49:14:   - Local:        http://localhost:3000
+2026-05-19T09:49:14: 
+2026-05-19T09:49:14:  ✓ Starting...
+2026-05-19T09:49:14:   ▲ Next.js 14.2.2
+2026-05-19T09:49:14: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:14:   - Local:        http://localhost:3000
+2026-05-19T09:49:14: 
+2026-05-19T09:49:14:  ✓ Starting...
+2026-05-19T09:49:14:   - Local:        http://localhost:3000
+2026-05-19T09:49:14: 
+2026-05-19T09:49:14:  ✓ Starting...
+2026-05-19T09:49:14:   - Local:        http://localhost:3000
+2026-05-19T09:49:14: 
+2026-05-19T09:49:14:  ✓ Starting...
+2026-05-19T09:49:15: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:15: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:15: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:14:   - Local:        http://localhost:3000
+2026-05-19T09:49:14: 
+2026-05-19T09:49:14:  ✓ Starting...
+2026-05-19T09:49:15: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:15:   ▲ Next.js 14.2.2
+2026-05-19T09:49:15:   ▲ Next.js 14.2.2
+2026-05-19T09:49:15:   - Local:        http://localhost:3000
+2026-05-19T09:49:15: 
+2026-05-19T09:49:15:  ✓ Starting...
+2026-05-19T09:49:15:   - Local:        http://localhost:3000
+2026-05-19T09:49:15: 
+2026-05-19T09:49:15:  ✓ Starting...
+2026-05-19T09:49:15: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:15: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:15:   ▲ Next.js 14.2.2
+2026-05-19T09:49:15:   - Local:        http://localhost:3000
+2026-05-19T09:49:15: 
+2026-05-19T09:49:15:  ✓ Starting...
+2026-05-19T09:49:16:   ▲ Next.js 14.2.2
+2026-05-19T09:49:16: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:16:   ▲ Next.js 14.2.2
+2026-05-19T09:49:16:   ▲ Next.js 14.2.2
+2026-05-19T09:49:16:   ▲ Next.js 14.2.2
+2026-05-19T09:49:16:   - Local:        http://localhost:3000
+2026-05-19T09:49:16: 
+2026-05-19T09:49:16:  ✓ Starting...
+2026-05-19T09:49:16:   ▲ Next.js 14.2.2
+2026-05-19T09:49:16:   - Local:        http://localhost:3000
+2026-05-19T09:49:16: 
+2026-05-19T09:49:16:  ✓ Starting...
+2026-05-19T09:49:16: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:16:   - Local:        http://localhost:3000
+2026-05-19T09:49:16: 
+2026-05-19T09:49:16:  ✓ Starting...
+2026-05-19T09:49:16:   - Local:        http://localhost:3000
+2026-05-19T09:49:16: 
+2026-05-19T09:49:16:  ✓ Starting...
+2026-05-19T09:49:16: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:16: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:16: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:16:   - Local:        http://localhost:3000
+2026-05-19T09:49:16: 
+2026-05-19T09:49:16:  ✓ Starting...
+2026-05-19T09:49:17: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:17:   ▲ Next.js 14.2.2
+2026-05-19T09:49:17:   ▲ Next.js 14.2.2
+2026-05-19T09:49:17:   - Local:        http://localhost:3000
+2026-05-19T09:49:17: 
+2026-05-19T09:49:17:  ✓ Starting...
+2026-05-19T09:49:17:   - Local:        http://localhost:3000
+2026-05-19T09:49:17: 
+2026-05-19T09:49:17:  ✓ Starting...
+2026-05-19T09:49:17: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:17: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:18:   ▲ Next.js 14.2.2
+2026-05-19T09:49:18:   - Local:        http://localhost:3000
+2026-05-19T09:49:18: 
+2026-05-19T09:49:18:  ✓ Starting...
+2026-05-19T09:49:18: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:18:   ▲ Next.js 14.2.2
+2026-05-19T09:49:18:   ▲ Next.js 14.2.2
+2026-05-19T09:49:19:   ▲ Next.js 14.2.2
+2026-05-19T09:49:18:   - Local:        http://localhost:3000
+2026-05-19T09:49:18: 
+2026-05-19T09:49:18:  ✓ Starting...
+2026-05-19T09:49:19:   ▲ Next.js 14.2.2
+2026-05-19T09:49:19: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:18:   - Local:        http://localhost:3000
+2026-05-19T09:49:18: 
+2026-05-19T09:49:18:  ✓ Starting...
+2026-05-19T09:49:19:   - Local:        http://localhost:3000
+2026-05-19T09:49:19: 
+2026-05-19T09:49:19:  ✓ Starting...
+2026-05-19T09:49:19: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:19: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:19:   - Local:        http://localhost:3000
+2026-05-19T09:49:19: 
+2026-05-19T09:49:19:  ✓ Starting...
+2026-05-19T09:49:19:   ▲ Next.js 14.2.2
+2026-05-19T09:49:19: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:19:   ▲ Next.js 14.2.2
+2026-05-19T09:49:19:   - Local:        http://localhost:3000
+2026-05-19T09:49:19: 
+2026-05-19T09:49:19:  ✓ Starting...
+2026-05-19T09:49:19: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:19:   ▲ Next.js 14.2.2
+2026-05-19T09:49:19:   - Local:        http://localhost:3000
+2026-05-19T09:49:19: 
+2026-05-19T09:49:19:  ✓ Starting...
+2026-05-19T09:49:20: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:19:   - Local:        http://localhost:3000
+2026-05-19T09:49:19: 
+2026-05-19T09:49:19:  ✓ Starting...
+2026-05-19T09:49:20:   ▲ Next.js 14.2.2
+2026-05-19T09:49:20: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:20:   - Local:        http://localhost:3000
+2026-05-19T09:49:20: 
+2026-05-19T09:49:20:  ✓ Starting...
+2026-05-19T09:49:20:   ▲ Next.js 14.2.2
+2026-05-19T09:49:20: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:20:   ▲ Next.js 14.2.2
+2026-05-19T09:49:21:   ▲ Next.js 14.2.2
+2026-05-19T09:49:20:   - Local:        http://localhost:3000
+2026-05-19T09:49:20: 
+2026-05-19T09:49:20:  ✓ Starting...
+2026-05-19T09:49:21:   ▲ Next.js 14.2.2
+2026-05-19T09:49:21: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:20:   - Local:        http://localhost:3000
+2026-05-19T09:49:20: 
+2026-05-19T09:49:20:  ✓ Starting...
+2026-05-19T09:49:21:   - Local:        http://localhost:3000
+2026-05-19T09:49:21: 
+2026-05-19T09:49:21:  ✓ Starting...
+2026-05-19T09:49:21: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:21: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:21:   - Local:        http://localhost:3000
+2026-05-19T09:49:21: 
+2026-05-19T09:49:21:  ✓ Starting...
+2026-05-19T09:49:21:   ▲ Next.js 14.2.2
+2026-05-19T09:49:21: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:22:   ▲ Next.js 14.2.2
+2026-05-19T09:49:21:   - Local:        http://localhost:3000
+2026-05-19T09:49:21: 
+2026-05-19T09:49:21:  ✓ Starting...
+2026-05-19T09:49:22:   ▲ Next.js 14.2.2
+2026-05-19T09:49:22: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:22:   - Local:        http://localhost:3000
+2026-05-19T09:49:22: 
+2026-05-19T09:49:22:  ✓ Starting...
+2026-05-19T09:49:22: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:22:   - Local:        http://localhost:3000
+2026-05-19T09:49:22: 
+2026-05-19T09:49:22:  ✓ Starting...
+2026-05-19T09:49:22: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:22:   ▲ Next.js 14.2.2
+2026-05-19T09:49:23:   ▲ Next.js 14.2.2
+2026-05-19T09:49:23:   ▲ Next.js 14.2.2
+2026-05-19T09:49:22:   - Local:        http://localhost:3000
+2026-05-19T09:49:22: 
+2026-05-19T09:49:22:  ✓ Starting...
+2026-05-19T09:49:23:   ▲ Next.js 14.2.2
+2026-05-19T09:49:23: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:23:   ▲ Next.js 14.2.2
+2026-05-19T09:49:23:   - Local:        http://localhost:3000
+2026-05-19T09:49:23: 
+2026-05-19T09:49:23:  ✓ Starting...
+2026-05-19T09:49:23: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:23:   - Local:        http://localhost:3000
+2026-05-19T09:49:23: 
+2026-05-19T09:49:23:  ✓ Starting...
+2026-05-19T09:49:23: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:23:   - Local:        http://localhost:3000
+2026-05-19T09:49:23: 
+2026-05-19T09:49:23:  ✓ Starting...
+2026-05-19T09:49:23:   - Local:        http://localhost:3000
+2026-05-19T09:49:23: 
+2026-05-19T09:49:23:  ✓ Starting...
+2026-05-19T09:49:23: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:23:   ▲ Next.js 14.2.2
+2026-05-19T09:49:23: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:23:   - Local:        http://localhost:3000
+2026-05-19T09:49:23: 
+2026-05-19T09:49:23:  ✓ Starting...
+2026-05-19T09:49:24:   ▲ Next.js 14.2.2
+2026-05-19T09:49:24: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:24:   ▲ Next.js 14.2.2
+2026-05-19T09:49:24:   - Local:        http://localhost:3000
+2026-05-19T09:49:24: 
+2026-05-19T09:49:24:  ✓ Starting...
+2026-05-19T09:49:24:   - Local:        http://localhost:3000
+2026-05-19T09:49:24: 
+2026-05-19T09:49:24:  ✓ Starting...
+2026-05-19T09:49:24: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:24: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:24:   ▲ Next.js 14.2.2
+2026-05-19T09:49:25:   ▲ Next.js 14.2.2
+2026-05-19T09:49:24:   - Local:        http://localhost:3000
+2026-05-19T09:49:24: 
+2026-05-19T09:49:24:  ✓ Starting...
+2026-05-19T09:49:25:   ▲ Next.js 14.2.2
+2026-05-19T09:49:25:   ▲ Next.js 14.2.2
+2026-05-19T09:49:25: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:25:   - Local:        http://localhost:3000
+2026-05-19T09:49:25: 
+2026-05-19T09:49:25:  ✓ Starting...
+2026-05-19T09:49:25:   ▲ Next.js 14.2.2
+2026-05-19T09:49:25: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:25:   - Local:        http://localhost:3000
+2026-05-19T09:49:25: 
+2026-05-19T09:49:25:  ✓ Starting...
+2026-05-19T09:49:25:   - Local:        http://localhost:3000
+2026-05-19T09:49:25: 
+2026-05-19T09:49:25:  ✓ Starting...
+2026-05-19T09:49:25: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:25: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:25:   ▲ Next.js 14.2.2
+2026-05-19T09:49:25:   - Local:        http://localhost:3000
+2026-05-19T09:49:25: 
+2026-05-19T09:49:25:  ✓ Starting...
+2026-05-19T09:49:25: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:25:   ▲ Next.js 14.2.2
+2026-05-19T09:49:25:   ▲ Next.js 14.2.2
+2026-05-19T09:49:25:   - Local:        http://localhost:3000
+2026-05-19T09:49:25: 
+2026-05-19T09:49:25:  ✓ Starting...
+2026-05-19T09:49:26: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:25:   - Local:        http://localhost:3000
+2026-05-19T09:49:25: 
+2026-05-19T09:49:25:  ✓ Starting...
+2026-05-19T09:49:25:   - Local:        http://localhost:3000
+2026-05-19T09:49:25: 
+2026-05-19T09:49:25:  ✓ Starting...
+2026-05-19T09:49:26: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:26: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:26:   ▲ Next.js 14.2.2
+2026-05-19T09:49:26:   ▲ Next.js 14.2.2
+2026-05-19T09:49:27:   ▲ Next.js 14.2.2
+2026-05-19T09:49:26:   - Local:        http://localhost:3000
+2026-05-19T09:49:26: 
+2026-05-19T09:49:26:  ✓ Starting...
+2026-05-19T09:49:27:   ▲ Next.js 14.2.2
+2026-05-19T09:49:27: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:27:   ▲ Next.js 14.2.2
+2026-05-19T09:49:26:   - Local:        http://localhost:3000
+2026-05-19T09:49:26: 
+2026-05-19T09:49:26:  ✓ Starting...
+2026-05-19T09:49:27:   - Local:        http://localhost:3000
+2026-05-19T09:49:27: 
+2026-05-19T09:49:27:  ✓ Starting...
+2026-05-19T09:49:27: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:27:   - Local:        http://localhost:3000
+2026-05-19T09:49:27: 
+2026-05-19T09:49:27:  ✓ Starting...
+2026-05-19T09:49:27: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:27:   - Local:        http://localhost:3000
+2026-05-19T09:49:27: 
+2026-05-19T09:49:27:  ✓ Starting...
+2026-05-19T09:49:27:   ▲ Next.js 14.2.2
+2026-05-19T09:49:27: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:27: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:27:   ▲ Next.js 14.2.2
+2026-05-19T09:49:27:   - Local:        http://localhost:3000
+2026-05-19T09:49:27: 
+2026-05-19T09:49:27:  ✓ Starting...
+2026-05-19T09:49:27:   ▲ Next.js 14.2.2
+2026-05-19T09:49:27: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:27:   - Local:        http://localhost:3000
+2026-05-19T09:49:27: 
+2026-05-19T09:49:27:  ✓ Starting...
+2026-05-19T09:49:28: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:27:   - Local:        http://localhost:3000
+2026-05-19T09:49:27: 
+2026-05-19T09:49:27:  ✓ Starting...
+2026-05-19T09:49:28: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:28:   ▲ Next.js 14.2.2
+2026-05-19T09:49:28:   ▲ Next.js 14.2.2
+2026-05-19T09:49:28:   - Local:        http://localhost:3000
+2026-05-19T09:49:28: 
+2026-05-19T09:49:28:  ✓ Starting...
+2026-05-19T09:49:28:   ▲ Next.js 14.2.2
+2026-05-19T09:49:28: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:28:   ▲ Next.js 14.2.2
+2026-05-19T09:49:28:   ▲ Next.js 14.2.2
+2026-05-19T09:49:28:   - Local:        http://localhost:3000
+2026-05-19T09:49:28: 
+2026-05-19T09:49:28:  ✓ Starting...
+2026-05-19T09:49:28:   - Local:        http://localhost:3000
+2026-05-19T09:49:28: 
+2026-05-19T09:49:28:  ✓ Starting...
+2026-05-19T09:49:29: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:29: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:29:   ▲ Next.js 14.2.2
+2026-05-19T09:49:28:   - Local:        http://localhost:3000
+2026-05-19T09:49:28: 
+2026-05-19T09:49:28:  ✓ Starting...
+2026-05-19T09:49:28:   - Local:        http://localhost:3000
+2026-05-19T09:49:28: 
+2026-05-19T09:49:28:  ✓ Starting...
+2026-05-19T09:49:29: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:29: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:29:   ▲ Next.js 14.2.2
+2026-05-19T09:49:29:   - Local:        http://localhost:3000
+2026-05-19T09:49:29: 
+2026-05-19T09:49:29:  ✓ Starting...
+2026-05-19T09:49:29:   ▲ Next.js 14.2.2
+2026-05-19T09:49:29: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:29:   - Local:        http://localhost:3000
+2026-05-19T09:49:29: 
+2026-05-19T09:49:29:  ✓ Starting...
+2026-05-19T09:49:29: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:29:   - Local:        http://localhost:3000
+2026-05-19T09:49:29: 
+2026-05-19T09:49:29:  ✓ Starting...
+2026-05-19T09:49:30: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:30:   ▲ Next.js 14.2.2
+2026-05-19T09:49:30:   ▲ Next.js 14.2.2
+2026-05-19T09:49:30:   - Local:        http://localhost:3000
+2026-05-19T09:49:30: 
+2026-05-19T09:49:30:  ✓ Starting...
+2026-05-19T09:49:30:   ▲ Next.js 14.2.2
+2026-05-19T09:49:30: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:30:   ▲ Next.js 14.2.2
+2026-05-19T09:49:30:   ▲ Next.js 14.2.2
+2026-05-19T09:49:30:   - Local:        http://localhost:3000
+2026-05-19T09:49:30: 
+2026-05-19T09:49:30:  ✓ Starting...
+2026-05-19T09:49:30:   - Local:        http://localhost:3000
+2026-05-19T09:49:30: 
+2026-05-19T09:49:30:  ✓ Starting...
+2026-05-19T09:49:30: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:30: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:30:   - Local:        http://localhost:3000
+2026-05-19T09:49:30: 
+2026-05-19T09:49:30:  ✓ Starting...
+2026-05-19T09:49:30:   - Local:        http://localhost:3000
+2026-05-19T09:49:30: 
+2026-05-19T09:49:30:  ✓ Starting...
+2026-05-19T09:49:31:   ▲ Next.js 14.2.2
+2026-05-19T09:49:31: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:31: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:31:   ▲ Next.js 14.2.2
+2026-05-19T09:49:31:   - Local:        http://localhost:3000
+2026-05-19T09:49:31: 
+2026-05-19T09:49:31:  ✓ Starting...
+2026-05-19T09:49:31:   ▲ Next.js 14.2.2
+2026-05-19T09:49:31: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:31:   - Local:        http://localhost:3000
+2026-05-19T09:49:31: 
+2026-05-19T09:49:31:  ✓ Starting...
+2026-05-19T09:49:31: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:31:   - Local:        http://localhost:3000
+2026-05-19T09:49:31: 
+2026-05-19T09:49:31:  ✓ Starting...
+2026-05-19T09:49:31: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:32:   ▲ Next.js 14.2.2
+2026-05-19T09:49:32:   - Local:        http://localhost:3000
+2026-05-19T09:49:32: 
+2026-05-19T09:49:32:  ✓ Starting...
+2026-05-19T09:49:32:   ▲ Next.js 14.2.2
+2026-05-19T09:49:32: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:32:   ▲ Next.js 14.2.2
+2026-05-19T09:49:32:   ▲ Next.js 14.2.2
+2026-05-19T09:49:32:   ▲ Next.js 14.2.2
+2026-05-19T09:49:32:   - Local:        http://localhost:3000
+2026-05-19T09:49:32: 
+2026-05-19T09:49:32:  ✓ Starting...
+2026-05-19T09:49:32:   - Local:        http://localhost:3000
+2026-05-19T09:49:32: 
+2026-05-19T09:49:32:  ✓ Starting...
+2026-05-19T09:49:32: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:32:   - Local:        http://localhost:3000
+2026-05-19T09:49:32: 
+2026-05-19T09:49:32:  ✓ Starting...
+2026-05-19T09:49:32: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:32:   - Local:        http://localhost:3000
+2026-05-19T09:49:32: 
+2026-05-19T09:49:32:  ✓ Starting...
+2026-05-19T09:49:32: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:32:   ▲ Next.js 14.2.2
+2026-05-19T09:49:32: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:33:   ▲ Next.js 14.2.2
+2026-05-19T09:49:32:   - Local:        http://localhost:3000
+2026-05-19T09:49:32: 
+2026-05-19T09:49:32:  ✓ Starting...
+2026-05-19T09:49:33:   ▲ Next.js 14.2.2
+2026-05-19T09:49:33: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:33:   - Local:        http://localhost:3000
+2026-05-19T09:49:33: 
+2026-05-19T09:49:33:  ✓ Starting...
+2026-05-19T09:49:33: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:33:   - Local:        http://localhost:3000
+2026-05-19T09:49:33: 
+2026-05-19T09:49:33:  ✓ Starting...
+2026-05-19T09:49:33: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:33:   ▲ Next.js 14.2.2
+2026-05-19T09:49:34:   ▲ Next.js 14.2.2
+2026-05-19T09:49:33:   - Local:        http://localhost:3000
+2026-05-19T09:49:33: 
+2026-05-19T09:49:33:  ✓ Starting...
+2026-05-19T09:49:34:   ▲ Next.js 14.2.2
+2026-05-19T09:49:34: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:34:   ▲ Next.js 14.2.2
+2026-05-19T09:49:34:   ▲ Next.js 14.2.2
+2026-05-19T09:49:34:   - Local:        http://localhost:3000
+2026-05-19T09:49:34: 
+2026-05-19T09:49:34:  ✓ Starting...
+2026-05-19T09:49:34: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:34:   - Local:        http://localhost:3000
+2026-05-19T09:49:34: 
+2026-05-19T09:49:34:  ✓ Starting...
+2026-05-19T09:49:34: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:34:   - Local:        http://localhost:3000
+2026-05-19T09:49:34: 
+2026-05-19T09:49:34:  ✓ Starting...
+2026-05-19T09:49:34:   - Local:        http://localhost:3000
+2026-05-19T09:49:34: 
+2026-05-19T09:49:34:  ✓ Starting...
+2026-05-19T09:49:34: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:34: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:34:   ▲ Next.js 14.2.2
+2026-05-19T09:49:34:   ▲ Next.js 14.2.2
+2026-05-19T09:49:34:   ▲ Next.js 14.2.2
+2026-05-19T09:49:34:   - Local:        http://localhost:3000
+2026-05-19T09:49:34: 
+2026-05-19T09:49:34:  ✓ Starting...
+2026-05-19T09:49:35: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:34:   - Local:        http://localhost:3000
+2026-05-19T09:49:34: 
+2026-05-19T09:49:34:  ✓ Starting...
+2026-05-19T09:49:34:   - Local:        http://localhost:3000
+2026-05-19T09:49:34: 
+2026-05-19T09:49:34:  ✓ Starting...
+2026-05-19T09:49:35: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:35: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:35:   ▲ Next.js 14.2.2
+2026-05-19T09:49:35:   ▲ Next.js 14.2.2
+2026-05-19T09:49:35:   ▲ Next.js 14.2.2
+2026-05-19T09:49:35:   - Local:        http://localhost:3000
+2026-05-19T09:49:35: 
+2026-05-19T09:49:35:  ✓ Starting...
+2026-05-19T09:49:35:   ▲ Next.js 14.2.2
+2026-05-19T09:49:36: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:36:   ▲ Next.js 14.2.2
+2026-05-19T09:49:35:   - Local:        http://localhost:3000
+2026-05-19T09:49:35: 
+2026-05-19T09:49:35:  ✓ Starting...
+2026-05-19T09:49:35:   - Local:        http://localhost:3000
+2026-05-19T09:49:35: 
+2026-05-19T09:49:35:  ✓ Starting...
+2026-05-19T09:49:36: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:35:   - Local:        http://localhost:3000
+2026-05-19T09:49:35: 
+2026-05-19T09:49:35:  ✓ Starting...
+2026-05-19T09:49:36: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:36:   - Local:        http://localhost:3000
+2026-05-19T09:49:36: 
+2026-05-19T09:49:36:  ✓ Starting...
+2026-05-19T09:49:36: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:36: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:36:   ▲ Next.js 14.2.2
+2026-05-19T09:49:36:   ▲ Next.js 14.2.2
+2026-05-19T09:49:36:   ▲ Next.js 14.2.2
+2026-05-19T09:49:36:   - Local:        http://localhost:3000
+2026-05-19T09:49:36: 
+2026-05-19T09:49:36:  ✓ Starting...
+2026-05-19T09:49:36: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:36:   - Local:        http://localhost:3000
+2026-05-19T09:49:36: 
+2026-05-19T09:49:36:  ✓ Starting...
+2026-05-19T09:49:36:   - Local:        http://localhost:3000
+2026-05-19T09:49:36: 
+2026-05-19T09:49:36:  ✓ Starting...
+2026-05-19T09:49:37: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:37: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:37:   ▲ Next.js 14.2.2
+2026-05-19T09:49:37:   - Local:        http://localhost:3000
+2026-05-19T09:49:37: 
+2026-05-19T09:49:37:  ✓ Starting...
+2026-05-19T09:49:37:   ▲ Next.js 14.2.2
+2026-05-19T09:49:37: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:37:   ▲ Next.js 14.2.2
+2026-05-19T09:49:37:   ▲ Next.js 14.2.2
+2026-05-19T09:49:37:   ▲ Next.js 14.2.2
+2026-05-19T09:49:37:   - Local:        http://localhost:3000
+2026-05-19T09:49:37: 
+2026-05-19T09:49:37:  ✓ Starting...
+2026-05-19T09:49:37:   - Local:        http://localhost:3000
+2026-05-19T09:49:37: 
+2026-05-19T09:49:37:  ✓ Starting...
+2026-05-19T09:49:37:   - Local:        http://localhost:3000
+2026-05-19T09:49:37: 
+2026-05-19T09:49:37:  ✓ Starting...
+2026-05-19T09:49:38: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:37:   - Local:        http://localhost:3000
+2026-05-19T09:49:37: 
+2026-05-19T09:49:37:  ✓ Starting...
+2026-05-19T09:49:38: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:38: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:38: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:38:   ▲ Next.js 14.2.2
+2026-05-19T09:49:38:   ▲ Next.js 14.2.2
+2026-05-19T09:49:38:   ▲ Next.js 14.2.2
+2026-05-19T09:49:38:   - Local:        http://localhost:3000
+2026-05-19T09:49:38: 
+2026-05-19T09:49:38:  ✓ Starting...
+2026-05-19T09:49:38: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:38:   - Local:        http://localhost:3000
+2026-05-19T09:49:38: 
+2026-05-19T09:49:38:  ✓ Starting...
+2026-05-19T09:49:38:   - Local:        http://localhost:3000
+2026-05-19T09:49:38: 
+2026-05-19T09:49:38:  ✓ Starting...
+2026-05-19T09:49:39: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:39: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:39:   ▲ Next.js 14.2.2
+2026-05-19T09:49:39:   - Local:        http://localhost:3000
+2026-05-19T09:49:39: 
+2026-05-19T09:49:39:  ✓ Starting...
+2026-05-19T09:49:39: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:39:   ▲ Next.js 14.2.2
+2026-05-19T09:49:39:   ▲ Next.js 14.2.2
+2026-05-19T09:49:40:   ▲ Next.js 14.2.2
+2026-05-19T09:49:40:   ▲ Next.js 14.2.2
+2026-05-19T09:49:39:   - Local:        http://localhost:3000
+2026-05-19T09:49:39: 
+2026-05-19T09:49:39:  ✓ Starting...
+2026-05-19T09:49:39:   - Local:        http://localhost:3000
+2026-05-19T09:49:39: 
+2026-05-19T09:49:39:  ✓ Starting...
+2026-05-19T09:49:40: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:40:   - Local:        http://localhost:3000
+2026-05-19T09:49:40: 
+2026-05-19T09:49:40:  ✓ Starting...
+2026-05-19T09:49:40:   - Local:        http://localhost:3000
+2026-05-19T09:49:40: 
+2026-05-19T09:49:40:  ✓ Starting...
+2026-05-19T09:49:40: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:40: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:40: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:40:   ▲ Next.js 14.2.2
+2026-05-19T09:49:40:   ▲ Next.js 14.2.2
+2026-05-19T09:49:40:   ▲ Next.js 14.2.2
+2026-05-19T09:49:40:   - Local:        http://localhost:3000
+2026-05-19T09:49:40: 
+2026-05-19T09:49:40:  ✓ Starting...
+2026-05-19T09:49:41: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:40:   - Local:        http://localhost:3000
+2026-05-19T09:49:40: 
+2026-05-19T09:49:40:  ✓ Starting...
+2026-05-19T09:49:40:   - Local:        http://localhost:3000
+2026-05-19T09:49:40: 
+2026-05-19T09:49:40:  ✓ Starting...
+2026-05-19T09:49:41: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:41: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:41:   ▲ Next.js 14.2.2
+2026-05-19T09:49:41:   - Local:        http://localhost:3000
+2026-05-19T09:49:41: 
+2026-05-19T09:49:41:  ✓ Starting...
+2026-05-19T09:49:41:   ▲ Next.js 14.2.2
+2026-05-19T09:49:42: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:42:   ▲ Next.js 14.2.2
+2026-05-19T09:49:42:   ▲ Next.js 14.2.2
+2026-05-19T09:49:42:   ▲ Next.js 14.2.2
+2026-05-19T09:49:41:   - Local:        http://localhost:3000
+2026-05-19T09:49:41: 
+2026-05-19T09:49:41:  ✓ Starting...
+2026-05-19T09:49:42:   - Local:        http://localhost:3000
+2026-05-19T09:49:42: 
+2026-05-19T09:49:42:  ✓ Starting...
+2026-05-19T09:49:42: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:42:   - Local:        http://localhost:3000
+2026-05-19T09:49:42: 
+2026-05-19T09:49:42:  ✓ Starting...
+2026-05-19T09:49:42: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:42: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:49:42:   ▲ Next.js 14.2.2
+2026-05-19T09:49:42:   ▲ Next.js 14.2.2
+2026-05-19T09:49:42:   - Local:        http://localhost:3000
+2026-05-19T09:49:42: 
+2026-05-19T09:49:42:  ✓ Starting...
+2026-05-19T09:49:43: Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-utils\filesystem.ts:157:13)
+    at initialize (D:\project\web\admin-panel\node_modules\next\src\server\lib\router-server.ts:93:21)
+    at Server.<anonymous> (D:\project\web\admin-panel\node_modules\next\src\server\lib\start-server.ts:293:28)
+2026-05-19T09:51:37:   ▲ Next.js 14.2.2
+2026-05-19T09:51:37:   ▲ Next.js 14.2.2
+2026-05-19T09:51:37:   - Local:        http://localhost:3000
+2026-05-19T09:51:37: 
+2026-05-19T09:51:37:  ✓ Starting...
+2026-05-19T09:51:37:   ▲ Next.js 14.2.2
+2026-05-19T09:51:37:   - Local:        http://localhost:3000
+2026-05-19T09:51:37: 
+2026-05-19T09:51:37:  ✓ Starting...
+2026-05-19T09:51:37:   ▲ Next.js 14.2.2
+2026-05-19T09:51:38:  ✓ Ready in 1000ms
+2026-05-19T09:51:37:   - Local:        http://localhost:3000
+2026-05-19T09:51:37: 
+2026-05-19T09:51:37:  ✓ Starting...
+2026-05-19T09:51:38:   ▲ Next.js 14.2.2
+2026-05-19T09:51:38:  ✓ Ready in 1046ms
+2026-05-19T09:51:37:   - Local:        http://localhost:3000
+2026-05-19T09:51:37: 
+2026-05-19T09:51:37:  ✓ Starting...
+2026-05-19T09:51:38:   ▲ Next.js 14.2.2
+2026-05-19T09:51:38:  ✓ Ready in 990ms
+2026-05-19T09:51:38:   - Local:        http://localhost:3000
+2026-05-19T09:51:38: 
+2026-05-19T09:51:38:  ✓ Starting...
+2026-05-19T09:51:38:  ✓ Ready in 978ms
+2026-05-19T09:51:38:   ▲ Next.js 14.2.2
+2026-05-19T09:51:38:   - Local:        http://localhost:3000
+2026-05-19T09:51:38: 
+2026-05-19T09:51:38:  ✓ Starting...
+2026-05-19T09:51:38:   ▲ Next.js 14.2.2
+2026-05-19T09:51:38:  ✓ Ready in 923ms
+2026-05-19T09:51:38:   - Local:        http://localhost:3000
+2026-05-19T09:51:38: 
+2026-05-19T09:51:38:  ✓ Starting...
+2026-05-19T09:51:38:  ✓ Ready in 853ms
+2026-05-19T09:51:38:   - Local:        http://localhost:3000
+2026-05-19T09:51:38: 
+2026-05-19T09:51:38:  ✓ Starting...
+2026-05-19T09:51:38:  ✓ Ready in 765ms
+2026-05-19T09:51:38:  ✓ Ready in 651ms
+2026-05-19T22:58:10:   ▲ Next.js 14.2.2
+2026-05-19T22:58:10:   ▲ Next.js 14.2.2
+2026-05-19T22:58:10:   ▲ Next.js 14.2.2
+2026-05-19T22:58:10:   ▲ Next.js 14.2.2
+2026-05-19T22:58:10:   ▲ Next.js 14.2.2
+2026-05-19T22:58:10:   ▲ Next.js 14.2.2
+2026-05-19T22:58:10:   ▲ Next.js 14.2.2
+2026-05-19T22:58:10:   ▲ Next.js 14.2.2
+2026-05-19T22:58:10:   - Local:        http://localhost:3000
+2026-05-19T22:58:10: 
+2026-05-19T22:58:10:  ✓ Starting...
+2026-05-19T22:58:10:   - Local:        http://localhost:3000
+2026-05-19T22:58:10: 
+2026-05-19T22:58:10:  ✓ Starting...
+2026-05-19T22:58:10:   - Local:        http://localhost:3000
+2026-05-19T22:58:10: 
+2026-05-19T22:58:10:  ✓ Starting...
+2026-05-19T22:58:10:   - Local:        http://localhost:3000
+2026-05-19T22:58:10: 
+2026-05-19T22:58:10:  ✓ Starting...
+2026-05-19T22:58:10:   - Local:        http://localhost:3000
+2026-05-19T22:58:10:   - Local:        http://localhost:3000
+2026-05-19T22:58:10: 
+2026-05-19T22:58:10: 
+2026-05-19T22:58:10:  ✓ Starting...
+2026-05-19T22:58:10:  ✓ Starting...
+2026-05-19T22:58:10:   - Local:        http://localhost:3000
+2026-05-19T22:58:10: 
+2026-05-19T22:58:10:  ✓ Starting...
+2026-05-19T22:58:10:   - Local:        http://localhost:3000
+2026-05-19T22:58:10: 
+2026-05-19T22:58:10:  ✓ Starting...
+2026-05-19T22:58:13:  ✓ Ready in 8s
+2026-05-19T22:58:13:  ✓ Ready in 8s
+2026-05-19T22:58:13:  ✓ Ready in 8s
+2026-05-19T22:58:13:  ✓ Ready in 8s
+2026-05-19T22:58:13:  ✓ Ready in 8s
+2026-05-19T22:58:13:  ✓ Ready in 8.1s
+2026-05-19T22:58:13:  ✓ Ready in 8s
+2026-05-19T22:58:13:  ✓ Ready in 8s
+2026-05-20T10:19:42:   ▲ Next.js 14.2.2
+2026-05-20T10:19:42:   ▲ Next.js 14.2.2
+2026-05-20T10:19:42:   ▲ Next.js 14.2.2
+2026-05-20T10:19:43:   ▲ Next.js 14.2.2
+2026-05-20T10:19:43:   ▲ Next.js 14.2.2
+2026-05-20T10:19:43:   ▲ Next.js 14.2.2
+2026-05-20T10:19:43:   ▲ Next.js 14.2.2
+2026-05-20T10:19:43:   ▲ Next.js 14.2.2
+2026-05-20T10:19:43:   - Local:        http://localhost:3000
+2026-05-20T10:19:43: 
+2026-05-20T10:19:43:  ✓ Starting...
+2026-05-20T10:19:43:   - Local:        http://localhost:3000
+2026-05-20T10:19:43: 
+2026-05-20T10:19:43:  ✓ Starting...
+2026-05-20T10:19:42:   - Local:        http://localhost:3000
+2026-05-20T10:19:42: 
+2026-05-20T10:19:42:  ✓ Starting...
+2026-05-20T10:19:43:   - Local:        http://localhost:3000
+2026-05-20T10:19:43: 
+2026-05-20T10:19:43:  ✓ Starting...
+2026-05-20T10:19:43:   - Local:        http://localhost:3000
+2026-05-20T10:19:43: 
+2026-05-20T10:19:43:  ✓ Starting...
+2026-05-20T10:19:43:   - Local:        http://localhost:3000
+2026-05-20T10:19:43: 
+2026-05-20T10:19:43:  ✓ Starting...
+2026-05-20T10:19:42:   - Local:        http://localhost:3000
+2026-05-20T10:19:42: 
+2026-05-20T10:19:42:  ✓ Starting...
+2026-05-20T10:19:43:   - Local:        http://localhost:3000
+2026-05-20T10:19:43: 
+2026-05-20T10:19:43:  ✓ Starting...
+2026-05-20T10:19:45:  ✓ Ready in 6.8s
+2026-05-20T10:19:45:  ✓ Ready in 6.8s
+2026-05-20T10:19:45:  ✓ Ready in 6.8s
+2026-05-20T10:19:45:  ✓ Ready in 6.8s
+2026-05-20T10:19:45:  ✓ Ready in 6.7s
+2026-05-20T10:19:45:  ✓ Ready in 6.8s
+2026-05-20T10:19:45:  ✓ Ready in 6.8s
+2026-05-20T10:19:45:  ✓ Ready in 6.8s
