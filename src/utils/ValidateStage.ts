@@ -159,6 +159,12 @@ export function validateStage(parts: PartItem[]): { status: number; message: str
               message: `در جمله شماره ${i + 1}، حروف برای ساخت کلمه اضافه "${additional}" در "${wordItem.word}" کافی نیست.`,
             };
           }
+          if(additional?.length < 2){
+            return {
+              status: 401,
+              message: `در جمله شماره ${i + 1}، در کلمه‌ی "${wordItem.word}"، کلمه اضافه‌ای با طول کمتر از 2 کاراکتر وجود دارد.`,
+            };
+          }
         }
 
         for (const hidden of wordItem.hidden_words) {
@@ -178,6 +184,12 @@ export function validateStage(parts: PartItem[]): { status: number; message: str
             return {
               status: 401,
               message: `در جمله شماره ${i + 1}، حروف برای ساخت کلمه پنهان "${hidden}" در "${wordItem.word}" کافی نیست.`,
+            };
+          }
+          if(hidden?.length < 2){
+            return {
+              status: 401,
+              message: `در جمله شماره ${i + 1}، در کلمه‌ی "${wordItem.word}"، کلمه پنهانی با طول کمتر از 2 کاراکتر وجود دارد.`,
             };
           }
         }
