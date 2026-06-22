@@ -344,7 +344,7 @@ class ModalList extends PureComponent {
           {item.name}
         </label>
         <div
-          className="relative w-4 h-4 flex justify-center items-center border-2 border-primary rounded-full"
+          className="relative w-5 h-5 flex justify-center items-center border-2 border-primary rounded-full"
           onClick={() => this.clickItemRadioButton({ item: item, index: index })}
         >
           <input

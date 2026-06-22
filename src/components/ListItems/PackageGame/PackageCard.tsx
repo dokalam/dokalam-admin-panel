@@ -10,6 +10,8 @@ import { HiDotsVertical } from "react-icons/hi";
 import { FaImage, FaPencil } from "react-icons/fa6";
 import Globals from "@/utils/Globals";
 import GradientButton from "@/components/GradientButton";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const PackageCard = ({
   _id,
@@ -80,6 +82,12 @@ const PackageCard = ({
   const flexDir = rtl ? "flex-row-reverse" : "flex-row";
   const itemAlign = rtl ? "items-end sm:items-start" : "items-start sm:items-end";
   const [menuOpen, setMenuOpen] = useState(false);
+  const [versionCreatedDiff, setVersionCreatedDiff] = useState(version_created_pending_diff && version_created_pending_diff > 0?true:null)
+  const [loading1, setLoading1] = useState(false)
+  const [versionUpdatedDiff, setVersionUpdatedDiff] = useState(version_updated_pending_diff && version_updated_pending_diff > 0?true:null)
+  const [loading2, setLoading2] = useState(false)
+  const [versionDeletedDiff, setVersionDeletedDiff] = useState(version_deleted_pending_diff && version_deleted_pending_diff > 0?true:null)
+  const [loading3, setLoading3] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null);
   const packageId = _id
 
@@ -95,6 +103,211 @@ const PackageCard = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const applyPendingCreateVersion = async()=>{
+    if(versionCreatedDiff === true){
+      setLoading1(true)
+      let data = {
+      query: `
+          mutation applyDiffCreatedVersionPackageGame(
+            $_id : ID!,
+          ){
+            applyDiffCreatedVersionPackageGame(
+              _id : $_id,
+            ) {
+              status,
+              message,
+            }
+          }
+          `,
+      variables: {
+        _id : packageId,
+      },
+    };
+    await axios({
+      url: "/",
+      method: "post",
+      data: data,
+    })
+      .then(async (response) => {
+        const res = response.data?.data?.applyDiffCreatedVersionPackageGame
+        setLoading1(false)
+        if (res?.status == 200) {
+            setVersionCreatedDiff(false)
+            toast.success(res?.message, {
+              position: "top-center",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+            });
+        } else {
+          toast.error((response.data?.errors[0]?.data[0]?.message || "مشکلی پیش آمد دوباره تلاش کنید"), {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+          });
+        }
+      })
+      .catch((e) => {
+        setLoading1(false)
+        toast.error("مشکلی پیش آمد دوباره تلاش کنید", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+        });
+      });
+    }
+  }
+  const applyPendingUpdateVersion = async()=>{
+    if(versionUpdatedDiff === true){
+      setLoading2(true)
+      let data = {
+      query: `
+          mutation applyDiffUpdatedVersionPackageGame(
+            $_id : ID!,
+          ){
+            applyDiffUpdatedVersionPackageGame(
+              _id : $_id,
+            ) {
+              status,
+              message,
+            }
+          }
+          `,
+      variables: {
+        _id : packageId,
+      },
+    };
+    await axios({
+      url: "/",
+      method: "post",
+      data: data,
+    })
+      .then(async (response) => {
+        const res = response.data?.data?.applyDiffUpdatedVersionPackageGame
+        setLoading2(false)
+        if (res?.status == 200) {
+            setVersionUpdatedDiff(false)
+            toast.success(res?.message, {
+              position: "top-center",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+            });
+        } else {
+          toast.error((response.data?.errors[0]?.data[0]?.message || "مشکلی پیش آمد دوباره تلاش کنید"), {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+          });
+        }
+      })
+      .catch((e) => {
+        setLoading2(false)
+        toast.error("مشکلی پیش آمد دوباره تلاش کنید", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+        });
+      });
+    }
+  }
+  const applyPendingDeleteVersion = async()=>{
+    if(versionDeletedDiff === true){
+      setLoading3(true)
+      let data = {
+      query: `
+          mutation applyDiffDeletedVersionPackageGame(
+            $_id : ID!,
+          ){
+            applyDiffDeletedVersionPackageGame(
+              _id : $_id,
+            ) {
+              status,
+              message,
+            }
+          }
+          `,
+      variables: {
+        _id : packageId,
+      },
+    };
+    await axios({
+      url: "/",
+      method: "post",
+      data: data,
+    })
+      .then(async (response) => {
+        const res = response.data?.data?.applyDiffDeletedVersionPackageGame
+        setLoading3(false)
+        if (res?.status == 200) {
+            setVersionDeletedDiff(false)
+            toast.success(res?.message, {
+              position: "top-center",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+            });
+        } else {
+          toast.error((response.data?.errors[0]?.data[0]?.message || "مشکلی پیش آمد دوباره تلاش کنید"), {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+          });
+        }
+      })
+      .catch((e) => {
+        setLoading3(false)
+        toast.error("مشکلی پیش آمد دوباره تلاش کنید", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
+        });
+      });
+    }
+  }
 
   return (
     <div 
@@ -290,33 +503,33 @@ const PackageCard = ({
           </div>
           <div className="flex flex-col gap-2">
             {
-              (version_created_pending_diff && version_created_pending_diff > 0)?
+              (versionCreatedDiff === true || versionCreatedDiff === false)?
               <GradientButton
-                  buttonText={"در انتظار اعمال ورژن ایجاد"}
-                  onClickFn={()=>{}}
-                  loading={false}
+                  buttonText={versionCreatedDiff === true?"در انتظار اعمال ورژن ایجاد":versionCreatedDiff === false?"اعمال شد":""}
+                  onClickFn={applyPendingCreateVersion}
+                  loading={loading1}
                   type={"border"}
-                  classes="!text-base !px-8 !w-full rounded-[15px] !bg-red_error"
+                  classes={`!text-base !px-8 !w-full rounded-[15px] ${versionCreatedDiff === true?"!bg-red_error":"!bg-info"}`}
               />:null
             }
             {
-              (version_updated_pending_diff && version_updated_pending_diff > 0)?
+              (versionUpdatedDiff === true || versionUpdatedDiff === false)?
               <GradientButton
-                  buttonText={"در انتظار اعمال ورژن آپدیت"}
-                  onClickFn={()=>{}}
-                  loading={false}
+                  buttonText={versionUpdatedDiff === true?"در انتظار اعمال ورژن آپدیت":versionUpdatedDiff === false?"اعمال شد":""}
+                  onClickFn={applyPendingUpdateVersion}
+                  loading={loading2}
                   type={"border"}
-                  classes="!text-base !px-8 !w-full rounded-[15px] !bg-red_error"
+                  classes={`!text-base !px-8 !w-full rounded-[15px] ${versionUpdatedDiff === true?"!bg-red_error":"!bg-info"}`}
               />:null
             }
             {
-              (version_deleted_pending_diff && version_deleted_pending_diff > 0)?
+              (versionDeletedDiff === true || versionDeletedDiff === false)?
               <GradientButton
-                  buttonText={"در انتظار اعمال ورژن حذف"}
-                  onClickFn={()=>{}}
-                  loading={false}
+                  buttonText={versionDeletedDiff === true?"در انتظار اعمال ورژن حذف":versionDeletedDiff === false?"اعمال شد":""}
+                  onClickFn={applyPendingDeleteVersion}
+                  loading={loading3}
                   type={"border"}
-                  classes="!text-base !px-8 !w-full rounded-[15px] !bg-red_error"
+                  classes={`!text-base !px-8 !w-full rounded-[15px] ${versionDeletedDiff === true?"!bg-red_error":"!bg-info"}`}
               />:null
             }
           </div>

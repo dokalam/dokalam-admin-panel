@@ -6,12 +6,9 @@ import DialogHelper from "@/components/Dialog/DialogHelper";
 import Globals from "@/utils/Globals";
 import axios from "axios";
 import { getCookie, hasCookie, setCookie } from "cookies-next";
-// import MyModalList from "@/components/ModalList/ModalList";
-// import ModalListHelper from "@/components/ModalList/ModalListHelper";
-// import ModalInput from "@/components/ModalInput/ModalInput";
-// import ModalInputHelper from "@/components/ModalInput/ModalInputHelper";
-// import CityModalHelper from "@/components/CityModal/CityModalHelper";
-// import CityModal from "@/components/CityModal/CityModal";
+import ModalList from "@/components/ModalList/ModalList";
+import ModalListHelper from "@/components/ModalList/ModalListHelper";
+
 
 const LayoutComponent = ({ children }: { children: React.ReactNode }) => {
   axios.defaults.baseURL = Globals.baseURL;
@@ -33,6 +30,11 @@ const LayoutComponent = ({ children }: { children: React.ReactNode }) => {
           DialogHelper.setRef(Ref);
         }}
       />
+      <ModalList
+          ref={(Ref) => {
+            ModalListHelper.setRef(Ref);
+          }}
+        />
     </div>
   );
 };

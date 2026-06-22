@@ -4,7 +4,7 @@ import SideBarItem from "./SideBarItem";
 import { usePathname } from "next/navigation";
 import { AiFillDashboard } from "react-icons/ai";
 import { RiApps2AddFill, RiApps2Fill, RiTextSpacing } from "react-icons/ri";
-import { TbBellPlus, TbCoins, TbDiaboloPlus, TbHexagonalPrismPlus, TbHexagonPlusFilled, TbListSearch, TbMessagePlus } from "react-icons/tb";
+import { TbBellPlus, TbCoins, TbDiaboloPlus, TbHexagonalPrismPlus, TbHexagonPlusFilled, TbListSearch, TbMessagePlus, TbSettings } from "react-icons/tb";
 import { FaCoins, FaDiceD6, FaUsers } from "react-icons/fa6";
 import { LuBookText, LuClipboardList } from "react-icons/lu";
 import { BsCloudPlus, BsCloudPlusFill } from "react-icons/bs";
@@ -156,6 +156,15 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
       ),
       head:true,
       children: [
+          {
+            name: "تنظیمات بازی مرحله‌ای",
+            href: "/setting",
+            icon: (
+              <div className="text-xl">
+                <TbSettings />
+              </div>
+            ),
+          },
         {
           name: "ثبت فصل جدید",
           href: "/register-new-season",

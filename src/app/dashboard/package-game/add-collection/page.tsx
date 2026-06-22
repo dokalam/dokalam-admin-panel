@@ -55,8 +55,8 @@ const Page = () => {
         progress: undefined,
         theme: typeof window !== "undefined" && localStorage.getItem("theme") == "dark" ? "dark" : "light",
       });
-    } else if(packageSelected._id.length < 6) {
-      toast.error("نمیتوانید یک کالکشن را با کمتر از 6 پکیج ثبت کنید", {
+    } else if(packageSelected._id.length < 2) {
+      toast.error("نمی‌توانید یک کالکشن را با کمتر از 2 پکیج ثبت کنید", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
