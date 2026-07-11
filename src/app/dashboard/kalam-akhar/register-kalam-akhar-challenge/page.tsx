@@ -82,6 +82,7 @@ const Page = () => {
   const [expiration, setExpiration] = useState<any>(null)
   const [expirationHour, setExpirationHour] = useState<any>(null)
   const dark = typeof window !== "undefined" && localStorage.getItem("theme");
+  const [order, setOrder] = useState("")
   const [language, setLanguage] = useState<string | null>(null)
   const [languageList, setLanguageList] = useState([])
   const [visible, setVisible] = useState(true);
@@ -217,6 +218,7 @@ const Page = () => {
             $reward_coins : Int,
             $reward_subscription : Int,
             $expiration : Date,
+            $order : Int,
             $parts : [StageStructure!]!,
             $stage_hint : String,
             $language_ref : ID!,
@@ -236,6 +238,7 @@ const Page = () => {
               reward_coins : $reward_coins,
               reward_subscription : $reward_subscription,
               expiration : $expiration,
+              order : $order,
               parts : $parts,
               stage_hint : $stage_hint,
               language_ref : $language_ref,
@@ -260,6 +263,7 @@ const Page = () => {
         reward_coins : rewardCoins && Number(rewardCoins) > 0? Number(rewardCoins):undefined,
         reward_subscription : rewardSubscription && Number(rewardSubscription) > 0? Number(rewardSubscription):undefined,
         expiration : expiration?new Date(new Date(new Date(expiration).setHours(expirationHour)).setMinutes(0)):undefined,
+        order : order && Number(order) >= 0? Number(order):undefined,
         parts : normalData,
         stage_hint : stageHint.trim().length < 3?undefined:stageHint,
         language_ref: language,
@@ -1213,6 +1217,17 @@ const Page = () => {
         >
           <LuX size={30} />
         </button>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="order"
+        >
+          ترتیب نمایش
+          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+            <Input type="number" id="number-stage-season" value={order} changeState={setOrder} classes="flex-1" inputStyles="!text-base" />
+          </div>
+        </label>
       </div>
       <div className="mt-6">
         <label

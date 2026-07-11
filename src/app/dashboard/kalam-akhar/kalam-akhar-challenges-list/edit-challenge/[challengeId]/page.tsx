@@ -110,6 +110,7 @@ const Page = () => {
   const [expiration, setExpiration] = useState<any>(null)
   const [expirationHour, setExpirationHour] = useState<any>(null)
   const dark = typeof window !== "undefined" && localStorage.getItem("theme");
+  const [order, setOrder] = useState("")
   const [language, setLanguage] = useState<string | null>(null)
   const [languageList, setLanguageList] = useState<listType[]>([])
   const [visible, setVisible] = useState(true);
@@ -211,6 +212,7 @@ const Page = () => {
                     reward_coins,
                     reward_subscription,
                     expiration,
+                    order,
                     parts{
                       _id,
                       sentence,
@@ -252,6 +254,7 @@ const Page = () => {
             let index = hours.findIndex((i: any) => i.value == now);
             setExpirationHour(hours[index].value)
           }
+          setOrder(data?.order ?? "")
           setLanguage(data?.language_ref)
           setVisible(data?.is_visible)
           setActive(data?.is_active)
@@ -329,6 +332,7 @@ const Page = () => {
             $reward_coins : Int,
             $reward_subscription : Int,
             $expiration : Date,
+            $order : Int,
             $parts : [StageStructure],
             $stage_hint : String,
             $language_ref : ID,
@@ -347,6 +351,7 @@ const Page = () => {
               reward_coins : $reward_coins,
               reward_subscription : $reward_subscription,
               expiration : $expiration,
+              order : $order,
               parts : $parts,
               stage_hint : $stage_hint,
               language_ref : $language_ref,
@@ -370,6 +375,7 @@ const Page = () => {
         reward_coins : (oldData?.reward_coins && rewardCoins?.length === 0) ? 0 : (((oldData?.reward_coins && rewardCoins !== oldData?.reward_coins) || (!oldData?.reward_coins && rewardCoins?.length > 0)) ? Number(rewardCoins) : undefined),
         reward_subscription : (oldData?.reward_subscription && rewardSubscription?.length === 0) ? 0 : (((oldData?.reward_subscription && rewardSubscription !== oldData?.reward_subscription) || (!oldData?.reward_subscription && rewardSubscription?.length > 0)) ? Number(rewardSubscription) : undefined),
         expiration:(oldData?.expiration && expiration == null)? new Date(): ((oldData?.expiration ? new Date(oldData.expiration).getTime() : null) !==(expirationValue?.getTime?.() ?? null))? expirationValue: undefined,
+        order: (typeof oldData?.order === "number" && order?.length === 0) ? -1 : (((oldData?.order && order !== oldData?.order) || (!oldData?.order && order?.length > 0)) ? Number(order) : undefined),
         parts : (normalData && normalData?.length > 0)?normalData:undefined,
         stage_hint : ((oldData?.stage_hint && stageHint !== oldData?.stage_hint) || (!oldData?.stage_hint && stageHint?.length >0))?stageHint:undefined,
         language_ref : language !== oldData?.language_ref?language:undefined,
@@ -800,6 +806,17 @@ pointer-events-none inline-block h-[22px] w-[22px] transform rounded-full shadow
       >
         <LuX size={30} />
       </button>
+    </div>
+    <div className="mt-6">
+      <label
+        className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+        htmlFor="order"
+      >
+        ترتیب نمایش
+        <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+          <Input type="number" id="number-stage-season" value={order} changeState={setOrder} classes="flex-1" inputStyles="!text-base" />
+        </div>
+      </label>
     </div>
       <div className="mt-6">
         <label
