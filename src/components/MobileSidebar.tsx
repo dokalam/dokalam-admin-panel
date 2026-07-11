@@ -3,13 +3,13 @@ import { Fragment, useEffect, useState } from "react";
 import SideBarItem from "./SideBarItem";
 import { usePathname } from "next/navigation";
 import { AiFillDashboard } from "react-icons/ai";
-import { RiApps2AddFill, RiApps2Fill, RiTextSpacing } from "react-icons/ri";
-import { TbBellPlus, TbCoins, TbDiaboloPlus, TbHexagonalPrismPlus, TbHexagonPlusFilled, TbListSearch, TbMessagePlus, TbSettings } from "react-icons/tb";
+import { RiApps2Fill, RiBook2Fill } from "react-icons/ri";
+import { TbCoins, TbDiaboloPlus, TbHexagonalPrismPlus, TbBellPlus, TbMessagePlus, TbListSearch, TbSettings, TbDropletPlus, TbTagPlus, TbSearch, TbListDetails  } from "react-icons/tb";
 import { FaCoins, FaDiceD6, FaUsers } from "react-icons/fa6";
-import { LuBookText, LuClipboardList } from "react-icons/lu";
 import { BsCloudPlus, BsCloudPlusFill } from "react-icons/bs";
-import { IoDiamondOutline, IoDiamondSharp, IoMail, IoNotifications, IoTrailSign, IoTrailSignOutline } from "react-icons/io5";
+import { LuClipboardList } from "react-icons/lu";
 import { MdListAlt, MdPayments } from "react-icons/md";
+import { IoDiamondOutline, IoDiamondSharp, IoTrailSign, IoTrailSignOutline, IoNotifications, IoMail } from "react-icons/io5";
 
 export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpenSidebar: boolean; closeSidebarFn: any }) {
   const dark = typeof window !== "undefined" && localStorage.getItem("theme");
@@ -23,7 +23,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
     }
   }, [pathName]);
 
-  const navigation: any = [
+const navigation: any = [
     {
       name: "داشبورد",
       href: "/dashboard/home",
@@ -151,20 +151,20 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
       href: "/dashboard/stage-game",
       icon: (
         <div className="text-xl">
-          <TbHexagonPlusFilled />
+          <FaDiceD6 />
         </div>
       ),
       head:true,
       children: [
-          {
-            name: "تنظیمات بازی مرحله‌ای",
-            href: "/setting",
-            icon: (
-              <div className="text-xl">
-                <TbSettings />
-              </div>
-            ),
-          },
+        {
+          name: "تنظیمات بازی مرحله‌ای",
+          href: "/setting",
+          icon: (
+            <div className="text-xl">
+              <TbSettings />
+            </div>
+          ),
+        },
         {
           name: "ثبت فصل جدید",
           href: "/register-new-season",
@@ -220,7 +220,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
       href: "/dashboard/package-game",
       icon: (
         <div className="text-xl">
-          <RiApps2AddFill />
+          <RiApps2Fill />
         </div>
       ),
       head:true,
@@ -477,11 +477,41 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
       ],
     },
     {
+      name: "کلام آخر",
+      href: "/dashboard/kalam-akhar",
+      icon: (
+        <div className="text-xl">
+          <IoTrailSign />
+        </div>
+      ),
+      head:true,
+      children: [
+        {
+          name: "ثبت چالش جدید",
+          href: "/register-kalam-akhar-challenge",
+          icon: (
+            <div className="text-xl">
+              <TbDropletPlus />
+            </div>
+          ),
+        },
+        {
+          name: "لیست چالش‌ها",
+          href: "/kalam-akhar-challenges-list",
+          icon: (
+            <div className="text-xl">
+              <TbListDetails />
+            </div>
+          ),
+        },
+      ],
+    },
+    {
       name: "سرویس دیکشنری",
       href: "/dashboard/dictionary",
       icon: (
         <div className="text-xl">
-          <RiTextSpacing />
+          <RiBook2Fill />
         </div>
       ),
       head:true,
@@ -491,7 +521,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
           href: "/find-word",
           icon: (
             <div className="text-xl">
-              <LuBookText />
+              <TbSearch />
             </div>
           ),
         },
@@ -500,7 +530,7 @@ export default function MobileSidebar({ isOpenSidebar, closeSidebarFn }: { isOpe
           href: "/add-new-word",
           icon: (
             <div className="text-xl">
-              <TbDiaboloPlus />
+              <TbTagPlus />
             </div>
           ),
         },

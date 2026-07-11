@@ -4,11 +4,11 @@ import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import SideBarItem from "./SideBarItem";
 import { AiFillDashboard } from "react-icons/ai";
-import { RiApps2AddFill, RiApps2Fill, RiTextSpacing } from "react-icons/ri";
-import { TbCoins, TbDiaboloPlus, TbHexagonalPrismPlus, TbHexagonPlusFilled, TbBellPlus, TbMessagePlus, TbListSearch, TbSettings  } from "react-icons/tb";
+import { RiApps2Fill, RiBook2Fill } from "react-icons/ri";
+import { TbCoins, TbDiaboloPlus, TbHexagonalPrismPlus, TbBellPlus, TbMessagePlus, TbListSearch, TbSettings, TbDropletPlus, TbTagPlus, TbSearch, TbListDetails  } from "react-icons/tb";
 import { FaCoins, FaDiceD6, FaUsers } from "react-icons/fa6";
 import { BsCloudPlus, BsCloudPlusFill } from "react-icons/bs";
-import { LuClipboardList, LuBookText } from "react-icons/lu";
+import { LuClipboardList } from "react-icons/lu";
 import { MdListAlt, MdPayments } from "react-icons/md";
 import { IoDiamondOutline, IoDiamondSharp, IoTrailSign, IoTrailSignOutline, IoNotifications, IoMail } from "react-icons/io5";
 
@@ -140,7 +140,7 @@ const navigation: any = [
     href: "/dashboard/stage-game",
     icon: (
       <div className="text-xl">
-        <TbHexagonPlusFilled />
+        <FaDiceD6 />
       </div>
     ),
     head:true,
@@ -209,7 +209,7 @@ const navigation: any = [
     href: "/dashboard/package-game",
     icon: (
       <div className="text-xl">
-        <RiApps2AddFill />
+        <RiApps2Fill />
       </div>
     ),
     head:true,
@@ -466,11 +466,41 @@ const navigation: any = [
     ],
   },
   {
+    name: "کلام آخر",
+    href: "/dashboard/kalam-akhar",
+    icon: (
+      <div className="text-xl">
+        <IoTrailSign />
+      </div>
+    ),
+    head:true,
+    children: [
+      {
+        name: "ثبت چالش جدید",
+        href: "/register-kalam-akhar-challenge",
+        icon: (
+          <div className="text-xl">
+            <TbDropletPlus />
+          </div>
+        ),
+      },
+      {
+        name: "لیست چالش‌ها",
+        href: "/kalam-akhar-challenges-list",
+        icon: (
+          <div className="text-xl">
+            <TbListDetails />
+          </div>
+        ),
+      },
+    ],
+  },
+  {
     name: "سرویس دیکشنری",
     href: "/dashboard/dictionary",
     icon: (
       <div className="text-xl">
-        <RiTextSpacing />
+        <RiBook2Fill />
       </div>
     ),
     head:true,
@@ -480,7 +510,7 @@ const navigation: any = [
         href: "/find-word",
         icon: (
           <div className="text-xl">
-            <LuBookText />
+            <TbSearch />
           </div>
         ),
       },
@@ -489,7 +519,7 @@ const navigation: any = [
         href: "/add-new-word",
         icon: (
           <div className="text-xl">
-            <TbDiaboloPlus />
+            <TbTagPlus />
           </div>
         ),
       },

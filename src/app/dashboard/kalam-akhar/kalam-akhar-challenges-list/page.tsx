@@ -11,7 +11,7 @@ import FilterFooter from "@/components/Footer/FilterFooter";
 import GradientButton from "@/components/GradientButton";
 import { IoSearch } from "react-icons/io5";
 import { RiFilter2Fill } from "react-icons/ri";
-import PackageCard from "@/components/ListItems/PackageGame/PackageCard";
+import KalamAkharChallenge from "@/components/ListItems/OnlineGame/KalamAkharChallenge";
 
 
 type SelectedOption = {
@@ -43,6 +43,11 @@ const ActiveStatus:SelectedOption[] = [
   {value:true, label:"فقط موارد فعال"},
   {value:false, label:"فقط موارد غیر فعال"},
 ]
+type PackageSelectedInfo = {
+  _id: string;
+  title: string;
+  image: string;
+}
 const Page = () => {
   const [search, setSearch] = useState("");
   const [data, setData] = useState<any>([]);
@@ -109,7 +114,7 @@ const Page = () => {
       method: "post",
       data: {
         query: `
-            query paginatePackageGamePackagesForAdmin(
+            query paginateKalamAkharChallengesForAdmin(
               $page : Int,
               $limit : Int,
               $language_ref : ID,
@@ -119,7 +124,7 @@ const Page = () => {
               $filter_visible : Boolean,
               $filter_active : Boolean,
             ){
-                paginatePackageGamePackagesForAdmin(
+                paginateKalamAkharChallengesForAdmin(
                   page : $page,
                   limit : $limit,
                   language_ref : $language_ref,
@@ -133,28 +138,28 @@ const Page = () => {
                       _id,
                       title,
                       description,
-                      subject,
-                      badge,
-                      publication_status_label,
-                      completion_status_label,
+                      time_limit,
+                      entry_fee_coins,
+                      subscription_required,
+                      reward_coins,
+                      reward_subscription,
+                      expiration,
+                      parts{
+                        sentence,
+                        sentence_hint,
+                        sentence_display,
+                        words{word, unknown_word, letters, additional_words, hidden_words}
+                      },
+                      media{path, file_type, duration},
+                      voice{path, file_type, duration},
+                      stage_hint,
                       language_info{name, rtl},
-                      topic_category_info{title},
-                      package_collection_all{title},
-                      icon_image,
-                      banner_image,
-                      music{path, file_type, duration},
-                      free,
-                      free_with_subscription,
-                      price,
-                      number_stage,
-                      number_season,
                       is_visible,
                       is_active,
-                      rating_number,
-                      rating_average,
-                      version_created_pending_diff,
-                      version_updated_pending_diff,
-                      version_deleted_pending_diff,
+                      publication_status_label,
+                      completion_status_label,
+                      started_users_count,
+                      completed_users_count,
                     },
                     hasNextPage,
                     nextPage
@@ -173,7 +178,7 @@ const Page = () => {
       },
     })
       .then((response) => {
-        const riciveData = response.data.data.paginatePackageGamePackagesForAdmin;
+        const riciveData = response.data.data.paginateKalamAkharChallengesForAdmin;
         if (riciveData.hasNextPage == true) {
           setLoading(false);
           setData(riciveData.list);
@@ -208,7 +213,7 @@ const Page = () => {
       method: "post",
       data: {
         query: `
-            query paginatePackageGamePackagesForAdmin(
+            query paginateKalamAkharChallengesForAdmin(
               $page : Int,
               $limit : Int,
               $language_ref : ID,
@@ -218,7 +223,7 @@ const Page = () => {
               $filter_visible : Boolean,
               $filter_active : Boolean,
             ){
-                paginatePackageGamePackagesForAdmin(
+                paginateKalamAkharChallengesForAdmin(
                   page : $page,
                   limit : $limit,
                   language_ref : $language_ref,
@@ -232,28 +237,28 @@ const Page = () => {
                       _id,
                       title,
                       description,
-                      subject,
-                      badge,
-                      publication_status_label,
-                      completion_status_label,
+                      time_limit,
+                      entry_fee_coins,
+                      subscription_required,
+                      reward_coins,
+                      reward_subscription,
+                      expiration,
+                      parts{
+                        sentence,
+                        sentence_hint,
+                        sentence_display,
+                        words{word, unknown_word, letters, additional_words, hidden_words}
+                      },
+                      media{path, file_type, duration},
+                      voice{path, file_type, duration},
+                      stage_hint,
                       language_info{name, rtl},
-                      topic_category_info{title},
-                      package_collection_all{title},
-                      icon_image,
-                      banner_image,
-                      music{path, file_type, duration},
-                      free,
-                      free_with_subscription,
-                      price,
-                      number_stage,
-                      number_season,
                       is_visible,
                       is_active,
-                      rating_number,
-                      rating_average,
-                      version_created_pending_diff,
-                      version_updated_pending_diff,
-                      version_deleted_pending_diff,
+                      publication_status_label,
+                      completion_status_label,
+                      started_users_count,
+                      completed_users_count,
                     },
                     hasNextPage,
                     nextPage
@@ -272,7 +277,7 @@ const Page = () => {
       },
     })
       .then((response) => {
-        const riciveData = response.data.data.paginatePackageGamePackagesForAdmin;
+        const riciveData = response.data.data.paginateKalamAkharChallengesForAdmin;
         if (riciveData.hasNextPage == true) {
           setData([...data, ...riciveData.list]);
           setPage(riciveData.nextPage);
@@ -336,7 +341,6 @@ const Page = () => {
     const txt = search == "" ? null : search;
     getDataForFirst(txt);
   };
-
   const filterContent = () =>{
     return(
       <div>
@@ -347,7 +351,7 @@ const Page = () => {
               >
                 <div className="flex flex-row items-center gap-2">
                   <IoSearch className="text-text5 dark:text-text5_dark text-[20px]"/>
-                  جستجوی بستهٔ بازی
+                  جستجوی آیتم بازی
                 </div>
                 <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
                   <Input
@@ -358,7 +362,7 @@ const Page = () => {
                     onKeyDownFn={submitSearch}
                     changeState={(e: string) => handleSearch(e)}
                     SearchLoading={loading && search.length > 0 && getError == false && noItem == false ? true : false}
-                    placeholder="عنوان یا موضوع یا توضیحات"
+                    placeholder="عنوان یا توضیحات آیتم"
                     inputStyles="!text-[14px] lg:!h-[35px] placeholder:!text-[11px]"
                     searchIconStyle="!hidden"
                     clearSearchIconStyles="!text-base"
@@ -368,6 +372,7 @@ const Page = () => {
               </label>
             </div>
             <div className="mt-4 w-full border-2 border-dashed border-text5 dark:border-text5_dark"/>
+
             <div className="mt-6">
               <label
                 className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.75rem] cursor-pointer py-3"
@@ -375,7 +380,7 @@ const Page = () => {
               >
                 <div className="flex flex-row items-center gap-2">
                   <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
-                  فیلتر زبان فصل
+                  فیلتر زبان مرحله
                 </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
@@ -394,7 +399,7 @@ const Page = () => {
               >
                 <div className="flex flex-row items-center gap-2">
                   <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
-                  فیلتر وضعیت انتشار فصل
+                  فیلتر وضعیت انتشار مرحله
                 </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
@@ -413,7 +418,7 @@ const Page = () => {
               >
                 <div className="flex flex-row items-center gap-2">
                   <RiFilter2Fill className="text-text5 dark:text-text5_dark text-[20px]"/>
-                  فیلتر وضعیت کامل بودن فصل
+                  فیلتر وضعیت کامل بودن مرحله
                 </div>
                 <div className={`mt-1 flex-1 gap-2 w-full items-center justify-between`}>
                   <SelectInput
@@ -494,37 +499,32 @@ const Page = () => {
           >
             <ul
               role="list"
-              className={`grid gap-4 sm:mx-auto sm:gap-6 grid-cols-1 mt-8 sm:mt-10 xl:grid-cols-2 2xl:grid-cols-3 px-4`}
+              className={`grid gap-4 sm:mx-auto sm:gap-6 grid-cols-1 mt-8 sm:mt-10 xl:grid-cols-2 2xl:grid-cols-3 px-4`}  // حذف auto-rows-fr
             >
               {data?.map((item: any, index: number) => (
                 <li key={index.toString()} className="flex"> 
-                  <PackageCard
-                      _id={item?._id}
-                      rtl={item?.language_info?.rtl}
-                      title={item?.title}
-                      description={item?.description}
-                      subject={item?.subject}
-                      language={item?.language_info?.name}
-                      icon_image={item?.icon_image}
-                      banner_image={item?.banner_image}
-                      music={item?.music}
-                      badge={item?.badge}
-                      topic_category_info={item?.topic_category_info}
-                      package_collection_all={item?.package_collection_all}
-                      free={item?.free}
-                      free_with_subscription={item?.free_with_subscription}
-                      price={item?.price}
-                      number_stage={item?.number_stage}
-                      number_season={item?.number_season}
-                      is_visible={item?.is_visible}
-                      is_active={item?.is_active}
-                      publication_status={item?.publication_status_label}
-                      completion_status={item?.completion_status_label}
-                      rating_number={item?.rating_number}
-                      rating_average={item?.rating_average}
-                      version_created_pending_diff={item?.version_created_pending_diff}
-                      version_updated_pending_diff={item?.version_updated_pending_diff}
-                      version_deleted_pending_diff={item?.version_deleted_pending_diff}
+                  <KalamAkharChallenge
+                    _id={item?._id}
+                    title={item?.title}
+                    description={item?.description}
+                    time_limit={item?.time_limit}
+                    entry_fee_coins={item?.entry_fee_coins}
+                    subscription_required={item?.subscription_required}
+                    reward_coins={item?.reward_coins}
+                    reward_subscription={item?.reward_subscription}
+                    expiration={item?.expiration}
+                    parts={item?.parts}
+                    stage_hint={item?.stage_hint}
+                    rtl={item?.language_info?.rtl}
+                    language={item?.language_info?.name}
+                    media={item?.media}
+                    voice={item?.voice}
+                    is_visible={item?.is_visible}
+                    is_active={item?.is_active}
+                    publication_status={item?.publication_status_label}
+                    completion_status={item?.completion_status_label}
+                    started_users_count={item?.started_users_count}
+                    completed_users_count={item?.completed_users_count}
                   />
                 </li>
               ))}

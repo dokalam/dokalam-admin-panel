@@ -41,7 +41,7 @@ const StageCard = ({
       additional_words: string[];
       hidden_words: string[];
     }[]
-  }[],
+  }[];
   stage_number: number;
   stage_number_in_season: number;
   stage_hint?: string;
@@ -52,7 +52,7 @@ const StageCard = ({
   season:{
     title: string;
     season_number: number;
-  },
+  };
   rtl: boolean;
   language: string;
   media?: {
