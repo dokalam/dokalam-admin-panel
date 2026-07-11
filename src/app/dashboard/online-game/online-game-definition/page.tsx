@@ -25,6 +25,7 @@ const Page = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [badge, setBadge] = useState("");
+  const [route, setRoute] = useState("");
   const [visible, setVisible] = useState(false);
   const [active, setActive] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -57,6 +58,7 @@ const Page = () => {
             $description : String,
             $badge : String,
             $icon_image : Upload!,
+            $route : String,
             $order : Int
             $is_visible : Boolean!,
             $is_active : Boolean!
@@ -66,6 +68,7 @@ const Page = () => {
               description : $description,
               badge : $badge,
               icon_image : $icon_image,
+              route : $route,
               order : $order,
               is_visible : $is_visible,
               is_active : $is_active
@@ -80,6 +83,7 @@ const Page = () => {
         description : description,
         badge : badge,
         icon_image: null,
+        route: route?.length > 1?route:undefined,
         order : order?.length>0?Number(order):undefined,
         is_visible : visible,
         is_active : active,
@@ -260,6 +264,17 @@ const Page = () => {
           نشان ( مثل جدید یا به‌زودی )
           <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
             <Input id="badge-stage-season" value={badge} changeState={setBadge} classes="flex-1" inputStyles="!text-base" />
+          </div>
+        </label>
+      </div>
+      <div className="mt-6">
+        <label
+          className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer py-3"
+          htmlFor="badge-stage-season"
+        >
+          مسیر یا صفحهٔ هدایت
+          <div className={`mt-1 flex gap-2 w-full items-center justify-between`}>
+            <Input id="badge-stage-season" value={route} changeState={setRoute} classes="flex-1" inputStyles="!text-base" />
           </div>
         </label>
       </div>
