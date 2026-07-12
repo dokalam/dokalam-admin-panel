@@ -26,7 +26,8 @@ const KalamAkharChallenge = ({
     subscription_required,
     reward_coins,
     reward_subscription,
-    expiration,
+    start_date,
+    end_date,
     parts,
     stage_hint,
     rtl,
@@ -48,7 +49,8 @@ const KalamAkharChallenge = ({
     subscription_required?: boolean;
     reward_coins?: number;
     reward_subscription?: number;
-    expiration?: Date;
+    start_date?: Date;
+    end_date?: Date;
     parts: {
         sentence: string;
         sentence_hint?: string;
@@ -117,8 +119,9 @@ const KalamAkharChallenge = ({
   // بررسی وضعیت وجود داشتن هر کدام از بخش‌های اطلاعاتی برای رندر بهینه تمیز
   const hasEntryOrRewardInfo = (entry_fee_coins && entry_fee_coins > 0) || (reward_coins && reward_coins > 0);
   const hasSubscriptionInfo = subscription_required || (reward_subscription && reward_subscription > 0);
-  const hasTimeOrExpInfo = (time_limit && time_limit > 0) || expiration;
+  const hasStartOrEndDate = start_date || end_date;
   const hasUsersStats = started_users_count !== undefined || completed_users_count !== undefined;
+  const hasTimeLimit = (time_limit && time_limit > 0)
 
   return (
     <div 
@@ -198,7 +201,7 @@ const KalamAkharChallenge = ({
             </div>
 
             {/* بخش اطلاعات و آمار چالش (به صورت لیست تمیز و دو ستونه متناسب با عرض‌های مختلف) */}
-            {(hasEntryOrRewardInfo || hasSubscriptionInfo || hasTimeOrExpInfo || hasUsersStats) && (
+            {(hasEntryOrRewardInfo || hasSubscriptionInfo || hasStartOrEndDate || hasUsersStats) && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 rounded-xl bg-slate-50/50 dark:bg-slate-800/20 border border-border dark:border-border_dark font-['iransans-md'] text-sm">
                     
                     {/* باکس سکه ورودی و جایزه */}
@@ -238,19 +241,21 @@ const KalamAkharChallenge = ({
                     )}
 
                     {/* باکس محدودیت زمان و تاریخ انقضا */}
-                    {hasTimeOrExpInfo && (
+                    {hasStartOrEndDate && (
                         <div className="flex flex-col justify-center gap-2.5 p-3 rounded-lg bg-rose-50/60 dark:bg-rose-900/10 border border-rose-100 dark:border-rose-900/30">
-                            {time_limit !== undefined && time_limit > 0 && (
-                                <div className="flex items-center justify-between text-rose-800 dark:text-rose-400">
-                                    <div className="flex items-center gap-2"><IoTimeOutline className="text-base text-rose-500" /><span>محدودیت زمانی:</span></div>
-                                    <span className="font-['iransans-bold']" dir="ltr">{formatTimeLimit(time_limit)}</span>
+                            {start_date && (
+                                <div className="flex items-center justify-between text-rose-800 dark:text-rose-400 flex-wrap gap-1">
+                                    <div className="flex items-center gap-2"><IoCalendarOutline className="text-base text-rose-500" /><span>شروع:</span></div>
+                                    <span className="font-['iransans-bold'] text-xs" dir="ltr">
+                                        {`( ${getTime(start_date)}   ___  ${moment(start_date).format("jYYYY/jMM/jDD")} )`}
+                                    </span>
                                 </div>
                             )}
-                            {expiration && (
+                            {end_date && (
                                 <div className="flex items-center justify-between text-rose-800 dark:text-rose-400 flex-wrap gap-1">
-                                    <div className="flex items-center gap-2"><IoCalendarOutline className="text-base text-rose-500" /><span>انقضا:</span></div>
+                                    <div className="flex items-center gap-2"><IoCalendarOutline className="text-base text-rose-500" /><span>پایان:</span></div>
                                     <span className="font-['iransans-bold'] text-xs" dir="ltr">
-                                        {`( ${getTime(expiration)}   ___  ${moment(expiration).format("jYYYY/jMM/jDD")} )`}
+                                        {`( ${getTime(end_date)}   ___  ${moment(end_date).format("jYYYY/jMM/jDD")} )`}
                                     </span>
                                 </div>
                             )}
@@ -270,6 +275,16 @@ const KalamAkharChallenge = ({
                                 <div className="flex items-center justify-between text-slate-700 dark:text-slate-300">
                                     <div className="flex items-center gap-2"><FaUserLarge className="text-emerald-500 text-xs" /><span>کاربرانی که به اتمام رساندند:</span></div>
                                     <span className="font-['iransans-bold']">{completed_users_count}</span>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                    {hasTimeLimit && (
+                        <div className="flex flex-col justify-center gap-2.5 p-3 rounded-lg bg-green-50/60 dark:bg-green-900/10 border border-green-100 dark:border-green-900/30">
+                            {time_limit !== undefined && time_limit > 0 && (
+                                <div className="flex items-center justify-between text-green-800 dark:text-green-400">
+                                    <div className="flex items-center gap-2"><IoTimeOutline className="text-base text-green-500" /><span>محدودیت زمانی:</span></div>
+                                    <span className="font-['iransans-bold']" dir="ltr">{formatTimeLimit(time_limit)}</span>
                                 </div>
                             )}
                         </div>

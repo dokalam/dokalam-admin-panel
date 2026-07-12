@@ -143,7 +143,8 @@ const Page = () => {
                       subscription_required,
                       reward_coins,
                       reward_subscription,
-                      expiration,
+                      start_date,
+                      end_date,
                       parts{
                         sentence,
                         sentence_hint,
@@ -242,7 +243,8 @@ const Page = () => {
                       subscription_required,
                       reward_coins,
                       reward_subscription,
-                      expiration,
+                      start_date,
+                      end_date,
                       parts{
                         sentence,
                         sentence_hint,
@@ -512,7 +514,8 @@ const Page = () => {
                     subscription_required={item?.subscription_required}
                     reward_coins={item?.reward_coins}
                     reward_subscription={item?.reward_subscription}
-                    expiration={item?.expiration}
+                    start_date={item?.start_date}
+                    end_date={item?.end_date}
                     parts={item?.parts}
                     stage_hint={item?.stage_hint}
                     rtl={item?.language_info?.rtl}

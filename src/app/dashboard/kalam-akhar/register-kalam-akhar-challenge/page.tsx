@@ -79,8 +79,10 @@ const Page = () => {
   const [subscriptionRequired, setSubscriptionRequired] = useState(false)
   const [rewardCoins, setRewardCoins] = useState("")
   const [rewardSubscription, setRewardSubscription] = useState("")
-  const [expiration, setExpiration] = useState<any>(null)
-  const [expirationHour, setExpirationHour] = useState<any>(null)
+  const [startDate, setStartDate] = useState<any>(null)
+  const [startDateHour, setStartDateHour] = useState<any>(null)
+  const [endDate, setEndDate] = useState<any>(null)
+  const [endDateHour, setEndDateHour] = useState<any>(null)
   const dark = typeof window !== "undefined" && localStorage.getItem("theme");
   const [order, setOrder] = useState("")
   const [language, setLanguage] = useState<string | null>(null)
@@ -127,10 +129,15 @@ const Page = () => {
   ];
 
   useEffect(() => {
-    if (!expirationHour) {
+    if (!startDateHour) {
       const now = new Date().getHours();
       let index = hours.findIndex((i: any) => i.value == now);
-      setExpirationHour(hours[index].value)
+      setStartDateHour(hours[index].value)
+    }
+    if (!endDateHour) {
+      const now = new Date().getHours();
+      let index = hours.findIndex((i: any) => i.value == now);
+      setEndDateHour(hours[index].value)
     }
   }, []);
 
@@ -217,7 +224,8 @@ const Page = () => {
             $subscription_required : Boolean,
             $reward_coins : Int,
             $reward_subscription : Int,
-            $expiration : Date,
+            $start_date : Date,
+            $end_date : Date,
             $order : Int,
             $parts : [StageStructure!]!,
             $stage_hint : String,
@@ -237,7 +245,8 @@ const Page = () => {
               subscription_required : $subscription_required,
               reward_coins : $reward_coins,
               reward_subscription : $reward_subscription,
-              expiration : $expiration,
+              start_date : $start_date,
+              end_date : $end_date,
               order : $order,
               parts : $parts,
               stage_hint : $stage_hint,
@@ -262,7 +271,8 @@ const Page = () => {
         subscription_required : subscriptionRequired == true?true:undefined,
         reward_coins : rewardCoins && Number(rewardCoins) > 0? Number(rewardCoins):undefined,
         reward_subscription : rewardSubscription && Number(rewardSubscription) > 0? Number(rewardSubscription):undefined,
-        expiration : expiration?new Date(new Date(new Date(expiration).setHours(expirationHour)).setMinutes(0)):undefined,
+        start_date : startDate?new Date(new Date(new Date(startDate).setHours(startDateHour)).setMinutes(0)):undefined,
+        end_date : endDate?new Date(new Date(new Date(endDate).setHours(endDateHour)).setMinutes(0)):undefined,
         order : order && Number(order) >= 0? Number(order):undefined,
         parts : normalData,
         stage_hint : stageHint.trim().length < 3?undefined:stageHint,
@@ -1144,7 +1154,7 @@ const Page = () => {
         </div>
       <div className="flex items-center gap-4 w-full pt-2 sm:pt-0 mt-6">
         <div className="flex flex-col gap-1 flex-1 sm:flex-none sm:w-[180px]">
-          <div className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer">تاریخ انقضا</div>
+          <div className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer">تاریخ شروع</div>
           <div
             className="cursor-pointer border border-primary rounded p-2 font-iransans-md flex items-center justify-between h-[44px]"
             onClick={() => {
@@ -1153,17 +1163,17 @@ const Page = () => {
                   callBackCalendar: (date: any) => {
                     if (date && date instanceof Date) {
                       const new_date = date?.toISOString()
-                      setExpiration(new_date)
+                      setStartDate(new_date)
                     }
                   },
                 },
-                selectedDate: expiration,
+                selectedDate: startDate,
                 minDate: new Date(),
               });
             }}
           >
             <div className="text-primary text-base flex-1 text-center">
-              {expiration ? moment(expiration).format("jYYYY-jMM-jDD") : "تاریخ انقضا"}
+              {startDate ? moment(startDate).format("jYYYY-jMM-jDD") : "تاریخ شروع"}
             </div>
             <div className="text-primary text-lg">
               <LuCalendarDays />
@@ -1171,14 +1181,14 @@ const Page = () => {
           </div>
         </div>
         <div className="flex flex-col gap-1 flex-1 sm:flex-none sm:w-[180px]">
-          <div className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer">ساعت انقضا</div>
+          <div className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer">ساعت شروع</div>
           <div className="border border-primary rounded p-2 pr-0 font-iransans-md flex items-center justify-between gap-2 w-full h-full cursor-pointer">
             <select
-              value={expirationHour == null ? hours[0] : expirationHour}
+              value={startDateHour == null ? hours[0] : startDateHour}
               name=""
               id=""
               onChange={(e) => {
-                setExpirationHour(e.target.value)
+                setStartDateHour(e.target.value)
               }}
               className={`setReportHour w-full text-right text-base pr-2 text-primary focus:!outline-none bg-background2 dark:bg-background2_dark cursor-pointer overflow-y-auto ${dark == "dark" ? "custom-scrollbar-dark" : "custom-scrollbar"
                 }`}
@@ -1197,10 +1207,86 @@ const Page = () => {
         <button
           type="button"
           onClick={() => {
-            setExpiration(null);
+            setStartDate(null);
             const now = new Date().getHours();
             let index = hours.findIndex((i: any) => i.value == now);
-            setExpirationHour(hours[index].value)
+            setStartDateHour(hours[index].value)
+          }}
+          className="
+            h-[50px] w-[50px]
+            flex items-center justify-center
+            rounded-xl
+            bg-red-50 dark:bg-red-900/20
+            text-red-500
+            hover:bg-red-500
+            hover:text-white
+            transition-all duration-200
+            shrink-0
+            mt-[30px]
+          "
+        >
+          <LuX size={30} />
+        </button>
+      </div>
+      <div className="flex items-center gap-4 w-full pt-2 sm:pt-0 mt-6">
+        <div className="flex flex-col gap-1 flex-1 sm:flex-none sm:w-[180px]">
+          <div className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer">تاریخ پایان</div>
+          <div
+            className="cursor-pointer border border-primary rounded p-2 font-iransans-md flex items-center justify-between h-[44px]"
+            onClick={() => {
+              CalendarModalHelper.openModal({
+                callBack: {
+                  callBackCalendar: (date: any) => {
+                    if (date && date instanceof Date) {
+                      const new_date = date?.toISOString()
+                      setEndDate(new_date)
+                    }
+                  },
+                },
+                selectedDate: endDate,
+                minDate: new Date(),
+              });
+            }}
+          >
+            <div className="text-primary text-base flex-1 text-center">
+              {endDate ? moment(endDate).format("jYYYY-jMM-jDD") : "تاریخ پایان"}
+            </div>
+            <div className="text-primary text-lg">
+              <LuCalendarDays />
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-1 flex-1 sm:flex-none sm:w-[180px]">
+          <div className="font-['iransans-md'] flex-1 text-right text-text6 dark:text-text6_dark text-[.85rem] sm:text-[.95rem] cursor-pointer">ساعت پایان</div>
+          <div className="border border-primary rounded p-2 pr-0 font-iransans-md flex items-center justify-between gap-2 w-full h-full cursor-pointer">
+            <select
+              value={endDateHour == null ? hours[0] : endDateHour}
+              name=""
+              id=""
+              onChange={(e) => {
+                setEndDateHour(e.target.value)
+              }}
+              className={`setReportHour w-full text-right text-base pr-2 text-primary focus:!outline-none bg-background2 dark:bg-background2_dark cursor-pointer overflow-y-auto ${dark == "dark" ? "custom-scrollbar-dark" : "custom-scrollbar"
+                }`}
+            >
+              {hours.map((item: any, index: number) => (
+                <option value={item.value} className="setReportHourOption" key={`${item}${index}`}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+            <div className="text-primary text-lg">
+              <LuClock3 />
+            </div>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={() => {
+            setEndDate(null);
+            const now = new Date().getHours();
+            let index = hours.findIndex((i: any) => i.value == now);
+            setEndDateHour(hours[index].value)
           }}
           className="
             h-[50px] w-[50px]
