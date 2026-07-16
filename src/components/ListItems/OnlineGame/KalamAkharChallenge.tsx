@@ -94,6 +94,48 @@ const KalamAkharChallenge = ({
   const menuRef = useRef<HTMLDivElement>(null);
   const challengeId = _id;
 
+  const duplicateWordsInfo = React.useMemo(() => {
+      const duplicates: {
+        duplicateWord: string;
+        partIndex: number;
+        unknownWord: string;
+      }[] = [];
+  
+      parts.forEach((part, partIndex) => {
+        part.words.forEach((wordItem) => {
+          if (!wordItem.unknown_word) return;
+  
+          const usedWords = new Set<string>();
+  
+          const allWords = [
+            wordItem.word,
+            ...(wordItem.additional_words || []),
+            ...(wordItem.hidden_words || []),
+          ]
+            .filter(Boolean)
+            .map((item) => item.trim().toLowerCase());
+  
+          allWords.forEach((item) => {
+            if (usedWords.has(item)) {
+              duplicates.push({
+                duplicateWord: item,
+                partIndex,
+                unknownWord: wordItem.word,
+              });
+            } else {
+              usedWords.add(item);
+            }
+          });
+        });
+      });
+  
+      return {
+        hasError: duplicates.length > 0,
+        words: duplicates,
+        count: duplicates.length,
+      };
+    }, [parts]);
+
   // تابع تبدیل ثانیه به فرمت 00:00
   const formatTimeLimit = (totalSeconds: number) => {
     const minutes = Math.floor(totalSeconds / 60);
@@ -126,7 +168,27 @@ const KalamAkharChallenge = ({
   return (
     <div 
       dir={direction} 
-      className={`relative w-full p-5 rounded-2xl shadow-bottom dark:shadow-bottom-dark m-1 bg-background7 dark:bg-background7_dark flex flex-col justify-between gap-6 ${textAlign}`}
+      className={`relative
+        w-full
+        p-4
+        rounded-2xl
+        shadow-bottom
+        dark:shadow-bottom-dark
+        m-1
+        bg-background7
+        dark:bg-background7_dark
+        flex
+        flex-col
+        justify-between
+        gap-4
+        ${textAlign}
+
+        ${
+          duplicateWordsInfo.hasError
+            ? "ring-4 ring-red-500 shadow-red-500/40 shadow-xl"
+            : ""
+        }
+      `}
     >
         <div className="flex flex-col gap-6">
             {/* منوی تنظیمات (سه نقطه) */}
@@ -170,6 +232,21 @@ const KalamAkharChallenge = ({
                 )}
             </div>
             </div>
+            {
+            duplicateWordsInfo.hasError && (
+                <div className="absolute top-4 left-12 z-30">
+                <div className="relative">
+                    <div className="text-[60px] animate-bounce">
+                    ⚠️
+                    </div>
+
+                    <span className="absolute -top-1 -right-1 bg-red-700 text-white text-xs rounded-full min-w-[24px] h-6 flex items-center justify-center px-1">
+                    {duplicateWordsInfo.count}
+                    </span>
+                </div>
+                </div>
+            )
+            }
 
             {/* بخش تایتل و اطلاعات اولیه */}
             <div className="flex flex-col gap-3 pr-2">
@@ -350,10 +427,62 @@ const KalamAkharChallenge = ({
                     </div>
                     ))
                 }
+            {
+                duplicateWordsInfo.hasError && (
+                <div className="border border-red-500 bg-red-50 dark:bg-red-950/30 rounded-xl p-4">
+                    <p className="font-['iransans-bold'] text-red-600 mb-3">
+                    کلمات تکراری شناسایی شده
+                    </p>
+
+                    <div className="flex flex-col gap-2">
+                    {
+                        duplicateWordsInfo.words.map((item, index) => (
+                        <div
+                            key={`${item.duplicateWord}-${index}`}
+                            className="bg-red-600 text-white px-3 py-2 rounded-lg text-sm"
+                        >
+                            <span className="font-['iransans-bold']">
+                            {item.duplicateWord}
+                            </span>
+
+                            <span className="mx-2">←</span>
+
+                            <span>
+                            پارت {item.partIndex + 1}
+                            </span>
+
+                            <span className="mx-2">|</span>
+
+                            <span>
+                            کلمه اصلی: {item.unknownWord}
+                            </span>
+                        </div>
+                        ))
+                    }
+                    </div>
+                </div>
+                )
+            }
             {stage_hint&&<p className="text-text5 dark:text-text5_dark text-[12px] font-['iransans-md'] mt-2">{stage_hint}</p>}
             </div>
         </div>
+        {
+            duplicateWordsInfo.hasError && (
+            <div className="rounded-xl bg-red-600 text-white p-4 flex items-center gap-4 animate-pulse">
+                <div className="text-5xl">⚠️</div>
 
+                <div>
+                <p className="font-['iransans-bold'] text-lg">
+                    خطای محتوایی در مرحله
+                </p>
+
+                <p className="text-sm">
+                    {duplicateWordsInfo.count} کلمه تکراری پیدا شد
+                </p>
+                </div>
+            </div>
+            )
+        }
         <div className="flex flex-col gap-4 mt-2">
             {/* رسانه‌ها */}
             {((media && media?.length > 0) || (voice && voice?.length > 0)) && (
